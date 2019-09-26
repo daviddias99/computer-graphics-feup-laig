@@ -393,9 +393,50 @@ class MySceneGraph {
      */
     parseTextures(texturesNode) {
 
-        //For each texture in textures block, check ID and file URL
-        // TODO: Parse textures
-        this.onXMLMinorError("TODO: Parse textures.");
+        var children = texturesNode.children;
+
+        this.textures = [];
+
+        for (var i = 0; i < children.length; i++) {
+
+            // Get id of the current texture.
+            var textureId = this.reader.getString(children[i], 'id');
+            if (textureId == null)
+                return "no ID defined for texture";
+
+            // Checks for repeated IDs.
+            if (this.textures[textureId] != null)
+                return "ID must be unique for each texture (conflict: ID = " + textureId + ")";
+
+            var textureSrcPath = this.reader.getString(children[i], 'file');
+
+            // Check for valid extension
+            var fileExtension = getExtension(textureSrcPath)
+            if (fileExtension != "png" && fileExtension != "jpg")
+                return "Invalid extension for texture source file (conflict: ID = " + textureId + ")";
+
+            //TODO: Fix powers of two checking
+            /*
+
+            
+            var source_img = new Image();
+
+            source_img.onload = function (sceneGraph) {
+
+                // Check image dimensions
+                if (!isPowerOfTwo(source_img.width) || !isPowerOfTwo(source_img.height))
+                    sceneGraph.onXMLMinorError("Texture with ID = " + textureId + " has dimensions that are not powers of 2");
+
+            }(this);
+
+            source_img.src = textureSrcPath;
+
+            */
+
+            this.textures[textureId] = new CGFtexture(scene,textureSrcPath);
+        }
+
+
         return null;
     }
 
@@ -479,7 +520,7 @@ class MySceneGraph {
 
                         transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
                         break;
-                    case 'scale':   
+                    case 'scale':
                         // TODO: Parse scale transformations                     
                         this.onXMLMinorError("TODO: Parse scale transformations.");
                         break;
@@ -615,7 +656,7 @@ class MySceneGraph {
             var materialsIndex = nodeNames.indexOf("materials");
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
-            
+
 
             // TODO: Parse components
             this.onXMLMinorError("TODO: Parse components.");
