@@ -227,6 +227,7 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseView(viewsNode) {
+        // TODO: Parse views and create cameras
         this.onXMLMinorError("TODO: Parse views and create cameras.");
 
         return null;
@@ -393,6 +394,7 @@ class MySceneGraph {
     parseTextures(texturesNode) {
 
         //For each texture in textures block, check ID and file URL
+        // TODO: Parse textures
         this.onXMLMinorError("TODO: Parse textures.");
         return null;
     }
@@ -427,6 +429,7 @@ class MySceneGraph {
                 return "ID must be unique for each light (conflict: ID = " + materialID + ")";
 
             //Continue here
+            // TODO: Parse materials
             this.onXMLMinorError("TODO: Parse materials.");
         }
 
@@ -476,11 +479,13 @@ class MySceneGraph {
 
                         transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
                         break;
-                    case 'scale':                        
+                    case 'scale':   
+                        // TODO: Parse scale transformations                     
                         this.onXMLMinorError("TODO: Parse scale transformations.");
                         break;
                     case 'rotate':
                         // angle
+                        // TODO: Parse rotate transformations
                         this.onXMLMinorError("TODO: Parse rotate transformations.");
                         break;
                 }
@@ -560,6 +565,7 @@ class MySceneGraph {
                 this.primitives[primitiveId] = rect;
             }
             else {
+                // TODO: Parse other primitives
                 console.warn("TODO: Parse other primitives.");
             }
         }
@@ -609,7 +615,9 @@ class MySceneGraph {
             var materialsIndex = nodeNames.indexOf("materials");
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
+            
 
+            // TODO: Parse components
             this.onXMLMinorError("TODO: Parse components.");
             // Transformations
 
