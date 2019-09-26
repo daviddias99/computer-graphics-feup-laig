@@ -228,7 +228,96 @@ class MySceneGraph {
      */
     parseView(viewsNode) {
         // TODO: Parse views and create cameras
-        this.onXMLMinorError("TODO: Parse views and create cameras.");
+
+        // check if there is a default value defined for the view
+        var defaultId = this.reader.getString(viewsNode, 'default');
+        if (defaultId == null)
+            return "no default defined for view";
+
+        var children = viewsNode.children;
+        var grandChildren = [];
+        this.views = [];
+
+        for (var i = 0; i < children.length; i++) {
+            if (children[i].nodeName == 'perspective') {
+
+                // Get id of the current perspective
+                var viewId = this.reader.getString(children[i], 'id');
+                if (viewId == null)
+                    return "no ID defined for perspective";
+
+                // Checks for repeated IDs.
+                if (this.views[viewId] != null)
+                    return "ID must be unique for each view (conflict: ID = " + viewId + ")";
+
+                // Get near clipping plane
+                var viewNear = this.reader.getFloat(children[i], 'near');
+                if (viewNear == null || isNaN(viewNear))
+                    return "no near clipping plane distance defined";
+
+                // Get far clipping plane
+                var viewFar = this.reader.getFloat(children[i], 'far');
+                if (viewFar == null || isNaN(viewFar))
+                    return "no far clipping plane distance defined";
+                
+                // Get angle
+                var viewAngle = this.reader.getFloat(children[i], 'angle');
+                if (viewAngle == null || isNaN(viewAngle)) 
+                    return "no field of view angle defined";
+
+                // Validate to and from nodes
+                grandChildren = children[i].children;
+                var fromValues, toValues;
+                for (var j = 0; j < grandChildren.length; j++) {
+                    if (grandChildren[j].nodeName == 'from') {
+                        var x = this.reader.getFloat(grandChildren[j], 'x');
+                        if (x == null || isNaN(x))
+                            return "no x component for from defined";
+
+                        var y = this.reader.getFloat(grandChildren[j], 'y');
+                        if (y == null || isNaN(y))
+                            return "no y component for from defined";
+
+                        var z = this.reader.getFloat(grandChildren[j], 'z');
+                        if (z == null || isNaN(z))
+                            return "no z component for from defined";
+
+                        fromValues = vec3.fromValues(x, y, z);
+                    }
+                    else if (grandChildren[j].nodeName == 'to') {
+                        var x = this.reader.getFloat(grandChildren[j], 'x');
+                        if (x == null || isNaN(x))
+                            return "no x component for to defined";
+
+                        var y = this.reader.getFloat(grandChildren[j], 'y');
+                        if (y == null || isNaN(y))
+                            return "no y component for to defined";
+
+                        var z = this.reader.getFloat(grandChildren[j], 'z');
+                        if (z == null || isNaN(z))
+                            return "no z component for to defined";
+
+                        toValues = vec3.fromValues(x, y, z);
+                    }
+                    else {
+                        this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                    }
+                }
+                
+                var view = new CGFcamera(viewAngle, viewNear, viewFar, fromValues, toValues);
+
+                this.views[viewId] = view;
+            }
+            else if (children[i].nodeName == 'ortho') {
+                
+            }
+            else {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+            }
+        }
+
+        if (this.views[defaultId] == null)
+            return "a view with a default id is not defined";
 
         return null;
     }
