@@ -1,0 +1,14 @@
+loadedOk
+scene
+nodes 
+idRoot
+axisCoords
+reader
+referenceLength
+ambient
+background
+lights
+materials
+transformations
+primitives
+components
