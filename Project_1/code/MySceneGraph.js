@@ -243,6 +243,9 @@ class MySceneGraph {
         var grandChildren = [];
         this.views = [];
 
+        if(children.length == 0)
+            return "at least one view must be defined";
+
         for (var i = 0; i < children.length; i++) {
 
             if (children[i].nodeName == 'perspective') {
