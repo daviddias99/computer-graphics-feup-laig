@@ -234,8 +234,6 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseView(viewsNode) {
-        // TODO: Parse views and create cameras
-
         // check if there is a default value defined for the view
         var defaultId = this.reader.getString(viewsNode, 'default');
         if (defaultId == null)
@@ -816,8 +814,11 @@ class MySceneGraph {
                         transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
                         break;
                     case 'scale':
-                        // TODO: Parse scale transformations                     
-                        this.onXMLMinorError("TODO: Parse scale transformations.");
+                        var scaleFactors = this.parseCoordinates3D(grandChildren[j], "scale transformation for ID " + transformationID);
+                        if (!Array.isArray(scaleFactors))
+                            return scaleFactors;
+
+                        transfMatrix = mat4.scale(transfMatrix, transfMatrix, scaleFactors);
                         break;
                     case 'rotate':
                         // angle
