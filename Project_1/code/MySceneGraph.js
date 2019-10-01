@@ -401,7 +401,7 @@ class MySceneGraph {
     parseTextures(texturesNode) {
 
         var children = texturesNode.children;
-        
+
 
         this.textures = [];
 
@@ -411,7 +411,7 @@ class MySceneGraph {
         for (var i = 0; i < children.length; i++) {
 
             var source_img = new Image();
-          
+
 
             source_img.onload = function (sceneGraph) {
 
@@ -439,13 +439,13 @@ class MySceneGraph {
                 return "Invalid extension for texture source file (conflict: ID = " + textureId + ")";
 
             //TODO: Fix powers of two checking
-            
 
-            
+
+
 
             source_img.src = textureSrcPath;
 
-            
+
 
 
 
@@ -466,7 +466,6 @@ class MySceneGraph {
 
         var children = materialsNode.children;
         var grandChildren = [];
-        var nodeNames = [];
         var index;
 
         if (children.length == 0)
@@ -616,9 +615,45 @@ class MySceneGraph {
                         this.onXMLMinorError("TODO: Parse scale transformations.");
                         break;
                     case 'rotate':
-                        // angle
-                        // TODO: Parse rotate transformations
-                        this.onXMLMinorError("TODO: Parse rotate transformations.");
+
+                        var angleDeg = this.reader.getString(grandChildren[j], 'angle');
+
+                        if (angleDeg == null)
+                            return "no angle defined for rotation in transformation with ID=" + transformationID;
+
+                        var angleRad = angleDeg * DEGREE_TO_RAD;
+                        var axis = this.reader.getString(grandChildren[j], 'axis');
+
+                        if (axis == null)
+                            return "no axis of rotation defined for rotation in transformation with ID=" + transformationID;
+
+                        switch (axis) {
+
+                            case 'x':
+
+                                transfMatrix = mat4.rotateX(transfMatrix, transfMatrix, angleRad);
+
+                                break;
+
+                            case 'y':
+
+                                transfMatrix = mat4.rotateY(transfMatrix, transfMatrix, angleRad);
+
+                                break;
+
+                            case 'z':
+
+                                transfMatrix = mat4.rotateZ(transfMatrix, transfMatrix, angleRad);
+
+                                break;
+
+
+                            default:
+
+                                return "invalid rotation axis for rotation in transformation with ID=" + transformationID;
+
+                        }
+
                         break;
                 }
             }
