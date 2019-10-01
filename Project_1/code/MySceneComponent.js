@@ -9,7 +9,7 @@ class MySceneComponent{
         this.graph = graph;
         this.children = [];
         this.transformation;
-        this.materialID;
+        this.materials =  [];
         this.inheritMaterial = false;
         this.useSelfTransf = false;
         this.currentMaterialIndex = 0;

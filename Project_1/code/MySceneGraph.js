@@ -1047,6 +1047,37 @@ class MySceneGraph {
 
             var materialsNode = grandChildren[materialsIndex];
 
+            if(materialsNode.children.length == 0)
+                return "there must be at least on material declared";
+
+            for(var i = 0; i < materialsNode.children.length;i++){
+
+                if (materialsNode.children[i].nodeName != "material") {
+                    this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                    continue;
+                }
+
+                // Get id of the current material.
+                var materialID = this.reader.getString(materialsNode.children[i], 'id');
+                if (materialID == null)
+                    return "no ID defined for material";
+
+                if(materialID == 'inherit'){
+
+                    currentComponent.inheritMaterial = true;
+                    continue;
+                }
+                    
+                // Checks for repeated IDs.
+                if (this.materials[materialID] == null)
+                    return "there is no material with ID = " + materialID + "(conflict in component with ID=" +componentID+")";
+
+                currentComponent.materials[currentComponent.currentMaterialIndex] = materialID;
+                currentComponent.currentMaterialIndex++;
+
+            }
+
+            currentComponent.currentMaterialIndex = 0;
            
 
             // Texture
