@@ -3,13 +3,20 @@ var DEGREE_TO_RAD = Math.PI / 180;
 // Order of the groups in the XML document.
 var SCENE_INDEX = 0;
 var VIEWS_INDEX = 1;
-var AMBIENT_INDEX = 2;
+var GLOBALS_INDEX = 2;
 var LIGHTS_INDEX = 3;
 var TEXTURES_INDEX = 4;
 var MATERIALS_INDEX = 5;
 var TRANSFORMATIONS_INDEX = 6;
 var PRIMITIVES_INDEX = 7;
 var COMPONENTS_INDEX = 8;
+
+// Order of the material variables(element of materials group) in the XML document.
+
+var EMISSION_INDEX = 0;
+var AMBIENT_INDEX = 1;
+var DIFFUSE_INDEX = 2;
+var SPECULAR_INDEX = 3;
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -116,7 +123,7 @@ class MySceneGraph {
         if ((index = nodeNames.indexOf("ambient")) == -1)
             return "tag <ambient> missing";
         else {
-            if (index != AMBIENT_INDEX)
+            if (index != GLOBALS_INDEX)
                 this.onXMLMinorError("tag <ambient> out of order");
 
             //Parse ambient block
@@ -597,9 +604,59 @@ class MySceneGraph {
      */
     parseTextures(texturesNode) {
 
-        //For each texture in textures block, check ID and file URL
-        // TODO: Parse textures
-        this.onXMLMinorError("TODO: Parse textures.");
+        var children = texturesNode.children;
+        
+
+        this.textures = [];
+
+        if (children.length == 0)
+            return "there must be at least on texture declared";
+
+        for (var i = 0; i < children.length; i++) {
+
+            var source_img = new Image();
+          
+
+            source_img.onload = function (sceneGraph) {
+
+                // Check image dimensions
+                if (!isPowerOfTwo(source_img.width) || !isPowerOfTwo(source_img.height))
+                    sceneGraph.onXMLMinorError("Texture with ID = " + textureId + " has dimensions that are not powers of 2");
+
+            }(this);
+
+
+            // Get id of the current texture.
+            var textureId = this.reader.getString(children[i], 'id');
+            if (textureId == null)
+                return "no ID defined for texture";
+
+            // Checks for repeated IDs.
+            if (this.textures[textureId] != null)
+                return "ID must be unique for each texture (conflict: ID = " + textureId + ")";
+
+            var textureSrcPath = this.reader.getString(children[i], 'file');
+
+            // Check for valid extension
+            var fileExtension = getExtension(textureSrcPath)
+            if (fileExtension != "png" && fileExtension != "jpg")
+                return "Invalid extension for texture source file (conflict: ID = " + textureId + ")";
+
+            //TODO: Fix powers of two checking
+            
+
+            
+
+            source_img.src = textureSrcPath;
+
+            
+
+
+
+            this.textures[textureId] = new CGFtexture(this.scene, textureSrcPath);
+        }
+
+
         return null;
     }
 
@@ -608,12 +665,16 @@ class MySceneGraph {
      * @param {materials block element} materialsNode
      */
     parseMaterials(materialsNode) {
-        var children = materialsNode.children;
 
         this.materials = [];
 
+        var children = materialsNode.children;
         var grandChildren = [];
         var nodeNames = [];
+        var index;
+
+        if (children.length == 0)
+            return "there must be at least on material declared";
 
         // Any number of materials.
         for (var i = 0; i < children.length; i++) {
@@ -632,12 +693,83 @@ class MySceneGraph {
             if (this.materials[materialID] != null)
                 return "ID must be unique for each light (conflict: ID = " + materialID + ")";
 
-            //Continue here
-            // TODO: Parse materials
-            this.onXMLMinorError("TODO: Parse materials.");
+
+            // Get shininess value.
+            var shininessValue = this.reader.getString(children[i], 'shininess');
+            if (shininessValue == null)
+                return "no shininess defined for material with ID = " + materialID;
+
+            grandChildren = children[i].children;
+
+            // Reads the names of the material parameters to an auxiliary buffer.
+            var grandChildrenNames = [];
+
+            for (var i = 0; i < grandChildren.length; i++)
+                grandChildrenNames.push(grandChildren[i].nodeName);
+
+            if ((index = grandChildrenNames.indexOf("emission")) == -1)
+                return "tag <emission (...)> missing";
+            else {
+
+                if (index != EMISSION_INDEX)
+                    this.onXMLMinorError("tag <emission (...)> out of order");
+
+                var childEmission = this.parseColor(grandChildren[index], 'emission');
+
+                if (!Array.isArray(childEmission))
+                    return childEmission;
+            }
+
+            if ((index = grandChildrenNames.indexOf("ambient")) == -1)
+                return "tag <ambient (...)> missing";
+            else {
+
+                if (index != AMBIENT_INDEX)
+                    this.onXMLMinorError("tag <ambient (...)> out of order");
+
+                var childAmbient = this.parseColor(grandChildren[index], 'ambient');
+
+                if (!Array.isArray(childAmbient))
+                    return childAmbient;
+            }
+
+            if ((index = grandChildrenNames.indexOf("diffuse")) == -1)
+                return "tag <diffuse (...)> missing";
+            else {
+
+                if (index != DIFFUSE_INDEX)
+                    this.onXMLMinorError("tag <diffuse (...)> out of order");
+
+                var childDiffuse = this.parseColor(grandChildren[index], 'diffuse');
+
+                if (!Array.isArray(childDiffuse))
+                    return childDiffuse;
+            }
+
+            if ((index = grandChildrenNames.indexOf("specular")) == -1)
+                return "tag <specular (...)> missing";
+            else {
+
+                if (index != SPECULAR_INDEX)
+                    this.onXMLMinorError("tag <specular (...)> out of order");
+
+                var childSpecular = this.parseColor(grandChildren[index], 'specular');
+
+                if (!Array.isArray(childSpecular))
+                    return childSpecular;
+            }
+
+            this.materials[materialID] = new CGFappearance(this.scene);
+            this.materials[materialID].setAmbient(...childAmbient);
+            this.materials[materialID].setDiffuse(...childDiffuse);
+            this.materials[materialID].setSpecular(...childSpecular);
+            this.materials[materialID].setEmission(...childEmission);
+            this.materials[materialID].setShininess(shininessValue);
+
+
         }
 
-        //this.log("Parsed materials");
+        this.log("Parsed materials");
         return null;
     }
 
@@ -683,7 +815,7 @@ class MySceneGraph {
 
                         transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
                         break;
-                    case 'scale':   
+                    case 'scale':
                         // TODO: Parse scale transformations                     
                         this.onXMLMinorError("TODO: Parse scale transformations.");
                         break;
@@ -819,7 +951,7 @@ class MySceneGraph {
             var materialsIndex = nodeNames.indexOf("materials");
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
-            
+
 
             // TODO: Parse components
             this.onXMLMinorError("TODO: Parse components.");
