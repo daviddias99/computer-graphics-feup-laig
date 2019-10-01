@@ -8,8 +8,11 @@ class MySceneComponent{
         this.scene = scene;
         this.graph = graph;
         this.children = [];
-        this.transformations = [];
-        this.materials = [];
+        this.transformation;
+        this.materialID;
+        this.inheritMaterial = false;
+        this.useSelfTransf = false;
+        this.currentMaterialIndex = 0;
 
     }
 

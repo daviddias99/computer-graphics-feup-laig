@@ -243,7 +243,7 @@ class MySceneGraph {
         var grandChildren = [];
         this.views = [];
 
-        if(children.length == 0)
+        if (children.length == 0)
             return "at least one view must be defined";
 
         for (var i = 0; i < children.length; i++) {
@@ -268,10 +268,10 @@ class MySceneGraph {
                 var viewFar = this.reader.getFloat(children[i], 'far');
                 if (viewFar == null || isNaN(viewFar))
                     return "no far clipping plane distance defined";
-                
+
                 // Get angle
                 var viewAngle = this.reader.getFloat(children[i], 'angle');
-                if (viewAngle == null || isNaN(viewAngle)) 
+                if (viewAngle == null || isNaN(viewAngle))
                     return "no field of view angle defined";
 
                 // Validate to and from nodes
@@ -315,7 +315,7 @@ class MySceneGraph {
                         this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                     }
                 }
-                
+
 
                 if (!toFlag) {
                     return "to not defined";
@@ -346,25 +346,25 @@ class MySceneGraph {
                 var viewFar = this.reader.getFloat(children[i], 'far');
                 if (viewFar == null || isNaN(viewFar))
                     return "no far clipping plane distance defined";
-                
+
                 // Get left bound of the frustum
                 var viewLeft = this.reader.getFloat(children[i], 'left');
-                if (viewLeft == null || isNaN(viewLeft)) 
+                if (viewLeft == null || isNaN(viewLeft))
                     return "no left bound for the frustum defined";
-                
+
                 // Get right bound of the frustum
                 var viewRight = this.reader.getFloat(children[i], 'right');
-                if (viewRight == null || isNaN(viewRight)) 
+                if (viewRight == null || isNaN(viewRight))
                     return "no right bound for the frustum defined";
 
                 // Get top bound of the frustum
                 var viewTop = this.reader.getFloat(children[i], 'top');
-                if (viewTop == null || isNaN(viewTop)) 
+                if (viewTop == null || isNaN(viewTop))
                     return "no top bound for the frustum defined";
 
                 // Get bottom bound of the frustum
                 var viewBottom = this.reader.getFloat(children[i], 'bottom');
-                if (viewBottom == null || isNaN(viewBottom)) 
+                if (viewBottom == null || isNaN(viewBottom))
                     return "no bottom bound for the frustum defined";
 
                 // Validate to and from nodes
@@ -430,7 +430,7 @@ class MySceneGraph {
                 else if (!fromFlag) {
                     return "from not defined";
                 }
-                
+
                 var view = new CGFcameraOrtho(viewLeft, viewRight, viewBottom, viewTop, viewNear, viewFar, fromValues, toValues, upValues);
                 this.views[viewId] = view;
             }
@@ -775,14 +775,14 @@ class MySceneGraph {
 
 
 
-    parseTransformation(transformation,transformationID,transfMatrix){
+    parseTransformation(transformation, transformationID, transfMatrix) {
 
         var grandChildren = [];
 
         grandChildren = transformation.children;
         // Specifications for the current transformation.
 
-        
+
         for (var j = 0; j < grandChildren.length; j++) {
             switch (grandChildren[j].nodeName) {
                 case 'translate':
@@ -857,7 +857,7 @@ class MySceneGraph {
         this.transformations = [];
 
         var grandChildren = [];
-        
+
 
         // Any number of transformations.
         for (var i = 0; i < children.length; i++) {
@@ -877,8 +877,8 @@ class MySceneGraph {
                 return "ID must be unique for each transformation (conflict: ID = " + transformationID + ")";
 
             var transfMatrix = mat4.create();
-            var transformationParse = this.parseTransformation(children[i],transformationID,transfMatrix);
-            if( transformationParse != null)
+            var transformationParse = this.parseTransformation(children[i], transformationID, transfMatrix);
+            if (transformationParse != null)
                 return transformationParse;
             this.transformations[transformationID] = transfMatrix;
         }
@@ -1006,12 +1006,48 @@ class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
 
+            var currentComponent = new MySceneComponent(componentID, this.scene, this);
+
 
             // TODO: Parse components
             this.onXMLMinorError("TODO: Parse components.");
             // Transformations
 
+            var transformationNode = grandChildren[transformationIndex];
+
+            nodeNames = [];
+            for (var j = 0; j < transformationNode.children.length; j++) {
+                nodeNames.push(transformationNode.children[j].nodeName);
+            }
+
+            var transformationRefIndex = nodeNames.indexOf("transformationref");
+
+            if (transformationRefIndex != -1) {
+
+                var transformationrefID = this.reader.getString(transformationNode.children[transformationRefIndex], 'id');
+                if (this.transformations[transformationrefID] == null)
+                    return "given transformation does not exist (component with ID=" + componentID + ")";
+
+                currentComponent.transformation = transformationrefID;
+
+            } else {
+
+                var transfMatrix = mat4.create();
+                var transformationParse = this.parseTransformation(transformationNode, "[component]" + componentID, transfMatrix);
+                if (transformationParse != null)
+                    return transformationParse;
+
+                currentComponent.transformation = transfMatrix;
+                currentComponent.useSelfTransf = true;
+
+            }
+
+
             // Materials
+
+            var materialsNode = grandChildren[materialsIndex];
+
+           
 
             // Texture
 
