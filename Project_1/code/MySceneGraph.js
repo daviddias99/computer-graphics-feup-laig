@@ -239,6 +239,7 @@ class MySceneGraph {
         this.views = [];
 
         for (var i = 0; i < children.length; i++) {
+
             if (children[i].nodeName == 'perspective') {
 
                 // Get id of the current perspective
@@ -268,6 +269,7 @@ class MySceneGraph {
                 // Validate to and from nodes
                 grandChildren = children[i].children;
                 var fromValues, toValues;
+                var fromFlag = false, toFlag = false;
                 for (var j = 0; j < grandChildren.length; j++) {
                     if (grandChildren[j].nodeName == 'from') {
                         var x = this.reader.getFloat(grandChildren[j], 'x');
@@ -283,6 +285,7 @@ class MySceneGraph {
                             return "no z component for from defined";
 
                         fromValues = vec3.fromValues(x, y, z);
+                        fromFlag = true;
                     }
                     else if (grandChildren[j].nodeName == 'to') {
                         var x = this.reader.getFloat(grandChildren[j], 'x');
@@ -298,18 +301,130 @@ class MySceneGraph {
                             return "no z component for to defined";
 
                         toValues = vec3.fromValues(x, y, z);
+                        toFlag = true;
                     }
                     else {
                         this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                     }
                 }
                 
-                var view = new CGFcamera(viewAngle, viewNear, viewFar, fromValues, toValues);
 
+                if (!toFlag) {
+                    return "to not defined";
+                }
+                else if (!fromFlag) {
+                    return "from not defined";
+                }
+
+                var view = new CGFcamera(viewAngle, viewNear, viewFar, fromValues, toValues);
                 this.views[viewId] = view;
             }
             else if (children[i].nodeName == 'ortho') {
+                // Get id of the current ortho
+                var viewId = this.reader.getString(children[i], 'id');
+                if (viewId == null)
+                    return "no ID defined for ortho";
+
+                // Checks for repeated IDs.
+                if (this.views[viewId] != null)
+                    return "ID must be unique for each view (conflict: ID = " + viewId + ")";
+
+                // Get near clipping plane
+                var viewNear = this.reader.getFloat(children[i], 'near');
+                if (viewNear == null || isNaN(viewNear))
+                    return "no near clipping plane distance defined";
+
+                // Get far clipping plane
+                var viewFar = this.reader.getFloat(children[i], 'far');
+                if (viewFar == null || isNaN(viewFar))
+                    return "no far clipping plane distance defined";
                 
+                // Get left bound of the frustum
+                var viewLeft = this.reader.getFloat(children[i], 'left');
+                if (viewLeft == null || isNaN(viewLeft)) 
+                    return "no left bound for the frustum defined";
+                
+                // Get right bound of the frustum
+                var viewRight = this.reader.getFloat(children[i], 'right');
+                if (viewRight == null || isNaN(viewRight)) 
+                    return "no right bound for the frustum defined";
+
+                // Get top bound of the frustum
+                var viewTop = this.reader.getFloat(children[i], 'top');
+                if (viewTop == null || isNaN(viewTop)) 
+                    return "no top bound for the frustum defined";
+
+                // Get bottom bound of the frustum
+                var viewBottom = this.reader.getFloat(children[i], 'bottom');
+                if (viewBottom == null || isNaN(viewBottom)) 
+                    return "no bottom bound for the frustum defined";
+
+                // Validate to and from nodes
+                grandChildren = children[i].children;
+                var fromValues, toValues, upValues = vec3.fromValues(0, 1, 0);
+                var fromFlag = false, toFlag = false;
+                for (var j = 0; j < grandChildren.length; j++) {
+                    if (grandChildren[j].nodeName == 'from') {
+                        var x = this.reader.getFloat(grandChildren[j], 'x');
+                        if (x == null || isNaN(x))
+                            return "no x component for from defined";
+
+                        var y = this.reader.getFloat(grandChildren[j], 'y');
+                        if (y == null || isNaN(y))
+                            return "no y component for from defined";
+
+                        var z = this.reader.getFloat(grandChildren[j], 'z');
+                        if (z == null || isNaN(z))
+                            return "no z component for from defined";
+
+                        fromValues = vec3.fromValues(x, y, z);
+                        fromFlag = true;
+                    }
+                    else if (grandChildren[j].nodeName == 'to') {
+                        var x = this.reader.getFloat(grandChildren[j], 'x');
+                        if (x == null || isNaN(x))
+                            return "no x component for to defined";
+
+                        var y = this.reader.getFloat(grandChildren[j], 'y');
+                        if (y == null || isNaN(y))
+                            return "no y component for to defined";
+
+                        var z = this.reader.getFloat(grandChildren[j], 'z');
+                        if (z == null || isNaN(z))
+                            return "no z component for to defined";
+
+                        toValues = vec3.fromValues(x, y, z);
+                        toFlag = true;
+                    }
+                    else if (grandChildren[j].nodeName == 'up') {
+                        var x = this.reader.getFloat(grandChildren[j], 'x');
+                        if (x == null || isNaN(x))
+                            return "no x component for up defined";
+
+                        var y = this.reader.getFloat(grandChildren[j], 'y');
+                        if (y == null || isNaN(y))
+                            return "no y component for up defined";
+
+                        var z = this.reader.getFloat(grandChildren[j], 'z');
+                        if (z == null || isNaN(z))
+                            return "no z component for up defined";
+
+                        upValues = vec3.fromValues(x, y, z);
+                    }
+                    else {
+                        this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                    }
+                }
+
+                if (!toFlag) {
+                    return "to not defined";
+                }
+                else if (!fromFlag) {
+                    return "from not defined";
+                }
+                
+                var view = new CGFcameraOrtho(viewLeft, viewRight, viewBottom, viewTop, viewNear, viewFar, fromValues, toValues, upValues);
+                this.views[viewId] = view;
             }
             else {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
