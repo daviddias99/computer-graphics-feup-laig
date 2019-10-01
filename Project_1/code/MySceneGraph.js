@@ -401,6 +401,7 @@ class MySceneGraph {
     parseTextures(texturesNode) {
 
         var children = texturesNode.children;
+        
 
         this.textures = [];
 
@@ -408,6 +409,18 @@ class MySceneGraph {
             return "there must be at least on texture declared";
 
         for (var i = 0; i < children.length; i++) {
+
+            var source_img = new Image();
+          
+
+            source_img.onload = function (sceneGraph) {
+
+                // Check image dimensions
+                if (!isPowerOfTwo(source_img.width) || !isPowerOfTwo(source_img.height))
+                    sceneGraph.onXMLMinorError("Texture with ID = " + textureId + " has dimensions that are not powers of 2");
+
+            }(this);
+
 
             // Get id of the current texture.
             var textureId = this.reader.getString(children[i], 'id');
@@ -426,22 +439,15 @@ class MySceneGraph {
                 return "Invalid extension for texture source file (conflict: ID = " + textureId + ")";
 
             //TODO: Fix powers of two checking
-            /*
+            
 
             
-            var source_img = new Image();
-
-            source_img.onload = function (sceneGraph) {
-
-                // Check image dimensions
-                if (!isPowerOfTwo(source_img.width) || !isPowerOfTwo(source_img.height))
-                    sceneGraph.onXMLMinorError("Texture with ID = " + textureId + " has dimensions that are not powers of 2");
-
-            }(this);
 
             source_img.src = textureSrcPath;
 
-            */
+            
+
+
 
             this.textures[textureId] = new CGFtexture(this.scene, textureSrcPath);
         }
