@@ -16,8 +16,9 @@ serialInclude([ '../lib/CGF.js',
                 'MySceneGraph.js', 
                 'MyInterface.js', 
                 './primitives/MyRectangle.js', 
-                'misc_functions.js', 
                 './primitives/MyCilinder.js', 
+                './primitives/MyTriangle.js',
+                'misc_functions.js', 
                 'MySceneComponent.js',
 
 main=function()
