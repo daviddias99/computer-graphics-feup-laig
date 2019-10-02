@@ -34,10 +34,6 @@ class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
-
-
-        // TODO: remove this
-        this.cilinder = new MyCilinder(this, 3, 2, 4, 20, 20);
     }
 
     /**
@@ -138,9 +134,6 @@ class XMLscene extends CGFscene {
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
         }
-
-        // TODO: remove this
-        this.cilinder.display();
 
         this.popMatrix();
         // ---- END Background, camera and axis setup
