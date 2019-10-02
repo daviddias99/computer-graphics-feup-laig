@@ -622,26 +622,26 @@ class MySceneGraph {
 
                 // Check image dimensions
                 if (!isPowerOfTwo(source_img.width) || !isPowerOfTwo(source_img.height))
-                    sceneGraph.onXMLMinorError("Texture with ID = " + textureId + " has dimensions that are not powers of 2");
+                    sceneGraph.onXMLMinorError("Texture with ID = " + textureID + " has dimensions that are not powers of 2");
 
             }(this);
 
 
             // Get id of the current texture.
-            var textureId = this.reader.getString(children[i], 'id');
-            if (textureId == null)
+            var textureID = this.reader.getString(children[i], 'id');
+            if (textureID == null)
                 return "no ID defined for texture";
 
             // Checks for repeated IDs.
-            if (this.textures[textureId] != null)
-                return "ID must be unique for each texture (conflict: ID = " + textureId + ")";
+            if (this.textures[textureID] != null)
+                return "ID must be unique for each texture (conflict: ID = " + textureID + ")";
 
             var textureSrcPath = this.reader.getString(children[i], 'file');
 
             // Check for valid extension
             var fileExtension = getExtension(textureSrcPath)
             if (fileExtension != "png" && fileExtension != "jpg")
-                return "Invalid extension for texture source file (conflict: ID = " + textureId + ")";
+                return "Invalid extension for texture source file (conflict: ID = " + textureID + ")";
 
             //TODO: Fix powers of two checking
 
@@ -654,7 +654,7 @@ class MySceneGraph {
 
 
 
-            this.textures[textureId] = new CGFtexture(this.scene, textureSrcPath);
+            this.textures[textureID] = new CGFtexture(this.scene, textureSrcPath);
         }
 
 
@@ -695,7 +695,7 @@ class MySceneGraph {
 
 
             // Get shininess value.
-            var shininessValue = this.reader.getString(children[i], 'shininess');
+            var shininessValue = this.reader.getFloat(children[i], 'shininess');
             if (shininessValue == null)
                 return "no shininess defined for material with ID = " + materialID;
 
@@ -801,7 +801,7 @@ class MySceneGraph {
                     break;
                 case 'rotate':
 
-                    var angleDeg = this.reader.getString(grandChildren[j], 'angle');
+                    var angleDeg = this.reader.getFloat(grandChildren[j], 'angle');
 
                     if (angleDeg == null)
                         return "no angle defined for rotation in transformation with ID=" + transformationID;
@@ -1008,9 +1008,6 @@ class MySceneGraph {
 
             var currentComponent = new MySceneComponent(componentID, this.scene, this);
 
-
-            // TODO: Parse components
-            this.onXMLMinorError("TODO: Parse components.");
             // Transformations
 
             var transformationNode = grandChildren[transformationIndex];
@@ -1047,10 +1044,10 @@ class MySceneGraph {
 
             var materialsNode = grandChildren[materialsIndex];
 
-            if(materialsNode.children.length == 0)
-                return "there must be at least on material declared";
+            if (materialsNode.children.length == 0)
+                return "there must be at least one material declared";
 
-            for(var i = 0; i < materialsNode.children.length;i++){
+            for (var i = 0; i < materialsNode.children.length; i++) {
 
                 if (materialsNode.children[i].nodeName != "material") {
                     this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
@@ -1062,15 +1059,15 @@ class MySceneGraph {
                 if (materialID == null)
                     return "no ID defined for material";
 
-                if(materialID == 'inherit'){
+                if (materialID == 'inherit') {
 
-                    currentComponent.inheritMaterial = true;
+                    currentComponent.materialBehaviour = 'inherit';
                     continue;
                 }
-                    
+
                 // Checks for repeated IDs.
                 if (this.materials[materialID] == null)
-                    return "there is no material with ID = " + materialID + "(conflict in component with ID=" +componentID+")";
+                    return "there is no material with ID = " + materialID + "(conflict in component with ID=" + componentID + ")";
 
                 currentComponent.materials[currentComponent.currentMaterialIndex] = materialID;
                 currentComponent.currentMaterialIndex++;
@@ -1078,12 +1075,69 @@ class MySceneGraph {
             }
 
             currentComponent.currentMaterialIndex = 0;
-           
 
             // Texture
 
+            var textureNode = grandChildren[textureIndex];
+
+            //get ID of current texture
+            var textureID = this.reader.getString(textureNode, 'id');
+
+            // TODO: check if factors should be get in this case or not
+            if ((textureID == 'inherit') || (textureID == 'none')) {
+
+                currentComponent.textureBehaviour = textureID;
+                
+            }
+            else if (this.textures[textureID] == null)
+                return "there is no texture with ID = " + textureID + "(conflict in component with ID=" + componentID + ")";
+
+            var lengthS = this.reader.getFloat(textureNode, 'lenght_s');
+            var lengthT= this.reader.getFloat(textureNode, 'lenght_t');
+
+            if(lengthS == null)
+                lengthS = 1;
+            
+            if(lengthT == null)
+                lengthT = 1;
+
+            currentComponent.textureLengthS = lengthS;
+            currentComponent.textureLengthT = lengthT;
+
             // Children
+
+            var childrenNode = grandChildren[childrenIndex];
+
+            if (childrenNode.children.length == 0)
+                return "there must be at least one child declared";
+
+            for (var i = 0; i < childrenNode.children.length; i++) {
+
+                if(childrenNode.children[i].nodeName == 'componentref'){
+
+                    var componentrefID = this.reader.getString(childrenNode.children[i],'id');
+
+                    if(this.components[componentrefID] == null)
+                        return "there is no component with ID = " + componentrefID + "(conflict in component with ID=" + componentID + ")";
+
+                    currentComponent.childrenComponents.push(componentrefID);
+                }
+                else if(childrenNode.children[i].nodeName == 'primitiveref'){
+
+                    var primitiverefID = this.reader.getString(childrenNode.children[i],'id');
+
+                    if(this.primitives[primitiverefID] == null)
+                        return "there is no primitive with ID = " + primitiverefID + "(conflict in component with ID=" + componentID + ")";
+
+                    currentComponent.childrenPrimitives.push(primitiverefID);
+                }
+
+            }
+
+            this.components.push(currentComponent);
+
         }
+
     }
 
 
