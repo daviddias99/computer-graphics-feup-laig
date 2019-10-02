@@ -1,15 +1,15 @@
-// FIXME: for some reason if the number of slices or stacks is over 254 there is a gap on the cilinder side
+// FIXME: for some reason if the number of slices or stacks is over 254 there is a gap on the cylinder side
 
 /**
- * Class reperesenting a cilinder
+ * Class reperesenting a cylinder
  */
-class MyCilinder extends CGFobject {
+class MyCylinder extends CGFobject {
     /**
-     * @constructor                 Cilinder constructor
-     * @param {XMLscene} scene      Reference to the scene in which the cilinder will be dispayed
-     * @param {Number} baseRadius   Radius of the base of the cilinder
-     * @param {Number} topRadius    Radius of the top of the cilinder
-     * @param {Number} height       Height of the cilinder
+     * @constructor                 Cylinder constructor
+     * @param {XMLscene} scene      Reference to the scene in which the cylinder will be dispayed
+     * @param {Number} baseRadius   Radius of the base of the cylinder
+     * @param {Number} topRadius    Radius of the top of the cylinder
+     * @param {Number} height       Height of the cylinder
      * @param {Number} slices       Number of slices, rotation divisions
      * @param {Number} stacks       Nuber of stacks, height divisions
      */

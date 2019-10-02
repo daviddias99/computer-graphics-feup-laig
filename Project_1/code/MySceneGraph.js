@@ -909,7 +909,7 @@ class MySceneGraph {
             // Get id of the current primitive.
             var primitiveId = this.reader.getString(children[i], 'id');
             if (primitiveId == null)
-                return "no ID defined for texture";
+                return "no ID defined for primitive";
 
             // Checks for repeated IDs.
             if (this.primitives[primitiveId] != null)
@@ -953,6 +953,37 @@ class MySceneGraph {
                 var rect = new MyRectangle(this.scene, primitiveId, x1, x2, y1, y2);
 
                 this.primitives[primitiveId] = rect;
+            }
+            else if(primitiveType == 'cylinder'){
+
+                var base = this.reader.getFloat(grandChildren[0], 'base');
+                if (!(base != null && !isNaN(base)))
+                    return "unable to parse base of the primitive coordinates for ID = " + primitiveId;
+
+                var top = this.reader.getFloat(grandChildren[0], 'top');
+                if (!(top != null && !isNaN(top)))
+                    return "unable to parse top of the primitive coordinates for ID = " + primitiveId;
+
+                var height = this.reader.getFloat(grandChildren[0], 'height');
+                if (!(height != null && !isNaN(height)))
+                    return "unable to parse height of the primitive coordinates for ID = " + primitiveId;
+
+                var slices = this.reader.getFloat(grandChildren[0], 'slices');
+                if (!(slices != null && !isNaN(slices)))
+                    return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
+
+                var stacks = this.reader.getFloat(grandChildren[0], 'stacks');
+                if (!(stacks != null && !isNaN(stacks)))
+                    return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
+
+
+                var cylinder = new MyCylinder(this.scene,base,top,height,slices,stacks);
+                
+                this.primitives[primitiveId] = cylinder;    
+            }
+            else if(primitiveType == 'triangle'){
+
+                
             }
             else {
                 // TODO: Parse other primitives
@@ -1259,6 +1290,6 @@ class MySceneGraph {
         //TODO: Create display loop for transversing the scene graph
 
         //To test the parsing/creation of the primitives, call the display function directly
-        this.primitives['demoRectangle'].display();
+        this.primitives['demoCylinder'].display();
     }
 }
