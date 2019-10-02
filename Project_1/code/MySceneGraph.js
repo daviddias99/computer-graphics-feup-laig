@@ -120,14 +120,14 @@ class MySceneGraph {
         }
 
         // <ambient>
-        if ((index = nodeNames.indexOf("ambient")) == -1)
-            return "tag <ambient> missing";
+        if ((index = nodeNames.indexOf("globals")) == -1)
+            return "tag <globals> missing";
         else {
             if (index != GLOBALS_INDEX)
-                this.onXMLMinorError("tag <ambient> out of order");
+                this.onXMLMinorError("tag <globals> out of order");
 
             //Parse ambient block
-            if ((error = this.parseAmbient(nodes[index])) != null)
+            if ((error = this.parseGlobals(nodes[index])) != null)
                 return error;
         }
 
@@ -243,7 +243,7 @@ class MySceneGraph {
         var grandChildren = [];
         this.views = [];
 
-        if(children.length == 0)
+        if (children.length == 0)
             return "at least one view must be defined";
 
         for (var i = 0; i < children.length; i++) {
@@ -268,10 +268,10 @@ class MySceneGraph {
                 var viewFar = this.reader.getFloat(children[i], 'far');
                 if (viewFar == null || isNaN(viewFar))
                     return "no far clipping plane distance defined";
-                
+
                 // Get angle
                 var viewAngle = this.reader.getFloat(children[i], 'angle');
-                if (viewAngle == null || isNaN(viewAngle)) 
+                if (viewAngle == null || isNaN(viewAngle))
                     return "no field of view angle defined";
 
                 // Validate to and from nodes
@@ -315,7 +315,7 @@ class MySceneGraph {
                         this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                     }
                 }
-                
+
 
                 if (!toFlag) {
                     return "to not defined";
@@ -346,25 +346,25 @@ class MySceneGraph {
                 var viewFar = this.reader.getFloat(children[i], 'far');
                 if (viewFar == null || isNaN(viewFar))
                     return "no far clipping plane distance defined";
-                
+
                 // Get left bound of the frustum
                 var viewLeft = this.reader.getFloat(children[i], 'left');
-                if (viewLeft == null || isNaN(viewLeft)) 
+                if (viewLeft == null || isNaN(viewLeft))
                     return "no left bound for the frustum defined";
-                
+
                 // Get right bound of the frustum
                 var viewRight = this.reader.getFloat(children[i], 'right');
-                if (viewRight == null || isNaN(viewRight)) 
+                if (viewRight == null || isNaN(viewRight))
                     return "no right bound for the frustum defined";
 
                 // Get top bound of the frustum
                 var viewTop = this.reader.getFloat(children[i], 'top');
-                if (viewTop == null || isNaN(viewTop)) 
+                if (viewTop == null || isNaN(viewTop))
                     return "no top bound for the frustum defined";
 
                 // Get bottom bound of the frustum
                 var viewBottom = this.reader.getFloat(children[i], 'bottom');
-                if (viewBottom == null || isNaN(viewBottom)) 
+                if (viewBottom == null || isNaN(viewBottom))
                     return "no bottom bound for the frustum defined";
 
                 // Validate to and from nodes
@@ -430,7 +430,7 @@ class MySceneGraph {
                 else if (!fromFlag) {
                     return "from not defined";
                 }
-                
+
                 var view = new CGFcameraOrtho(viewLeft, viewRight, viewBottom, viewTop, viewNear, viewFar, fromValues, toValues, upValues);
                 this.views[viewId] = view;
             }
@@ -449,7 +449,7 @@ class MySceneGraph {
      * Parses the <ambient> node.
      * @param {ambient block element} ambientsNode
      */
-    parseAmbient(ambientsNode) {
+    parseGlobals(ambientsNode) {
 
         var children = ambientsNode.children;
 
@@ -773,6 +773,80 @@ class MySceneGraph {
         return null;
     }
 
+
+
+    parseTransformation(transformation, transformationID, transfMatrix) {
+
+        var grandChildren = [];
+
+        grandChildren = transformation.children;
+        // Specifications for the current transformation.
+
+
+        for (var j = 0; j < grandChildren.length; j++) {
+            switch (grandChildren[j].nodeName) {
+                case 'translate':
+                    var coordinates = this.parseCoordinates3D(grandChildren[j], "translate transformation for ID " + transformationID);
+                    if (!Array.isArray(coordinates))
+                        return coordinates;
+
+                    transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
+                    break;
+                case 'scale':
+                    var scaleFactors = this.parseCoordinates3D(grandChildren[j], "scale transformation for ID " + transformationID);
+                    if (!Array.isArray(scaleFactors))
+                        return scaleFactors;
+
+                    transfMatrix = mat4.scale(transfMatrix, transfMatrix, scaleFactors);
+                    break;
+                case 'rotate':
+
+                    var angleDeg = this.reader.getString(grandChildren[j], 'angle');
+
+                    if (angleDeg == null)
+                        return "no angle defined for rotation in transformation with ID=" + transformationID;
+
+                    var angleRad = angleDeg * DEGREE_TO_RAD;
+                    var axis = this.reader.getString(grandChildren[j], 'axis');
+
+                    if (axis == null)
+                        return "no axis of rotation defined for rotation in transformation with ID=" + transformationID;
+
+                    switch (axis) {
+
+                        case 'x':
+
+                            transfMatrix = mat4.rotateX(transfMatrix, transfMatrix, angleRad);
+
+                            break;
+
+                        case 'y':
+
+                            transfMatrix = mat4.rotateY(transfMatrix, transfMatrix, angleRad);
+
+                            break;
+
+                        case 'z':
+
+                            transfMatrix = mat4.rotateZ(transfMatrix, transfMatrix, angleRad);
+
+                            break;
+
+
+                        default:
+
+                            return "invalid rotation axis for rotation in transformation with ID=" + transformationID;
+
+                    }
+
+                    break;
+            }
+        }
+
+        return null;
+
+    }
+
     /**
      * Parses the <transformations> block.
      * @param {transformations block element} transformationsNode
@@ -783,6 +857,7 @@ class MySceneGraph {
         this.transformations = [];
 
         var grandChildren = [];
+
 
         // Any number of transformations.
         for (var i = 0; i < children.length; i++) {
@@ -801,70 +876,10 @@ class MySceneGraph {
             if (this.transformations[transformationID] != null)
                 return "ID must be unique for each transformation (conflict: ID = " + transformationID + ")";
 
-            grandChildren = children[i].children;
-            // Specifications for the current transformation.
-
             var transfMatrix = mat4.create();
-
-            for (var j = 0; j < grandChildren.length; j++) {
-                switch (grandChildren[j].nodeName) {
-                    case 'translate':
-                        var coordinates = this.parseCoordinates3D(grandChildren[j], "translate transformation for ID " + transformationID);
-                        if (!Array.isArray(coordinates))
-                            return coordinates;
-
-                        transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
-                        break;
-                    case 'scale':
-                        var scaleFactors = this.parseCoordinates3D(grandChildren[j], "scale transformation for ID " + transformationID);
-                        if (!Array.isArray(scaleFactors))
-                            return scaleFactors;
-
-                        transfMatrix = mat4.scale(transfMatrix, transfMatrix, scaleFactors);
-                        break;
-                    case 'rotate':
-
-                        var angleDeg = this.reader.getString(grandChildren[j], 'angle');
-
-                        if (angleDeg == null)
-                            return "no angle defined for rotation in transformation with ID=" + transformationID;
-
-                        var angleRad = angleDeg * DEGREE_TO_RAD;
-                        var axis = this.reader.getString(grandChildren[j], 'axis');
-
-                        if (axis == null)
-                            return "no axis of rotation defined for rotation in transformation with ID=" + transformationID;
-
-                        switch (axis) {
-
-                            case 'x':
-
-                                transfMatrix = mat4.rotateX(transfMatrix, transfMatrix, angleRad);
-
-                                break;
-
-                            case 'y':
-
-                                transfMatrix = mat4.rotateY(transfMatrix, transfMatrix, angleRad);
-
-                                break;
-
-                            case 'z':
-
-                                transfMatrix = mat4.rotateZ(transfMatrix, transfMatrix, angleRad);
-
-                                break;
-
-
-                            default:
-
-                                return "invalid rotation axis for rotation in transformation with ID=" + transformationID;
-
-                        }
-
-                        break;
-                }
-            }
+            var transformationParse = this.parseTransformation(children[i], transformationID, transfMatrix);
+            if (transformationParse != null)
+                return transformationParse;
             this.transformations[transformationID] = transfMatrix;
         }
 
@@ -991,12 +1006,79 @@ class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
 
+            var currentComponent = new MySceneComponent(componentID, this.scene, this);
+
 
             // TODO: Parse components
             this.onXMLMinorError("TODO: Parse components.");
             // Transformations
 
+            var transformationNode = grandChildren[transformationIndex];
+
+            nodeNames = [];
+            for (var j = 0; j < transformationNode.children.length; j++) {
+                nodeNames.push(transformationNode.children[j].nodeName);
+            }
+
+            var transformationRefIndex = nodeNames.indexOf("transformationref");
+
+            if (transformationRefIndex != -1) {
+
+                var transformationrefID = this.reader.getString(transformationNode.children[transformationRefIndex], 'id');
+                if (this.transformations[transformationrefID] == null)
+                    return "given transformation does not exist (component with ID=" + componentID + ")";
+
+                currentComponent.transformation = transformationrefID;
+
+            } else {
+
+                var transfMatrix = mat4.create();
+                var transformationParse = this.parseTransformation(transformationNode, "[component]" + componentID, transfMatrix);
+                if (transformationParse != null)
+                    return transformationParse;
+
+                currentComponent.transformation = transfMatrix;
+                currentComponent.useSelfTransf = true;
+
+            }
+
+
             // Materials
+
+            var materialsNode = grandChildren[materialsIndex];
+
+            if(materialsNode.children.length == 0)
+                return "there must be at least on material declared";
+
+            for(var i = 0; i < materialsNode.children.length;i++){
+
+                if (materialsNode.children[i].nodeName != "material") {
+                    this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                    continue;
+                }
+
+                // Get id of the current material.
+                var materialID = this.reader.getString(materialsNode.children[i], 'id');
+                if (materialID == null)
+                    return "no ID defined for material";
+
+                if(materialID == 'inherit'){
+
+                    currentComponent.inheritMaterial = true;
+                    continue;
+                }
+                    
+                // Checks for repeated IDs.
+                if (this.materials[materialID] == null)
+                    return "there is no material with ID = " + materialID + "(conflict in component with ID=" +componentID+")";
+
+                currentComponent.materials[currentComponent.currentMaterialIndex] = materialID;
+                currentComponent.currentMaterialIndex++;
+
+            }
+
+            currentComponent.currentMaterialIndex = 0;
+           
 
             // Texture
 
