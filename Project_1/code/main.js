@@ -11,7 +11,8 @@ function getUrlVars() {
     return vars;
 }	 
 //Include additional files here
-serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.js', './primitives/MyRectangle.js', 'misc_functions.js',
+serialInclude([ '../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.js', './primitives/MyRectangle.js', 
+                'misc_functions.js', './primitives/MyCilinder.js',
 
 main=function()
 {
