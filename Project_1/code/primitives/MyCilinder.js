@@ -6,7 +6,7 @@
 class MyCilinder extends CGFobject {
     /**
      * @constructor                 Cilinder constructor
-     * @param {XMLscene} scene      Reference to the scene where the cilinder will be dispayed
+     * @param {XMLscene} scene      Reference to the scene in which the cilinder will be dispayed
      * @param {Number} baseRadius   Radius of the base of the cilinder
      * @param {Number} topRadius    Radius of the top of the cilinder
      * @param {Number} height       Height of the cilinder

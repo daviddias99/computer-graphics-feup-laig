@@ -6,6 +6,15 @@
  * @param y - Scale of rectangle in Y
  */
 class MyRectangle extends CGFobject {
+	/**
+	 * @constructor				Rectangle constructor
+	 * @param {XMLscene} scene 	Reference to the scene in which the rectangle will be displayed
+	 * @param {String} id 		ID of the rectangle
+	 * @param {Number} x1 		x coordinate for the left edge of the rectangle
+	 * @param {Number} x2 		x coordinate for the right edge of the rectangle
+	 * @param {Number} y1 		y coordinate for the bottom edge of the rectangle
+	 * @param {Number} y2 		y coordinate for the top edge of the rectangle
+	 */
 	constructor(scene, id, x1, x2, y1, y2) {
 		super(scene);
 		this.x1 = x1;
