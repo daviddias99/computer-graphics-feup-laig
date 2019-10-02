@@ -1,9 +1,5 @@
 /**
  * MyRectangle
- * @constructor
- * @param scene - Reference to MyScene object
- * @param x - Scale of rectangle in X
- * @param y - Scale of rectangle in Y
  */
 class MyRectangle extends CGFobject {
 	/**
