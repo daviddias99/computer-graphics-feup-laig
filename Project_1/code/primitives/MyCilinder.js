@@ -1,15 +1,15 @@
-// FIXME: for some reason if the number of slices or stacks is over 254 there is a gap on the cilinder side
+// FIXME: for some reason if the number of slices or stacks is over 254 there is a gap on the cylinder side
 
 /**
- * Class reperesenting a cilinder
+ * Class reperesenting a cylinder
  */
-class MyCilinder extends CGFobject {
+class MyCylinder extends CGFobject {
     /**
-     * @constructor                 Cilinder constructor
-     * @param {XMLscene} scene      Reference to the scene in which the cilinder will be dispayed
-     * @param {Number} baseRadius   Radius of the base of the cilinder
-     * @param {Number} topRadius    Radius of the top of the cilinder
-     * @param {Number} height       Height of the cilinder
+     * @constructor                 Cylinder constructor
+     * @param {XMLscene} scene      Reference to the scene in which the cylinder will be dispayed
+     * @param {Number} baseRadius   Radius of the bottom base (z = 0)
+     * @param {Number} topRadius    Radius of the top base (z = height)
+     * @param {Number} height       Height of the cylinder
      * @param {Number} slices       Number of slices, rotation divisions
      * @param {Number} stacks       Nuber of stacks, height divisions
      */
@@ -52,8 +52,7 @@ class MyCilinder extends CGFobject {
             // The normal vector for all the points on the same edge is the same
             var normal = [ca, -sa, (this.baseRadius - this.topRadius) / this.height];
             // Normalization of the normal vector
-            var normalSize = Math.sqrt(normal[0] * normal[0] + normal[1] * normal[1] + normal[2] * normal[2]);
-            normal = normal.map( function(x) { return x / normalSize; } );
+            normal = normalizeVector(normal);
 
             // Iterate through all the points on the same edge
             for (var j = 0; j <= this.stacks; j++) {
