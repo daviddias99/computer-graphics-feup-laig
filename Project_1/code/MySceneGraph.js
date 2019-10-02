@@ -881,6 +881,11 @@ class MySceneGraph {
     }
 
 
+    /**
+     * 
+     * @param {*} primitiveId 
+     * @param {*} rectangleNode 
+     */
     parseRectangle(primitiveId,rectangleNode) {
 
         // x1
@@ -907,6 +912,11 @@ class MySceneGraph {
 
     }
 
+    /**
+     * Method to parse a lxs-format cylinder node
+     * @param {String} primitiveId 
+     * @param {lxs cylinder node} cylinderNode 
+     */
     parseCylinder(primitiveId,cylinderNode) {
 
         var base = this.reader.getFloat(cylinderNode, 'base');
@@ -934,6 +944,11 @@ class MySceneGraph {
 
     }
 
+    /**
+     * Method use to parse a lxs-format triangle node
+     * @param {String} primitiveId 
+     * @param {lxs triangle node} triangleNode 
+     */
     parseTriangle(primitiveId,triangleNode) {
 
         // x1
