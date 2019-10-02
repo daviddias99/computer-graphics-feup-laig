@@ -11,12 +11,16 @@ var TRANSFORMATIONS_INDEX = 6;
 var PRIMITIVES_INDEX = 7;
 var COMPONENTS_INDEX = 8;
 
+var GROUP_ORDER = ["scene","views","globals","lights","textures","materials","transformations","primitives","components"];
+
 // Order of the material variables(element of materials group) in the XML document.
 
 var EMISSION_INDEX = 0;
 var AMBIENT_INDEX = 1;
 var DIFFUSE_INDEX = 2;
 var SPECULAR_INDEX = 3;
+
+
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -615,46 +619,42 @@ class MySceneGraph {
 
         for (var i = 0; i < children.length; i++) {
 
-            var source_img = new Image();
 
-
-            source_img.onload = function (sceneGraph) {
-
-                // Check image dimensions
-                if (!isPowerOfTwo(source_img.width) || !isPowerOfTwo(source_img.height))
-                    sceneGraph.onXMLMinorError("Texture with ID = " + textureId + " has dimensions that are not powers of 2");
-
-            }(this);
 
 
             // Get id of the current texture.
-            var textureId = this.reader.getString(children[i], 'id');
-            if (textureId == null)
+            var textureID = this.reader.getString(children[i], 'id');
+            if (textureID == null)
                 return "no ID defined for texture";
 
             // Checks for repeated IDs.
-            if (this.textures[textureId] != null)
-                return "ID must be unique for each texture (conflict: ID = " + textureId + ")";
+            if (this.textures[textureID] != null)
+                return "ID must be unique for each texture (conflict: ID = " + textureID + ")";
 
             var textureSrcPath = this.reader.getString(children[i], 'file');
 
             // Check for valid extension
             var fileExtension = getExtension(textureSrcPath)
             if (fileExtension != "png" && fileExtension != "jpg")
-                return "Invalid extension for texture source file (conflict: ID = " + textureId + ")";
+                return "Invalid extension for texture source file (conflict: ID = " + textureID + ")";
 
             //TODO: Fix powers of two checking
 
 
-
+            var source_img = new Image();
 
             source_img.src = textureSrcPath;
 
+            source_img.onload = function (sceneGraph) {
 
+                // Check image dimensions
+                if (!isPowerOfTwo(source_img.width) || !isPowerOfTwo(source_img.height))
+                    sceneGraph.onXMLMinorError("Texture with ID = " + textureID + " has dimensions that are not powers of 2");
 
+            }(this);
 
-
-            this.textures[textureId] = new CGFtexture(this.scene, textureSrcPath);
+            source_img.src = textureSrcPath;
+            this.textures[textureID] = new CGFtexture(this.scene, textureSrcPath);
         }
 
 
@@ -695,7 +695,7 @@ class MySceneGraph {
 
 
             // Get shininess value.
-            var shininessValue = this.reader.getString(children[i], 'shininess');
+            var shininessValue = this.reader.getFloat(children[i], 'shininess');
             if (shininessValue == null)
                 return "no shininess defined for material with ID = " + materialID;
 
@@ -774,17 +774,14 @@ class MySceneGraph {
     }
 
 
+    parseTransformationNode(transformationNode, transformationID, transfMatrix) {
 
-    parseTransformation(transformation, transformationID, transfMatrix) {
+        var grandChildren = transformationNode.children;
 
-        var grandChildren = [];
-
-        grandChildren = transformation.children;
         // Specifications for the current transformation.
-
-
         for (var j = 0; j < grandChildren.length; j++) {
             switch (grandChildren[j].nodeName) {
+
                 case 'translate':
                     var coordinates = this.parseCoordinates3D(grandChildren[j], "translate transformation for ID " + transformationID);
                     if (!Array.isArray(coordinates))
@@ -801,7 +798,7 @@ class MySceneGraph {
                     break;
                 case 'rotate':
 
-                    var angleDeg = this.reader.getString(grandChildren[j], 'angle');
+                    var angleDeg = this.reader.getFloat(grandChildren[j], 'angle');
 
                     if (angleDeg == null)
                         return "no angle defined for rotation in transformation with ID=" + transformationID;
@@ -817,21 +814,17 @@ class MySceneGraph {
                         case 'x':
 
                             transfMatrix = mat4.rotateX(transfMatrix, transfMatrix, angleRad);
-
                             break;
 
                         case 'y':
 
                             transfMatrix = mat4.rotateY(transfMatrix, transfMatrix, angleRad);
-
                             break;
 
                         case 'z':
 
                             transfMatrix = mat4.rotateZ(transfMatrix, transfMatrix, angleRad);
-
                             break;
-
 
                         default:
 
@@ -852,12 +845,9 @@ class MySceneGraph {
      * @param {transformations block element} transformationsNode
      */
     parseTransformations(transformationsNode) {
+
         var children = transformationsNode.children;
-
         this.transformations = [];
-
-        var grandChildren = [];
-
 
         // Any number of transformations.
         for (var i = 0; i < children.length; i++) {
@@ -876,10 +866,13 @@ class MySceneGraph {
             if (this.transformations[transformationID] != null)
                 return "ID must be unique for each transformation (conflict: ID = " + transformationID + ")";
 
+
             var transfMatrix = mat4.create();
-            var transformationParse = this.parseTransformation(children[i], transformationID, transfMatrix);
+            var transformationParse = this.parseTransformationNode(children[i], transformationID, transfMatrix);
+
             if (transformationParse != null)
                 return transformationParse;
+
             this.transformations[transformationID] = transfMatrix;
         }
 
@@ -887,15 +880,133 @@ class MySceneGraph {
         return null;
     }
 
+
+    /**
+     * 
+     * @param {*} primitiveId 
+     * @param {*} rectangleNode 
+     */
+    parseRectangle(primitiveId,rectangleNode) {
+
+        // x1
+        var x1 = this.reader.getFloat(rectangleNode, 'x1');
+        if (!(x1 != null && !isNaN(x1)))
+            return "unable to parse x1 of the primitive coordinates for ID = " + primitiveId;
+
+        // y1
+        var y1 = this.reader.getFloat(rectangleNode, 'y1');
+        if (!(y1 != null && !isNaN(y1)))
+            return "unable to parse y1 of the primitive coordinates for ID = " + primitiveId;
+
+        // x2
+        var x2 = this.reader.getFloat(rectangleNode, 'x2');
+        if (!(x2 != null && !isNaN(x2) && x2 > x1))
+            return "unable to parse x2 of the primitive coordinates for ID = " + primitiveId;
+
+        // y2
+        var y2 = this.reader.getFloat(rectangleNode, 'y2');
+        if (!(y2 != null && !isNaN(y2) && y2 > y1))
+            return "unable to parse y2 of the primitive coordinates for ID = " + primitiveId;
+
+        return new MyRectangle(this.scene, primitiveId, x1, x2, y1, y2);
+
+    }
+
+    /**
+     * Method to parse a lxs-format cylinder node
+     * @param {String} primitiveId 
+     * @param {lxs cylinder node} cylinderNode 
+     */
+    parseCylinder(primitiveId,cylinderNode) {
+
+        var base = this.reader.getFloat(cylinderNode, 'base');
+        if (!(base != null && !isNaN(base)))
+            return "unable to parse base of the primitive coordinates for ID = " + primitiveId;
+
+        var top = this.reader.getFloat(cylinderNode, 'top');
+        if (!(top != null && !isNaN(top)))
+            return "unable to parse top of the primitive coordinates for ID = " + primitiveId;
+
+        var height = this.reader.getFloat(cylinderNode, 'height');
+        if (!(height != null && !isNaN(height)))
+            return "unable to parse height of the primitive coordinates for ID = " + primitiveId;
+
+        var slices = this.reader.getFloat(cylinderNode, 'slices');
+        if (!(slices != null && !isNaN(slices)))
+            return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
+
+        var stacks = this.reader.getFloat(cylinderNode, 'stacks');
+        if (!(stacks != null && !isNaN(stacks)))
+            return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
+
+
+        return new MyCylinder(this.scene, base, top, height, slices, stacks);
+
+    }
+
+    /**
+     * Method use to parse a lxs-format triangle node
+     * @param {String} primitiveId 
+     * @param {lxs triangle node} triangleNode 
+     */
+    parseTriangle(primitiveId,triangleNode) {
+
+        // x1
+        var x1 = this.reader.getFloat(triangleNode, 'x1');
+        if (!(x1 != null && !isNaN(x1)))
+            return "unable to parse x1 of the primitive coordinates for ID = " + primitiveId;
+
+        // y1
+        var y1 = this.reader.getFloat(triangleNode, 'y1');
+        if (!(y1 != null && !isNaN(y1)))
+            return "unable to parse y1 of the primitive coordinates for ID = " + primitiveId;
+
+        // z1
+        var z1 = this.reader.getFloat(triangleNode, 'z1');
+        if (!(z1 != null && !isNaN(z1)))
+            return "unable to parse z1 of the primitive coordinates for ID = " + primitiveId;
+
+        // x2
+        var x2 = this.reader.getFloat(triangleNode, 'x2');
+        if (!(x2 != null && !isNaN(x2)))
+            return "unable to parse x2 of the primitive coordinates for ID = " + primitiveId;
+
+        // y2
+        var y2 = this.reader.getFloat(triangleNode, 'y2');
+        if (!(y2 != null && !isNaN(y2)))
+            return "unable to parse y2 of the primitive coordinates for ID = " + primitiveId;
+
+        // z2
+        var z2 = this.reader.getFloat(triangleNode, 'z2');
+        if (!(z2 != null && !isNaN(z2)))
+            return "unable to parse z2 of the primitive coordinates for ID = " + primitiveId;
+
+        // x3
+        var x3 = this.reader.getFloat(triangleNode, 'x3');
+        if (!(x3 != null && !isNaN(x3)))
+            return "unable to parse x3 of the primitive coordinates for ID = " + primitiveId;
+
+        // y2
+        var y3 = this.reader.getFloat(triangleNode, 'y3');
+        if (!(y3 != null && !isNaN(y3)))
+            return "unable to parse y3 of the primitive coordinates for ID = " + primitiveId;
+
+        // z3
+        var z3 = this.reader.getFloat(triangleNode, 'z3');
+        if (!(z3 != null && !isNaN(z3)))
+            return "unable to parse z3 of the primitive coordinates for ID = " + primitiveId;
+
+        // return new MyTriangle([x1,y1,z1],[x2,y2,z2],[x3,y3,z3]);
+    }
+
     /**
      * Parses the <primitives> block.
      * @param {primitives block element} primitivesNode
      */
     parsePrimitives(primitivesNode) {
+
         var children = primitivesNode.children;
-
         this.primitives = [];
-
         var grandChildren = [];
 
         // Any number of primitives.
@@ -909,7 +1020,7 @@ class MySceneGraph {
             // Get id of the current primitive.
             var primitiveId = this.reader.getString(children[i], 'id');
             if (primitiveId == null)
-                return "no ID defined for texture";
+                return "no ID defined for primitive";
 
             // Checks for repeated IDs.
             if (this.primitives[primitiveId] != null)
@@ -919,9 +1030,11 @@ class MySceneGraph {
 
             // Validate the primitive type
             if (grandChildren.length != 1 ||
-                (grandChildren[0].nodeName != 'rectangle' && grandChildren[0].nodeName != 'triangle' &&
-                    grandChildren[0].nodeName != 'cylinder' && grandChildren[0].nodeName != 'sphere' &&
-                    grandChildren[0].nodeName != 'torus')) {
+                (grandChildren[0].nodeName != 'rectangle' 
+                && grandChildren[0].nodeName != 'triangle' 
+                && grandChildren[0].nodeName != 'cylinder' 
+                && grandChildren[0].nodeName != 'sphere' 
+                && grandChildren[0].nodeName != 'torus')) {
                 return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere or torus)"
             }
 
@@ -930,29 +1043,33 @@ class MySceneGraph {
 
             // Retrieves the primitive coordinates.
             if (primitiveType == 'rectangle') {
-                // x1
-                var x1 = this.reader.getFloat(grandChildren[0], 'x1');
-                if (!(x1 != null && !isNaN(x1)))
-                    return "unable to parse x1 of the primitive coordinates for ID = " + primitiveId;
+                
+                var rectangle = this.parseRectangle(primitiveId,grandChildren[0]);
 
-                // y1
-                var y1 = this.reader.getFloat(grandChildren[0], 'y1');
-                if (!(y1 != null && !isNaN(y1)))
-                    return "unable to parse y1 of the primitive coordinates for ID = " + primitiveId;
+                if (typeof rectangle === 'string' || rectangle instanceof String)
+                    return rectangle;
 
-                // x2
-                var x2 = this.reader.getFloat(grandChildren[0], 'x2');
-                if (!(x2 != null && !isNaN(x2) && x2 > x1))
-                    return "unable to parse x2 of the primitive coordinates for ID = " + primitiveId;
+                this.primitives[primitiveId] = rectangle;
 
-                // y2
-                var y2 = this.reader.getFloat(grandChildren[0], 'y2');
-                if (!(y2 != null && !isNaN(y2) && y2 > y1))
-                    return "unable to parse y2 of the primitive coordinates for ID = " + primitiveId;
+            }
+            else if(primitiveType == 'cylinder'){
+                
+                var cylinder = this.parseCylinder(primitiveId,grandChildren[0]);   
+                
+                if (typeof cylinder === 'string' || cylinder instanceof String)
+                    return cylinder;
 
-                var rect = new MyRectangle(this.scene, primitiveId, x1, x2, y1, y2);
+                this.primitives[primitiveId] = cylinder;
 
-                this.primitives[primitiveId] = rect;
+            }
+            else if(primitiveType == 'triangle'){
+
+                var triangle = this.parseTriangle(primitiveId,grandChildren[0]);
+
+                if (typeof triangle === 'string' || triangle instanceof String)
+                    return triangle;
+
+                this.primitives[primitiveId] = triangle;
             }
             else {
                 // TODO: Parse other primitives
@@ -1008,9 +1125,6 @@ class MySceneGraph {
 
             var currentComponent = new MySceneComponent(componentID, this.scene, this);
 
-
-            // TODO: Parse components
-            this.onXMLMinorError("TODO: Parse components.");
             // Transformations
 
             var transformationNode = grandChildren[transformationIndex];
@@ -1033,7 +1147,7 @@ class MySceneGraph {
             } else {
 
                 var transfMatrix = mat4.create();
-                var transformationParse = this.parseTransformation(transformationNode, "[component]" + componentID, transfMatrix);
+                var transformationParse = this.parseTransformationNode(transformationNode, "[component]" + componentID, transfMatrix);
                 if (transformationParse != null)
                     return transformationParse;
 
@@ -1047,10 +1161,10 @@ class MySceneGraph {
 
             var materialsNode = grandChildren[materialsIndex];
 
-            if(materialsNode.children.length == 0)
-                return "there must be at least on material declared";
+            if (materialsNode.children.length == 0)
+                return "there must be at least one material declared";
 
-            for(var i = 0; i < materialsNode.children.length;i++){
+            for (var i = 0; i < materialsNode.children.length; i++) {
 
                 if (materialsNode.children[i].nodeName != "material") {
                     this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
@@ -1062,15 +1176,15 @@ class MySceneGraph {
                 if (materialID == null)
                     return "no ID defined for material";
 
-                if(materialID == 'inherit'){
+                if (materialID == 'inherit') {
 
-                    currentComponent.inheritMaterial = true;
+                    currentComponent.materialBehaviour = 'inherit';
                     continue;
                 }
-                    
+
                 // Checks for repeated IDs.
                 if (this.materials[materialID] == null)
-                    return "there is no material with ID = " + materialID + "(conflict in component with ID=" +componentID+")";
+                    return "there is no material with ID = " + materialID + "(conflict in component with ID=" + componentID + ")";
 
                 currentComponent.materials[currentComponent.currentMaterialIndex] = materialID;
                 currentComponent.currentMaterialIndex++;
@@ -1078,12 +1192,69 @@ class MySceneGraph {
             }
 
             currentComponent.currentMaterialIndex = 0;
-           
 
             // Texture
 
+            var textureNode = grandChildren[textureIndex];
+
+            //get ID of current texture
+            var textureID = this.reader.getString(textureNode, 'id');
+
+            // TODO: check if factors should be get in this case or not
+            if ((textureID == 'inherit') || (textureID == 'none')) {
+
+                currentComponent.textureBehaviour = textureID;
+                
+            }
+            else if (this.textures[textureID] == null)
+                return "there is no texture with ID = " + textureID + "(conflict in component with ID=" + componentID + ")";
+
+            var lengthS = this.reader.getFloat(textureNode, 'lenght_s');
+            var lengthT= this.reader.getFloat(textureNode, 'lenght_t');
+
+            if(lengthS == null)
+                lengthS = 1;
+            
+            if(lengthT == null)
+                lengthT = 1;
+
+            currentComponent.textureLengthS = lengthS;
+            currentComponent.textureLengthT = lengthT;
+
             // Children
+
+            var childrenNode = grandChildren[childrenIndex];
+
+            if (childrenNode.children.length == 0)
+                return "there must be at least one child declared";
+
+            for (var i = 0; i < childrenNode.children.length; i++) {
+
+                if(childrenNode.children[i].nodeName == 'componentref'){
+
+                    var componentrefID = this.reader.getString(childrenNode.children[i],'id');
+
+                    if(this.components[componentrefID] == null)
+                        return "there is no component with ID = " + componentrefID + "(conflict in component with ID=" + componentID + ")";
+
+                    currentComponent.childrenComponents.push(componentrefID);
+                }
+                else if(childrenNode.children[i].nodeName == 'primitiveref'){
+
+                    var primitiverefID = this.reader.getString(childrenNode.children[i],'id');
+
+                    if(this.primitives[primitiverefID] == null)
+                        return "there is no primitive with ID = " + primitiverefID + "(conflict in component with ID=" + componentID + ")";
+
+                    currentComponent.childrenPrimitives.push(primitiverefID);
+                }
+
+            }
+
+            this.components.push(currentComponent);
+
         }
+
     }
 
 
@@ -1205,6 +1376,6 @@ class MySceneGraph {
         //TODO: Create display loop for transversing the scene graph
 
         //To test the parsing/creation of the primitives, call the display function directly
-        this.primitives['demoRectangle'].display();
+        this.primitives['demoCylinder'].display();
     }
 }

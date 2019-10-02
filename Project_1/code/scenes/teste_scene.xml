@@ -1,0 +1,76 @@
+<lxs>
+
+    <scene root="sceneRoot" axis_length="1.5">
+
+    <views default="defaultView">
+
+        <perspective id="defaultView">
+
+        </perspective>
+
+        <ortho id="orthoView">
+
+        </ortho>
+
+        <perspective id="perspectiveView2">
+
+        </perspective>
+
+        <ortho id="orthoView2">
+
+        </ortho>
+
+
+    </views>
+
+    <globals>
+
+        <ambient r="0.3" g="0.21" b="0.26" a="1.0" />
+        <background r="0.0" g="0.0" b="0.0" a="0.9" />
+
+    </globals>
+
+    <lights>
+
+        <omni>
+        </omni>
+
+        <spot>
+        </spot>
+
+        <omni>
+        </omni>
+
+        <spot>
+        </spot>
+
+    </lights>
+
+    <textures>
+
+        <texture/>
+        <texture/>
+        <texture/>
+        <texture/>
+        <texture/>
+
+    </textures>
+
+    <materials>
+
+        <material>
+        </material>
+
+        <material>
+        </material>
+
+        <material>
+        </material>
+
+        <material>
+        </material>
+
+    </materials>
+
+
+</lxs>
