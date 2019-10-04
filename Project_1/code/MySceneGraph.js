@@ -629,7 +629,7 @@ class MySceneGraph {
 
             // Checks for repeated IDs.
             if (this.textures[textureID] != null)
-                return "ID must be unique for each texture (conflict: ID = " + textureID + ")";
+                return "ID must be uni  que for each texture (conflict: ID = " + textureID + ")";
 
             var textureSrcPath = this.reader.getString(children[i], 'file');
 
@@ -643,7 +643,7 @@ class MySceneGraph {
 
             var source_img = new Image();
 
-            source_img.src = textureSrcPath;
+            //source_img.src = textureSrcPath;
 
             source_img.onload = function (sceneGraph) {
 
@@ -1123,7 +1123,7 @@ class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
 
-            var currentComponent = new MySceneComponent(componentID, this.scene, this);
+            var currentComponent = new MySceneComponent(componentID);
 
             // Transformations
 
@@ -1142,7 +1142,7 @@ class MySceneGraph {
                 if (this.transformations[transformationrefID] == null)
                     return "given transformation does not exist (component with ID=" + componentID + ")";
 
-                currentComponent.transformation = transformationrefID;
+                currentComponent.transformation = this.transformations[transformationrefID];
 
             } else {
 
@@ -1152,8 +1152,6 @@ class MySceneGraph {
                     return transformationParse;
 
                 currentComponent.transformation = transfMatrix;
-                currentComponent.useSelfTransf = true;
-
             }
 
 
@@ -1186,12 +1184,10 @@ class MySceneGraph {
                 if (this.materials[materialID] == null)
                     return "there is no material with ID = " + materialID + "(conflict in component with ID=" + componentID + ")";
 
-                currentComponent.materials[currentComponent.currentMaterialIndex] = materialID;
-                currentComponent.currentMaterialIndex++;
+                currentComponent.materials.push(this.materials[materialID]);
 
             }
 
-            currentComponent.currentMaterialIndex = 0;
 
             // Texture
 
@@ -1203,11 +1199,15 @@ class MySceneGraph {
             // TODO: check if factors should be get in this case or not
             if ((textureID == 'inherit') || (textureID == 'none')) {
 
-                currentComponent.textureBehaviour = textureID;
+                currentComponent.textureBehaviour = this.textureID;
                 
             }
             else if (this.textures[textureID] == null)
                 return "there is no texture with ID = " + textureID + "(conflict in component with ID=" + componentID + ")";
+            else{
+
+                currentComponent.texture = this.textures[textureID];
+            }
 
             var lengthS = this.reader.getFloat(textureNode, 'lenght_s');
             var lengthT= this.reader.getFloat(textureNode, 'lenght_t');
@@ -1237,7 +1237,7 @@ class MySceneGraph {
                     if(this.components[componentrefID] == null)
                         return "there is no component with ID = " + componentrefID + "(conflict in component with ID=" + componentID + ")";
 
-                    currentComponent.childrenComponents.push(componentrefID);
+                    currentComponent.childrenComponents.push(this.components[componentrefID]);
                 }
                 else if(childrenNode.children[i].nodeName == 'primitiveref'){
 
@@ -1246,7 +1246,7 @@ class MySceneGraph {
                     if(this.primitives[primitiverefID] == null)
                         return "there is no primitive with ID = " + primitiverefID + "(conflict in component with ID=" + componentID + ")";
 
-                    currentComponent.childrenPrimitives.push(primitiverefID);
+                    currentComponent.childrenPrimitives.push(this.primitives[primitiverefID]);
                 }
 
             }
@@ -1376,6 +1376,6 @@ class MySceneGraph {
         //TODO: Create display loop for transversing the scene graph
 
         //To test the parsing/creation of the primitives, call the display function directly
-        this.primitives['demoCylinder'].display();
+        // this.primitives['demoCylinder'].display();
     }
 }

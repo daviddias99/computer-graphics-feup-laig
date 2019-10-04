@@ -1,21 +1,16 @@
 
-
+//TODO: change id storage to object storage
 class MySceneComponent{
 
-    constructor(id,scene,graph){
+    constructor(id){
 
         this.id = id;
-        this.scene = scene;
-        this.graph = graph;
 
         this.childrenComponents = [];           // child components
         this.childrenPrimitives = [];           // child primitives
         this.materials =  [];                   // materials
         this.texture;                           // texture
-        this.transformation;                    // transformation matrix (only defined if useSelfTransf = true)
-
-        this.useSelfTransf = false;             // true if component uses a self-defined transformation
-
+        this.transformation;                    // transformation matrix
         this.materialBehaviour = 'defined';     // 'defined' or 'inherit'
         this.textureBehaviour = 'defined';      // 'defined', 'inherit' or 'none'
         this.textureLengthS = 0;

@@ -33,6 +33,8 @@ class XMLscene extends CGFscene {
         this.gl.depthFunc(this.gl.LEQUAL);
 
         this.axis = new CGFaxis(this);
+
+        this.testSphere = new MySphere(this,1,5,2);
         this.setUpdatePeriod(100);
     }
 
@@ -133,6 +135,7 @@ class XMLscene extends CGFscene {
 
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
+            this.testSphere.display();
         }
 
         this.popMatrix();
