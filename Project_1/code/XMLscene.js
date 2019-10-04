@@ -34,7 +34,7 @@ class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
 
-        this.testSphere = new MySphere(this,1,5,2);
+        this.testSphere = new MySphere(this,1,150,150);
         this.setUpdatePeriod(100);
     }
 
@@ -134,8 +134,8 @@ class XMLscene extends CGFscene {
             this.setDefaultAppearance();
 
             // Displays the scene (MySceneGraph function).
-            this.graph.displayScene();
             this.testSphere.display();
+            this.graph.displayScene();
         }
 
         this.popMatrix();
