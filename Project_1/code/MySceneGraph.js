@@ -999,6 +999,11 @@ class MySceneGraph {
         return new MyTriangle(this.scene,[x1,y1,z1],[x2,y2,z2],[x3,y3,z3]);
     }
 
+    /**
+     * Method use to parse a lxs-format sphere node
+     * @param {String} primitiveId 
+     * @param {lxs sphere node} sphereNode 
+     */
     parseSphere(primitiveId,sphereNode){
 
         var radius = this.reader.getFloat(sphereNode, 'radius');
@@ -1018,6 +1023,11 @@ class MySceneGraph {
 
     }
 
+    /**
+     * Method use to parse a lxs-format torus node
+     * @param {String} primitiveId 
+     * @param {lxs torus node} torusNode 
+     */
     parseTorus(primitiveId,torusNode){
 
         var inner = this.reader.getFloat(torusNode, 'inner');
@@ -1128,10 +1138,6 @@ class MySceneGraph {
                     return torus;
 
                 this.primitives[primitiveId] = torus;
-            }
-            else {
-                // TODO: Parse other primitives
-                console.warn("TODO: Parse other primitives.");
             }
         }
 
