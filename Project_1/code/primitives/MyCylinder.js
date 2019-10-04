@@ -29,7 +29,7 @@ class MyCylinder extends CGFobject {
         this.vertices = [];
         this.indices = [];
         this.normals = [];
-        this.texCoodrs = [];
+        this.texCoords = [];
 
         var ang = 0;
         var deltaAngle = 2 * Math.PI / this.slices;
@@ -59,7 +59,7 @@ class MyCylinder extends CGFobject {
                 
                 this.vertices.push(ca * (radius + (j + 1) * deltaRadius), -sa * (radius + (j + 1) * deltaRadius), j * deltaHeight);
                 this.normals.push(...normal);
-                this.texCoodrs.push(sCoord, 1 - deltaT * j);
+                this.texCoords.push(sCoord, 1 - deltaT * j);
 
                 /* On the last iteration of this cycle we only need to add the vertices, 
                 the normals and the texture coordinates to the corresponding arrays because 

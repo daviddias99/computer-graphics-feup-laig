@@ -23,7 +23,7 @@ class MyTriangle extends CGFobject {
         this.vertices = [
             this.p1[0], this.p1[1], this.p1[2],     // 0
             this.p2[0], this.p2[1], this.p2[2],     // 1
-            this.p3[0], this.p3[1], this.p3[2]      //2
+            this.p3[0], this.p3[1], this.p3[2]      // 2
         ];
 
         this.indices = [
