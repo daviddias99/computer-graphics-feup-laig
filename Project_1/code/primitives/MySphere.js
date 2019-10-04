@@ -25,7 +25,7 @@ class MySphere extends CGFobject {
         this.vertices = [];
         this.indices = [];
         this.normals = [];
-        this.texCoodrs = [];
+        this.texCoords = [];
 
         var trueStacks = 2 * this.stacks;
         var phi = 0;
