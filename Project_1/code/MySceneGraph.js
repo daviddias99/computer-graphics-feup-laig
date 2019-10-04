@@ -996,7 +996,31 @@ class MySceneGraph {
         if (!(z3 != null && !isNaN(z3)))
             return "unable to parse z3 of the primitive coordinates for ID = " + primitiveId;
 
-        // return new MyTriangle([x1,y1,z1],[x2,y2,z2],[x3,y3,z3]);
+        return new MyTriangle(this.scene,[x1,y1,z1],[x2,y2,z2],[x3,y3,z3]);
+    }
+
+    parseSphere(primitiveId,sphereNode){
+
+        var radius = this.reader.getFloat(sphereNode, 'radius');
+        if (!(radius != null && !isNaN(radius)))
+            return "unable to parse radius of the primitive coordinates for ID = " + primitiveId;
+
+        var slices = this.reader.getFloat(sphereNode, 'slices');
+        if (!(slices != null && !isNaN(slices)))
+            return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
+
+        var stacks = this.reader.getFloat(sphereNode, 'stacks');
+        if (!(stacks != null && !isNaN(stacks)))
+            return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
+
+
+        return new MySphere(this.scene,radius,slices,stacks);
+
+    }
+
+    parseTorus(primitiveId,torusNode){
+
+        
     }
 
     /**
@@ -1050,7 +1074,6 @@ class MySceneGraph {
                     return rectangle;
 
                 this.primitives[primitiveId] = rectangle;
-
             }
             else if(primitiveType == 'cylinder'){
                 
@@ -1070,6 +1093,24 @@ class MySceneGraph {
                     return triangle;
 
                 this.primitives[primitiveId] = triangle;
+            }
+            else if(primitiveType == 'sphere'){
+
+                var sphere = this.parseSphere(primitiveId,grandChildren[0]);
+
+                if (typeof sphere === 'string' || sphere instanceof String)
+                    return sphere;
+
+                this.primitives[primitiveId] = sphere;
+            }
+            else if(primitiveType == 'torus'){
+
+                var torus = this.parseTorus(primitiveId,grandChildren[0]);
+
+                if (typeof torus === 'string' || torus instanceof String)
+                    return torus;
+
+                this.primitives[primitiveId] = torus;
             }
             else {
                 // TODO: Parse other primitives
