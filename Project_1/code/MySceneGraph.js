@@ -1020,7 +1020,24 @@ class MySceneGraph {
 
     parseTorus(primitiveId,torusNode){
 
-        
+        var inner = this.reader.getFloat(torusNode, 'inner');
+        if (!(inner != null && !isNaN(inner)))
+            return "unable to parse inner of the primitive coordinates for ID = " + primitiveId;
+
+        var outer = this.reader.getFloat(torusNode, 'outer');
+        if (!(outer != null && !isNaN(outer)))
+            return "unable to parse outer of the primitive coordinates for ID = " + primitiveId;
+
+        var slices = this.reader.getFloat(torusNode, 'slices');
+        if (!(slices != null && !isNaN(slices)))
+            return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
+
+        var loops = this.reader.getFloat(torusNode, 'loops');
+        if (!(loops != null && !isNaN(loops)))
+            return "unable to parse loops of the primitive coordinates for ID = " + primitiveId;
+
+
+        return new MyTorus(this.scene,outer,inner,slices,loops);
     }
 
     /**
