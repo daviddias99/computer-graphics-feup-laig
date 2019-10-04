@@ -30,11 +30,15 @@ class MyTriangle extends CGFobject {
             0, 1, 2
         ];
         
+        // Create vectors used to compute the normal to the points of the triangle
         var vecA = subtractArrays(this.p1, this.p2);
         var vecB = subtractArrays(this.p1, this.p3);
         
+        // The normal of the points of the triangle is obtained by the corss product of
+        // the vectors of that form the plane where the triangle sits
         var normal = normalizeVector(crossProduct(vecA, vecB));
         
+        // One normal for each vertex
         this.normals = [];
         this.normals.push(...normal, ...normal, ...normal);
         
