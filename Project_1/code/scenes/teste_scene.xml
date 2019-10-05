@@ -1,11 +1,10 @@
 <lxs>
+    <scene root="sceneRoot" axis_length="5" />
 
-    <scene root="sceneRoot" axis_length="2">
+    <views default="defaultCamera">
 
-    <views default="defaultView">
-
-        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
-            <from x="30" y="15" z="30" />
+        <perspective id="defaultCamera" near="0.1" far="2000" angle="45">
+            <from x="60" y="60" z="60" />
             <to x="0" y="-2" z="0" />
         </perspective>
 
@@ -38,6 +37,13 @@
 
     <lights>
 
+        <omni id="demoLight" enabled="1">
+            <location x="9.8" y="11.9" z="10" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </omni>
+
         <!--
         <omni id="ss" enabled="tt">
             <location x="ff" y="ff" z="ff" w="ff" />
@@ -67,9 +73,18 @@
         <texture id="ss" file="ss" />
         -->
 
+        <texture id="tex_rocks" file=".scenes/images/rocks.jpg" />
+
     </textures>
 
     <materials>
+
+        <material id="demoMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
+            <specular r="0.6" g="0.0" b="0.0" a="1.0" />
+        </material>
         
         <!-- table material
         <material id="ss" shininess = "ff" >
@@ -100,6 +115,12 @@
             <scale x="ff" y="ff" z="ff" />
         </transformation>
         -->
+
+        <transformation id="demoTransform">
+            <scale x="5" y="1" z="5" />
+            <rotate axis="x" angle="-45" />
+            <rotate axis="z" angle="-45" />
+        </transformation>
 
     </transformations>
 
@@ -132,7 +153,7 @@
     </primitives>
 
     <components>
-
+        <!--
         <component id="table_leg4">
             <transformation>
                 <translate x="1" y="0.5" z="0" />
@@ -200,7 +221,7 @@
                 <primitiveref id="table_leg_primitive" />
             </children>
         </component>
-
+        -->
         <component id="table_top">
             <transformation>
                 <translate x="0" y="0" z="1.2" />
@@ -219,18 +240,23 @@
         </component>
 
         <component id="table">
+            <transformation>
+            </transformation>
+
             <materials>
                 <material id="inherit" />
             </materials>
 
-            <texture id="none" length_s="1" length_t="1" />
+            <texture id="none" />
 
             <children>
                 <componentref id="table_top" />
+                <!--
                 <componentref id="table_leg1" />
                 <componentref id="table_leg2" />
                 <componentref id="table_leg3" />
                 <componentref id="table_leg4" />
+                -->
             </children>
         </component>
 
