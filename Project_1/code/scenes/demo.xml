@@ -41,6 +41,10 @@
             <rotate axis="x" angle="-45" />
             <rotate axis="z" angle="-45" />
         </transformation>
+
+        <transformation id="pyramidFaceTransformation">
+            <rotate axis="y" angle="90" />
+        </transformation>
     </transformations>
 
     <primitives>
@@ -51,45 +55,82 @@
         <primitive id="demoCylinder">
             <cylinder base="3" top="2" height="4" slices="20" stacks="20" />
         </primitive>
+
+        <primitive id="pyramidTriangle">
+            <triangle x1="0" y1="0" z1="1" x2="1" y2="0" z2="0" x3="0" y3="1" z3="0"/>
+        </primitive>
     </primitives>
 
     <components>
 
-            <component id="demoRoot">
+        <component id="demoRoot">
             <transformation>
-                <translate x="0" y="0" z="1" />
-                <scale x="2" y="1" z="1" />
+                <translate x="0" y="0" z="0"/>
             </transformation>
             <materials>
                 <material id="demoMaterial" />
             </materials>
             <texture id="demoTexture"/>
             <children>
-                <primitiveref id="demoRectangle" />
-                <componentref id="anotherDemo" />
+                <componentref id="pyramidFace1" />
             </children>
         </component>
 
-        <component id="anotherDemo">
+        <component id="pyramidFace1">
             <transformation>
-                 <transformationref id="demoTransform" />
+                <translate x="0" y="0" z="0"/>
             </transformation>
-
             <materials>
                 <material id="demoMaterial" />
             </materials>
-
             <texture id="demoTexture"/>
-            
             <children>
-                <primitiveref id="demoCylinder" />
+                <primitiveref id="pyramidTriangle" />
+                <componentref id="pyramidFace2" />
             </children>
 
         </component>
 
+        <component id="pyramidFace2">
+            <transformation>
+                <transformationref id="pyramidFaceTransformation"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="pyramidTriangle" />
+                <componentref id="pyramidFace3" />
+            </children>
+        </component>
 
+        <component id="pyramidFace3">
+            <transformation>
+                <transformationref id="pyramidFaceTransformation"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="pyramidTriangle" />
+                <componentref id="pyramidFace4" />
+            </children>
+        </component>
 
-
+        <component id="pyramidFace4">
+            <transformation>
+                <transformationref id="pyramidFaceTransformation"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="pyramidTriangle" />
+            </children>
+        </component>
 
 
     </components>
