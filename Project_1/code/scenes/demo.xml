@@ -54,6 +54,24 @@
     </primitives>
 
     <components>
+
+    	<component id="anotherDemo">
+            <transformation>
+                 <transformationref id="demoTransform" />
+            </transformation>
+
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+
+            <texture id="demoTexture"/>
+            
+            <children>
+                <primitiveref id="demoCylinder" />
+            </children>
+
+        </component>
+
         <component id="demoRoot">
             <transformation>
                 <translate x="0" y="0" z="1" />
@@ -65,8 +83,10 @@
             <texture id="demoTexture"/>
             <children>
                 <primitiveref id="demoRectangle" />
-                <primitiveref id="demoCylinder" />
+                <componentref id="anotherDemo" />
             </children>
         </component>
+
+
     </components>
 </lxs>

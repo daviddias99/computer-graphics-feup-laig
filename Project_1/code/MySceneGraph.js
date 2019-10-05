@@ -11,7 +11,7 @@ var TRANSFORMATIONS_INDEX = 6;
 var PRIMITIVES_INDEX = 7;
 var COMPONENTS_INDEX = 8;
 
-var GROUP_ORDER = ["scene","views","globals","lights","textures","materials","transformations","primitives","components"];
+var GROUP_ORDER = ["scene", "views", "globals", "lights", "textures", "materials", "transformations", "primitives", "components"];
 
 // Order of the material variables(element of materials group) in the XML document.
 
@@ -886,7 +886,7 @@ class MySceneGraph {
      * @param {*} primitiveId 
      * @param {*} rectangleNode 
      */
-    parseRectangle(primitiveId,rectangleNode) {
+    parseRectangle(primitiveId, rectangleNode) {
 
         // x1
         var x1 = this.reader.getFloat(rectangleNode, 'x1');
@@ -917,7 +917,7 @@ class MySceneGraph {
      * @param {String} primitiveId 
      * @param {lxs cylinder node} cylinderNode 
      */
-    parseCylinder(primitiveId,cylinderNode) {
+    parseCylinder(primitiveId, cylinderNode) {
 
         var base = this.reader.getFloat(cylinderNode, 'base');
         if (!(base != null && !isNaN(base)))
@@ -949,7 +949,7 @@ class MySceneGraph {
      * @param {String} primitiveId 
      * @param {lxs triangle node} triangleNode 
      */
-    parseTriangle(primitiveId,triangleNode) {
+    parseTriangle(primitiveId, triangleNode) {
 
         // x1
         var x1 = this.reader.getFloat(triangleNode, 'x1');
@@ -996,7 +996,7 @@ class MySceneGraph {
         if (!(z3 != null && !isNaN(z3)))
             return "unable to parse z3 of the primitive coordinates for ID = " + primitiveId;
 
-        return new MyTriangle(this.scene,[x1,y1,z1],[x2,y2,z2],[x3,y3,z3]);
+        return new MyTriangle(this.scene, [x1, y1, z1], [x2, y2, z2], [x3, y3, z3]);
     }
 
     /**
@@ -1004,7 +1004,7 @@ class MySceneGraph {
      * @param {String} primitiveId 
      * @param {lxs sphere node} sphereNode 
      */
-    parseSphere(primitiveId,sphereNode){
+    parseSphere(primitiveId, sphereNode) {
 
         var radius = this.reader.getFloat(sphereNode, 'radius');
         if (!(radius != null && !isNaN(radius)))
@@ -1019,7 +1019,7 @@ class MySceneGraph {
             return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
 
 
-        return new MySphere(this.scene,radius,slices,stacks);
+        return new MySphere(this.scene, radius, slices, stacks);
 
     }
 
@@ -1028,7 +1028,7 @@ class MySceneGraph {
      * @param {String} primitiveId 
      * @param {lxs torus node} torusNode 
      */
-    parseTorus(primitiveId,torusNode){
+    parseTorus(primitiveId, torusNode) {
 
         var inner = this.reader.getFloat(torusNode, 'inner');
         if (!(inner != null && !isNaN(inner)))
@@ -1047,7 +1047,7 @@ class MySceneGraph {
             return "unable to parse loops of the primitive coordinates for ID = " + primitiveId;
 
 
-        return new MyTorus(this.scene,outer,inner,slices,loops);
+        return new MyTorus(this.scene, outer, inner, slices, loops);
     }
 
     /**
@@ -1081,11 +1081,11 @@ class MySceneGraph {
 
             // Validate the primitive type
             if (grandChildren.length != 1 ||
-                (grandChildren[0].nodeName != 'rectangle' 
-                && grandChildren[0].nodeName != 'triangle' 
-                && grandChildren[0].nodeName != 'cylinder' 
-                && grandChildren[0].nodeName != 'sphere' 
-                && grandChildren[0].nodeName != 'torus')) {
+                (grandChildren[0].nodeName != 'rectangle'
+                    && grandChildren[0].nodeName != 'triangle'
+                    && grandChildren[0].nodeName != 'cylinder'
+                    && grandChildren[0].nodeName != 'sphere'
+                    && grandChildren[0].nodeName != 'torus')) {
                 return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere or torus)"
             }
 
@@ -1094,45 +1094,45 @@ class MySceneGraph {
 
             // Retrieves the primitive coordinates.
             if (primitiveType == 'rectangle') {
-                
-                var rectangle = this.parseRectangle(primitiveId,grandChildren[0]);
+
+                var rectangle = this.parseRectangle(primitiveId, grandChildren[0]);
 
                 if (typeof rectangle === 'string' || rectangle instanceof String)
                     return rectangle;
 
                 this.primitives[primitiveId] = rectangle;
             }
-            else if(primitiveType == 'cylinder'){
-                
-                var cylinder = this.parseCylinder(primitiveId,grandChildren[0]);   
-                
+            else if (primitiveType == 'cylinder') {
+
+                var cylinder = this.parseCylinder(primitiveId, grandChildren[0]);
+
                 if (typeof cylinder === 'string' || cylinder instanceof String)
                     return cylinder;
 
                 this.primitives[primitiveId] = cylinder;
 
             }
-            else if(primitiveType == 'triangle'){
+            else if (primitiveType == 'triangle') {
 
-                var triangle = this.parseTriangle(primitiveId,grandChildren[0]);
+                var triangle = this.parseTriangle(primitiveId, grandChildren[0]);
 
                 if (typeof triangle === 'string' || triangle instanceof String)
                     return triangle;
 
                 this.primitives[primitiveId] = triangle;
             }
-            else if(primitiveType == 'sphere'){
+            else if (primitiveType == 'sphere') {
 
-                var sphere = this.parseSphere(primitiveId,grandChildren[0]);
+                var sphere = this.parseSphere(primitiveId, grandChildren[0]);
 
                 if (typeof sphere === 'string' || sphere instanceof String)
                     return sphere;
 
                 this.primitives[primitiveId] = sphere;
             }
-            else if(primitiveType == 'torus'){
+            else if (primitiveType == 'torus') {
 
-                var torus = this.parseTorus(primitiveId,grandChildren[0]);
+                var torus = this.parseTorus(primitiveId, grandChildren[0]);
 
                 if (typeof torus === 'string' || torus instanceof String)
                     return torus;
@@ -1226,15 +1226,15 @@ class MySceneGraph {
             if (materialsNode.children.length == 0)
                 return "there must be at least one material declared";
 
-            for (var i = 0; i < materialsNode.children.length; i++) {
+            for (var j = 0; j < materialsNode.children.length; j++) {
 
-                if (materialsNode.children[i].nodeName != "material") {
-                    this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                if (materialsNode.children[j].nodeName != "material") {
+                    this.onXMLMinorError("unknown tag <" + children[j].nodeName + ">");
                     continue;
                 }
 
                 // Get id of the current material.
-                var materialID = this.reader.getString(materialsNode.children[i], 'id');
+                var materialID = this.reader.getString(materialsNode.children[j], 'id');
                 if (materialID == null)
                     return "no ID defined for material";
 
@@ -1264,22 +1264,22 @@ class MySceneGraph {
             if ((textureID == 'inherit') || (textureID == 'none')) {
 
                 currentComponent.textureBehaviour = this.textureID;
-                
+
             }
             else if (this.textures[textureID] == null)
                 return "there is no texture with ID = " + textureID + "(conflict in component with ID=" + componentID + ")";
-            else{
+            else {
 
                 currentComponent.texture = this.textures[textureID];
             }
 
             var lengthS = this.reader.getFloat(textureNode, 'lenght_s');
-            var lengthT= this.reader.getFloat(textureNode, 'lenght_t');
+            var lengthT = this.reader.getFloat(textureNode, 'lenght_t');
 
-            if(lengthS == null)
+            if (lengthS == null)
                 lengthS = 1;
-            
-            if(lengthT == null)
+
+            if (lengthT == null)
                 lengthT = 1;
 
             currentComponent.textureLengthS = lengthS;
@@ -1292,22 +1292,22 @@ class MySceneGraph {
             if (childrenNode.children.length == 0)
                 return "there must be at least one child declared";
 
-            for (var i = 0; i < childrenNode.children.length; i++) {
+            for (var j = 0; j < childrenNode.children.length; j++) {
 
-                if(childrenNode.children[i].nodeName == 'componentref'){
+                if (childrenNode.children[j].nodeName == 'componentref') {
 
-                    var componentrefID = this.reader.getString(childrenNode.children[i],'id');
+                    var componentrefID = this.reader.getString(childrenNode.children[j], 'id');
 
-                    if(this.components[componentrefID] == null)
+                    if (this.components[componentrefID] == null)
                         return "there is no component with ID = " + componentrefID + "(conflict in component with ID=" + componentID + ")";
 
                     currentComponent.childrenComponents.push(this.components[componentrefID]);
                 }
-                else if(childrenNode.children[i].nodeName == 'primitiveref'){
+                else if (childrenNode.children[j].nodeName == 'primitiveref') {
 
-                    var primitiverefID = this.reader.getString(childrenNode.children[i],'id');
+                    var primitiverefID = this.reader.getString(childrenNode.children[j], 'id');
 
-                    if(this.primitives[primitiverefID] == null)
+                    if (this.primitives[primitiverefID] == null)
                         return "there is no primitive with ID = " + primitiverefID + "(conflict in component with ID=" + componentID + ")";
 
                     currentComponent.childrenPrimitives.push(this.primitives[primitiverefID]);
@@ -1315,7 +1315,7 @@ class MySceneGraph {
 
             }
 
-            this.components.push(currentComponent);
+            this.components[componentID] = currentComponent;
 
         }
 
@@ -1433,11 +1433,39 @@ class MySceneGraph {
         console.log("   " + message);
     }
 
+
+    process(node, transfMat, activeMaterial, activeTexture, ls, lt) {
+
+        var newTransf = mat4.create();
+        newTransf = mat4.multiply(newTransf, transfMat, node.transformation);
+
+
+        for (var i = 0; i < node.childrenComponents.length; i++) {
+
+            this.process(node.childrenComponents[i], newTransf, null, null, null, null);
+        }
+
+        for (var i = 0; i < node.childrenPrimitives.length; i++) {
+
+            this.scene.pushMatrix();
+            this.scene.setMatrix(newTransf);
+            node.childrenPrimitives[i].display();
+            this.scene.popMatrix();
+        }
+
+    }
+
     /**
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
+
         //TODO: Create display loop for transversing the scene graph
+
+        var rootElement = this.components[this.idRoot];
+        this.process(rootElement, this.scene.getMatrix(), null, null, null, null);
+
+
 
         //To test the parsing/creation of the primitives, call the display function directly
         // this.primitives['demoCylinder'].display();
