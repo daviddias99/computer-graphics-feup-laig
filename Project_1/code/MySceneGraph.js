@@ -1278,8 +1278,8 @@ class MySceneGraph {
             else {
 
                 currentComponent.texture = this.textures[textureID];
-                var lengthS = this.reader.getFloat(textureNode, 'lenght_s');
-                var lengthT = this.reader.getFloat(textureNode, 'lenght_t');
+                var lengthS = this.reader.getFloat(textureNode, 'length_s');
+                var lengthT = this.reader.getFloat(textureNode, 'length_t');
     
                 if (lengthS == null)
                     lengthS = 1;
