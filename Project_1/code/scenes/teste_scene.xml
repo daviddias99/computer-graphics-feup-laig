@@ -1,25 +1,31 @@
 <lxs>
 
-    <scene root="sceneRoot" axis_length="1.5">
+    <scene root="sceneRoot" axis_length="2">
 
     <views default="defaultView">
 
-        <perspective id="defaultView">
-
+        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
+            <from x="30" y="15" z="30" />
+            <to x="0" y="-2" z="0" />
         </perspective>
 
-        <ortho id="orthoView">
-
+        <!--
+        <ortho id="orthoView" near="ff" far="ff" left="ff" right="ff" top="ff" bottom="ff">
+            <from x="ff" y="ff" z="ff" />
+            <to x="ff" y="ff" z="ff" />
+            <up x="ff" y="ff" z="ff" />
         </ortho>
 
-        <perspective id="perspectiveView2">
-
+        <perspective id="perspectiveView2" near="ff" far="ff" angle="ff">
+            <from x="ff" y="ff" z="ff" />
+            <to x="ff" y="ff" z="ff" />
         </perspective>
 
-        <ortho id="orthoView2">
-
+        <ortho id="orthoView2" near="ff" far="ff" left="ff" right="ff" top="ff" bottom="ff">
+            <from x="ff" y="ff" z="ff" />
+            <to x="ff" y="ff" z="ff" />
         </ortho>
-
+        -->
 
     </views>
 
@@ -32,45 +38,202 @@
 
     <lights>
 
-        <omni>
-        </omni>
+        <!--
+        <omni id="ss" enabled="tt">
+            <location x="ff" y="ff" z="ff" w="ff" />
+            <ambient r="ff" g="ff" b="ff" a="ff" />
+            <diffuse r="ff" g="ff" b="ff" a="ff" />
+            <specular r="ff" g="ff" b="ff" a="ff" />
+            <attenuation constant="ff" linear="ff" quadratic="ff" />
+        </omni>   
+        -->
 
-        <spot>
+        <!--
+        <spot id="ss" enabled="tt" angle="ff" exponent="ff">
+            <location x="ff" y="ff" z="ff" w=”ff” />
+            <target x="ff" y="ff" z="ff" />
+            <ambient r="ff" g="ff" b="ff" a="ff" />
+            <diffuse r="ff" g="ff" b="ff" a="ff" />
+            <specular r="ff" g="ff" b="ff" a="ff" />
+            <attenuation constant="ff" linear="ff" quadratic="ff" />
         </spot>
-
-        <omni>
-        </omni>
-
-        <spot>
-        </spot>
+        -->
 
     </lights>
 
     <textures>
 
-        <texture/>
-        <texture/>
-        <texture/>
-        <texture/>
-        <texture/>
+        <!--
+        <texture id="ss" file="ss" />
+        -->
 
     </textures>
 
     <materials>
-
-        <material>
+        
+        <!-- table material
+        <material id="ss" shininess = "ff" >
+            <emission r="ff" g="ff" b="ff" a="ff" />
+            <ambient r="ff" g="ff" b="ff" a="ff" />
+            <diffuse r="ff" g="ff" b="ff" a="ff" />
+            <specular r="ff" g="ff" b="ff" a="ff" />
         </material>
+        -->
 
-        <material>
+        <!-- pyramid material
+        <material id="ss" shininess = "ff" >
+            <emission r="ff" g="ff" b="ff" a="ff" />
+            <ambient r="ff" g="ff" b="ff" a="ff" />
+            <diffuse r="ff" g="ff" b="ff" a="ff" />
+            <specular r="ff" g="ff" b="ff" a="ff" />
         </material>
-
-        <material>
-        </material>
-
-        <material>
-        </material>
+        -->
 
     </materials>
 
+    <transformations>
+
+        <!--
+        <transformation id="ss">
+            <translate x="ff" y="ff" z="ff" />
+            <rotate axis="cc" angle="ff" />
+            <scale x="ff" y="ff" z="ff" />
+        </transformation>
+        -->
+
+    </transformations>
+
+    <primitives>
+            
+        <primitive id="table_top_primitive">
+            <rectangle x1="-1" y1="-0.5" x2="1" y2="0.5" />
+        </primitive>
+
+        <primitive id="table_leg_primitive">
+            <cylinder base="0.1" top="0.1" height="1.2" slices="10" stacks="10" />
+        </primitive>
+
+        <!--
+        <primitive id="ss">
+            <triangle   x1="ff" y1="ff" z1="ff"
+                        x2="ff" y2="ff" z2="ff"
+                        x3="ff" y3="ff" z3="ff" />
+        </primitive>
+
+        <primitive id="ss">
+            <sphere radius="ff" slices="ii" stacks="ii" />
+        </primitive>
+
+        <primitive id="ss">
+            <torus inner="ff" outer="ff" slices="ii" loops="ii" />
+        </primitive>
+        -->
+
+    </primitives>
+
+    <components>
+
+        <component id="table_leg4">
+            <transformation>
+                <translate x="1" y="0.5" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="none" lenght_s="1" length_t="1" />
+
+            <children>
+                <primitiveref id="table_leg_primitive" />
+            </children>
+        </component>
+
+        <component id="table_leg3">
+            <transformation>
+                <translate x="1" y="-0.5" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="none" lenght_s="1" length_t="1" />
+
+            <children>
+                <primitiveref id="table_leg_primitive" />
+            </children>
+        </component>
+
+        <component id="table_leg2">
+            <transformation>
+                <translate x="-1" y="0.5" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="none" lenght_s="1" length_t="1" />
+
+            <children>
+                <primitiveref id="table_leg_primitive" />
+            </children>
+        </component>
+
+        <component id="table_leg1">
+            <transformation>
+                <translate x="-1" y="-0.5" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="none" lenght_s="1" length_t="1" />
+
+            <children>
+                <primitiveref id="table_leg_primitive" />
+            </children>
+        </component>
+
+        <component id="table_top">
+            <transformation>
+                <translate x="0" y="0" z="1.2" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="none" lenght_s="1" length_t="1" />
+
+            <children>
+                <primitiveref id="table_top_primitive" />
+            </children>
+        </component>
+
+        <component id="table">
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="none" length_s="1" length_t="1" />
+
+            <children>
+                <componentref id="table_top" />
+                <componentref id="table_leg1" />
+                <componentref id="table_leg2" />
+                <componentref id="table_leg3" />
+                <componentref id="table_leg4" />
+            </children>
+        </component>
+
+    </components>
 
 </lxs>
