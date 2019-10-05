@@ -1,5 +1,3 @@
-// TODO: document this file
-
 /**
  * Gets the extension of a file when provided with the file name
  * @param {String} str  Name of the file with extension

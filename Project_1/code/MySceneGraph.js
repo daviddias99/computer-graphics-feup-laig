@@ -1155,8 +1155,8 @@ class MySceneGraph {
         this.components = [];
 
         var grandChildren = [];
-        var grandgrandChildren = [];
         var nodeNames = [];
+        var currentComponent;
 
         // Any number of components.
         for (var i = 0; i < children.length; i++) {
@@ -1172,9 +1172,17 @@ class MySceneGraph {
                 return "no ID defined for componentID";
 
             // Checks for repeated IDs.
-            if (this.components[componentID] != null)
-                return "ID must be unique for each component (conflict: ID = " + componentID + ")";
+            if ( (this.components[componentID] != null) ){
 
+                if(this.components[componentID].loadedOk)
+                    return "ID must be unique for each component (conflict: ID = " + componentID + ")";
+                else
+                    currentComponent = this.components[componentID];
+                
+            }
+            else
+               currentComponent = new MySceneComponent(componentID);
+            
             grandChildren = children[i].children;
 
             nodeNames = [];
@@ -1187,7 +1195,7 @@ class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
 
-            var currentComponent = new MySceneComponent(componentID);
+            
 
             // Transformations
 
@@ -1260,7 +1268,6 @@ class MySceneGraph {
             //get ID of current texture
             var textureID = this.reader.getString(textureNode, 'id');
 
-            // TODO: check if factors should be get in this case or not
             if ((textureID == 'inherit') || (textureID == 'none')) {
 
                 currentComponent.textureBehaviour = this.textureID;
@@ -1271,19 +1278,18 @@ class MySceneGraph {
             else {
 
                 currentComponent.texture = this.textures[textureID];
+                var lengthS = this.reader.getFloat(textureNode, 'lenght_s');
+                var lengthT = this.reader.getFloat(textureNode, 'lenght_t');
+    
+                if (lengthS == null)
+                    lengthS = 1;
+    
+                if (lengthT == null)
+                    lengthT = 1;
+    
+                currentComponent.textureLengthS = lengthS;
+                currentComponent.textureLengthT = lengthT;
             }
-
-            var lengthS = this.reader.getFloat(textureNode, 'lenght_s');
-            var lengthT = this.reader.getFloat(textureNode, 'lenght_t');
-
-            if (lengthS == null)
-                lengthS = 1;
-
-            if (lengthT == null)
-                lengthT = 1;
-
-            currentComponent.textureLengthS = lengthS;
-            currentComponent.textureLengthT = lengthT;
 
             // Children
 
@@ -1299,8 +1305,8 @@ class MySceneGraph {
                     var componentrefID = this.reader.getString(childrenNode.children[j], 'id');
 
                     if (this.components[componentrefID] == null)
-                        return "there is no component with ID = " + componentrefID + "(conflict in component with ID=" + componentID + ")";
-
+                        this.components[componentrefID] = new MySceneComponent(componentrefID);
+                    
                     currentComponent.childrenComponents.push(this.components[componentrefID]);
                 }
                 else if (childrenNode.children[j].nodeName == 'primitiveref') {
@@ -1315,10 +1321,18 @@ class MySceneGraph {
 
             }
 
+            currentComponent.loadedOk = true;
             this.components[componentID] = currentComponent;
 
         }
 
+        for(var key in this.components){
+
+            if(!this.components[key].loadedOk)
+                this.onXMLMinorError("the definition of a component with ID=" + this.components[key].id + " is missing");
+        }
+
+        this.log("Parsed components");
     }
 
 
@@ -1436,9 +1450,11 @@ class MySceneGraph {
 
     process(node, transfMat, activeMaterial, activeTexture, ls, lt) {
 
+        if(!node.loadedOk)
+            return;
+
         var newTransf = mat4.create();
         newTransf = mat4.multiply(newTransf, transfMat, node.transformation);
-
 
         for (var i = 0; i < node.childrenComponents.length; i++) {
 
@@ -1460,14 +1476,10 @@ class MySceneGraph {
      */
     displayScene() {
 
-        //TODO: Create display loop for transversing the scene graph
+        //TODO: Add material and texture processing to display loop
 
         var rootElement = this.components[this.idRoot];
         this.process(rootElement, this.scene.getMatrix(), null, null, null, null);
 
-
-
-        //To test the parsing/creation of the primitives, call the display function directly
-        // this.primitives['demoCylinder'].display();
     }
 }

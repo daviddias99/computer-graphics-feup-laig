@@ -1,5 +1,4 @@
 
-//TODO: change id storage to object storage
 class MySceneComponent{
 
     constructor(id){
@@ -17,6 +16,8 @@ class MySceneComponent{
         this.textureLengthT = 0;
 
         this.currentMaterialIndex = 0;          // current material to be displayed
+
+        this.loadedOk = false;
 
     }
 

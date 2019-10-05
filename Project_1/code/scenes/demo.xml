@@ -55,7 +55,22 @@
 
     <components>
 
-    	<component id="anotherDemo">
+            <component id="demoRoot">
+            <transformation>
+                <translate x="0" y="0" z="1" />
+                <scale x="2" y="1" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+                <componentref id="anotherDemo" />
+            </children>
+        </component>
+
+        <component id="anotherDemo">
             <transformation>
                  <transformationref id="demoTransform" />
             </transformation>
@@ -72,20 +87,9 @@
 
         </component>
 
-        <component id="demoRoot">
-            <transformation>
-                <translate x="0" y="0" z="1" />
-                <scale x="2" y="1" z="1" />
-            </transformation>
-            <materials>
-                <material id="demoMaterial" />
-            </materials>
-            <texture id="demoTexture"/>
-            <children>
-                <primitiveref id="demoRectangle" />
-                <componentref id="anotherDemo" />
-            </children>
-        </component>
+
+
+
 
 
     </components>
