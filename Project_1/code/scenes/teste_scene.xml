@@ -69,10 +69,6 @@
 
     <textures>
 
-        <!--
-        <texture id="ss" file="ss" />
-        -->
-
         <texture id="stub_tex" file="scenes/images/rocks.jpg" />
 
     </textures>
@@ -85,7 +81,7 @@
             <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
             <specular r="0.6" g="0.0" b="0.0" a="1.0" />
         </material>
-        
+
         <!-- table material
         <material id="ss" shininess = "ff" >
             <emission r="ff" g="ff" b="ff" a="ff" />
@@ -108,30 +104,34 @@
 
     <transformations>
 
-        <!--
-        <transformation id="ss">
-            <translate x="ff" y="ff" z="ff" />
-            <rotate axis="cc" angle="ff" />
-            <scale x="ff" y="ff" z="ff" />
-        </transformation>
-        -->
-
         <transformation id="demoTransform">
             <scale x="5" y="1" z="5" />
             <rotate axis="x" angle="-45" />
             <rotate axis="z" angle="-45" />
         </transformation>
 
+        <transformation id="pyramidFaceTransformation">
+            <rotate axis="y" angle="90" />
+        </transformation>
+
     </transformations>
 
     <primitives>
-            
+
         <primitive id="table_top_primitive">
             <rectangle x1="-1" y1="-0.5" x2="1" y2="0.5" />
         </primitive>
 
         <primitive id="table_leg_primitive">
             <cylinder base="0.1" top="0.1" height="1.2" slices="10" stacks="10" />
+        </primitive>
+
+        <primitive id="pyramidTriangle">
+            <triangle x1="0" y1="0" z1="1" x2="1" y2="0" z2="0" x3="0" y3="1" z3="0" />
+        </primitive>
+
+        <primitive id="yoga_ball_sphere">
+            <sphere radius="1" slices="20" stacks="20" />
         </primitive>
 
         <!--
@@ -156,21 +156,98 @@
 
         <component id="root">
             <transformation>
-                <translate x="0" y="0" z="0"/>
+                <translate x="0" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex"/>
+            <texture id="stub_tex" />
             <children>
-                <componentref id="table" />
+                <componentref id="position_TableAndContents" />
+                <componentref id="position_YogaBall" />
             </children>
         </component>
 
-        
-        <component id="table_leg4">
+        <!-- START: Object Positioning-->
+
+        <component id="position_TableAndContents">
             <transformation>
-                <translate x="1" y="0" z="-0.5" />
+                <translate x="-1.5" y="0" z="1" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="stub_tex" />
+            <children>
+                <componentref id="table" />
+                <componentref id="position_PyramidOnTable" />
+            </children>
+
+        </component>
+
+        <component id="position_PyramidOnTable">
+
+            <transformation>
+                <translate x="0.6" y="1.2" z="0" />
+                <scale x="0.4" y="0.4" z="0.4" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="stub_tex" />
+            <children>
+                <componentref id="pyramid" />
+            </children>
+
+        </component>
+
+        <component id="position_YogaBall">
+
+            <transformation>
+
+                <scale x="0.6" y="0.6" z="0.6" />
+                <translate x="1" y="1" z="2" />
+
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="stub_tex" />
+            <children>
+                <primitiveref id="yoga_ball_sphere" />
+            </children>
+
+        </component>
+
+        <!-- END: Object Positioning-->
+
+        <!-- START: Table component-->
+
+        <component id="table">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="none" />
+
+            <children>
+                <componentref id="table_top" />
+                <componentref id="table_leg1" />
+                <componentref id="table_leg2" />
+                <componentref id="table_leg3" />
+                <componentref id="table_leg4" />
+
+            </children>
+        </component>
+
+        <component id="table_top">
+            <transformation>
+                <scale x="1.5" y="1" z="1.5" />
+                <translate x="0" y="1.2" z="0" />
                 <rotate axis="x" angle="-90" />
             </transformation>
 
@@ -181,13 +258,13 @@
             <texture id="none" lenght_s="1" length_t="1" />
 
             <children>
-                <primitiveref id="table_leg_primitive" />
+                <primitiveref id="table_top_primitive" />
             </children>
         </component>
 
-        <component id="table_leg3">
+        <component id="table_leg1">
             <transformation>
-                <translate x="-1" y="0" z="-0.5" />
+                <translate x="1" y="0" z="0.5" />
                 <rotate axis="x" angle="-90" />
             </transformation>
 
@@ -219,9 +296,9 @@
             </children>
         </component>
 
-        <component id="table_leg1">
+        <component id="table_leg3">
             <transformation>
-                <translate x="1" y="0" z="0.5" />
+                <translate x="-1" y="0" z="-0.5" />
                 <rotate axis="x" angle="-90" />
             </transformation>
 
@@ -235,11 +312,10 @@
                 <primitiveref id="table_leg_primitive" />
             </children>
         </component>
-       
-        <component id="table_top">
+
+        <component id="table_leg4">
             <transformation>
-                <scale x="1.5" y="1" z="1.5" />
-                <translate x="0" y="1.2" z="0" />
+                <translate x="1" y="0" z="-0.5" />
                 <rotate axis="x" angle="-90" />
             </transformation>
 
@@ -250,30 +326,92 @@
             <texture id="none" lenght_s="1" length_t="1" />
 
             <children>
-                <primitiveref id="table_top_primitive" />
+                <primitiveref id="table_leg_primitive" />
             </children>
         </component>
 
-        <component id="table">
+        <!-- END: Table component-->
+        <!-- START: "YuGiOh" pyramid component-->
+
+        <component id="pyramid">
+
+
             <transformation>
-                <translate x="0" y="0" z="0" />
+
+                <rotate axis="y" angle="-45" />
+
             </transformation>
 
             <materials>
-                <material id="inherit" />
+                <material id="stub_material" />
             </materials>
 
             <texture id="none" />
 
             <children>
-                <componentref id="table_top" />
-                <componentref id="table_leg1" />
-                <componentref id="table_leg2" />
-                <componentref id="table_leg3" />
-                <componentref id="table_leg4" />
-               
+                <componentref id="pyramidFace1" />
+
+            </children>
+
+        </component>
+
+        <component id="pyramidFace1">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="stub_tex" />
+            <children>
+                <primitiveref id="pyramidTriangle" />
+                <componentref id="pyramidFace2" />
+            </children>
+
+        </component>
+
+        <component id="pyramidFace2">
+            <transformation>
+                <transformationref id="pyramidFaceTransformation" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="stub_tex" />
+            <children>
+                <primitiveref id="pyramidTriangle" />
+                <componentref id="pyramidFace3" />
             </children>
         </component>
+
+        <component id="pyramidFace3">
+            <transformation>
+                <transformationref id="pyramidFaceTransformation" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="stub_tex" />
+            <children>
+                <primitiveref id="pyramidTriangle" />
+                <componentref id="pyramidFace4" />
+            </children>
+        </component>
+
+        <component id="pyramidFace4">
+            <transformation>
+                <transformationref id="pyramidFaceTransformation" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="stub_tex" />
+            <children>
+                <primitiveref id="pyramidTriangle" />
+            </children>
+        </component>
+
+        <!-- END: "YuGiOh" pyramid component-->
 
     </components>
 
