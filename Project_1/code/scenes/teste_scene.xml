@@ -4,7 +4,7 @@
     <views default="defaultCamera">
 
         <perspective id="defaultCamera" near="0.1" far="2000" angle="45">
-            <from x="60" y="60" z="60" />
+            <from x="60" y="60" z="120" />
             <to x="0" y="-2" z="0" />
         </perspective>
 
@@ -36,23 +36,32 @@
     </globals>
 
     <lights>
-
-        <omni id="demoLight" enabled="1">
+        <!--
+        <omni id="demoLight" enabled="0">
             <location x="9.8" y="11.9" z="10" w="1.0" />
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="0" linear="0" quadratic="0" />
+        </omni>
+        -->
+        
+        <omni id="lamp_light" enabled="0">
+            <location x="1" y="1.5" z="0" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="0" linear="0" quadratic="0" />
         </omni>
 
-        <!--
-        <omni id="ss" enabled="tt">
-            <location x="ff" y="ff" z="ff" w="ff" />
-            <ambient r="ff" g="ff" b="ff" a="ff" />
-            <diffuse r="ff" g="ff" b="ff" a="ff" />
-            <specular r="ff" g="ff" b="ff" a="ff" />
-            <attenuation constant="ff" linear="ff" quadratic="ff" />
-        </omni>   
-        -->
+        <omni id="crystal_ball_light" enabled="0">
+            <location x="-0.6" y="2" z="0" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="0" linear="0" quadratic="0" />
+        </omni>
+        
 
         <!--
         <spot id="ss" enabled="tt" angle="ff" exponent="ff">
@@ -130,6 +139,9 @@
             <cylinder base="0.1" top="0.1" height="1.2" slices="10" stacks="10" />
         </primitive>
         
+        <primitive id="table_top_side_primitive">
+            <rectangle x1="-0.5" y1="-0.025" x2="0.5" y2="0.025" />
+        </primitive>
 
         <primitive id="lamp_arm_primitive">
             <cylinder base="0.025" top="0.025" height="1.6" slices="10" stacks="10" />
@@ -171,21 +183,13 @@
             <sphere radius="0.5" slices="20" stacks="20" />
         </primitive>
 
-        <!--
-        <primitive id="ss">
-            <triangle   x1="ff" y1="ff" z1="ff"
-                        x2="ff" y2="ff" z2="ff"
-                        x3="ff" y3="ff" z3="ff" />
+        <primitive id="bin_side_primitive" >
+            <cylinder base="0.1" top="0.15" height="0.3" slices="10" stacks="10" />
         </primitive>
 
-        <primitive id="ss">
-            <sphere radius="ff" slices="ii" stacks="ii" />
+        <primitive id="bin_top_primitive" >
+            <torus inner="0.01" outer="0.15" slices="20" loops="20" />
         </primitive>
-
-        <primitive id="ss">
-            <torus inner="ff" outer="ff" slices="ii" loops="ii" />
-        </primitive>
-        -->
 
     </primitives>
 
@@ -205,10 +209,24 @@
                 <!-- <componentref id="floor" /> -->
                 <componentref id="position_Chair" />
                 <componentref id="position_Lamp" />
+                <componentref id="position_Bin" />
             </children>
         </component>
 
         <!-- START: Object Positioning-->
+
+        <component id="position_Bin">
+            <transformation>
+                <translate x="-3" y="0" z="2" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <children>
+                <componentref id="bin" />
+            </children>
+        </component>
 
         <component id="position_TableAndContents">
             <transformation>
@@ -243,28 +261,23 @@
         </component>
 
         <component id="position_ballOnTable">
-
-                <transformation>
-                    <translate x="-0.6" y="1.2" z="0" />
-                    <scale x="0.4" y="0.4" z="0.4" />
-                </transformation>
-                <materials>
-                    <material id="stub_material" />
-                </materials>
-                <texture id="stub_tex" lenght_s="1" length_t="1" />
-                <children>
-                    <componentref id="crystal_ball" />
-                </children>
-    
+            <transformation>
+                <translate x="-0.6" y="1.2" z="0" />
+                <scale x="0.4" y="0.4" z="0.4" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <children>
+                <componentref id="crystal_ball" />
+            </children>
         </component>
 
         <component id="position_YogaBall">
-
             <transformation>
-
                 <scale x="0.6" y="0.6" z="0.6" />
                 <translate x="1" y="1" z="2" />
-
             </transformation>
             <materials>
                 <material id="stub_material" />
@@ -273,7 +286,6 @@
             <children>
                 <primitiveref id="yoga_ball_sphere" />
             </children>
-
         </component>
 
         <component id="position_Chair">
@@ -323,11 +335,54 @@
 
         </component>
 
-
-
         <!-- END: Object Positioning-->
 
-        <!-- START: Table component-->
+        <!-- START: Bin component -->
+
+        <component id="bin">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="bin_side" />
+                <componentref id="bin_top" />
+            </children>
+        </component>
+
+        <component id="bin_side">
+            <transformation>
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="bin_side_primitive" />
+            </children>
+        </component>
+
+        <component id="bin_top">
+            <transformation>
+                <translate x="0" y="0.3" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="bin_top_primitive" />
+            </children>
+        </component>
+        
+        <!-- END: Bin component -->
+
+        <!-- START: Table component -->
 
         <component id="table">
             <transformation>
@@ -346,23 +401,95 @@
                 <componentref id="table_leg2" />
                 <componentref id="table_leg3" />
                 <componentref id="table_leg4" />
-
             </children>
         </component>
 
         <component id="table_top">
             <transformation>
+                
                 <scale x="1.5" y="1" z="1.5" />
                 <translate x="0" y="1.2" z="0" />
-                <rotate axis="x" angle="-90" />
+                
             </transformation>
-
             <materials>
                 <material id="inherit" />
             </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="table_top_plane" />
+                <componentref id="table_top_side_front" />
+                <componentref id="table_top_side_back" />
+                <componentref id="table_top_side_right" />
+                <componentref id="table_top_side_left" />
+            </children>
+        </component>
 
+        <component id="table_top_side_left">
+            <transformation>
+                <rotate axis="y" angle="-90" />
+                <translate x="0" y="0" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="table_top_side_primitive" />
+            </children>
+        </component>
+
+        <component id="table_top_side_right">
+            <transformation>
+                <rotate axis="y" angle="90" />
+                <translate x="0" y="0" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="table_top_side_primitive" />
+            </children>
+        </component>
+
+        <component id="table_top_side_back">
+            <transformation>
+                <rotate axis="y" angle="180" />
+                <translate x="0" y="0" z="0.5" />
+                <scale x="2" y="1" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="table_top_side_primitive" />
+            </children>
+        </component>
+
+        <component id="table_top_side_front">
+            <transformation>
+                <translate x="0" y="0" z="0.5" />
+                <scale x="2" y="1" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="table_top_side_primitive" />
+            </children>
+        </component>
+
+        <component id="table_top_plane">
+            <transformation>
+                <translate x="0" y="0.025" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
             <texture id="none" lenght_s="1" length_t="1" />
-
             <children>
                 <primitiveref id="table_top_primitive" />
             </children>
