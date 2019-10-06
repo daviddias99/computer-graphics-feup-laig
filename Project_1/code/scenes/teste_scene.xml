@@ -163,6 +163,14 @@
             <rectangle x1="-1" y1="-0.25" x2="1" y2="0.25" />
         </primitive>
 
+        <primitive id="crystal_ball_base_primitive" >
+            <torus inner="0.10" outer="0.4" slices="20" loops="20" />
+        </primitive>
+
+        <primitive id="crystal_ball_sphere_primitive" >
+            <sphere radius="0.5" slices="20" stacks="20" />
+        </primitive>
+
         <!--
         <primitive id="ss">
             <triangle   x1="ff" y1="ff" z1="ff"
@@ -190,7 +198,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" />
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
             <children>
                 <componentref id="position_TableAndContents" />
                 <componentref id="position_YogaBall" />
@@ -209,10 +217,11 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" />
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
             <children>
                 <componentref id="table" />
                 <componentref id="position_PyramidOnTable" />
+                <componentref id="position_ballOnTable" />
             </children>
 
         </component>
@@ -226,11 +235,27 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" />
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
             <children>
                 <componentref id="pyramid" />
             </children>
 
+        </component>
+
+        <component id="position_ballOnTable">
+
+                <transformation>
+                    <translate x="-0.6" y="1.2" z="0" />
+                    <scale x="0.4" y="0.4" z="0.4" />
+                </transformation>
+                <materials>
+                    <material id="stub_material" />
+                </materials>
+                <texture id="stub_tex" lenght_s="1" length_t="1" />
+                <children>
+                    <componentref id="crystal_ball" />
+                </children>
+    
         </component>
 
         <component id="position_YogaBall">
@@ -244,7 +269,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" />
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
             <children>
                 <primitiveref id="yoga_ball_sphere" />
             </children>
@@ -261,7 +286,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" />
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
             <children>
                 <componentref id="chair" />
             </children>
@@ -274,7 +299,7 @@
                 <materials>
                     <material id="stub_material" />
                 </materials>
-                <texture id="stub_tex" />
+                <texture id="stub_tex" lenght_s="1" length_t="1" />
                 <children>
                     <componentref id="lamp" />
                 </children>
@@ -290,7 +315,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" />
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
             <children>
                 <primitiveref id="floor_primitive" />
             </children>
@@ -436,7 +461,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" />
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
             <children>
                 <primitiveref id="pyramidTriangle" />
                 <componentref id="pyramidFace2" />
@@ -451,7 +476,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" />
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
             <children>
                 <primitiveref id="pyramidTriangle" />
                 <componentref id="pyramidFace3" />
@@ -465,7 +490,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" />
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
             <children>
                 <primitiveref id="pyramidTriangle" />
                 <componentref id="pyramidFace4" />
@@ -479,7 +504,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" />
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
             <children>
                 <primitiveref id="pyramidTriangle" />
             </children>
@@ -497,7 +522,7 @@
                 <material id="stub_material" />
             </materials>
 
-            <texture id="stub_tex" />
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
 
             <children>
                 <componentref id="block_top1" />
@@ -519,7 +544,7 @@
                 <material id="stub_material" />
             </materials>
 
-            <texture id="stub_tex" />
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="block_primitive_1" />
@@ -535,7 +560,7 @@
                 <material id="stub_material" />
             </materials>
 
-            <texture id="stub_tex" />
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="block_primitive_1" />
@@ -551,7 +576,7 @@
                 <material id="stub_material" />
             </materials>
 
-            <texture id="stub_tex" />
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="block_primitive_2" />
@@ -568,7 +593,7 @@
                 <material id="stub_material" />
             </materials>
 
-            <texture id="stub_tex" />
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="block_primitive_2" />
@@ -585,7 +610,7 @@
                 <material id="stub_material" />
             </materials>
 
-            <texture id="stub_tex" />
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="block_primitive_2" />
@@ -602,7 +627,7 @@
                 <material id="stub_material" />
             </materials>
 
-            <texture id="stub_tex" />
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="block_primitive_2" />
@@ -620,7 +645,7 @@
                 <material id="stub_material" />
             </materials>
 
-            <texture id="stub_tex" />
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
 
             <children>
                 <componentref id="seat" />
@@ -645,7 +670,7 @@
                 <material id="stub_material" />
             </materials>
 
-            <texture id="stub_tex" />
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
 
             <children>
                 <componentref id="block" />
@@ -766,7 +791,7 @@
                 <material id="stub_material" />
             </materials>
 
-            <texture id="stub_tex" />
+            <texture id="stub_tex" lenght_s="1" length_t="1" />
 
             <children>
                 <componentref id="block" />
@@ -833,6 +858,37 @@
             </children>
         </component>
         <!-- END: lamp component -->
+
+        <!-- START: crystal ball component -->
+
+        <component id="crystal_ball">
+                <transformation>
+                    <rotate axis="x" angle="-90"/>
+                </transformation>
+                <materials>
+                    <material id="stub_material" />
+                </materials>
+                <texture id="none" />
+                <children>
+                    <componentref id="crystal_ball_sphere" />
+                    <primitiveref id="crystal_ball_base_primitive" />
+                </children>
+        </component>
+
+        <component id="crystal_ball_sphere">
+                <transformation>
+                    <translate x="0" y="0" z="0.4"/>
+                </transformation>
+                <materials>
+                    <material id="stub_material" />
+                </materials>
+                <texture id="none" />
+                <children>
+                    <primitiveref id="crystal_ball_sphere_primitive" />
+                </children>
+        </component>
+
+        <!-- END: crystal ball component -->
 
     </components>
 
