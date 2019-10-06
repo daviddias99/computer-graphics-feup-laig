@@ -73,7 +73,7 @@
         <texture id="ss" file="ss" />
         -->
 
-        <texture id="tex_rocks" file=".scenes/images/rocks.jpg" />
+        <texture id="tex_rocks" file="scenes/images/rocks.jpg" />
 
     </textures>
 

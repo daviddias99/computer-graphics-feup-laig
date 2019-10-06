@@ -37,9 +37,7 @@
 
     <transformations>
         <transformation id="demoTransform">
-            <scale x="5" y="1" z="5" />
-            <rotate axis="x" angle="-45" />
-            <rotate axis="z" angle="-45" />
+            <translate x="1" y="0" z="0"/>
         </transformation>
 
         <transformation id="pyramidFaceTransformation">
@@ -65,7 +63,7 @@
 
         <component id="demoRoot">
             <transformation>
-                <translate x="0" y="0" z="0"/>
+                <translate x="1" y="0" z="0"/>
             </transformation>
             <materials>
                 <material id="demoMaterial" />
