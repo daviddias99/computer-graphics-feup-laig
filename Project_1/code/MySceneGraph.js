@@ -1332,6 +1332,21 @@ class MySceneGraph {
                 this.onXMLMinorError("the definition of a component with ID=" + this.components[key].id + " is missing");
         }
 
+
+        var rootInSceneTree = false;
+
+
+        for(var key in this.components){
+
+            if(this.components[key].id == this.idRoot)
+                rootInSceneTree = true;
+
+        }
+
+        if(!rootInSceneTree)
+            return "root element not defined in scene graph";
+        
+
         this.log("Parsed components");
     }
 

@@ -1,5 +1,5 @@
 <lxs>
-    <scene root="sceneRoot" axis_length="5" />
+    <scene root="root" axis_length="5" />
 
     <views default="defaultCamera">
 
@@ -73,13 +73,13 @@
         <texture id="ss" file="ss" />
         -->
 
-        <texture id="tex_rocks" file="scenes/images/rocks.jpg" />
+        <texture id="stub_tex" file="scenes/images/rocks.jpg" />
 
     </textures>
 
     <materials>
 
-        <material id="demoMaterial" shininess="10">
+        <material id="stub_material" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
@@ -153,10 +153,24 @@
     </primitives>
 
     <components>
-        <!--
+
+        <component id="root">
+            <transformation>
+                <translate x="0" y="0" z="0"/>
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="stub_tex"/>
+            <children>
+                <componentref id="table" />
+            </children>
+        </component>
+
+        
         <component id="table_leg4">
             <transformation>
-                <translate x="1" y="0.5" z="0" />
+                <translate x="1" y="0" z="-0.5" />
                 <rotate axis="x" angle="-90" />
             </transformation>
 
@@ -173,7 +187,7 @@
 
         <component id="table_leg3">
             <transformation>
-                <translate x="1" y="-0.5" z="0" />
+                <translate x="-1" y="0" z="-0.5" />
                 <rotate axis="x" angle="-90" />
             </transformation>
 
@@ -190,7 +204,7 @@
 
         <component id="table_leg2">
             <transformation>
-                <translate x="-1" y="0.5" z="0" />
+                <translate x="-1" y="0" z="0.5" />
                 <rotate axis="x" angle="-90" />
             </transformation>
 
@@ -207,7 +221,7 @@
 
         <component id="table_leg1">
             <transformation>
-                <translate x="-1" y="-0.5" z="0" />
+                <translate x="1" y="0" z="0.5" />
                 <rotate axis="x" angle="-90" />
             </transformation>
 
@@ -221,10 +235,11 @@
                 <primitiveref id="table_leg_primitive" />
             </children>
         </component>
-        -->
+       
         <component id="table_top">
             <transformation>
-                <translate x="0" y="0" z="1.2" />
+                <scale x="1.5" y="1" z="1.5" />
+                <translate x="0" y="1.2" z="0" />
                 <rotate axis="x" angle="-90" />
             </transformation>
 
@@ -241,6 +256,7 @@
 
         <component id="table">
             <transformation>
+                <translate x="0" y="0" z="0" />
             </transformation>
 
             <materials>
@@ -251,12 +267,11 @@
 
             <children>
                 <componentref id="table_top" />
-                <!--
                 <componentref id="table_leg1" />
                 <componentref id="table_leg2" />
                 <componentref id="table_leg3" />
                 <componentref id="table_leg4" />
-                -->
+               
             </children>
         </component>
 
