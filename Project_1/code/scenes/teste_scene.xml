@@ -122,6 +122,10 @@
             <rectangle x1="-1" y1="-0.5" x2="1" y2="0.5" />
         </primitive>
 
+        <primitive id="floor_primitive">
+            <rectangle x1="-5" y1="-5" x2="5" y2="5" />
+        </primitive>
+
         <primitive id="table_leg_primitive">
             <cylinder base="0.1" top="0.1" height="1.2" slices="10" stacks="10" />
         </primitive>
@@ -132,6 +136,18 @@
 
         <primitive id="yoga_ball_sphere">
             <sphere radius="1" slices="20" stacks="20" />
+        </primitive>
+
+        <primitive id="chair_leg_primitive">
+            <cylinder base="0.05" top="0.05" height="0.6" slices="10" stacks="10" />
+        </primitive>
+
+        <primitive id="block_primitive_1">
+            <rectangle x1="-1" y1="-1" x2="1" y2="1" />
+        </primitive>
+
+        <primitive id="block_primitive_2">
+            <rectangle x1="-1" y1="-0.25" x2="1" y2="0.25" />
         </primitive>
 
         <!--
@@ -165,6 +181,8 @@
             <children>
                 <componentref id="position_TableAndContents" />
                 <componentref id="position_YogaBall" />
+                <!-- <componentref id="floor" /> -->
+                <componentref id="position_Chair" />
             </children>
         </component>
 
@@ -216,6 +234,40 @@
             <children>
                 <primitiveref id="yoga_ball_sphere" />
             </children>
+
+        </component>
+
+        <component id="position_Chair">
+            <transformation>
+
+                <translate x="-1.5" y="0" z="2" />
+                <rotate axis="y" angle="180"/>
+
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="stub_tex" />
+            <children>
+                <componentref id="chair" />
+            </children>
+        </component>
+
+        <component id="floor">
+
+            <transformation>
+
+                <rotate axis="x" angle="-90" />
+
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="stub_tex" />
+            <children>
+                <primitiveref id="floor_primitive" />
+            </children>
+
 
         </component>
 
@@ -331,6 +383,8 @@
         </component>
 
         <!-- END: Table component-->
+
+
         <!-- START: "YuGiOh" pyramid component-->
 
         <component id="pyramid">
@@ -412,6 +466,295 @@
         </component>
 
         <!-- END: "YuGiOh" pyramid component-->
+
+        <!-- START: block component-->
+        <component id="block">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+
+            <materials>
+                <material id="stub_material" />
+            </materials>
+
+            <texture id="stub_tex" />
+
+            <children>
+                <componentref id="block_top1" />
+                <componentref id="block_top2" />
+                <componentref id="block_side1" />
+                <componentref id="block_side2" />
+                <componentref id="block_side3" />
+                <componentref id="block_side4" />
+            </children>
+        </component>
+
+        <component id="block_top1">
+            <transformation>
+                <translate x="0" y="0.5" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+
+            <materials>
+                <material id="stub_material" />
+            </materials>
+
+            <texture id="stub_tex" />
+
+            <children>
+                <primitiveref id="block_primitive_1" />
+            </children>
+        </component>
+
+        <component id="block_top2">
+            <transformation>
+                <rotate axis="x" angle="90" />
+            </transformation>
+
+            <materials>
+                <material id="stub_material" />
+            </materials>
+
+            <texture id="stub_tex" />
+
+            <children>
+                <primitiveref id="block_primitive_1" />
+            </children>
+        </component>
+
+        <component id="block_side1">
+            <transformation>
+                <translate x="0" y="0.25" z="1" />
+            </transformation>
+
+            <materials>
+                <material id="stub_material" />
+            </materials>
+
+            <texture id="stub_tex" />
+
+            <children>
+                <primitiveref id="block_primitive_2" />
+            </children>
+        </component>
+
+        <component id="block_side2">
+            <transformation>
+                <rotate axis="y" angle="-90" />
+                <translate x="0" y="0.25" z="1" />
+            </transformation>
+
+            <materials>
+                <material id="stub_material" />
+            </materials>
+
+            <texture id="stub_tex" />
+
+            <children>
+                <primitiveref id="block_primitive_2" />
+            </children>
+        </component>
+
+        <component id="block_side3">
+            <transformation>
+                <rotate axis="y" angle="-180" />
+                <translate x="0" y="0.25" z="1" />
+            </transformation>
+
+            <materials>
+                <material id="stub_material" />
+            </materials>
+
+            <texture id="stub_tex" />
+
+            <children>
+                <primitiveref id="block_primitive_2" />
+            </children>
+        </component>
+
+        <component id="block_side4">
+            <transformation>
+                <rotate axis="y" angle="-270" />
+                <translate x="0" y="0.25" z="1" />
+            </transformation>
+
+            <materials>
+                <material id="stub_material" />
+            </materials>
+
+            <texture id="stub_tex" />
+
+            <children>
+                <primitiveref id="block_primitive_2" />
+            </children>
+        </component>
+        <!-- END: block component-->
+
+        <!-- START: chair component-->
+        <component id="chair">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+
+            <materials>
+                <material id="stub_material" />
+            </materials>
+
+            <texture id="stub_tex" />
+
+            <children>
+                <componentref id="seat" />
+                <componentref id="chair_leg_1" />
+                <componentref id="chair_leg_2" />
+                <componentref id="chair_leg_3" />
+                <componentref id="chair_leg_4" />
+                <componentref id="chair_back_leg_1" />
+                <componentref id="chair_back_leg_2" />
+                <componentref id="char_back" />
+            </children>
+        </component>
+
+        <component id="seat">
+            <transformation>
+                <translate x="0" y="0.6" z="0" />
+                <scale x="0.4" y="0.15" z="0.4" />
+
+            </transformation>
+
+            <materials>
+                <material id="stub_material" />
+            </materials>
+
+            <texture id="stub_tex" />
+
+            <children>
+                <componentref id="block" />
+            </children>
+
+        </component>
+
+        <component id="chair_leg_1">
+            <transformation>
+                <translate x="0.3" y="0" z="0.3" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="none" lenght_s="1" length_t="1" />
+
+            <children>
+                <primitiveref id="chair_leg_primitive" />
+            </children>
+        </component>
+
+        <component id="chair_leg_2">
+            <transformation>
+                <translate x="0.3" y="0" z="-0.3" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="none" lenght_s="1" length_t="1" />
+
+            <children>
+                <primitiveref id="chair_leg_primitive" />
+            </children>
+        </component>
+
+        <component id="chair_leg_3">
+            <transformation>
+                <translate x="-0.3" y="0" z="-0.3" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="none" lenght_s="1" length_t="1" />
+
+            <children>
+                <primitiveref id="chair_leg_primitive" />
+            </children>
+        </component>
+
+        <component id="chair_leg_4">
+            <transformation>
+                <translate x="-0.3" y="0" z="0.3" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="none" lenght_s="1" length_t="1" />
+
+            <children>
+                <primitiveref id="chair_leg_primitive" />
+            </children>
+        </component>
+
+        <component id="chair_back_leg_1">
+            <transformation>
+                <translate x="-0.3" y="0.6" z="-0.3" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="none" lenght_s="1" length_t="1" />
+
+            <children>
+                <primitiveref id="chair_leg_primitive" />
+            </children>
+        </component>
+
+        <component id="chair_back_leg_2">
+            <transformation>
+                <translate x="0.3" y="0.6" z="-0.3" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="none" lenght_s="1" length_t="1" />
+
+            <children>
+                <primitiveref id="chair_leg_primitive" />
+            </children>
+        </component>
+
+        <component id="char_back">
+            <transformation>
+                <translate x="0" y="0.9" z="-0.3" />
+                <scale x="0.4" y="0.7" z="0.05" />
+
+            </transformation>
+
+            <materials>
+                <material id="stub_material" />
+            </materials>
+
+            <texture id="stub_tex" />
+
+            <children>
+                <componentref id="block" />
+            </children>
+
+        </component>
+        <!-- END: chair component-->
+
 
     </components>
 
