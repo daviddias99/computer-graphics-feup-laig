@@ -704,8 +704,8 @@ class MySceneGraph {
             // Reads the names of the material parameters to an auxiliary buffer.
             var grandChildrenNames = [];
 
-            for (var i = 0; i < grandChildren.length; i++)
-                grandChildrenNames.push(grandChildren[i].nodeName);
+            for (var j = 0; j < grandChildren.length; j++)
+                grandChildrenNames.push(grandChildren[j].nodeName);
 
             if ((index = grandChildrenNames.indexOf("emission")) == -1)
                 return "tag <emission (...)> missing";
