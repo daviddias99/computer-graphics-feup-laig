@@ -8,23 +8,7 @@
             <to x="0" y="-2" z="0" />
         </perspective>
 
-        <!--
-        <ortho id="orthoView" near="ff" far="ff" left="ff" right="ff" top="ff" bottom="ff">
-            <from x="ff" y="ff" z="ff" />
-            <to x="ff" y="ff" z="ff" />
-            <up x="ff" y="ff" z="ff" />
-        </ortho>
 
-        <perspective id="perspectiveView2" near="ff" far="ff" angle="ff">
-            <from x="ff" y="ff" z="ff" />
-            <to x="ff" y="ff" z="ff" />
-        </perspective>
-
-        <ortho id="orthoView2" near="ff" far="ff" left="ff" right="ff" top="ff" bottom="ff">
-            <from x="ff" y="ff" z="ff" />
-            <to x="ff" y="ff" z="ff" />
-        </ortho>
-        -->
 
     </views>
 
@@ -36,15 +20,6 @@
     </globals>
 
     <lights>
-        <!--
-        <omni id="demoLight" enabled="0">
-            <location x="9.8" y="11.9" z="10" w="1.0" />
-            <ambient r="0" g="0" b="0" a="1.0" />
-            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
-            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-            <attenuation constant="0" linear="0" quadratic="0" />
-        </omni>
-        -->
         
         <omni id="lamp_light" enabled="0">
             <location x="1" y="1.5" z="0" w="1.0" />
@@ -62,18 +37,6 @@
             <attenuation constant="0" linear="0" quadratic="0" />
         </omni>
         
-
-        <!--
-        <spot id="ss" enabled="tt" angle="ff" exponent="ff">
-            <location x="ff" y="ff" z="ff" w=”ff” />
-            <target x="ff" y="ff" z="ff" />
-            <ambient r="ff" g="ff" b="ff" a="ff" />
-            <diffuse r="ff" g="ff" b="ff" a="ff" />
-            <specular r="ff" g="ff" b="ff" a="ff" />
-            <attenuation constant="ff" linear="ff" quadratic="ff" />
-        </spot>
-        -->
-
     </lights>
 
     <textures>
@@ -91,23 +54,6 @@
             <specular r="0.6" g="0.0" b="0.0" a="1.0" />
         </material>
 
-        <!-- table material
-        <material id="ss" shininess = "ff" >
-            <emission r="ff" g="ff" b="ff" a="ff" />
-            <ambient r="ff" g="ff" b="ff" a="ff" />
-            <diffuse r="ff" g="ff" b="ff" a="ff" />
-            <specular r="ff" g="ff" b="ff" a="ff" />
-        </material>
-        -->
-
-        <!-- pyramid material
-        <material id="ss" shininess = "ff" >
-            <emission r="ff" g="ff" b="ff" a="ff" />
-            <ambient r="ff" g="ff" b="ff" a="ff" />
-            <diffuse r="ff" g="ff" b="ff" a="ff" />
-            <specular r="ff" g="ff" b="ff" a="ff" />
-        </material>
-        -->
 
     </materials>
 
@@ -206,7 +152,6 @@
             <children>
                 <componentref id="position_TableAndContents" />
                 <componentref id="position_YogaBall" />
-                <!-- <componentref id="floor" /> -->
                 <componentref id="position_Chair" />
                 <componentref id="position_Lamp" />
                 <componentref id="position_Bin" />
