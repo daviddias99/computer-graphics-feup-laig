@@ -129,6 +129,19 @@
         <primitive id="table_leg_primitive">
             <cylinder base="0.1" top="0.1" height="1.2" slices="10" stacks="10" />
         </primitive>
+        
+
+        <primitive id="lamp_arm_primitive">
+            <cylinder base="0.025" top="0.025" height="1.6" slices="10" stacks="10" />
+        </primitive>
+
+        <primitive id="lamp_base_primitive">
+            <torus inner="0.1" outer="0.075" slices="10" loops="10" />
+        </primitive>
+
+        <primitive id="lamp_top_primitive">
+            <cylinder base="0.3" top="0.15" height="0.3" slices="10" stacks="10" />
+        </primitive>
 
         <primitive id="pyramidTriangle">
             <triangle x1="0" y1="0" z1="1" x2="1" y2="0" z2="0" x3="0" y3="1" z3="0" />
@@ -183,6 +196,7 @@
                 <componentref id="position_YogaBall" />
                 <!-- <componentref id="floor" /> -->
                 <componentref id="position_Chair" />
+                <componentref id="position_Lamp" />
             </children>
         </component>
 
@@ -253,6 +267,19 @@
             </children>
         </component>
 
+        <component id="position_Lamp">
+                <transformation>
+                    <translate x="1" y="0" z="0" />
+                </transformation>
+                <materials>
+                    <material id="stub_material" />
+                </materials>
+                <texture id="stub_tex" />
+                <children>
+                    <componentref id="lamp" />
+                </children>
+        </component>
+
         <component id="floor">
 
             <transformation>
@@ -270,6 +297,8 @@
 
 
         </component>
+
+
 
         <!-- END: Object Positioning-->
 
@@ -388,25 +417,16 @@
         <!-- START: "YuGiOh" pyramid component-->
 
         <component id="pyramid">
-
-
             <transformation>
-
                 <rotate axis="y" angle="-45" />
-
             </transformation>
-
             <materials>
                 <material id="stub_material" />
             </materials>
-
             <texture id="none" />
-
             <children>
                 <componentref id="pyramidFace1" />
-
             </children>
-
         </component>
 
         <component id="pyramidFace1">
@@ -755,6 +775,64 @@
         </component>
         <!-- END: chair component-->
 
+        <!-- START: lamp component -->
+        <component id="lamp">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="lamp_base" />
+                <componentref id="lamp_arm" />
+                <componentref id="lamp_top" />
+            </children>
+        </component>
+
+        <component id="lamp_base">
+            <transformation>
+                <scale x="1" y="0.25" z="1" />
+                <translate x="0" y="0.05" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="lamp_base_primitive" />
+            </children>
+        </component>
+
+        <component id="lamp_arm">
+            <transformation>
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="lamp_arm_primitive" />
+            </children>
+        </component>
+
+        <component id="lamp_top">
+            <transformation>
+                <translate x="0" y="1.5" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="lamp_top_primitive" />
+            </children>
+        </component>
+        <!-- END: lamp component -->
 
     </components>
 
