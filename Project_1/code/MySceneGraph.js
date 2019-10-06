@@ -239,13 +239,13 @@ class MySceneGraph {
      */
     parseView(viewsNode) {
         // check if there is a default value defined for the view
-        var defaultId = this.reader.getString(viewsNode, 'default');
-        if (defaultId == null)
+        this.defaultCameraId = this.reader.getString(viewsNode, 'default');
+        if (this.defaultCameraId == null)
             return "no default defined for view";
 
         var children = viewsNode.children;
         var grandChildren = [];
-        this.views = [];
+        this.cameras = [];
 
         if (children.length == 0)
             return "at least one view must be defined";
@@ -260,7 +260,7 @@ class MySceneGraph {
                     return "no ID defined for perspective";
 
                 // Checks for repeated IDs.
-                if (this.views[viewId] != null)
+                if (this.cameras[viewId] != null)
                     return "ID must be unique for each view (conflict: ID = " + viewId + ")";
 
                 // Get near clipping plane
@@ -329,7 +329,7 @@ class MySceneGraph {
                 }
 
                 var view = new CGFcamera(viewAngle, viewNear, viewFar, fromValues, toValues);
-                this.views[viewId] = view;
+                this.cameras[viewId] = view;
             }
             else if (children[i].nodeName == 'ortho') {
                 // Get id of the current ortho
@@ -338,7 +338,7 @@ class MySceneGraph {
                     return "no ID defined for ortho";
 
                 // Checks for repeated IDs.
-                if (this.views[viewId] != null)
+                if (this.cameras[viewId] != null)
                     return "ID must be unique for each view (conflict: ID = " + viewId + ")";
 
                 // Get near clipping plane
@@ -436,14 +436,14 @@ class MySceneGraph {
                 }
 
                 var view = new CGFcameraOrtho(viewLeft, viewRight, viewBottom, viewTop, viewNear, viewFar, fromValues, toValues, upValues);
-                this.views[viewId] = view;
+                this.cameras[viewId] = view;
             }
             else {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
             }
         }
 
-        if (this.views[defaultId] == null)
+        if (this.cameras[this.defaultCameraId] == null)
             return "a view with a default id is not defined";
 
         return null;
