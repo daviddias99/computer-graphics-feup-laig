@@ -3,7 +3,7 @@
 
     <views default="defaultCamera">
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
-            <from x="30" y="15" z="30" />
+            <from x="5" y="5" z="5" />
             <to x="0" y="-2" z="0" />
         </perspective>
     </views>
@@ -68,7 +68,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="demoTexture" length_s="1" length_t="1" />
             <children>
                 <componentref id="pyramidFace1" />
             </children>
@@ -81,7 +81,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="demoTexture" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="pyramidTriangle" />
                 <componentref id="pyramidFace2" />
@@ -96,7 +96,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="demoTexture" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="pyramidTriangle" />
                 <componentref id="pyramidFace3" />
@@ -110,7 +110,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="demoTexture" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="pyramidTriangle" />
                 <componentref id="pyramidFace4" />
@@ -124,12 +124,11 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="demoTexture" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="pyramidTriangle" />
             </children>
         </component>
-
 
     </components>
 </lxs>
