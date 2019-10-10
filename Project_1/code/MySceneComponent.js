@@ -7,7 +7,7 @@ class MySceneComponent{
 
         this.childrenComponents = [];           // child components
         this.childrenPrimitives = [];           // child primitives
-        this.materials =  [];                   // materials
+        this.materials = [];                    // materials
         this.texture;                           // texture
         this.transformation;                    // transformation matrix
         this.materialBehaviour = 'defined';     // 'defined' or 'inherit'
@@ -21,5 +21,10 @@ class MySceneComponent{
 
     }
 
-
+    cycleMaterials() {
+        this.currentMaterialIndex++;
+        
+        if (this.currentMaterialIndex >= this.materials.length)
+            this.currentMaterialIndex = 0;
+    }
 }
