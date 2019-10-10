@@ -1478,9 +1478,9 @@ class MySceneGraph {
 
         if (node.textureBehaviour == 'defined')
             childTexture = node.texture;
-        else if (node.materialBehaviour == 'inherit')
+        else if (node.textureBehaviour == 'inherit')
             childTexture = activeTexture;
-        else if (node.materialBehaviour == 'none')
+        else if (node.textureBehaviour == 'none')
             childTexture = null;
 
         // apply the appropriate transformation
@@ -1497,7 +1497,10 @@ class MySceneGraph {
 
             childMaterial.setTexture(childTexture);
             childMaterial.apply();
+            node.childrenPrimitives[i].scaleTex(node.textureLengthS, node.textureLengthT);
             node.childrenPrimitives[i].display();
+            node.childrenPrimitives[i].resetTexCoords();
+
         }
 
         this.scene.popMatrix();
@@ -1509,7 +1512,6 @@ class MySceneGraph {
     displayScene() {
 
         //TODO: Add material and texture processing to display loop
-        //TODO: Contemplate lengthS and lengthT in textures
         //TODO: Interface
 
         var rootElement = this.components[this.idRoot];
