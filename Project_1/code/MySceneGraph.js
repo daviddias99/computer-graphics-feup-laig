@@ -1266,6 +1266,7 @@ class MySceneGraph {
             var textureNode = grandChildren[textureIndex];
 
             //get ID of current texture
+            // TODO: texture scaling when inherit and none
             var textureID = this.reader.getString(textureNode, 'id');
 
             if ((textureID == 'inherit') || (textureID == 'none')) {
@@ -1468,18 +1469,35 @@ class MySceneGraph {
         if(!node.loadedOk)
             return;
 
+        var childTexture, childMaterial;
+
         var newTransf = mat4.create();
         newTransf = mat4.multiply(newTransf, transfMat, node.transformation);
 
+        if(node.materialBehaviour == 'defined')
+            childMaterial = node.materials[node.currentMaterialIndex];
+        else if(node.materialBehaviour == 'inherit')
+            childMaterial = activeMaterial;
+
+        if(node.textureBehaviour == 'defined')
+            childTexture = node.texture;
+        else if(node.materialBehaviour == 'inherit')
+            childTexture = activeTexture;
+        else if(node.materialBehaviour == 'none')
+            childTexture = null;
+
         for (var i = 0; i < node.childrenComponents.length; i++) {
 
-            this.process(node.childrenComponents[i], newTransf, null, null, null, null);
+            this.process(node.childrenComponents[i], newTransf, childMaterial, childTexture, null, null);
         }
 
         for (var i = 0; i < node.childrenPrimitives.length; i++) {
 
             this.scene.pushMatrix();
             this.scene.setMatrix(newTransf);
+            node.childrenPrimitives[i].enableNormalViz();
+            childMaterial.setTexture(childTexture);
+            // childMaterial.apply();
             node.childrenPrimitives[i].display();
             this.scene.popMatrix();
         }

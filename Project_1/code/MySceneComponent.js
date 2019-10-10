@@ -17,7 +17,7 @@ class MySceneComponent{
 
         this.currentMaterialIndex = 0;          // current material to be displayed
 
-        this.loadedOk = false;
+        this.loadedOk = false;                  // the component was correctly loaded
 
     }
 
