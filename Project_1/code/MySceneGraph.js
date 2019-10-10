@@ -1480,6 +1480,7 @@ class MySceneGraph {
 
             this.scene.pushMatrix();
             this.scene.setMatrix(newTransf);
+            //node.childrenPrimitives[i].enableNormalViz();
             node.childrenPrimitives[i].display();
             this.scene.popMatrix();
         }
