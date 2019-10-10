@@ -59,9 +59,35 @@ class MyRectangle extends CGFobject {
 			0, 0,
 			1, 0
 		];
+
+		this.defaultTexCoords = [...this.texCoords];
 		
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
+	}
+
+	/**
+	 * @method scaleTex
+	 * Updates the list of texture coordinates of the rectangle
+	 * @param {Number} lengthS 	Number of tiles on the s axis
+	 * @param {Number} lengthT 	Number of tiles on the t axis
+	 */
+	scaleTex(lengthS, lengthT) {
+		for (var i = 0; i < this.texCoords.length; i++) {
+			if (i % 2 == 0)	
+				this.texCoords[i] *= lengthS;
+			else
+				this.texCoords[i] *= lengthT;
+		}
+		this.updateTexCoordsGLBuffers();
+	}
+
+	/**
+	 * @method resetTexCoords
+	 * Resets the texture coordinates to the default values (0-1)
+	 */
+	resetTexCoords() {
+		this.updateTexCoords(this.defaultTexCoords);
 	}
 
 	/**
