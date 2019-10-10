@@ -84,9 +84,7 @@ class MyCylinder extends CGFobject {
             sCoord += deltaS;
         }
 
-        
         this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
     }
-
 }
