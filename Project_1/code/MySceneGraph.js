@@ -1509,6 +1509,8 @@ class MySceneGraph {
     displayScene() {
 
         //TODO: Add material and texture processing to display loop
+        //TODO: Contemplate lengthS and lengthT in textures
+        //TODO: Interface
 
         var rootElement = this.components[this.idRoot];
         this.process(rootElement,null, null, null, null);
