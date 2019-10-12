@@ -1505,16 +1505,14 @@ class MySceneGraph {
         this.scene.popMatrix();
     }
 
-    /* TODO: document this code and possibly refactor,
-     works for now but it is probably not the most efficient
-     way of achieving the result */
-    cycleMaterials(node) {
+    /* TODO: document this code*/
+    cycleMaterials() {
         
-        for (var i = 0; i < node.childrenComponents; i++) {
-            cycleMaterials(node.childrenComponents[i]);
+        for(var key in this.components){
+
+            this.components[key].cycleMaterials();
         }
 
-        node.cycleMaterials();
     }
 
     /**

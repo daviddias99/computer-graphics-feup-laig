@@ -117,11 +117,7 @@ class XMLscene extends CGFscene {
             text += " M ";
             keysPressed = true;
             
-            /* FIXME: for some reason the components array of the graph
-            has a length of 0, which does not make any sense since it is used 
-            to get the root component to start the display loop */
-            /* Implemented a recursive funtion that does the job */
-            this.graph.cycleMaterials(this.graph.components[this.graph.idRoot]);
+            this.graph.cycleMaterials();
         }
 
         // TODO: remove this log
