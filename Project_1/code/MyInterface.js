@@ -24,24 +24,30 @@ class MyInterface extends CGFinterface {
 
         this.initKeys();
 
+
         return true;
+    }
+
+    addCameraDropdown() {
+
+        this.gui.add(this.scene, 'selectedCamera', this.scene.cameraIDs).name('Selected view');
     }
 
     /**
      * initKeys
      */
     initKeys() {
-        this.scene.gui=this;
-        this.processKeyboard=function(){};
-        this.activeKeys={};
+        this.scene.gui = this;
+        this.processKeyboard = function () { };
+        this.activeKeys = {};
     }
 
     processKeyDown(event) {
-        this.activeKeys[event.code]=true;
+        this.activeKeys[event.code] = true;
     };
 
     processKeyUp(event) {
-        this.activeKeys[event.code]=false;
+        this.activeKeys[event.code] = false;
     };
 
     isKeyPressed(keyCode) {

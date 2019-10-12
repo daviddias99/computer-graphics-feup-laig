@@ -1530,7 +1530,6 @@ class MySceneGraph {
      */
     displayScene() {
 
-        //TODO: Add material and texture processing to display loop
         //TODO: Interface
 
         var rootElement = this.components[this.idRoot];

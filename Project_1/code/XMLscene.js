@@ -34,6 +34,9 @@ class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
+
+        this.selectedCamera = "";
+        this.cameraIDs = {};
     }
 
     /**
@@ -92,6 +95,19 @@ class XMLscene extends CGFscene {
         this.setSpecular(0.2, 0.4, 0.8, 1.0);
         this.setShininess(10.0);
     }
+
+    activateCameraSelectionDropdown() {
+
+        for (var key in this.graph.cameras) {
+
+            this.cameraIDs[key] = key;
+        }
+
+
+        this.selectedCamera = this.graph.defaultCameraId;
+        this.interface.addCameraDropdown();
+    }
+
     /** Handler called when the graph is finally loaded. 
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
@@ -106,6 +122,8 @@ class XMLscene extends CGFscene {
 
         this.initDefaultCamera();
 
+        this.activateCameraSelectionDropdown();
+
         this.sceneInited = true;
     }
 
@@ -116,7 +134,7 @@ class XMLscene extends CGFscene {
         if (this.gui.isKeyPressed("KeyM")) {
             text += " M ";
             keysPressed = true;
-            
+
             this.graph.cycleMaterials();
         }
 
@@ -155,11 +173,16 @@ class XMLscene extends CGFscene {
         }
 
         if (this.sceneInited) {
-            // Draw axis
+
             this.setDefaultAppearance();
+
+            // Set correct view
+            this.camera = this.graph.cameras[this.selectedCamera];
+            this.interface.setActiveCamera(this.graph.cameras[this.selectedCamera]);
 
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
+
         }
 
         this.popMatrix();
