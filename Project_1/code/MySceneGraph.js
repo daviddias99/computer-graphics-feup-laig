@@ -531,7 +531,9 @@ class MySceneGraph {
             if (!(aux != null && !isNaN(aux) && (aux == true || aux == false)))
                 this.onXMLMinorError("unable to parse value component of the 'enable light' field for ID = " + lightId + "; assuming 'value = 1'");
 
-            enableLight = aux || 1;
+            // FIXME: this line was made by the teachers, but it results in a light not being able to be disabled from the get go
+            // enableLight = aux || 1;
+            enableLight = aux;
 
             //Add enabled boolean and type name to light info
             global.push(enableLight);

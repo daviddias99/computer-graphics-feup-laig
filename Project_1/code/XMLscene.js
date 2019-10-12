@@ -37,6 +37,7 @@ class XMLscene extends CGFscene {
 
         this.selectedCamera = "";
         this.cameraIDs = {};
+        this.lightIDs = [];
     }
 
     /**
@@ -83,8 +84,9 @@ class XMLscene extends CGFscene {
                     this.lights[i].disable();
 
                 this.lights[i].update();
-
+                this.lightIDs[i] = key;
                 i++;
+
             }
         }
     }
@@ -96,6 +98,7 @@ class XMLscene extends CGFscene {
         this.setShininess(10.0);
     }
 
+    // TODO: comment this code
     activateCameraSelectionDropdown() {
 
         for (var key in this.graph.cameras) {
@@ -106,6 +109,11 @@ class XMLscene extends CGFscene {
 
         this.selectedCamera = this.graph.defaultCameraId;
         this.interface.addCameraDropdown();
+    }
+
+    // TODO: comment this code
+    activateLightSelectionCheckboxes(){
+        this.interface.addLightCheckboxes();
     }
 
     /** Handler called when the graph is finally loaded. 
@@ -123,6 +131,7 @@ class XMLscene extends CGFscene {
         this.initDefaultCamera();
 
         this.activateCameraSelectionDropdown();
+        this.activateLightSelectionCheckboxes();
 
         this.sceneInited = true;
     }
@@ -167,10 +176,9 @@ class XMLscene extends CGFscene {
         this.pushMatrix();
         this.axis.display();
 
-        for (var i = 0; i < this.lights.length; i++) {
-            this.lights[i].setVisible(true);
-            this.lights[i].enable();
-        }
+        for (var i = 0; i < this.lights.length; i++)
+            this.lights[i].update();
+
 
         if (this.sceneInited) {
 

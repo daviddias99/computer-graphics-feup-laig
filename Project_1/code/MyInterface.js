@@ -24,13 +24,27 @@ class MyInterface extends CGFinterface {
 
         this.initKeys();
 
-
         return true;
     }
 
+    // TODO: comment this code
     addCameraDropdown() {
 
         this.gui.add(this.scene, 'selectedCamera', this.scene.cameraIDs).name('Selected view');
+    }
+
+    // TODO: comment this code
+    addLightCheckboxes(){
+
+        var lightsFolder = this.gui.addFolder('Lights');
+
+        for(var i = 0; i < this.scene.lights.length; i++){
+
+            if(this.scene.lightIDs[i]){
+                lightsFolder.add(this.scene.lights[i], 'enabled').name(this.scene.lightIDs[i]);
+            }
+
+        }
     }
 
     /**
