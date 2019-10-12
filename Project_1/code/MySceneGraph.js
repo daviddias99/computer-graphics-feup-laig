@@ -239,13 +239,13 @@ class MySceneGraph {
      */
     parseView(viewsNode) {
         // check if there is a default value defined for the view
-        var defaultId = this.reader.getString(viewsNode, 'default');
-        if (defaultId == null)
+        this.defaultCameraId = this.reader.getString(viewsNode, 'default');
+        if (this.defaultCameraId == null)
             return "no default defined for view";
 
         var children = viewsNode.children;
         var grandChildren = [];
-        this.views = [];
+        this.cameras = [];
 
         if (children.length == 0)
             return "at least one view must be defined";
@@ -260,7 +260,7 @@ class MySceneGraph {
                     return "no ID defined for perspective";
 
                 // Checks for repeated IDs.
-                if (this.views[viewId] != null)
+                if (this.cameras[viewId] != null)
                     return "ID must be unique for each view (conflict: ID = " + viewId + ")";
 
                 // Get near clipping plane
@@ -329,7 +329,7 @@ class MySceneGraph {
                 }
 
                 var view = new CGFcamera(viewAngle, viewNear, viewFar, fromValues, toValues);
-                this.views[viewId] = view;
+                this.cameras[viewId] = view;
             }
             else if (children[i].nodeName == 'ortho') {
                 // Get id of the current ortho
@@ -338,7 +338,7 @@ class MySceneGraph {
                     return "no ID defined for ortho";
 
                 // Checks for repeated IDs.
-                if (this.views[viewId] != null)
+                if (this.cameras[viewId] != null)
                     return "ID must be unique for each view (conflict: ID = " + viewId + ")";
 
                 // Get near clipping plane
@@ -436,14 +436,14 @@ class MySceneGraph {
                 }
 
                 var view = new CGFcameraOrtho(viewLeft, viewRight, viewBottom, viewTop, viewNear, viewFar, fromValues, toValues, upValues);
-                this.views[viewId] = view;
+                this.cameras[viewId] = view;
             }
             else {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
             }
         }
 
-        if (this.views[defaultId] == null)
+        if (this.cameras[this.defaultCameraId] == null)
             return "a view with a default id is not defined";
 
         return null;
@@ -1172,17 +1172,17 @@ class MySceneGraph {
                 return "no ID defined for componentID";
 
             // Checks for repeated IDs.
-            if ( (this.components[componentID] != null) ){
+            if ((this.components[componentID] != null)) {
 
-                if(this.components[componentID].loadedOk)
+                if (this.components[componentID].loadedOk)
                     return "ID must be unique for each component (conflict: ID = " + componentID + ")";
                 else
                     currentComponent = this.components[componentID];
-                
+
             }
             else
-               currentComponent = new MySceneComponent(componentID);
-            
+                currentComponent = new MySceneComponent(componentID);
+
             grandChildren = children[i].children;
 
             nodeNames = [];
@@ -1195,7 +1195,7 @@ class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
 
-            
+
 
             // Transformations
 
@@ -1280,13 +1280,13 @@ class MySceneGraph {
                 currentComponent.texture = this.textures[textureID];
                 var lengthS = this.reader.getFloat(textureNode, 'length_s');
                 var lengthT = this.reader.getFloat(textureNode, 'length_t');
-    
+
                 if (lengthS == null)
-                    lengthS = 1;
-    
+                    return "lengthS not provided for texture in component with ID="+ componentID;
+
                 if (lengthT == null)
-                    lengthT = 1;
-    
+                    return "lengthT not provided for texture in component with ID="+ componentID;
+
                 currentComponent.textureLengthS = lengthS;
                 currentComponent.textureLengthT = lengthT;
             }
@@ -1306,7 +1306,7 @@ class MySceneGraph {
 
                     if (this.components[componentrefID] == null)
                         this.components[componentrefID] = new MySceneComponent(componentrefID);
-                    
+
                     currentComponent.childrenComponents.push(this.components[componentrefID]);
                 }
                 else if (childrenNode.children[j].nodeName == 'primitiveref') {
@@ -1323,12 +1323,11 @@ class MySceneGraph {
 
             currentComponent.loadedOk = true;
             this.components[componentID] = currentComponent;
-
         }
 
-        for(var key in this.components){
+        for (var key in this.components) {
 
-            if(!this.components[key].loadedOk)
+            if (!this.components[key].loadedOk)
                 this.onXMLMinorError("the definition of a component with ID=" + this.components[key].id + " is missing");
         }
 
@@ -1336,16 +1335,16 @@ class MySceneGraph {
         var rootInSceneTree = false;
 
 
-        for(var key in this.components){
+        for (var key in this.components) {
 
-            if(this.components[key].id == this.idRoot)
+            if (this.components[key].id == this.idRoot)
                 rootInSceneTree = true;
 
         }
 
-        if(!rootInSceneTree)
+        if (!rootInSceneTree)
             return "root element not defined in scene graph";
-        
+
 
         this.log("Parsed components");
     }
@@ -1462,28 +1461,60 @@ class MySceneGraph {
         console.log("   " + message);
     }
 
+    process(node,activeMaterial, activeTexture, ls, lt) {
 
-    process(node, transfMat, activeMaterial, activeTexture, ls, lt) {
-
-        if(!node.loadedOk)
+        if (!node.loadedOk)
             return;
 
-        var newTransf = mat4.create();
-        newTransf = mat4.multiply(newTransf, transfMat, node.transformation);
+        var childTexture, childMaterial;
+
+        // choose apropriate material and texture
+
+        if (node.materialBehaviour == 'defined')
+            childMaterial = node.materials[node.currentMaterialIndex];
+        else if (node.materialBehaviour == 'inherit')
+            childMaterial = activeMaterial;
+
+        if (node.textureBehaviour == 'defined')
+            childTexture = node.texture;
+        else if (node.textureBehaviour == 'inherit')
+            childTexture = activeTexture;
+        else if (node.textureBehaviour == 'none')
+            childTexture = null;
+
+        // apply the appropriate transformation
+
+        this.scene.pushMatrix();
+        this.scene.multMatrix(node.transformation);
 
         for (var i = 0; i < node.childrenComponents.length; i++) {
 
-            this.process(node.childrenComponents[i], newTransf, null, null, null, null);
+            this.process(node.childrenComponents[i],childMaterial, childTexture, null, null);
         }
 
         for (var i = 0; i < node.childrenPrimitives.length; i++) {
 
-            this.scene.pushMatrix();
-            this.scene.setMatrix(newTransf);
+            childMaterial.setTexture(childTexture);
+            childMaterial.apply();
+            node.childrenPrimitives[i].scaleTex(node.textureLengthS, node.textureLengthT);
             node.childrenPrimitives[i].display();
-            this.scene.popMatrix();
+            node.childrenPrimitives[i].resetTexCoords();
+
         }
 
+        this.scene.popMatrix();
+    }
+
+    /* TODO: document this code and possibly refactor,
+     works for now but it is probably not the most efficient
+     way of achieving the result */
+    cycleMaterials(node) {
+        
+        for (var i = 0; i < node.childrenComponents; i++) {
+            cycleMaterials(node.childrenComponents[i]);
+        }
+
+        node.cycleMaterials();
     }
 
     /**
@@ -1492,9 +1523,10 @@ class MySceneGraph {
     displayScene() {
 
         //TODO: Add material and texture processing to display loop
+        //TODO: Interface
 
         var rootElement = this.components[this.idRoot];
-        this.process(rootElement, this.scene.getMatrix(), null, null, null, null);
+        this.process(rootElement,null, null, null, null);
 
     }
 }

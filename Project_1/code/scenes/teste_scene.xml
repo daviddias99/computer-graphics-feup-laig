@@ -1,15 +1,11 @@
 <lxs>
     <scene root="root" axis_length="5" />
 
-    <views default="defaultCamera">
-
-        <perspective id="defaultCamera" near="0.1" far="2000" angle="45">
-            <from x="60" y="60" z="120" />
-            <to x="0" y="-2" z="0" />
+    <views default="camera">
+        <perspective id="camera" near="0.1" far="500" angle="45">
+            <from x="1" y="3" z="6" />
+            <to x="0" y="0" z="0" />
         </perspective>
-
-
-
     </views>
 
     <globals>
@@ -20,23 +16,31 @@
     </globals>
 
     <lights>
+
+        <omni id="demoLight" enabled="1">
+            <location x="10" y="10" z="10" w="0.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
+        </omni>
         
+        <!--
         <omni id="lamp_light" enabled="0">
-            <location x="1" y="1.5" z="0" w="1.0" />
+            <location x="10.0" y="10.0" z="10.0" w="1.0" />
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-            <attenuation constant="0" linear="0" quadratic="0" />
         </omni>
-
-        <omni id="crystal_ball_light" enabled="0">
+              
+        <omni id="crystal_ball_light" enabled="1">
             <location x="-0.6" y="2" z="0" w="1.0" />
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
             <attenuation constant="0" linear="0" quadratic="0" />
         </omni>
-        
+        -->
     </lights>
 
     <textures>
@@ -49,9 +53,9 @@
 
         <material id="stub_material" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
-            <specular r="0.6" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="0.0" b="1.0" a="1.0" />
+            <diffuse r="0.6" g="0.0" b="1.0" a="1.0" />
+            <specular r="0.6" g="0.0" b="1.0" a="1.0" />
         </material>
 
 
@@ -106,7 +110,7 @@
         </primitive>
 
         <primitive id="yoga_ball_sphere">
-            <sphere radius="1" slices="20" stacks="20" />
+            <sphere radius="1" slices="100" stacks="100" />
         </primitive>
 
         <primitive id="chair_leg_primitive">
@@ -148,7 +152,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
             <children>
                 <componentref id="position_TableAndContents" />
                 <componentref id="position_YogaBall" />
@@ -167,7 +171,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
             <children>
                 <componentref id="bin" />
             </children>
@@ -180,7 +184,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
             <children>
                 <componentref id="table" />
                 <componentref id="position_PyramidOnTable" />
@@ -198,7 +202,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
             <children>
                 <componentref id="pyramid" />
             </children>
@@ -213,7 +217,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
             <children>
                 <componentref id="crystal_ball" />
             </children>
@@ -227,7 +231,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="yoga_ball_sphere" />
             </children>
@@ -243,7 +247,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
             <children>
                 <componentref id="chair" />
             </children>
@@ -256,7 +260,7 @@
                 <materials>
                     <material id="stub_material" />
                 </materials>
-                <texture id="stub_tex" lenght_s="1" length_t="1" />
+                <texture id="stub_tex" length_s="1" length_t="1" />
                 <children>
                     <componentref id="lamp" />
                 </children>
@@ -272,7 +276,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="floor_primitive" />
             </children>
@@ -291,7 +295,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="none" length_s="1" length_t="1"/>
             <children>
                 <componentref id="bin_side" />
                 <componentref id="bin_top" />
@@ -305,7 +309,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="none"/>
             <children>
                 <primitiveref id="bin_side_primitive" />
             </children>
@@ -319,7 +323,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="none" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="bin_top_primitive" />
             </children>
@@ -338,7 +342,7 @@
                 <material id="inherit" />
             </materials>
 
-            <texture id="none" />
+            <texture id="none" length_s="1" length_t="1"/>
 
             <children>
                 <componentref id="table_top" />
@@ -377,7 +381,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="none" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="table_top_side_primitive" />
             </children>
@@ -391,7 +395,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="none" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="table_top_side_primitive" />
             </children>
@@ -406,7 +410,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="none" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="table_top_side_primitive" />
             </children>
@@ -420,7 +424,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="none" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="table_top_side_primitive" />
             </children>
@@ -434,7 +438,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" lenght_s="1" length_t="1" />
+            <texture id="none" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="table_top_primitive" />
             </children>
@@ -450,7 +454,7 @@
                 <material id="inherit" />
             </materials>
 
-            <texture id="none" lenght_s="1" length_t="1" />
+            <texture id="none" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="table_leg_primitive" />
@@ -467,7 +471,7 @@
                 <material id="inherit" />
             </materials>
 
-            <texture id="none" lenght_s="1" length_t="1" />
+            <texture id="none" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="table_leg_primitive" />
@@ -484,7 +488,7 @@
                 <material id="inherit" />
             </materials>
 
-            <texture id="none" lenght_s="1" length_t="1" />
+            <texture id="none" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="table_leg_primitive" />
@@ -501,7 +505,7 @@
                 <material id="inherit" />
             </materials>
 
-            <texture id="none" lenght_s="1" length_t="1" />
+            <texture id="none" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="table_leg_primitive" />
@@ -533,7 +537,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="pyramidTriangle" />
                 <componentref id="pyramidFace2" />
@@ -548,7 +552,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="pyramidTriangle" />
                 <componentref id="pyramidFace3" />
@@ -562,7 +566,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="pyramidTriangle" />
                 <componentref id="pyramidFace4" />
@@ -576,7 +580,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="pyramidTriangle" />
             </children>
@@ -594,7 +598,7 @@
                 <material id="stub_material" />
             </materials>
 
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
 
             <children>
                 <componentref id="block_top1" />
@@ -616,7 +620,7 @@
                 <material id="stub_material" />
             </materials>
 
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="block_primitive_1" />
@@ -632,7 +636,7 @@
                 <material id="stub_material" />
             </materials>
 
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="block_primitive_1" />
@@ -648,7 +652,7 @@
                 <material id="stub_material" />
             </materials>
 
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="block_primitive_2" />
@@ -665,7 +669,7 @@
                 <material id="stub_material" />
             </materials>
 
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="block_primitive_2" />
@@ -682,7 +686,7 @@
                 <material id="stub_material" />
             </materials>
 
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="block_primitive_2" />
@@ -699,7 +703,7 @@
                 <material id="stub_material" />
             </materials>
 
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="block_primitive_2" />
@@ -717,7 +721,7 @@
                 <material id="stub_material" />
             </materials>
 
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
 
             <children>
                 <componentref id="seat" />
@@ -742,7 +746,7 @@
                 <material id="stub_material" />
             </materials>
 
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
 
             <children>
                 <componentref id="block" />
@@ -760,7 +764,7 @@
                 <material id="inherit" />
             </materials>
 
-            <texture id="none" lenght_s="1" length_t="1" />
+            <texture id="none" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="chair_leg_primitive" />
@@ -777,7 +781,7 @@
                 <material id="inherit" />
             </materials>
 
-            <texture id="none" lenght_s="1" length_t="1" />
+            <texture id="none" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="chair_leg_primitive" />
@@ -794,7 +798,7 @@
                 <material id="inherit" />
             </materials>
 
-            <texture id="none" lenght_s="1" length_t="1" />
+            <texture id="none" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="chair_leg_primitive" />
@@ -811,7 +815,7 @@
                 <material id="inherit" />
             </materials>
 
-            <texture id="none" lenght_s="1" length_t="1" />
+            <texture id="none" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="chair_leg_primitive" />
@@ -828,7 +832,7 @@
                 <material id="inherit" />
             </materials>
 
-            <texture id="none" lenght_s="1" length_t="1" />
+            <texture id="none" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="chair_leg_primitive" />
@@ -845,7 +849,7 @@
                 <material id="inherit" />
             </materials>
 
-            <texture id="none" lenght_s="1" length_t="1" />
+            <texture id="none" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="chair_leg_primitive" />
@@ -863,7 +867,7 @@
                 <material id="stub_material" />
             </materials>
 
-            <texture id="stub_tex" lenght_s="1" length_t="1" />
+            <texture id="stub_tex" length_s="1" length_t="1" />
 
             <children>
                 <componentref id="block" />
@@ -880,7 +884,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="none" />
+            <texture id="none" length_s="1" length_t="1" />
             <children>
                 <componentref id="lamp_base" />
                 <componentref id="lamp_arm" />
@@ -897,7 +901,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="none" />
+            <texture id="none" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="lamp_base_primitive" />
             </children>
@@ -910,7 +914,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="none" />
+            <texture id="none" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="lamp_arm_primitive" />
             </children>
@@ -924,7 +928,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="none" />
+            <texture id="stub_tex" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="lamp_top_primitive" />
             </children>
@@ -940,7 +944,7 @@
                 <materials>
                     <material id="stub_material" />
                 </materials>
-                <texture id="none" />
+                <texture id="none" length_s="1" length_t="1"/>
                 <children>
                     <componentref id="crystal_ball_sphere" />
                     <primitiveref id="crystal_ball_base_primitive" />
@@ -954,7 +958,7 @@
                 <materials>
                     <material id="stub_material" />
                 </materials>
-                <texture id="none" />
+                <texture id="none" length_s="1" length_t="1"/>
                 <children>
                     <primitiveref id="crystal_ball_sphere_primitive" />
                 </children>

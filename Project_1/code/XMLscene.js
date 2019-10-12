@@ -42,6 +42,11 @@ class XMLscene extends CGFscene {
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
+
+    initDefaultCamera() {
+        this.camera = this.graph.cameras[this.graph.defaultCameraId];
+        this.interface.setActiveCamera(this.camera);
+    }
     /**
      * Initializes the scene lights with the values read from the XML file.
      */
@@ -99,7 +104,33 @@ class XMLscene extends CGFscene {
 
         this.initLights();
 
+        this.initDefaultCamera();
+
         this.sceneInited = true;
+    }
+
+    checkKeys() {
+        var text = "Keys pressed: ";
+        var keysPressed = false;
+
+        if (this.gui.isKeyPressed("KeyM")) {
+            text += " M ";
+            keysPressed = true;
+            
+            /* FIXME: for some reason the components array of the graph
+            has a length of 0, which does not make any sense since it is used 
+            to get the root component to start the display loop */
+            /* Implemented a recursive funtion that does the job */
+            this.graph.cycleMaterials(this.graph.components[this.graph.idRoot]);
+        }
+
+        // TODO: remove this log
+        if (keysPressed)
+            console.log(text);
+    }
+
+    update(t) {
+        this.checkKeys();
     }
 
     /**
@@ -134,7 +165,7 @@ class XMLscene extends CGFscene {
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
         }
-        
+
         this.popMatrix();
         // ---- END Background, camera and axis setup
     }
