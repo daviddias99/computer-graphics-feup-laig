@@ -12,8 +12,8 @@ class MySceneComponent{
         this.transformation;                    // transformation matrix
         this.materialBehaviour = 'defined';     // 'defined' or 'inherit'
         this.textureBehaviour = 'defined';      // 'defined', 'inherit' or 'none'
-        this.textureLengthS = 0;
-        this.textureLengthT = 0;
+        this.textureLengthS = 1;
+        this.textureLengthT = 1;
 
         this.currentMaterialIndex = 0;          // current material to be displayed
 

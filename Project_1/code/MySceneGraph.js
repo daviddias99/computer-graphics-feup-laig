@@ -1264,13 +1264,18 @@ class MySceneGraph {
             // Texture
 
             var textureNode = grandChildren[textureIndex];
+            
 
             //get ID of current texture
             var textureID = this.reader.getString(textureNode, 'id');
 
+            if(componentID == 'window'){
+                console.log("Ola");
+            }
+
             if ((textureID == 'inherit') || (textureID == 'none')) {
 
-                currentComponent.textureBehaviour = this.textureID;
+                currentComponent.textureBehaviour = textureID;
 
             }
             else if (this.textures[textureID] == null)
@@ -1467,6 +1472,11 @@ class MySceneGraph {
             return;
 
         var childTexture, childMaterial;
+
+        if(node.id == "protuberance_window"){
+
+            console.log("Passou aqui");
+        }
 
         // choose apropriate material and texture
 
