@@ -1265,13 +1265,8 @@ class MySceneGraph {
 
             var textureNode = grandChildren[textureIndex];
             
-
             //get ID of current texture
             var textureID = this.reader.getString(textureNode, 'id');
-
-            if(componentID == 'window'){
-                console.log("Ola");
-            }
 
             if ((textureID == 'inherit') || (textureID == 'none')) {
 
@@ -1471,12 +1466,7 @@ class MySceneGraph {
         if (!node.loadedOk)
             return;
 
-        var childTexture, childMaterial;
-
-        if(node.id == "protuberance_window"){
-
-            console.log("Passou aqui");
-        }
+        var childTexture, childMaterial, childLengthS, childLengthT;
 
         // choose apropriate material and texture
 
@@ -1485,10 +1475,20 @@ class MySceneGraph {
         else if (node.materialBehaviour == 'inherit')
             childMaterial = activeMaterial;
 
-        if (node.textureBehaviour == 'defined')
+        if (node.textureBehaviour == 'defined'){
+
             childTexture = node.texture;
-        else if (node.textureBehaviour == 'inherit')
+            childLengthS = node.lengthS;
+            childLengthT = node.lengthT;
+        }   
+        else if (node.textureBehaviour == 'inherit'){
+
             childTexture = activeTexture;
+            childLengthS = ls;
+            childLengthT = lt;
+
+        }
+            
         else if (node.textureBehaviour == 'none')
             childTexture = null;
 
@@ -1499,7 +1499,7 @@ class MySceneGraph {
 
         for (var i = 0; i < node.childrenComponents.length; i++) {
 
-            this.process(node.childrenComponents[i],childMaterial, childTexture, null, null);
+            this.process(node.childrenComponents[i],childMaterial, childTexture, childLengthS, childLengthT);
         }
 
         for (var i = 0; i < node.childrenPrimitives.length; i++) {
