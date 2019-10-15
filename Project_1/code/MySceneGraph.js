@@ -54,6 +54,8 @@ class MySceneGraph {
          * If any error occurs, the reader calls onXMLError on this object, with an error message
          */
         this.reader.open('scenes/' + filename, this);
+
+        // FIXME: o parser manda sempre um erro ao ler
     }
 
     /*
