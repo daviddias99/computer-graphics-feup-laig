@@ -34,7 +34,7 @@ class MySphere extends CGFobject {
 
         var sCoord = 0;
         var deltaS = 1 / this.slices;
-        var deltaT = 1 / this.stacks;
+        var deltaT = 1 /trueStacks;
 
 
         // Iterate through all the points on the same line that goes from pole to pole
@@ -42,7 +42,7 @@ class MySphere extends CGFobject {
 
             var cosPhi = Math.cos(phi);
             var sinPhi = Math.sin(phi);
-            var theta = 0
+            var theta = -Math.PI/2;
             
             // Iterate through all the points on the same edge
             for (var j = 0; j <= trueStacks; j++) {
@@ -51,9 +51,11 @@ class MySphere extends CGFobject {
                 var sinTheta = Math.sin(theta);
 
                 // Calculate the vertex coordinates
-                var vertex = [this.radius * sinTheta * cosPhi
-                            ,this.radius * sinPhi * sinTheta
-                            ,this.radius * cosTheta];
+                // var vertex = [this.radius * sinTheta * cosPhi
+                //             ,this.radius * sinPhi * sinTheta
+                //             ,this.radius * cosTheta];
+
+                var vertex = [this.radius * cosTheta * cosPhi, this.radius * cosTheta * sinPhi, this.radius * sinTheta];
 
                 // Add the apropriate vertex normals and texture coordinates
                 // The normal to a point on the sphere can be the vector that links the
@@ -80,8 +82,10 @@ class MySphere extends CGFobject {
 
                 // This is the index of the current vertix in the vertices array
                 var index = i * (trueStacks + 1) + j;
-                this.indices.push(index + trueStacks + 2, index + trueStacks + 1,index);
-                this.indices.push(index,index + 1,index + trueStacks + 2);
+                // this.indices.push(index + trueStacks + 2, index + trueStacks + 1,index);
+                // this.indices.push(index,index + 1,index + trueStacks + 2);
+                this.indices.push(index, index + trueStacks + 1,index + trueStacks + 2);
+                this.indices.push(index,index + trueStacks + 2,index + 1);
 
             }
 

@@ -1532,8 +1532,6 @@ class MySceneGraph {
      */
     displayScene() {
 
-        //TODO: Interface
-
         var rootElement = this.components[this.idRoot];
         this.process(rootElement,null, null, null, null);
 
