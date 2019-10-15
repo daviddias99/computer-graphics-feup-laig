@@ -512,8 +512,8 @@ class MySceneGraph {
                 continue;
             }
             else {
-                attributeNames.push(...["location", "ambient", "diffuse", "specular"]);
-                attributeTypes.push(...["position", "color", "color", "color"]);
+                attributeNames.push(...["location", "ambient", "diffuse", "specular","attenuation"]);
+                attributeTypes.push(...["position", "color", "color", "color", "attenuation"]);
             }
 
             // Get id of the current light.
@@ -553,16 +553,18 @@ class MySceneGraph {
                 if (attributeIndex != -1) {
                     if (attributeTypes[j] == "position")
                         var aux = this.parseCoordinates4D(grandChildren[attributeIndex], "light position for ID" + lightId);
-                    else
+                    else if (attributeTypes[j] == "color")
                         var aux = this.parseColor(grandChildren[attributeIndex], attributeNames[j] + " illumination for ID" + lightId);
+                    else if (attributeTypes[j] == "attenuation")       
+                        var aux = this.parseAttenuation(grandChildren[attributeIndex], attributeNames[j] + " attenuation for ID" + lightId);
 
                     if (!Array.isArray(aux))
                         return aux;
-
-                    global.push(aux);
+                    else
+                        global.push(aux);
                 }
                 else
-                    return "light " + attributeNames[i] + " undefined for ID = " + lightId;
+                    return "light " + attributeNames[j] + " undefined for ID = " + lightId;
             }
 
             // Gets the additional attributes of the spot light
@@ -589,7 +591,7 @@ class MySceneGraph {
                 else
                     return "light target undefined for ID = " + lightId;
 
-                global.push(...[angle, exponent, targetLight])
+                global.push(...[angle, exponent, targetLight]);
             }
 
             this.lights[lightId] = global;
@@ -621,9 +623,6 @@ class MySceneGraph {
 
         for (var i = 0; i < children.length; i++) {
 
-
-
-
             // Get id of the current texture.
             var textureID = this.reader.getString(children[i], 'id');
             if (textureID == null)
@@ -643,19 +642,19 @@ class MySceneGraph {
             //TODO: Fix powers of two checking
 
 
-            var source_img = new Image();
+            // var source_img = new Image();
 
-            //source_img.src = textureSrcPath;
+            // //source_img.src = textureSrcPath;
 
-            source_img.onload = function (sceneGraph) {
+            // source_img.onload = function (sceneGraph) {
 
-                // Check image dimensions
-                if (!isPowerOfTwo(source_img.width) || !isPowerOfTwo(source_img.height))
-                    sceneGraph.onXMLMinorError("Texture with ID = " + textureID + " has dimensions that are not powers of 2");
+            //     // Check image dimensions
+            //     if (!isPowerOfTwo(source_img.width) || !isPowerOfTwo(source_img.height))
+            //         sceneGraph.onXMLMinorError("Texture with ID = " + textureID + " has dimensions that are not powers of 2");
 
-            }(this);
+            // }(this);
 
-            source_img.src = textureSrcPath;
+            // source_img.src = textureSrcPath;
             this.textures[textureID] = new CGFtexture(this.scene, textureSrcPath);
         }
 
@@ -1437,6 +1436,32 @@ class MySceneGraph {
 
         return color;
     }
+
+    // TODO: document this code
+    parseAttenuation(node, messageError) {
+        var attenuation = [];
+
+        // constant attenuation component
+        var cnst = this.reader.getFloat(node, 'constant');
+        if (!(cnst != null && !isNaN(cnst) && cnst >= 0 && cnst <= 1))
+            return "unable to parse constant component of the " + messageError;
+
+        // linear attenuation component
+        var linear = this.reader.getFloat(node, 'linear');
+        if (!(linear != null && !isNaN(linear) && linear >= 0 && linear <= 1))
+            return "unable to parse linear component of the " + messageError;
+
+        // quadratic attenuation component
+        var quadr = this.reader.getFloat(node, 'quadratic');
+        if (!(quadr != null && !isNaN(quadr) && quadr >= 0 && quadr <= 1))
+            return "unable to parse quadratic component of the " + messageError;
+
+        attenuation.push(...[cnst, linear, quadr]);
+
+        return attenuation;
+    }
+
+
 
     /*
      * Callback to be executed on any read error, showing an error on the console.

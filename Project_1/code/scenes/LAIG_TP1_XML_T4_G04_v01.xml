@@ -33,14 +33,14 @@
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
             <specular r="1.0" g="0.0" b="0.0" a="1.0" />
-            <attenuation constant="0.0" linear="1.0" quadratic="0.0" />
+            <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
         </spot>
 
     </lights>
 
     <textures>
         <texture id="defaultTexture" file="scenes/images/default_texture.jpg"/>
-        <texture id="wallTexture" file="scenes/images/wall_texture.jpg"/>
+        <texture id="wallTexture" file="scenes/images/rocks.jpg"/>
         <texture id="lightwoodTexture" file="scenes/images/lightwood_texture.jpg"/>
         <texture id="darkwoodTexture" file="scenes/images/darkwood_texture.jpg"/>
         <texture id="balloonTexture" file="scenes/images/balloon_texture.jpg"/>
@@ -360,7 +360,7 @@
                 <material id="balloonMaterial1" />
                 <material id="balloonMaterial2" />
             </materials>
-            <texture id="balloonTexture"/>
+            <texture id="balloonTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="anterior_legs" />
                 <componentref id="posterior_legs" />
@@ -464,7 +464,7 @@
             <materials>
                 <material id="woodMaterial" />
             </materials>
-            <texture id="darkwoodTexture"/>
+            <texture id="darkwoodTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="top" />
                 <componentref id="side1" />
@@ -508,7 +508,7 @@
             <materials>
                 <material id="wallMaterial" />
             </materials>
-            <texture id="wallTexture" length_s="20.0" length_t="20.0" />
+            <texture id="wallTexture" length_s="2" length_t="2" />
             <children>
                 <primitiveref id="rectangle1" />
             </children>
@@ -536,7 +536,7 @@
             <materials>
                 <material id="defaultMaterial" />
             </materials>
-            <texture id="defaultTexture"/>
+            <texture id="defaultTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="room" />
                 <componentref id="stand" />
