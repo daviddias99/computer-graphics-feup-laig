@@ -48,6 +48,9 @@
 
         <texture id="stub_tex" file="scenes/images/rocks.jpg" />
         <texture id="wood_tex" file="scenes/images/t_wood.jpg" />
+        <texture id="yoga_tex" file="scenes/images/t_yoga.jpg" />
+        <texture id="pyramid_tex" file="scenes/images/t_pyramid.jpg" />
+        <texture id="lamp_top_tex" file="scenes/images/t_lamp_fabric.jpg" />
 
     </textures>
 
@@ -66,6 +69,22 @@
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>
             <specular r="0.1" g="0.1" b="0.1" a="1.0"/>
         </material>
+        
+
+        <material id="crystal_material" shininess="10"> 
+            <emission r="0.0" g="0.0" b="0.0" a="1.0"/>
+            <ambient r="0.1" g="0.1" b="0.3" a="1.0"/>
+            <diffuse r="0.1" g="0.1" b="0.1" a="1.0"/>
+            <specular r="0.7" g="0.7" b="0.9" a="1.0"/>
+        </material>
+
+        <material id="fabric_mateiral" shininess="2"> 
+            <emission r="0.0" g="0.0" b="0.0" a="1.0"/>
+            <ambient r="0.3" g="0.25" b="0.25" a="1.0"/>
+            <diffuse r="0.5" g="0.3" b="0.3" a="1.0"/>
+            <specular r="0.1" g="0.0" b="0.0" a="1.0"/>
+        </material>
+        
 
 
     </materials>
@@ -177,7 +196,7 @@
         <component id="table_magic">
             <transformation>
                  <translate x="-1.5" y="0" z="1" />
-                <translate x="-0.05" y="1.2" z="-0.3" />
+                <translate x="-0.05" y="1.25" z="-0.3" />
                 <scale x="0.1" y="0.1" z="0.1" />
             </transformation>
             <materials>
@@ -229,7 +248,7 @@
         <component id="position_PyramidOnTable">
 
             <transformation>
-                <translate x="0.6" y="1.2" z="0" />
+                <translate x="0.6" y="1.25" z="0" />
                 <scale x="0.4" y="0.4" z="0.4" />
             </transformation>
             <materials>
@@ -244,13 +263,13 @@
 
         <component id="position_ballOnTable">
             <transformation>
-                <translate x="-0.6" y="1.2" z="0" />
+                <translate x="-0.6" y="1.25" z="0" />
                 <scale x="0.4" y="0.4" z="0.4" />
             </transformation>
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" length_s="1" length_t="1" />
+            <texture id="none"/>
             <children>
                 <componentref id="crystal_ball" />
             </children>
@@ -264,7 +283,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" length_s="1" length_t="1" />
+            <texture id="yoga_tex" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="yoga_ball_sphere" />
             </children>
@@ -558,7 +577,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="none" />
+            <texture id="pyramid_tex" length_s="1" length_t="1"/>
             <children>
                 <componentref id="pyramidFace1" />
             </children>
@@ -571,7 +590,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" length_s="1" length_t="1" />
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="pyramidTriangle" />
                 <componentref id="pyramidFace2" />
@@ -586,7 +605,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" length_s="1" length_t="1" />
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="pyramidTriangle" />
                 <componentref id="pyramidFace3" />
@@ -600,7 +619,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" length_s="1" length_t="1" />
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="pyramidTriangle" />
                 <componentref id="pyramidFace4" />
@@ -614,7 +633,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" length_s="1" length_t="1" />
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="pyramidTriangle" />
             </children>
@@ -962,7 +981,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" length_s="1" length_t="1"/>
+            <texture id="lamp_top_tex" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="lamp_top_primitive" />
             </children>
@@ -990,7 +1009,7 @@
                     <translate x="0" y="0" z="0.4"/>
                 </transformation>
                 <materials>
-                    <material id="stub_material" />
+                    <material id="crystal_material" />
                 </materials>
                 <texture id="none" length_s="1" length_t="1"/>
                 <children>
