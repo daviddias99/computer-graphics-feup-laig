@@ -1439,7 +1439,11 @@ class MySceneGraph {
         return color;
     }
 
-    // TODO: document this code
+    /**
+     * Parse the attenuation components from a node. (constant, linear and quadratic). Returns an array with the three components.
+     * @param {block element} node
+     * @param {message to be displayed in case of error} messageError
+     */
     parseAttenuation(node, messageError) {
         var attenuation = [];
 
@@ -1544,7 +1548,10 @@ class MySceneGraph {
         this.scene.popMatrix();
     }
 
-    /* TODO: document this code*/
+    /**
+     * Change the material used by each component to the next one in the component internal material list (if any).
+     * If the end of the list is reached the next material is the first one on the list (circular cycling).
+     */
     cycleMaterials() {
         
         for(var key in this.components){

@@ -53,11 +53,11 @@
 
     <materials>
 
-        <material id="stub_material" shininess="10">
+        <material id="stub_material" shininess="1">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="1.0" g="0.0" b="1.0" a="1.0" />
-            <diffuse r="0.6" g="0.0" b="1.0" a="1.0" />
-            <specular r="0.6" g="0.0" b="1.0" a="1.0" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+            <diffuse r="0.6" g="0.6" b="0.6" a="1.0" />
+            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
         </material>
 
         <material id="wood_material" shininess="1"> 
@@ -168,6 +168,29 @@
                 <componentref id="position_Chair" />
                 <componentref id="position_Lamp" />
                 <componentref id="position_Bin" />
+                <componentref id="floor" />~
+                <componentref id="table_magic"/>
+                
+            </children>
+        </component>
+
+        <component id="table_magic">
+            <transformation>
+                 <translate x="-1.5" y="0" z="1" />
+                <translate x="-0.05" y="1.2" z="-0.3" />
+                <scale x="0.1" y="0.1" z="0.1" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="stub_tex" length_s="1" length_t="1" />
+            <children>
+                <componentref id="position_TableAndContents" />
+                <componentref id="position_YogaBall" />
+                <componentref id="position_Chair" />
+                <componentref id="position_Lamp" />
+                <componentref id="position_Bin" />
+                <componentref id="floor" />
             </children>
         </component>
 
@@ -198,6 +221,7 @@
                 <componentref id="table" />
                 <componentref id="position_PyramidOnTable" />
                 <componentref id="position_ballOnTable" />
+                
             </children>
 
         </component>
@@ -285,7 +309,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" length_s="1" length_t="1" />
+            <texture id="wood_tex" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="floor_primitive" />
             </children>
@@ -294,6 +318,7 @@
         </component>
 
         <!-- END: Object Positioning-->
+        
 
         <!-- START: Bin component -->
 

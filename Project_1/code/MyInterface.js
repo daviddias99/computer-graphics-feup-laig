@@ -23,17 +23,22 @@ class MyInterface extends CGFinterface {
         // add a group of controls (and open/expand by defult)
 
         this.initKeys();
+        this.gui.add(this.scene, 'displayAxis').name('Display Axis');
 
         return true;
     }
 
-    // TODO: comment this code
+    /**
+     * Add the camera-selection dropdown to the interface of the scene
+     */
     addCameraDropdown() {
 
         this.gui.add(this.scene, 'selectedCamera', this.scene.cameraIDs).name('Selected view');
     }
 
-    // TODO: comment this code
+    /**
+     * Add the checkboxes that control the status of each light(on/off). The checkboxes are created under a folder called 'Lights'
+     */
     addLightCheckboxes(){
 
         var lightsFolder = this.gui.addFolder('Lights');
