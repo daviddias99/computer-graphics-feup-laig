@@ -1549,6 +1549,7 @@ class MySceneGraph {
         for (var i = 0; i < node.childrenPrimitives.length; i++) {
 
             childMaterial.setTexture(childTexture);
+            childMaterial.setTextureWrap('REPEAT', 'REPEAT');
             childMaterial.apply();
             node.childrenPrimitives[i].scaleTex(node.textureLengthS, node.textureLengthT);
             node.childrenPrimitives[i].display();

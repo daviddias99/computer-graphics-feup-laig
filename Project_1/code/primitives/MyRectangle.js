@@ -76,16 +76,13 @@ class MyRectangle extends CGFobject {
 	 * @param {Number} lengthT 	Number of tiles on the t axis
 	 */
 	scaleTex(lengthS, lengthT) {
-		this.texCoords = this.texCoords.map((val, index) => val / (index % 2 ? lengthT / this.height : lengthS / this.width));
-		
-		/*
 		for (var i = 0; i < this.texCoords.length; i++) {
 			if (i % 2 == 0)	// length_s
-				this.texCoords[i] = lengthS;
+				this.texCoords[i] *= this.width / lengthS;
 			else			// length_t
-				this.texCoords[i] *= lengthT;
+				this.texCoords[i] *= this.height / lengthT;
 		}
-		*/
+		
 		this.updateTexCoordsGLBuffers();
 	}
 
