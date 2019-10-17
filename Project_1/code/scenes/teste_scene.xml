@@ -328,7 +328,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="wood_tex" length_s="1" length_t="1" />
+            <texture id="wood_tex" length_s="0.4" length_t="0.4" />
             <children>
                 <primitiveref id="floor_primitive" />
             </children>

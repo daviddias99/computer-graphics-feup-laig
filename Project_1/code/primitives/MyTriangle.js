@@ -54,17 +54,22 @@ class MyTriangle extends CGFobject {
      * Method responsible for mapping the texture coordinates to the vertices of the triangle
      */
     textureMapping() {
-        var b = distance(this.p1, this.p2);
-        var c = distance(this.p2, this.p3);
-        var a = distance(this.p3, this.p1);
+        this.a = distance(this.p1, this.p2);
+        this.b = distance(this.p2, this.p3);
+        this.c = distance(this.p3, this.p1);
 
-        var cos = (a * a - b * b + c * c) / (2 * a * c);   
-        var sin = Math.sqrt(1 - (cos * cos));
-
+        this.cos = (Math.pow(this.a, 2) - Math.pow(this.b, 2) + Math.pow(this.c, 2)) / (2 * this.a * this.c);   
+        this.sin = Math.sqrt(1 - Math.pow(this.cos, 2));
+        
+        /*  +---> s
+            |
+		    v
+            t       */
+        
         this.texCoords = [
-            c - a * cos, 1 - a * sin,
-            0, 1,
-            c, 1
+            0, 0,
+            this.a, 0,
+            this.c * this.cos, this.c * this.sin
         ];
     }
 
@@ -75,12 +80,12 @@ class MyTriangle extends CGFobject {
 	 * @param {Number} lengthT 	Number of tiles on the t axis
 	 */
 	scaleTex(lengthS, lengthT) {
-		for (var i = 0; i < this.texCoords.length; i++) {
-			if (i % 2 == 0)	
-				this.texCoords[i] *= lengthS;
-			else
-				this.texCoords[i] *= lengthT;
-		}
+		this.texCoords = [
+            0, 0,
+            this.a / lengthS, 0,
+            this.c * this.cos / lengthS, this.c * this.sin / lengthT
+        ];
+        
 		this.updateTexCoordsGLBuffers();
 	}
 
