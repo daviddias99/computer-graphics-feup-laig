@@ -23,8 +23,9 @@ class MyInterface extends CGFinterface {
         // add a group of controls (and open/expand by defult)
 
         this.initKeys();
-        this.gui.add(this.scene, 'displayAxis').name('Display Axis');
-
+        this.controlsFolder = this.gui.addFolder('Controls');
+        this.controlsFolder.add(this.scene, 'displayAxis').name('Display Axis');
+        
         return true;
     }
 
@@ -33,7 +34,7 @@ class MyInterface extends CGFinterface {
      */
     addCameraDropdown() {
 
-        this.gui.add(this.scene, 'selectedCamera', this.scene.cameraIDs).name('Selected view');
+        this.controlsFolder.add(this.scene, 'selectedCamera', this.scene.cameraIDs).name('Selected view');
     }
 
     /**
@@ -41,7 +42,7 @@ class MyInterface extends CGFinterface {
      */
     addLightCheckboxes(){
 
-        var lightsFolder = this.gui.addFolder('Lights');
+        var lightsFolder = this.controlsFolder.addFolder('Lights');
 
         for(var i = 0; i < this.scene.lights.length; i++){
 

@@ -6,11 +6,21 @@
             <from x="1" y="3" z="6" />
             <to x="0" y="0" z="0" />
         </perspective>
+
+        <perspective id="camera2" near="0.1" far="500" angle="45">
+            <from x="1" y="3" z="6" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+
+        <perspective id="camera3" near="0.1" far="500" angle="45">
+            <from x="1" y="3" z="6" />
+            <to x="0" y="0" z="0" />
+        </perspective>
     </views>
 
     <globals>
 
-        <ambient r="0.3" g="0.21" b="0.26" a="1.0" />
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
         <background r="0.0" g="0.0" b="0.0" a="0.9" />
 
     </globals>
@@ -51,6 +61,11 @@
         <texture id="yoga_tex" file="scenes/images/t_yoga.jpg" />
         <texture id="pyramid_tex" file="scenes/images/t_pyramid.jpg" />
         <texture id="lamp_top_tex" file="scenes/images/t_lamp_fabric.jpg" />
+        <texture id="floor_tex" file="scenes/images/t_floor.jpg" />
+        <texture id="tarot1_tex" file="scenes/images/t_tarot1.jpeg" />
+        <texture id="tarot2_tex" file="scenes/images/t_tarot2.jpg" />
+        <texture id="tarot3_tex" file="scenes/images/t_tarot3.jpg" />
+        <texture id="maia_tex" file="scenes/images/t_maia.png" />
 
     </textures>
 
@@ -78,11 +93,25 @@
             <specular r="0.7" g="0.7" b="0.9" a="1.0"/>
         </material>
 
-        <material id="fabric_mateiral" shininess="2"> 
+        <material id="fabric_material" shininess="2"> 
             <emission r="0.0" g="0.0" b="0.0" a="1.0"/>
             <ambient r="0.3" g="0.25" b="0.25" a="1.0"/>
             <diffuse r="0.5" g="0.3" b="0.3" a="1.0"/>
             <specular r="0.1" g="0.0" b="0.0" a="1.0"/>
+        </material>
+
+        <material id="tv_plastic_material" shininess="4"> 
+                <emission r="0.0" g="0.0" b="0.0" a="1.0"/>
+                <ambient r="0.0" g="0.0" b="0.0" a="1.0"/>
+                <diffuse r="0.1" g="0.1" b="0.1" a="1.0"/>
+                <specular r="0.3" g="0.3" b="0.3" a="1.0"/>
+        </material>
+
+        <material id="tv_screen_material" shininess="2"> 
+                <emission r="0.0" g="0.0" b="0.0" a="1.0"/>
+                <ambient r="0.8" g="0.8" b="0.8" a="1.0"/>
+                <diffuse r="0.5" g="0.5" b="0.5" a="1.0"/>
+                <specular r="0.3" g="0.3" b="0.3" a="1.0"/>
         </material>
         
 
@@ -134,7 +163,7 @@
         </primitive>
 
         <primitive id="pyramidTriangle">
-            <triangle x1="0" y1="0" z1="1" x2="1" y2="0" z2="0" x3="0" y3="1" z3="0" />
+            <triangle x1="0" y1="1" z1="0" x2="0" y2="0" z2="1" x3="1" y3="0" z3="0"  />
         </primitive>
 
         <primitive id="yoga_ball_sphere">
@@ -169,6 +198,22 @@
             <torus inner="0.01" outer="0.15" slices="20" loops="20" />
         </primitive>
 
+        <primitive id="card" >
+            <rectangle x1="-0.5" y1="-1" x2="0.5" y2="1"/>
+        </primitive>
+
+        <primitive id="television_back">
+            <cylinder base="0.4" top="0.6" height="0.5" slices="4" stacks="10" />
+        </primitive>
+
+        <primitive id="television_back_cover">
+            <rectangle x1="-0.29" y1="-0.29" x2="0.29" y2="0.29"/>
+        </primitive>
+
+        <primitive id="tv_screen">
+            <rectangle x1="-1.78" y1="-1" x2="1.78" y2="1" />
+        </primitive>
+
     </primitives>
 
     <components>
@@ -189,6 +234,8 @@
                 <componentref id="position_Bin" />
                 <componentref id="floor" />~
                 <componentref id="table_magic"/>
+                <componentref id="television"/>
+
                 
             </children>
         </component>
@@ -240,6 +287,7 @@
                 <componentref id="table" />
                 <componentref id="position_PyramidOnTable" />
                 <componentref id="position_ballOnTable" />
+                <componentref id="position_cardfanOnTable" />
                 
             </children>
 
@@ -272,6 +320,20 @@
             <texture id="none"/>
             <children>
                 <componentref id="crystal_ball" />
+            </children>
+        </component>
+            
+        <component id="position_cardfanOnTable">
+            <transformation>
+                <translate x="-0.2" y="1.25" z="0.65" />
+                <scale x="0.15" y="0.15" z="0.15" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="cardfan" />
             </children>
         </component>
 
@@ -328,7 +390,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="wood_tex" length_s="1" length_t="1" />
+            <texture id="floor_tex" length_s="5" length_t="5" />
             <children>
                 <primitiveref id="floor_primitive" />
             </children>
@@ -337,7 +399,75 @@
         </component>
 
         <!-- END: Object Positioning-->
-        
+
+        <!-- START: Card fan component -->
+
+        <component id="cardfan">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="stub_tex" length_s="1" length_t="2"/>
+            <children>
+                <componentref id="card1"/>
+                <componentref id="card2"/>
+                <componentref id="card3"/>
+            </children>
+        </component>
+
+        <component id="card1">
+            <transformation>
+                
+                <translate x="0" y="0.02" z="0"/>
+                <rotate axis="y" angle="0" />
+                <translate x="0" y="0" z="-1"/>
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="tarot1_tex" length_s="1" length_t="2"/>
+            <children>
+                <primitiveref id="card" />
+            </children>
+        </component>
+
+        <component id="card2">
+            <transformation>
+                <translate x="0" y="0.03" z="0"/>
+                <rotate axis="y" angle="-25" />
+                <translate x="0" y="0" z="-1"/>
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="tarot2_tex" length_s="1" length_t="2"/>
+            <children>
+                <primitiveref id="card" />
+            </children>
+        </component>
+
+        <component id="card3">
+            <transformation>
+                <translate x="0" y="0.05" z="0"/>
+                <rotate axis="y" angle="-45" />
+                <translate x="0" y="0" z="-1"/>
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="tarot3_tex" length_s="1" length_t="2"/>
+            <children>
+                <primitiveref id="card" />
+            </children>
+        </component>
+
+        <!-- END: Card component -->
 
         <!-- START: Bin component -->
 
@@ -648,10 +778,10 @@
             </transformation>
 
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
 
-            <texture id="stub_tex" length_s="1" length_t="1" />
+            <texture id="inherit" length_s="1" length_t="1" />
 
             <children>
                 <componentref id="block_top1" />
@@ -670,10 +800,10 @@
             </transformation>
 
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
 
-            <texture id="stub_tex" length_s="1" length_t="1" />
+            <texture id="inherit" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="block_primitive_1" />
@@ -686,10 +816,10 @@
             </transformation>
 
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
 
-            <texture id="stub_tex" length_s="1" length_t="1" />
+            <texture id="inherit" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="block_primitive_1" />
@@ -702,10 +832,10 @@
             </transformation>
 
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
 
-            <texture id="stub_tex" length_s="1" length_t="1" />
+            <texture id="inherit" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="block_primitive_2" />
@@ -719,10 +849,10 @@
             </transformation>
 
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
 
-            <texture id="stub_tex" length_s="1" length_t="1" />
+            <texture id="inherit" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="block_primitive_2" />
@@ -736,10 +866,10 @@
             </transformation>
 
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
 
-            <texture id="stub_tex" length_s="1" length_t="1" />
+            <texture id="inherit" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="block_primitive_2" />
@@ -753,10 +883,10 @@
             </transformation>
 
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
 
-            <texture id="stub_tex" length_s="1" length_t="1" />
+            <texture id="inherit" length_s="1" length_t="1" />
 
             <children>
                 <primitiveref id="block_primitive_2" />
@@ -1005,19 +1135,95 @@
         </component>
 
         <component id="crystal_ball_sphere">
-                <transformation>
-                    <translate x="0" y="0" z="0.4"/>
-                </transformation>
-                <materials>
-                    <material id="crystal_material" />
-                </materials>
-                <texture id="none" length_s="1" length_t="1"/>
-                <children>
-                    <primitiveref id="crystal_ball_sphere_primitive" />
-                </children>
+            <transformation>
+                <translate x="0" y="0" z="0.4"/>
+            </transformation>
+            <materials>
+                <material id="crystal_material" />
+            </materials>
+            <texture id="none" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="crystal_ball_sphere_primitive" />
+            </children>
         </component>
 
         <!-- END: crystal ball component -->
+
+        <!-- START: TV component -->
+        <component id="television">
+            <transformation>
+                <translate x="0" y="3" z="0"/>
+            </transformation>
+            <materials>
+                <material id="tv_plastic_material" />
+            </materials>
+            <texture id="none" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="television_back" />
+                <componentref id="television_back_cover" />
+                <componentref id="screen_box" />
+                <componentref id="screen" />
+            </children>
+
+        </component>
+
+        <component id="screen">
+            <transformation>
+                <translate x="0" y="0" z="0.76"/>
+                <scale x="0.4" y="0.4" z="1"/>
+            </transformation>
+            <materials>
+                <material id="tv_screen_material" />
+            </materials>
+            <texture id="maia_tex" length_s="3.56" length_t="2"/>
+            <children>
+                <primitiveref id="tv_screen"/>
+            </children>
+        </component>
+
+        <component id="screen_box">
+            <transformation>
+                <translate x="0" y="0" z="0.5"/>
+                <scale x="0.8" y="0.5" z="0.5"/> 
+                <rotate axis="x" angle="90"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="block" />
+            </children>
+        </component>
+
+        <component id="television_back">
+            <transformation>
+                <scale x="1.5" y="1" z="1"/>
+                <rotate axis="z" angle="45"/>
+            </transformation>
+            <materials>
+                    <material id="inherit" />
+            </materials>
+            <texture id="none" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="television_back" />
+            </children>
+        </component>
+
+        <component id="television_back_cover">
+            <transformation>
+                <scale x="1.52" y="1" z="1"/>
+                <rotate axis="y" angle="180"/>
+            </transformation>
+            <materials>
+                    <material id="inherit" />
+            </materials>
+            <texture id="none" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="television_back_cover" />
+            </children>
+        </component>
+        <!-- END: TV component -->
 
     </components>
 

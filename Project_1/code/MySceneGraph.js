@@ -20,7 +20,8 @@ var AMBIENT_INDEX = 1;
 var DIFFUSE_INDEX = 2;
 var SPECULAR_INDEX = 3;
 
-
+//TODO: INHERIT MATERIAL ROOT
+//TODO: INHERIT ARRAY
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -638,7 +639,7 @@ class MySceneGraph {
 
             // Check for valid extension
             var fileExtension = getExtension(textureSrcPath)
-            if (fileExtension != "png" && fileExtension != "jpg")
+            if (fileExtension != "png" && fileExtension != "jpg" && fileExtension != "jpeg")
                 return "Invalid extension for texture source file (conflict: ID = " + textureID + ")";
 
             //TODO: Fix powers of two checking
