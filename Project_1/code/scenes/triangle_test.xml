@@ -24,7 +24,7 @@
     </lights>
 
     <textures>
-        <texture id="demoTexture" file="scenes/images/rocks.jpg" />
+        <texture id="demoTexture" file="scenes/images/gold_texture.jpg" />
     </textures>
 
     <materials>
@@ -57,7 +57,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture" length_s="1" length_t="1" />
+            <texture id="demoTexture" length_s="0.5" length_t="0.5" />
             <children>
                 <primitiveref id="triangle" />
             </children>

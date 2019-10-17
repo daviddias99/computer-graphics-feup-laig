@@ -96,15 +96,7 @@ class MyCylinder extends CGFobject {
 	 * @param {Number} lengthS 	Number of tiles on the s axis
 	 * @param {Number} lengthT 	Number of tiles on the t axis
 	 */
-	scaleTex(lengthS, lengthT) {
-		for (var i = 0; i < this.texCoords.length; i++) {
-			if (i % 2 == 0)	
-				this.texCoords[i] *= lengthS;
-			else
-				this.texCoords[i] *= lengthT;
-		}
-		this.updateTexCoordsGLBuffers();
-	}
+	scaleTex(lengthS, lengthT) {}
 
 	/**
 	 * @method resetTexCoords
