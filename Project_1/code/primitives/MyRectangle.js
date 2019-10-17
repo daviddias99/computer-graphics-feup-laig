@@ -18,6 +18,9 @@ class MyRectangle extends CGFobject {
 		this.y1 = y1;
 		this.y2 = y2;
 
+		this.width = Math.abs(x2 - x1);
+		this.height = Math.abs(y2 - y1);
+
 		this.initBuffers();
 	}
 	
@@ -73,12 +76,16 @@ class MyRectangle extends CGFobject {
 	 * @param {Number} lengthT 	Number of tiles on the t axis
 	 */
 	scaleTex(lengthS, lengthT) {
+		this.texCoords = this.texCoords.map((val, index) => val / (index % 2 ? lengthT / this.height : lengthS / this.width));
+		
+		/*
 		for (var i = 0; i < this.texCoords.length; i++) {
-			if (i % 2 == 0)	
-				this.texCoords[i] *= lengthS;
-			else
+			if (i % 2 == 0)	// length_s
+				this.texCoords[i] = lengthS;
+			else			// length_t
 				this.texCoords[i] *= lengthT;
 		}
+		*/
 		this.updateTexCoordsGLBuffers();
 	}
 
