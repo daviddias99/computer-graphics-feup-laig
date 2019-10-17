@@ -28,11 +28,23 @@
     </textures>
 
     <materials>
-        <material id="demoMaterial" shininess="10">
-            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
-            <specular r="0.6" g="0.0" b="0.0" a="1.0" />
+        <material id="redMaterial" shininess="10">
+            <emission   r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient    r="1.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse    r="0.6" g="0.0" b="0.0" a="1.0" />
+            <specular   r="0.6" g="0.0" b="0.0" a="1.0" />
+        </material>
+        <material id="greenMaterial" shininess="10">
+            <emission   r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient    r="0.0" g="1.0" b="0.0" a="1.0" />
+            <diffuse    r="0.0" g="0.6" b="0.0" a="1.0" />
+            <specular   r="0.0" g="0.6" b="0.0" a="1.0" />
+        </material>
+        <material id="blueMaterial" shininess="10">
+            <emission   r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient    r="0.0" g="0.0" b="1.0" a="1.0" />
+            <diffuse    r="0.0" g="0.0" b="0.6" a="1.0" />
+            <specular   r="0.0" g="0.0" b="0.6" a="1.0" />
         </material>
     </materials>
 
@@ -46,11 +58,6 @@
         <primitive id="sphere">
             <sphere radius="2" slices="10" stacks="10" />
         </primitive>
-
-        <primitive id="cylinder">
-            <cylinder base="1" top="1" height="5" slices="10" stacks="10" />
-        </primitive>
-
     </primitives>
 
     <components>
@@ -60,11 +67,25 @@
                 <translate x="0" y="0" z="0"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="redMaterial" />
+                <material id="blueMaterial" />
             </materials>
-            <texture id="demoTexture" length_s="1" length_t="1" />
+            <texture id="none"/>
             <children>
-                <primitiveref id="cylinder" />
+                <componentref id="sphereComponent" />
+            </children>
+        </component>
+
+        <component id="sphereComponent">
+            <transformation>
+                <translate x="0" y="0" z="0"/>
+            </transformation>
+            <materials>
+                <material id="greenMaterial" />
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
                 <primitiveref id="sphere" />
             </children>
         </component>
