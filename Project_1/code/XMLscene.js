@@ -38,6 +38,7 @@ class XMLscene extends CGFscene {
         this.selectedCamera = "";
         this.cameraIDs = {};
         this.lightIDs = [];
+        this.displayAxis = false;
     }
 
     /**
@@ -102,7 +103,9 @@ class XMLscene extends CGFscene {
         this.setShininess(10.0);
     }
 
-    // TODO: comment this code
+    /**
+     * Set the camera to the default one and add the camera selection section of the interface.
+     */
     activateCameraSelectionDropdown() {
 
         for (var key in this.graph.cameras) {
@@ -115,7 +118,9 @@ class XMLscene extends CGFscene {
         this.interface.addCameraDropdown();
     }
 
-    // TODO: comment this code
+    /**
+     * Add the light-control section of the interface
+     */
     activateLightSelectionCheckboxes(){
         this.interface.addLightCheckboxes();
     }
@@ -151,9 +156,6 @@ class XMLscene extends CGFscene {
             this.graph.cycleMaterials();
         }
 
-        // TODO: remove this log
-        if (keysPressed)
-            console.log(text);
     }
 
     update(t) {
@@ -178,7 +180,9 @@ class XMLscene extends CGFscene {
         this.applyViewMatrix();
 
         this.pushMatrix();
-        this.axis.display();
+        
+        if(this.displayAxis)
+            this.axis.display();
 
         for (var i = 0; i < this.lights.length; i++)
             this.lights[i].update();

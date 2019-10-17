@@ -776,7 +776,12 @@ class MySceneGraph {
         return null;
     }
 
-
+    /**
+     * Parses a single transformation node. Receives the id of the transformation and the matrix where the transformation must be applied.
+     * @param {lxs transformation node} transformationNode 
+     * @param {String} transformationID 
+     * @param {mat4} transfMatrix 
+     */
     parseTransformationNode(transformationNode, transformationID, transfMatrix) {
 
         var grandChildren = transformationNode.children;
@@ -885,9 +890,9 @@ class MySceneGraph {
 
 
     /**
-     * 
-     * @param {*} primitiveId 
-     * @param {*} rectangleNode 
+     * Method to parse a lxs-format rectangle node
+     * @param {String} primitiveId 
+     * @param {lxs rectangle node} rectangleNode 
      */
     parseRectangle(primitiveId, rectangleNode) {
 
@@ -1439,7 +1444,11 @@ class MySceneGraph {
         return color;
     }
 
-    // TODO: document this code
+    /**
+     * Parse the attenuation components from a node. (constant, linear and quadratic). Returns an array with the three components.
+     * @param {block element} node
+     * @param {message to be displayed in case of error} messageError
+     */
     parseAttenuation(node, messageError) {
         var attenuation = [];
 
@@ -1462,8 +1471,6 @@ class MySceneGraph {
 
         return attenuation;
     }
-
-
 
     /*
      * Callback to be executed on any read error, showing an error on the console.
@@ -1490,6 +1497,14 @@ class MySceneGraph {
         console.log("   " + message);
     }
 
+    /**
+     * 
+     * @param {*} node 
+     * @param {*} activeMaterial 
+     * @param {*} activeTexture 
+     * @param {*} ls 
+     * @param {*} lt 
+     */
     process(node,activeMaterial, activeTexture, ls, lt) {
 
         if (!node.loadedOk)
@@ -1544,7 +1559,10 @@ class MySceneGraph {
         this.scene.popMatrix();
     }
 
-    /* TODO: document this code*/
+    /**
+     * Change the material used by each component to the next one in the component internal material list (if any).
+     * If the end of the list is reached the next material is the first one on the list (circular cycling).
+     */
     cycleMaterials() {
         
         for(var key in this.components){
@@ -1555,7 +1573,7 @@ class MySceneGraph {
     }
 
     /**
-     * Displays the scene, processing each node, starting in the root node.
+     * Displays the scene, processing each node, starting in the root node(the rest are processed recursively).
      */
     displayScene() {
 
