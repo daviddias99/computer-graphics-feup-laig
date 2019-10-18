@@ -40,6 +40,7 @@ class MyCylinder extends CGFobject {
         var deltaRadius = (this.topRadius - this.baseRadius) / this.stacks;
 
         var sCoord = 0;
+        var tCoord = 1;
         var deltaS = 1 / this.slices;
         var deltaT = 1 / this.stacks;
 
@@ -54,12 +55,20 @@ class MyCylinder extends CGFobject {
             // Normalization of the normal vector
             normal = normalizeVector(normal);
 
+            tCoord = 1;
+
             // Iterate through all the points on the same edge
             for (var j = 0; j <= this.stacks; j++) {
                 
-                this.vertices.push(ca * (radius + (j + 1) * deltaRadius), -sa * (radius + (j + 1) * deltaRadius), j * deltaHeight);
+                var vertex = [ca * (radius + (j + 1) * deltaRadius)
+                            , -sa * (radius + (j + 1) * deltaRadius)
+                            , j * deltaHeight]
+
+                this.vertices.push(...vertex);
                 this.normals.push(...normal);
-                this.texCoords.push(sCoord, 1 - deltaT * j);
+                this.texCoords.push(sCoord, tCoord);
+
+                tCoord -= deltaT;
 
                 /* On the last iteration of this cycle we only need to add the vertices, 
                 the normals and the texture coordinates to the corresponding arrays because 
@@ -92,7 +101,7 @@ class MyCylinder extends CGFobject {
 
     /**
 	 * @method scaleTex
-	 * Updates the list of texture coordinates of the cylinder
+	 * Updates the list of texture coordinates of the cylinder. Unused in the cylinder.
 	 * @param {Number} lengthS 	Number of tiles on the s axis
 	 * @param {Number} lengthT 	Number of tiles on the t axis
 	 */

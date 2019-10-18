@@ -33,6 +33,7 @@ class MySphere extends CGFobject {
         var deltaTheta = Math.PI / trueStacks;
 
         var sCoord = 0;
+        var tCoord = 1;
         var deltaS = 1 / this.slices;
         var deltaT = 1 /trueStacks;
 
@@ -43,6 +44,7 @@ class MySphere extends CGFobject {
             var cosPhi = Math.cos(phi);
             var sinPhi = Math.sin(phi);
             var theta = -Math.PI/2;
+            tCoord = 1;
             
             // Iterate through all the points on the same edge
             for (var j = 0; j <= trueStacks; j++) {
@@ -63,9 +65,10 @@ class MySphere extends CGFobject {
                 // the sphere is (0,0,0) the normal is equal to the vertex position (normalized)
                 this.vertices.push(...vertex);
                 this.normals.push(...normalizeVector(vertex));
-                this.texCoords.push(sCoord, 1 - deltaT * j);
+                this.texCoords.push(sCoord, tCoord);
 
                 theta += deltaTheta;
+                tCoord -= deltaT;
 
                 /* On the last iteration of this cycle we only need to add the vertices, 
                 the normals and the texture coordinates to the corresponding arrays because 
@@ -101,7 +104,7 @@ class MySphere extends CGFobject {
 
     /**
 	 * @method scaleTex
-	 * Updates the list of texture coordinates of the sphere
+	 * Updates the list of texture coordinates of the sphere. Unused in the sphere
 	 * @param {Number} lengthS 	Number of tiles on the s axis
 	 * @param {Number} lengthT 	Number of tiles on the t axis
 	 */

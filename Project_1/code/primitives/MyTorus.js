@@ -43,8 +43,7 @@ class MyTorus extends CGFobject {
             var cosPhi = Math.cos(phi);
             var sinPhi = Math.sin(phi);
             
-            var theta = 0;
-            
+            var theta = 0;      
             var tCoord = 1;
 
             // Iterate through the vertices that make up each loop
@@ -53,19 +52,19 @@ class MyTorus extends CGFobject {
                 var cosTheta = Math.cos(theta);
                 var sinTheta = Math.sin(theta);
 
-                this.vertices.push(
-                    (this.outerRadius + this.innerRadius * cosTheta) * cosPhi,
-                    (this.outerRadius + this.innerRadius * cosTheta) * sinPhi,
-                    this.innerRadius * sinTheta
-                );
+                var vertex = [(this.outerRadius + this.innerRadius * cosTheta) * cosPhi
+                                ,(this.outerRadius + this.innerRadius * cosTheta) * sinPhi
+                                ,this.innerRadius * sinTheta]
+
+                this.vertices.push(...vertex);
                 
                 var normal = [cosTheta * cosPhi, cosTheta * sinPhi, sinTheta];
                 // Normalize the normal vector
                 this.normals.push(...normalizeVector(normal));
 
                 this.texCoords.push(sCoord, tCoord);
+                
                 tCoord -= deltaT;
-
                 theta += deltaTheta;
                 
                 // On the last vertex no indices need to be pushed because the loop is already drawn
