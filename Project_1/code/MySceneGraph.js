@@ -20,8 +20,6 @@ var AMBIENT_INDEX = 1;
 var DIFFUSE_INDEX = 2;
 var SPECULAR_INDEX = 3;
 
-//TODO: INHERIT MATERIAL ROOT
-//TODO: INHERIT ARRAY
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -388,7 +386,7 @@ class MySceneGraph {
         // Validate to and from nodes
         var fromValues, toValues, upValues = vec3.fromValues(0, 1, 0);
         var fromFlag = false, toFlag = false;
-        for (var grandChild of child) {
+        for (var grandChild of child.children) {
             if (grandChild.nodeName == 'from') {
                 var x = this.reader.getFloat(grandChild, 'x');
                 if (x == null || isNaN(x))
@@ -640,22 +638,23 @@ class MySceneGraph {
             if (fileExtension != "png" && fileExtension != "jpg" && fileExtension != "jpeg")
                 return "Invalid extension for texture source file (conflict: ID = " + textureID + ")";
 
-            //TODO: Fix powers of two checking
+           /* Couldn't get this code to work
+            It is suposed to check if the texture image as dimensions that are powers of two
 
 
-            // var source_img = new Image();
+            var source_img = new Image();
 
-            // //source_img.src = textureSrcPath;
+            //source_img.src = textureSrcPath;
 
-            // source_img.onload = function (sceneGraph) {
+            source_img.onload = function (sceneGraph) {
 
-            //     // Check image dimensions
-            //     if (!isPowerOfTwo(source_img.width) || !isPowerOfTwo(source_img.height))
-            //         sceneGraph.onXMLMinorError("Texture with ID = " + textureID + " has dimensions that are not powers of 2");
+                // Check image dimensions
+                if (!isPowerOfTwo(source_img.width) || !isPowerOfTwo(source_img.height))
+                    sceneGraph.onXMLMinorError("Texture with ID = " + textureID + " has dimensions that are not powers of 2");
 
-            // }(this);
+            }(this);
 
-            // source_img.src = textureSrcPath;
+            source_img.src = textureSrcPath; */
             this.textures[textureID] = new CGFtexture(this.scene, textureSrcPath);
         }
 
@@ -1249,7 +1248,7 @@ class MySceneGraph {
 
                 if (materialID == 'inherit') {
 
-                    currentComponent.materialBehaviour = 'inherit';
+                    currentComponent.materials.push('inherit');
                     continue;
                 }
 
@@ -1491,7 +1490,7 @@ class MySceneGraph {
     }
 
     /**
-     * 
+     * TODO: Comment this code
      * @param {*} node 
      * @param {*} activeMaterial 
      * @param {*} activeTexture 
@@ -1507,11 +1506,11 @@ class MySceneGraph {
 
         // choose apropriate material and texture
 
-        if (node.materialBehaviour == 'defined')
-            childMaterial = node.materials[node.currentMaterialIndex];
-        else if (node.materialBehaviour == 'inherit')
+        if (node.materials[node.currentMaterialIndex] == 'inherit')
             childMaterial = activeMaterial;
-
+        else
+            childMaterial = node.materials[node.currentMaterialIndex];
+            
         if (node.textureBehaviour == 'defined'){
 
             childTexture = node.texture;
@@ -1523,8 +1522,7 @@ class MySceneGraph {
             childTexture = activeTexture;
             childLengthS = ls;
             childLengthT = lt;
-        }
-            
+        }         
         else if (node.textureBehaviour == 'none')
             childTexture = null;
 
@@ -1567,6 +1565,6 @@ class MySceneGraph {
     displayScene() {
 
         var rootElement = this.components[this.idRoot];
-        this.process(rootElement,null, null, null, null);
+        this.process(rootElement,new CGFappearance(this.scene), null, 1, 1);
     }
 }

@@ -52,12 +52,9 @@ class MySphere extends CGFobject {
                 var cosTheta = Math.cos(theta);
                 var sinTheta = Math.sin(theta);
 
-                // Calculate the vertex coordinates
-                // var vertex = [this.radius * sinTheta * cosPhi
-                //             ,this.radius * sinPhi * sinTheta
-                //             ,this.radius * cosTheta];
-
-                var vertex = [this.radius * cosTheta * cosPhi, this.radius * cosTheta * sinPhi, this.radius * sinTheta];
+                var vertex = [this.radius * cosTheta * cosPhi
+                            , this.radius * cosTheta * sinPhi
+                            , this.radius * sinTheta];
 
                 // Add the apropriate vertex normals and texture coordinates
                 // The normal to a point on the sphere can be the vector that links the
@@ -85,8 +82,6 @@ class MySphere extends CGFobject {
 
                 // This is the index of the current vertix in the vertices array
                 var index = i * (trueStacks + 1) + j;
-                // this.indices.push(index + trueStacks + 2, index + trueStacks + 1,index);
-                // this.indices.push(index,index + 1,index + trueStacks + 2);
                 this.indices.push(index, index + trueStacks + 1,index + trueStacks + 2);
                 this.indices.push(index,index + trueStacks + 2,index + 1);
 

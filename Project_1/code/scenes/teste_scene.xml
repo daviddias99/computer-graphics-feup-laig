@@ -482,6 +482,7 @@
             <children>
                 <componentref id="bin_side" />
                 <componentref id="bin_top" />
+                <componentref id="bin_inside" />
             </children>
         </component>
 
@@ -497,6 +498,7 @@
                 <primitiveref id="bin_side_primitive" />
             </children>
         </component>
+
 
         <component id="bin_top">
             <transformation>
