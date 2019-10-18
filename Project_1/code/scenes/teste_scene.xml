@@ -126,7 +126,7 @@
             <rotate axis="z" angle="-45" />
         </transformation>
 
-        <transformation id="pyramidFaceTransformation">
+        <transformation id="y90rotate">
             <rotate axis="y" angle="90" />
         </transformation>
 
@@ -140,6 +140,10 @@
 
         <primitive id="floor_primitive">
             <rectangle x1="-5" y1="-5" x2="5" y2="5" />
+        </primitive>
+
+        <primitive id="wall_primitive">
+            <rectangle x1="-5" y1="-2" x2="5" y2="2" />
         </primitive>
 
         <primitive id="table_leg_primitive">
@@ -235,6 +239,7 @@
                 <componentref id="floor" />~
                 <componentref id="table_magic"/>
                 <componentref id="television"/>
+                <componentref id="walls"/>
 
                 
             </children>
@@ -394,8 +399,82 @@
             <children>
                 <primitiveref id="floor_primitive" />
             </children>
+        </component>
+
+        <component id="walls">
+            <transformation>
+                <translate x="0" y="0" z="0"/>
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="floor_tex" length_s="1" length_t="1" />
+            <children>
+                <componentref id="wall1" />
+                <componentref id="wall2" />
+                <componentref id="wall3" />
+                <componentref id="wall4" />
+            </children>
+        </component>
 
 
+        <component id="wall1">
+            <transformation>
+                <translate x="0" y="2" z="-5"/>
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="floor_tex" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="wall_primitive" />
+            </children>
+
+        </component>
+
+        <component id="wall2">
+            <transformation>
+                <rotate axis="y" angle="90" />
+                <translate x="0" y="2" z="-5"/>
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="floor_tex" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="wall_primitive" />
+            </children>
+    
+        </component>
+
+        <component id="wall3">
+            <transformation>
+                <rotate axis="y" angle="180" />
+                <translate x="0" y="2" z="-5"/>
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="floor_tex" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="wall_primitive" />
+            </children>
+    
+         </component>
+
+        <component id="wall4">
+            <transformation>
+                <rotate axis="y" angle="-90" />
+                <translate x="0" y="2" z="-5"/>
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="floor_tex" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="wall_primitive" />
+            </children>
+    
         </component>
 
         <!-- END: Object Positioning-->
@@ -482,7 +561,6 @@
             <children>
                 <componentref id="bin_side" />
                 <componentref id="bin_top" />
-                <componentref id="bin_inside" />
             </children>
         </component>
 
@@ -732,7 +810,7 @@
 
         <component id="pyramidFace2">
             <transformation>
-                <transformationref id="pyramidFaceTransformation" />
+                <transformationref id="y90rotate" />
             </transformation>
             <materials>
                 <material id="stub_material" />
@@ -746,7 +824,7 @@
 
         <component id="pyramidFace3">
             <transformation>
-                <transformationref id="pyramidFaceTransformation" />
+                <transformationref id="y90rotate" />
             </transformation>
             <materials>
                 <material id="stub_material" />
@@ -760,7 +838,7 @@
 
         <component id="pyramidFace4">
             <transformation>
-                <transformationref id="pyramidFaceTransformation" />
+                <transformationref id="y90rotate" />
             </transformation>
             <materials>
                 <material id="stub_material" />

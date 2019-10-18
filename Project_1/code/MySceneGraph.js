@@ -1514,8 +1514,8 @@ class MySceneGraph {
         if (node.textureBehaviour == 'defined'){
 
             childTexture = node.texture;
-            childLengthS = node.lengthS;
-            childLengthT = node.lengthT;
+            childLengthS = node.textureLengthS;
+            childLengthT = node.textureLengthT;
         }   
         else if (node.textureBehaviour == 'inherit'){
 
@@ -1541,7 +1541,7 @@ class MySceneGraph {
             childMaterial.setTexture(childTexture);
             childMaterial.setTextureWrap('REPEAT', 'REPEAT');
             childMaterial.apply();
-            node.childrenPrimitives[i].scaleTex(node.textureLengthS, node.textureLengthT);
+            node.childrenPrimitives[i].scaleTex(childLengthS, childLengthT);
             node.childrenPrimitives[i].display();
             node.childrenPrimitives[i].resetTexCoords();
         }

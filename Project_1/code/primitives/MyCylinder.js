@@ -35,6 +35,9 @@ class MyCylinder extends CGFobject {
         var deltaAngle = 2 * Math.PI / this.slices;
 
         var deltaHeight = this.height / this.stacks;
+
+        if(this.topRadius == 0)
+        console.log("object");
         
         var radius = this.baseRadius;
         var deltaRadius = (this.topRadius - this.baseRadius) / this.stacks;
@@ -60,8 +63,8 @@ class MyCylinder extends CGFobject {
             // Iterate through all the points on the same edge
             for (var j = 0; j <= this.stacks; j++) {
                 
-                var vertex = [ca * (radius + (j + 1) * deltaRadius)
-                            , -sa * (radius + (j + 1) * deltaRadius)
+                var vertex = [ca * (radius + j * deltaRadius)
+                            , -sa * (radius + j * deltaRadius)
                             , j * deltaHeight]
 
                 this.vertices.push(...vertex);
