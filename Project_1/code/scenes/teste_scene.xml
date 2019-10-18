@@ -65,7 +65,14 @@
         <texture id="tarot1_tex" file="scenes/images/t_tarot1.jpeg" />
         <texture id="tarot2_tex" file="scenes/images/t_tarot2.jpg" />
         <texture id="tarot3_tex" file="scenes/images/t_tarot3.jpg" />
-        <texture id="maia_tex" file="scenes/images/t_maia.png" />
+        <texture id="show_maia_tex" file="scenes/images/t_show_maia.png" />
+        <texture id="show_cemetery_tex" file="scenes/images/t_show_cemetery.jpg" />
+        <texture id="show_pennywise_tex" file="scenes/images/t_show_pennywise.jpg" />
+        <texture id="show_skeleton_tex" file="scenes/images/t_show_skeleton.jpg" />
+        <texture id="show_slenderman_tex" file="scenes/images/t_show_slenderman.jpg" />
+        <texture id="show_voodoo_tex" file="scenes/images/t_show_voodoo.jpg" />
+        <texture id="show_well_tex" file="scenes/images/t_show_well.jpg" />
+        <texture id="show_witch_tex" file="scenes/images/t_show_witch.jpg" />
         <texture id="wall_tex" file="scenes/images/t_dark_wall.jpg" />
         <texture id="carpet_tex" file="scenes/images/t_carpet.jpg" />
         <texture id="chair_block_tex" file="scenes/images/t_chair_blocks.jpg" />
@@ -256,11 +263,10 @@
                 <componentref id="position_Lamp" />
                 <componentref id="position_Bin" />
                 <componentref id="floor" />
-                ~
                 <componentref id="table_magic" />
-                <componentref id="television" />
                 <componentref id="walls" />
                 <componentref id="carpet" />
+                <componentref id="shelf_test" />
             </children>
         </component>
 
@@ -282,8 +288,8 @@
                 <componentref id="position_Lamp" />
                 <componentref id="position_Bin" />
                 <componentref id="floor" />
-                <componentref id="television" />
                 <componentref id="carpet" />
+                <componentref id="shelf_test"/>
             </children>
         </component>
 
@@ -408,6 +414,186 @@
                 <componentref id="lamp" />
             </children>
         </component>
+
+        <!-- START: Shelf component -->
+
+        <component id="shelf_test">
+
+            <transformation></transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="position_shelf1" />
+                <componentref id="position_shelf2" />
+                <componentref id="position_tv1" />
+                <componentref id="position_tv2" />
+                <componentref id="position_tv3" />
+                <componentref id="position_tv4" />
+                <componentref id="position_tv5" />
+                <componentref id="position_tv6" />
+                <componentref id="position_tv7" />
+                <componentref id="position_tv8" />
+            </children>
+        </component>
+
+        <component id="position_tv1">
+
+            <transformation>
+                <translate x="-3" y="1.6" z="-3.7" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="television1" />
+            </children>
+        </component>
+
+        <component id="position_tv2">
+
+            <transformation>
+                <translate x="-1.0" y="1.6" z="-3.7" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="television2" />
+            </children>
+        </component>
+
+        <component id="position_tv3">
+
+            <transformation>
+                <translate x="1." y="1.6" z="-3.7" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="television3" />
+            </children>
+        </component>
+
+        <component id="position_tv4">
+
+            <transformation>
+                <translate x="3" y="1.6" z="-3.7" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="television4" />
+            </children>
+        </component>
+
+        <component id="position_tv5">
+
+            <transformation>
+                <translate x="-3" y="2.8" z="-3.7" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="television5" />
+            </children>
+        </component>
+
+        <component id="position_tv6">
+
+            <transformation>
+                <translate x="-1.0" y="2.8" z="-3.7" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="television6" />
+            </children>
+        </component>
+
+        <component id="position_tv7">
+
+            <transformation>
+                <translate x="1." y="2.8" z="-3.7" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="television7" />
+            </children>
+        </component>
+
+        <component id="position_tv8">
+
+            <transformation>
+                <translate x="3" y="2.8" z="-3.7" />
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="television8" />
+            </children>
+        </component>
+
+        <component id="position_shelf1">
+
+            <transformation>
+                <translate x="0" y="1" z="-3.3" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="shelf" />
+            </children>
+        </component>
+
+        <component id="position_shelf2">
+
+            <transformation>
+                <translate x="0" y="2.2" z="-3.3" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="shelf" />
+            </children>
+        </component>
+
+        <component id="shelf">
+
+            <transformation>
+                <scale x="4" y="0.2" z="0.6" />
+
+            </transformation>
+            <materials>
+                <material id="stub_material" />
+            </materials>
+            <texture id="floor_tex" length_s="4" length_t="4" />
+            <children>
+                <componentref id="block" />
+            </children>
+        </component>
+
+        <!-- END: Shelf component -->
 
 
         <!-- END: Object Positioning-->
@@ -1350,14 +1536,133 @@
         <!-- END: crystal ball component -->
 
         <!-- START: TV component -->
-        <component id="television">
+        <component id="television1">
             <transformation>
-                <translate x="0" y="3" z="0" />
+                <translate x="0" y="0" z="0.0" />
             </transformation>
             <materials>
                 <material id="tv_plastic_material" />
             </materials>
-            <texture id="none" length_s="1" length_t="1" />
+            <texture id="show_maia_tex" length_s="3.56" length_t="2" />
+            <children>
+                <componentref id="television_back" />
+                <componentref id="television_back_cover" />
+                <componentref id="screen_box" />
+                <componentref id="screen" />
+            </children>
+
+        </component>
+
+        <component id="television2">
+            <transformation>
+                <translate x="0" y="0" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="tv_plastic_material" />
+            </materials>
+            <texture id="show_cemetery_tex" length_s="3.56" length_t="2" />
+            <children>
+                <componentref id="television_back" />
+                <componentref id="television_back_cover" />
+                <componentref id="screen_box" />
+                <componentref id="screen" />
+            </children>
+
+        </component>
+
+        <component id="television3">
+            <transformation>
+                <translate x="0" y="0" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="tv_plastic_material" />
+            </materials>
+            <texture id="show_pennywise_tex" length_s="3.56" length_t="2" />
+            <children>
+                <componentref id="television_back" />
+                <componentref id="television_back_cover" />
+                <componentref id="screen_box" />
+                <componentref id="screen" />
+            </children>
+
+        </component>
+
+        <component id="television4">
+            <transformation>
+                <translate x="0" y="0" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="tv_plastic_material" />
+            </materials>
+            <texture id="show_skeleton_tex" length_s="3.56" length_t="2" />
+            <children>
+                <componentref id="television_back" />
+                <componentref id="television_back_cover" />
+                <componentref id="screen_box" />
+                <componentref id="screen" />
+            </children>
+
+        </component>
+
+        <component id="television5">
+            <transformation>
+                <translate x="0" y="0" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="tv_plastic_material" />
+            </materials>
+            <texture id="show_slenderman_tex" length_s="3.56" length_t="2" />
+            <children>
+                <componentref id="television_back" />
+                <componentref id="television_back_cover" />
+                <componentref id="screen_box" />
+                <componentref id="screen" />
+            </children>
+
+        </component>
+
+        <component id="television6">
+            <transformation>
+                <translate x="0" y="0" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="tv_plastic_material" />
+            </materials>
+            <texture id="show_voodoo_tex" length_s="3.56" length_t="2" />
+            <children>
+                <componentref id="television_back" />
+                <componentref id="television_back_cover" />
+                <componentref id="screen_box" />
+                <componentref id="screen" />
+            </children>
+
+        </component>
+
+        <component id="television7">
+            <transformation>
+                <translate x="0" y="0" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="tv_plastic_material" />
+            </materials>
+            <texture id="show_well_tex" length_s="3.56" length_t="2" />
+            <children>
+                <componentref id="television_back" />
+                <componentref id="television_back_cover" />
+                <componentref id="screen_box" />
+                <componentref id="screen" />
+            </children>
+
+        </component>
+
+        <component id="television8">
+            <transformation>
+                <translate x="0" y="0" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="tv_plastic_material" />
+            </materials>
+            <texture id="show_witch_tex" length_s="3.56" length_t="2" />
             <children>
                 <componentref id="television_back" />
                 <componentref id="television_back_cover" />
@@ -1375,7 +1680,7 @@
             <materials>
                 <material id="tv_screen_material" />
             </materials>
-            <texture id="maia_tex" length_s="3.56" length_t="2" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="tv_screen" />
             </children>
