@@ -1,10 +1,10 @@
 <lxs>
     <scene root="root" axis_length="5" />
 
-    <views default="camera">
-        <perspective id="camera" near="0.1" far="500" angle="45">
-            <from x="1" y="3" z="6" />
-            <to x="0" y="0" z="0" />
+    <views default="mainCamera">
+        <perspective id="mainCamera" near="0.1" far="500" angle="45">
+            <from x="3" y="3" z="3" />
+            <to x="0" y="1" z="0" />
         </perspective>
 
         <perspective id="camera2" near="0.1" far="500" angle="45">
@@ -12,10 +12,27 @@
             <to x="0" y="0" z="0" />
         </perspective>
 
-        <perspective id="camera3" near="0.1" far="500" angle="45">
-            <from x="1" y="3" z="6" />
-            <to x="0" y="0" z="0" />
+        <perspective id="tablePerspective" near="0.1" far="500" angle="45">
+            <from x="-2" y="1.55" z="1.8" />
+            <to x="-1" y="0.6" z="-1" />
         </perspective>
+
+        <ortho id="topDownOrtho" near="0.1" far="500" left="-7" right="7" top="4" bottom="-4">
+            <from x="0" y="15" z="0" />
+            <to x="0" y="0" z="0" />
+            <up x="0.0" y="0.0" z="1.0" />
+        </ortho>
+
+        <ortho id="backOrtho" near="0.1" far="300" left="-4" right="4" top="2.65" bottom="-1.6">
+            <from x="0" y="1.5" z="10" />
+            <to x="0" y="1.5" z="0" />
+        </ortho>
+
+        <ortho id="sideOrtho" near="0.1" far="300" left="-4" right="4" top="2.65" bottom="-1.6">
+            <from x="10" y="1.5" z="0" />
+            <to x="0" y="1.5" z="0" />
+        </ortho>
+
     </views>
 
     <globals>
