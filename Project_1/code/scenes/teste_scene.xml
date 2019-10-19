@@ -95,6 +95,7 @@
         <texture id="chair_block_tex" file="scenes/images/t_chair_blocks.jpg" />
         <texture id="chair_legs_tex" file="scenes/images/t_darker_wood.png" />
         <texture id="bin_tex" file="scenes/images/t_metalic_grid.jpg" />
+        <texture id="ball_base_tex" file="scenes/images/t_ball_base.jpg" />
 
     </textures>
 
@@ -121,12 +122,32 @@
             <specular r="0.1" g="0.1" b="0.1" a="1.0" />
         </material>
 
+        <material id="crystal_material_0" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.4" g="0.1" b="0.4" a="1.0" />
+            <diffuse r="0.1" g="0.1" b="0.1" a="1.0" />
+            <specular r="0.9" g="0.4" b="0.9" a="1.0" />
+        </material>
 
-        <material id="crystal_material" shininess="10">
+        <material id="crystal_material_1" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.1" g="0.1" b="0.3" a="1.0" />
             <diffuse r="0.1" g="0.1" b="0.1" a="1.0" />
             <specular r="0.7" g="0.7" b="0.9" a="1.0" />
+        </material>
+
+        <material id="crystal_material_2" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.3" g="0.6" b="0.6" a="1.0" />
+            <diffuse r="0.1" g="0.1" b="0.1" a="1.0" />
+            <specular r="0.9" g="0.9" b="0.7" a="1.0" />
+        </material>
+
+        <material id="crystal_material_3" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.5" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="0.1" g="0.1" b="0.1" a="1.0" />
+            <specular r="0.9" g="0.4" b="0.4" a="1.0" />
         </material>
 
         <material id="fabric_material" shininess="2">
@@ -148,6 +169,20 @@
             <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.3" g="0.3" b="0.3" a="1.0" />
+        </material>
+
+        <material id="lamp_material_arm" shininess="4">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="0.3" g="0.3" b="0.3" a="1.0" />
+            <specular r="0.3" g="0.3" b="0.3" a="1.0" />
+        </material>
+
+        <material id="lamp_material_base" shininess="2">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="0.1" g="0.1" b="0.1" a="1.0" />
+            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
         </material>
 
 
@@ -1452,7 +1487,7 @@
                 <translate x="0" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="lamp_material_arm" />
             </materials>
             <texture id="none" length_s="1" length_t="1" />
             <children>
@@ -1470,7 +1505,7 @@
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="lamp_material_base" />
             </materials>
             <texture id="none" length_s="1" length_t="1" />
             <children>
@@ -1483,7 +1518,7 @@
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="none" length_s="1" length_t="1" />
             <children>
@@ -1497,7 +1532,7 @@
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="lamp_top_tex" length_s="1" length_t="1" />
             <children>
@@ -1512,7 +1547,7 @@
                 <scale x="-1" y="1" z="1" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="lamp_top_tex" length_s="1" length_t="1" />
             <children>
@@ -1528,9 +1563,9 @@
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="crystal_material_0" />
             </materials>
-            <texture id="none" length_s="1" length_t="1" />
+            <texture id="ball_base_tex" length_s="1" length_t="1" />
             <children>
                 <componentref id="crystal_ball_sphere" />
                 <primitiveref id="crystal_ball_base_primitive" />
@@ -1542,7 +1577,10 @@
                 <translate x="0" y="0" z="0.4" />
             </transformation>
             <materials>
-                <material id="crystal_material" />
+                <material id="crystal_material_1" />
+                <material id="crystal_material_2" />
+                <material id="crystal_material_3" />
+                <material id="inherit" />
             </materials>
             <texture id="none" length_s="1" length_t="1" />
             <children>
