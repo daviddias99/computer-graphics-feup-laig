@@ -46,19 +46,18 @@
 
         <omni id="demoLight" enabled="0">
             <location x="10" y="10" z="10" w="0.0" />
-            <ambient r="0.3" g="1" b="1" a="1" />
+            <ambient r="1" g="1" b="1" a="1" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
             <attenuation constant="0.0" linear="0.0" quadratic="1.0" />
         </omni>
-
 
         <omni id="lamp_light" enabled="0">
             <location x="1.0" y="1.65" z="0.0" w="0" />
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-            <attenuation constant="0.0" linear="0.0" quadratic="1.0" />
+            <attenuation constant="0.0" linear="1.0" quadratic="0.0" />
         </omni>
 
         <omni id="crystal_ball_light" enabled="0">
@@ -82,7 +81,7 @@
 
     <textures>
 
-        <texture id="stub_tex" file="scenes/images/rocks.jpg" />
+        <texture id="stub_tex" file="scenes/images/t_wood.jpg" />
         <texture id="wood_tex" file="scenes/images/t_wood.jpg" />
         <texture id="yoga_tex" file="scenes/images/t_yoga.jpg" />
         <texture id="pyramid_tex" file="scenes/images/t_pyramid.jpg" />
@@ -209,6 +208,10 @@
             <rotate axis="y" angle="90" />
         </transformation>
 
+        <transformation id="null_transformation">
+            <translate x="0" y="0" z="0" />
+        </transformation>
+
     </transformations>
 
     <primitives>
@@ -311,7 +314,7 @@
 
         <component id="root">
             <transformation>
-                <translate x="0" y="0" z="0" />
+                <transformationref id="null_transformation" />
             </transformation>
             <materials>
                 <material id="stub_material" />
@@ -350,7 +353,7 @@
                 <componentref id="position_Bin" />
                 <componentref id="floor" />
                 <componentref id="carpet" />
-                <componentref id="shelf_test"/>
+                <componentref id="shelf_test" />
             </children>
         </component>
 
@@ -702,7 +705,7 @@
 
         <component id="walls">
             <transformation>
-                <translate x="0" y="0" z="0" />
+                <transformationref id="null_transformation" />
             </transformation>
             <materials>
                 <material id="stub_material" />
@@ -781,7 +784,8 @@
 
         <component id="cardfan">
             <transformation>
-                <translate x="0" y="0" z="0" />
+
+                <transformationref id="null_transformation" />
 
             </transformation>
             <materials>
@@ -850,7 +854,8 @@
 
         <component id="bin">
             <transformation>
-                <translate x="0" y="0" z="0" />
+
+                <transformationref id="null_transformation" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -927,11 +932,12 @@
 
         <component id="table">
             <transformation>
-                <translate x="0" y="0" z="0" />
+
+                <transformationref id="null_transformation" />
             </transformation>
 
             <materials>
-                <material id="inherit" />
+                <material id="wood_material" />
             </materials>
 
             <texture id="wood_tex" length_s="1" length_t="1" />
@@ -954,7 +960,7 @@
 
             </transformation>
             <materials>
-                <material id="wood_material" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" lenght_s="1" length_t="1" />
             <children>
@@ -975,7 +981,7 @@
 
             </transformation>
             <materials>
-                <material id="wood_material" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" lenght_s="1" length_t="1" />
             <children>
@@ -1146,7 +1152,8 @@
 
         <component id="pyramidFace1">
             <transformation>
-                <translate x="0" y="0" z="0" />
+
+                <transformationref id="null_transformation" />
             </transformation>
             <materials>
                 <material id="stub_material" />
@@ -1205,7 +1212,8 @@
         <!-- START: block component-->
         <component id="block">
             <transformation>
-                <translate x="0" y="0" z="0" />
+
+                <transformationref id="null_transformation" />
             </transformation>
 
             <materials>
@@ -1328,7 +1336,8 @@
         <!-- START: chair component-->
         <component id="chair">
             <transformation>
-                <translate x="0" y="0" z="0" />
+
+                <transformationref id="null_transformation" />
             </transformation>
 
             <materials>
@@ -1493,7 +1502,8 @@
         <!-- START: lamp component -->
         <component id="lamp">
             <transformation>
-                <translate x="0" y="0" z="0" />
+
+                <transformationref id="null_transformation" />
             </transformation>
             <materials>
                 <material id="lamp_material_arm" />
@@ -1602,7 +1612,8 @@
         <!-- START: TV component -->
         <component id="television1">
             <transformation>
-                <translate x="0" y="0" z="0.0" />
+
+                <transformationref id="null_transformation" />
             </transformation>
             <materials>
                 <material id="tv_plastic_material" />
@@ -1619,7 +1630,8 @@
 
         <component id="television2">
             <transformation>
-                <translate x="0" y="0" z="0.0" />
+
+                <transformationref id="null_transformation" />
             </transformation>
             <materials>
                 <material id="tv_plastic_material" />
@@ -1636,7 +1648,8 @@
 
         <component id="television3">
             <transformation>
-                <translate x="0" y="0" z="0.0" />
+
+                <transformationref id="null_transformation" />
             </transformation>
             <materials>
                 <material id="tv_plastic_material" />
@@ -1653,7 +1666,8 @@
 
         <component id="television4">
             <transformation>
-                <translate x="0" y="0" z="0.0" />
+
+                <transformationref id="null_transformation" />
             </transformation>
             <materials>
                 <material id="tv_plastic_material" />
@@ -1670,7 +1684,8 @@
 
         <component id="television5">
             <transformation>
-                <translate x="0" y="0" z="0.0" />
+
+                <transformationref id="null_transformation" />
             </transformation>
             <materials>
                 <material id="tv_plastic_material" />
@@ -1687,7 +1702,8 @@
 
         <component id="television6">
             <transformation>
-                <translate x="0" y="0" z="0.0" />
+
+                <transformationref id="null_transformation" />
             </transformation>
             <materials>
                 <material id="tv_plastic_material" />
@@ -1704,7 +1720,8 @@
 
         <component id="television7">
             <transformation>
-                <translate x="0" y="0" z="0.0" />
+
+                <transformationref id="null_transformation" />
             </transformation>
             <materials>
                 <material id="tv_plastic_material" />
@@ -1721,7 +1738,8 @@
 
         <component id="television8">
             <transformation>
-                <translate x="0" y="0" z="0.0" />
+
+                <transformationref id="null_transformation" />
             </transformation>
             <materials>
                 <material id="tv_plastic_material" />
