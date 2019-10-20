@@ -471,7 +471,9 @@
 
         <component id="shelf_test">
 
-            <transformation></transformation>
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
             <materials>
                 <material id="stub_material" />
             </materials>
