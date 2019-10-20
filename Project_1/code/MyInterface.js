@@ -54,20 +54,29 @@ class MyInterface extends CGFinterface {
     }
 
     /**
-     * initKeys
+     * Initialize key listening
      */
     initKeys() {
         this.scene.gui = this;
-        this.processKeyboard = function () { };
         this.activeKeys = {};
     }
+    
+    /**
+     * Applies the material cycling when the 'M' or 'm' key is pressed
+     * @param {keyboard event} event 
+     */
+    processKeyboard(event) {
+        if(event.code=="KeyM"){
+            this.scene.graph.cycleMaterials();
+        }
+    };
 
     processKeyDown(event) {
         this.activeKeys[event.code] = true;
     };
 
     processKeyUp(event) {
-        this.activeKeys[event.code] = false;
+        this.activeKeys[event.code] = false;    
     };
 
     isKeyPressed(keyCode) {

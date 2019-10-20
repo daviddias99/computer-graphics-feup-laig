@@ -21,6 +21,9 @@ class MyTorus extends CGFobject {
         this.initBuffers();
     }
 
+    /**
+     * Initialize the vertices, indices, normals and texture coordinates of the sphere
+     */
     initBuffers() {
         this.vertices = [];
         this.indices = [];

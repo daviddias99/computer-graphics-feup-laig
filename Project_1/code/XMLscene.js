@@ -79,10 +79,10 @@ class XMLscene extends CGFscene {
                 if (light[1] == "spot") {
                     this.lights[i].setSpotCutOff(light[7]);
                     this.lights[i].setSpotExponent(light[8]);
-                    this.lights[i].setSpotDirection(light[9][0] - light[2][0], light[9][1] - light[2][1], light[9][2] - light[2][3]);
+                    this.lights[i].setSpotDirection(light[9][0] - light[2][0], light[9][1] - light[2][1], light[9][2] - light[2][2]);
                 }
 
-                this.lights[i].setVisible(true);
+                // this.lights[i].setVisible(true);
                 if (light[0])
                     this.lights[i].enable();
                 else
@@ -145,23 +145,6 @@ class XMLscene extends CGFscene {
         this.sceneInited = true;
     }
 
-    checkKeys() {
-        var text = "Keys pressed: ";
-        var keysPressed = false;
-
-        if (this.gui.isKeyPressed("KeyM")) {
-            text += " M ";
-            keysPressed = true;
-
-            this.graph.cycleMaterials();
-        }
-
-    }
-
-    update(t) {
-        this.checkKeys();
-    }
-
     /**
      * Displays the scene.
      */
@@ -184,10 +167,14 @@ class XMLscene extends CGFscene {
         if(this.displayAxis)
             this.axis.display();
 
+        // ---- END Background, camera and axis setup
+
+
+        // Light update
         for (var i = 0; i < this.lights.length; i++)
             this.lights[i].update();
 
-
+        // Scene drawing
         if (this.sceneInited) {
 
             this.setDefaultAppearance();
@@ -202,6 +189,6 @@ class XMLscene extends CGFscene {
         }
 
         this.popMatrix();
-        // ---- END Background, camera and axis setup
+
     }
 }
