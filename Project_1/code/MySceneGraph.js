@@ -1154,6 +1154,151 @@ class MySceneGraph {
     }
 
     /**
+     * Parse the transformations section of a component
+     * @param {MySceneComponent} currentComponent          
+     * @param {Number} componentID 
+     * @param {lxs transformation node} transformationNode 
+     */
+    parseComponentTransformations(currentComponent,componentID,transformationNode){
+       var nodeNames = [];
+            for (var j = 0; j < transformationNode.children.length; j++) {
+                nodeNames.push(transformationNode.children[j].nodeName);
+            }
+
+            var transformationRefIndex = nodeNames.indexOf("transformationref");
+
+            if (transformationRefIndex != -1) {
+
+                var transformationrefID = this.reader.getString(transformationNode.children[transformationRefIndex], 'id');
+                if (this.transformations[transformationrefID] == null)
+                    return "given transformation does not exist (component with ID=" + componentID + ")";
+
+                currentComponent.transformation = this.transformations[transformationrefID];
+
+            } else {
+
+                var transfMatrix = mat4.create();
+                var transformationParse = this.parseTransformationNode(transformationNode, "[component]" + componentID, transfMatrix);
+                if (transformationParse != null)
+                    return transformationParse;
+
+                currentComponent.transformation = transfMatrix;
+            }
+
+        return null
+    }
+
+    /**
+     * Parse the materials section of a component
+     * @param {MySceneComponent} currentComponent          
+     * @param {Number} componentID 
+     * @param {lxs materials node} materialsNode 
+     */
+    parseComponentMaterials(currentComponent, componentID, materialsNode) {
+        if (materialsNode.children.length == 0)
+            return "there must be at least one material declared";
+
+        for (var j = 0; j < materialsNode.children.length; j++) {
+
+            if (materialsNode.children[j].nodeName != "material") {
+                this.onXMLMinorError("unknown tag <" + children[j].nodeName + ">");
+                continue;
+            }
+
+            // Get id of the current material.
+            var materialID = this.reader.getString(materialsNode.children[j], 'id');
+            if (materialID == null)
+                return "no ID defined for material";
+
+            if (materialID == 'inherit') {
+
+                currentComponent.materials.push('inherit');
+                continue;
+            }
+
+            // Checks for repeated IDs.
+            if (this.materials[materialID] == null)
+                return "there is no material with ID = " + materialID + "(conflict in component with ID=" + componentID + ")";
+
+            currentComponent.materials.push(this.materials[materialID]);
+
+        }
+        return null;
+    }
+
+    /**
+     * Parse the texture section of a component
+     * @param {MySceneComponent} currentComponent          
+     * @param {Number} componentID 
+     * @param {lxs texture node} textureNode 
+     */
+    parseComponentTexture(currentComponent, componentID, textureNode) {
+
+        //get ID of current texture
+        var textureID = this.reader.getString(textureNode, 'id');
+
+        if ((textureID == 'inherit') || (textureID == 'none')) {
+
+            currentComponent.textureBehaviour = textureID;
+
+        }
+        else if (this.textures[textureID] == null)
+            return "there is no texture with ID = " + textureID + "(conflict in component with ID=" + componentID + ")";
+        else {
+
+            currentComponent.texture = this.textures[textureID];
+            var lengthS = this.reader.getFloat(textureNode, 'length_s');
+            var lengthT = this.reader.getFloat(textureNode, 'length_t');
+
+            if (lengthS == null)
+                return "lengthS not provided for texture in component with ID="+ componentID;
+
+            if (lengthT == null)
+                return "lengthT not provided for texture in component with ID="+ componentID;
+
+            currentComponent.textureLengthS = lengthS;
+            currentComponent.textureLengthT = lengthT;
+        }
+        return null;
+    }
+
+    /**
+     * Parse the children section of a component
+     * @param {MySceneComponent} currentComponent          
+     * @param {Number} componentID 
+     * @param {lxs component children node} childrenNode 
+     */
+    parseComponentChildren(currentComponent, componentID, childrenNode) {
+
+        if (childrenNode.children.length == 0)
+            return "there must be at least one child declared";
+
+        for (var j = 0; j < childrenNode.children.length; j++) {
+
+            if (childrenNode.children[j].nodeName == 'componentref') {
+
+                var componentrefID = this.reader.getString(childrenNode.children[j], 'id');
+
+                if (this.components[componentrefID] == null)
+                    this.components[componentrefID] = new MySceneComponent(componentrefID);
+
+                currentComponent.childrenComponents.push(this.components[componentrefID]);
+            }
+            else if (childrenNode.children[j].nodeName == 'primitiveref') {
+
+                var primitiverefID = this.reader.getString(childrenNode.children[j], 'id');
+
+                if (this.primitives[primitiverefID] == null)
+                    return "there is no primitive with ID = " + primitiverefID + "(conflict in component with ID=" + componentID + ")";
+
+                currentComponent.childrenPrimitives.push(this.primitives[primitiverefID]);
+            }
+
+        }
+        return null;
+    }
+
+    /**
    * Parses the <components> block.
    * @param {components block element} componentsNode
    */
@@ -1204,131 +1349,39 @@ class MySceneGraph {
             var childrenIndex = nodeNames.indexOf("children");
 
 
-
             // Transformations
 
             var transformationNode = grandChildren[transformationIndex];
+            var transformationParsingResult = this.parseComponentTransformations(currentComponent,componentID,transformationNode);
 
-            nodeNames = [];
-            for (var j = 0; j < transformationNode.children.length; j++) {
-                nodeNames.push(transformationNode.children[j].nodeName);
-            }
-
-            var transformationRefIndex = nodeNames.indexOf("transformationref");
-
-            if (transformationRefIndex != -1) {
-
-                var transformationrefID = this.reader.getString(transformationNode.children[transformationRefIndex], 'id');
-                if (this.transformations[transformationrefID] == null)
-                    return "given transformation does not exist (component with ID=" + componentID + ")";
-
-                currentComponent.transformation = this.transformations[transformationrefID];
-
-            } else {
-
-                var transfMatrix = mat4.create();
-                var transformationParse = this.parseTransformationNode(transformationNode, "[component]" + componentID, transfMatrix);
-                if (transformationParse != null)
-                    return transformationParse;
-
-                currentComponent.transformation = transfMatrix;
-            }
-
+            if(transformationParsingResult != null)
+                return transformationParsingResult;
 
             // Materials
 
             var materialsNode = grandChildren[materialsIndex];
+            var materialsParsingResult = this.parseComponentMaterials(currentComponent,componentID,materialsNode);
 
-            if (materialsNode.children.length == 0)
-                return "there must be at least one material declared";
-
-            for (var j = 0; j < materialsNode.children.length; j++) {
-
-                if (materialsNode.children[j].nodeName != "material") {
-                    this.onXMLMinorError("unknown tag <" + children[j].nodeName + ">");
-                    continue;
-                }
-
-                // Get id of the current material.
-                var materialID = this.reader.getString(materialsNode.children[j], 'id');
-                if (materialID == null)
-                    return "no ID defined for material";
-
-                if (materialID == 'inherit') {
-
-                    currentComponent.materials.push('inherit');
-                    continue;
-                }
-
-                // Checks for repeated IDs.
-                if (this.materials[materialID] == null)
-                    return "there is no material with ID = " + materialID + "(conflict in component with ID=" + componentID + ")";
-
-                currentComponent.materials.push(this.materials[materialID]);
-
-            }
-
-
+            if(materialsParsingResult != null)
+                return materialsParsingResult;
+           
             // Texture
 
             var textureNode = grandChildren[textureIndex];
+            var textureParsingResult = this.parseComponentTexture(currentComponent,componentID,textureNode);
+
+            if(textureParsingResult != null)
+                return textureParsingResult;
             
-            //get ID of current texture
-            var textureID = this.reader.getString(textureNode, 'id');
-
-            if ((textureID == 'inherit') || (textureID == 'none')) {
-
-                currentComponent.textureBehaviour = textureID;
-
-            }
-            else if (this.textures[textureID] == null)
-                return "there is no texture with ID = " + textureID + "(conflict in component with ID=" + componentID + ")";
-            else {
-
-                currentComponent.texture = this.textures[textureID];
-                var lengthS = this.reader.getFloat(textureNode, 'length_s');
-                var lengthT = this.reader.getFloat(textureNode, 'length_t');
-
-                if (lengthS == null)
-                    return "lengthS not provided for texture in component with ID="+ componentID;
-
-                if (lengthT == null)
-                    return "lengthT not provided for texture in component with ID="+ componentID;
-
-                currentComponent.textureLengthS = lengthS;
-                currentComponent.textureLengthT = lengthT;
-            }
-
             // Children
 
             var childrenNode = grandChildren[childrenIndex];
+            var childrenParsingResult = this.parseComponentChildren(currentComponent,componentID,childrenNode);
 
-            if (childrenNode.children.length == 0)
-                return "there must be at least one child declared";
+            if(childrenParsingResult != null)
+                return childrenParsingResult;
 
-            for (var j = 0; j < childrenNode.children.length; j++) {
-
-                if (childrenNode.children[j].nodeName == 'componentref') {
-
-                    var componentrefID = this.reader.getString(childrenNode.children[j], 'id');
-
-                    if (this.components[componentrefID] == null)
-                        this.components[componentrefID] = new MySceneComponent(componentrefID);
-
-                    currentComponent.childrenComponents.push(this.components[componentrefID]);
-                }
-                else if (childrenNode.children[j].nodeName == 'primitiveref') {
-
-                    var primitiverefID = this.reader.getString(childrenNode.children[j], 'id');
-
-                    if (this.primitives[primitiverefID] == null)
-                        return "there is no primitive with ID = " + primitiverefID + "(conflict in component with ID=" + componentID + ")";
-
-                    currentComponent.childrenPrimitives.push(this.primitives[primitiverefID]);
-                }
-
-            }
-
+        
             currentComponent.loadedOk = true;
             this.components[componentID] = currentComponent;
         }
@@ -1356,7 +1409,6 @@ class MySceneGraph {
 
         this.log("Parsed components");
     }
-
 
     /**
      * Parse the coordinates from a node with ID = id
@@ -1501,7 +1553,7 @@ class MySceneGraph {
      * Recursively(depth-first) process the scene-graph(tree), displaying all primitives of the graph with the apropriate materials, textures and transformations. 
      * Materials,textures, transformations and scale-factors are passed
      * to the children nodes according to the specified lxs language. 
-     * @param {graph node} node 
+     * @param {graph node} node                     
      * @param {CGFappearance} activeMaterial 
      * @param {CGFtexture} activeTexture 
      * @param {Number} activeSScaleFactor 
