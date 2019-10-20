@@ -58,7 +58,7 @@ class MyInterface extends CGFinterface {
      */
     initKeys() {
         this.scene.gui = this;
-        this.processKeyboard = function () { };
+        // this.processKeyboard = function () { };
         this.activeKeys = {};
     }
 
@@ -67,7 +67,13 @@ class MyInterface extends CGFinterface {
     };
 
     processKeyUp(event) {
-        this.activeKeys[event.code] = false;
+        this.activeKeys[event.code] = false;    
+    };
+
+    processKeyboard(event) {
+        if(event.code=="KeyM"){
+            this.scene.graph.cycleMaterials();
+        }
     };
 
     isKeyPressed(keyCode) {

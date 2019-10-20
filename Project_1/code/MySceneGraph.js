@@ -343,7 +343,7 @@ class MySceneGraph {
             return "from not defined";
         }
 
-        var view = new CGFcamera(viewAngle, viewNear, viewFar, fromValues, toValues);
+        var view = new CGFcamera(viewAngle * DEGREE_TO_RAD, viewNear, viewFar, fromValues, toValues);
         this.cameras[viewId] = view;
     }
     
@@ -911,12 +911,12 @@ class MySceneGraph {
 
         // x2
         var x2 = this.reader.getFloat(rectangleNode, 'x2');
-        if (!(x2 != null && !isNaN(x2) && x2 > x1))
+        if (!(x2 != null && !isNaN(x2) ))
             return "unable to parse x2 of the primitive coordinates for ID = " + primitiveId;
 
         // y2
         var y2 = this.reader.getFloat(rectangleNode, 'y2');
-        if (!(y2 != null && !isNaN(y2) && y2 > y1))
+        if (!(y2 != null && !isNaN(y2)))
             return "unable to parse y2 of the primitive coordinates for ID = " + primitiveId;
 
         return new MyRectangle(this.scene, primitiveId, x1, x2, y1, y2);

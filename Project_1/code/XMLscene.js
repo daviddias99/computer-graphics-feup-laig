@@ -145,23 +145,6 @@ class XMLscene extends CGFscene {
         this.sceneInited = true;
     }
 
-    checkKeys() {
-        var text = "Keys pressed: ";
-        var keysPressed = false;
-
-        if (this.gui.isKeyPressed("KeyM")) {
-            text += " M ";
-            keysPressed = true;
-
-            this.graph.cycleMaterials();
-        }
-
-    }
-
-    update(t) {
-        this.checkKeys();
-    }
-
     /**
      * Displays the scene.
      */
