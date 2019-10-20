@@ -44,7 +44,7 @@
 
     <lights>
 
-        <omni id="demoLight" enabled="1">
+        <omni id="demoLight" enabled="0">
             <location x="10" y="10" z="10" w="0.0" />
             <ambient r="0.3" g="1" b="1" a="1" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
@@ -54,20 +54,29 @@
 
 
         <omni id="lamp_light" enabled="0">
-            <location x="10.0" y="10.0" z="10.0" w="0" />
+            <location x="1.0" y="1.65" z="0.0" w="0" />
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-            <attenuation constant="0.0" linear="1.0" quadratic="0.0" />
+            <attenuation constant="0.0" linear="0.0" quadratic="1.0" />
         </omni>
 
-        <omni id="crystal_ball_light" enabled="1">
+        <omni id="crystal_ball_light" enabled="0">
             <location x="-0.6" y="2" z="0" w="0" />
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-            <attenuation constant="1.0" linear="0" quadratic="0" />
+            <attenuation constant="1.0" linear="0" quadratic="1.0" />
         </omni>
+
+        <spot id="ceiling_light" enabled="1" angle="30" exponent="0">
+            <location x="-1" y="3" z="1" w="1" />
+            <target x="-1" y="0" z="1" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
+            <specular r="1.0" g="0.0" b="0.0" a="1.0" />
+            <attenuation constant="1.0" linear="0" quadratic="0" />
+        </spot>
 
     </lights>
 
@@ -168,7 +177,7 @@
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
-            <specular r="0.3" g="0.3" b="0.3" a="1.0" />
+            <specular r="0.7" g="0.7" b="0.7" a="1.0" />
         </material>
 
         <material id="lamp_material_arm" shininess="4">
@@ -521,7 +530,7 @@
         <component id="position_tv3">
 
             <transformation>
-                <translate x="1." y="1.6" z="-3.7" />
+                <translate x="1.0" y="1.6" z="-3.7" />
             </transformation>
             <materials>
                 <material id="stub_material" />
