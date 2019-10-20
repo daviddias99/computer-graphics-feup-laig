@@ -266,6 +266,10 @@ class MySceneGraph {
         return null;
     }
 
+    /**
+     * Parses a perspective view node (into a camera and adds it to the camera array of the scene graph)
+     * @param {lxs perspective view node} child 
+     */
     parsePerspectiveView(child) {
         // Get id of the current perspective
         var viewId = this.reader.getString(child, 'id');
@@ -343,6 +347,10 @@ class MySceneGraph {
         this.cameras[viewId] = view;
     }
     
+     /**
+     * Parses a orthographic view node (into a camera and adds it to the camera array of the scene graph)
+     * @param {lxs orthographic view node} child 
+     */
     parseOrthoView(child) {
         // Get id of the current ortho
         var viewId = this.reader.getString(child, 'id');
@@ -1490,14 +1498,16 @@ class MySceneGraph {
     }
 
     /**
-     * TODO: Comment this code
-     * @param {*} node 
-     * @param {*} activeMaterial 
-     * @param {*} activeTexture 
-     * @param {*} ls 
-     * @param {*} lt 
+     * Recursively(depth-first) process the scene-graph(tree), displaying all primitives of the graph with the apropriate materials, textures and transformations. 
+     * Materials,textures, transformations and scale-factors are passed
+     * to the children nodes according to the specified lxs language. 
+     * @param {graph node} node 
+     * @param {CGFappearance} activeMaterial 
+     * @param {CGFtexture} activeTexture 
+     * @param {Number} activeSScaleFactor 
+     * @param {Number} activeLScaleFactor 
      */
-    process(node,activeMaterial, activeTexture, ls, lt) {
+    process(node,activeMaterial, activeTexture, activeSScaleFactor, activeLScaleFactor) {
 
         if (!node.loadedOk)
             return;
@@ -1511,6 +1521,7 @@ class MySceneGraph {
         else
             childMaterial = node.materials[node.currentMaterialIndex];
             
+        // choose the apropriate texture
         if (node.textureBehaviour == 'defined'){
 
             childTexture = node.texture;
@@ -1520,8 +1531,8 @@ class MySceneGraph {
         else if (node.textureBehaviour == 'inherit'){
 
             childTexture = activeTexture;
-            childLengthS = ls;
-            childLengthT = lt;
+            childLengthS = activeSScaleFactor;
+            childLengthT = activeLScaleFactor;
         }         
         else if (node.textureBehaviour == 'none')
             childTexture = null;
@@ -1531,19 +1542,21 @@ class MySceneGraph {
         this.scene.pushMatrix();
         this.scene.multMatrix(node.transformation);
 
+        // process child nodes
         for (var i = 0; i < node.childrenComponents.length; i++) {
 
             this.process(node.childrenComponents[i],childMaterial, childTexture, childLengthS, childLengthT);
         }
 
+        // process child primitives
         for (var i = 0; i < node.childrenPrimitives.length; i++) {
 
-            childMaterial.setTexture(childTexture);
-            childMaterial.setTextureWrap('REPEAT', 'REPEAT');
-            childMaterial.apply();
-            node.childrenPrimitives[i].scaleTex(childLengthS, childLengthT);
-            node.childrenPrimitives[i].display();
-            node.childrenPrimitives[i].resetTexCoords();
+            childMaterial.setTexture(childTexture);                                     // set the texture
+            childMaterial.setTextureWrap('REPEAT', 'REPEAT');                           // set the texture wrap
+            childMaterial.apply();                                                      // apply the material   
+            node.childrenPrimitives[i].scaleTex(childLengthS, childLengthT);            // apply scalefactors
+            node.childrenPrimitives[i].display();                                       // display the primitive
+            node.childrenPrimitives[i].resetTexCoords();                                // reset texture coordinates
         }
 
         this.scene.popMatrix();

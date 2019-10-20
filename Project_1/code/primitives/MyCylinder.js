@@ -1,4 +1,3 @@
-// FIXME: for some reason if the number of slices or stacks is over 254 there is a gap on the cylinder side
 
 /**
  * Class reperesenting a cylinder
@@ -25,6 +24,9 @@ class MyCylinder extends CGFobject {
         this.initBuffers();
     }
 
+    /**
+     * Initialize the vertices, indices, normals and texture coordinates of the cylinder
+     */
     initBuffers() {
         this.vertices = [];
         this.indices = [];

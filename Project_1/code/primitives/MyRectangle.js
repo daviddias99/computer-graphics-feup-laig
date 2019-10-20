@@ -24,6 +24,9 @@ class MyRectangle extends CGFobject {
 		this.initBuffers();
 	}
 	
+	/**
+     * Initialize the vertices, indices, normals and texture coordinates of the rectangle
+     */
 	initBuffers() {
 		this.vertices = [
 			this.x1, this.y1, 0,	//0

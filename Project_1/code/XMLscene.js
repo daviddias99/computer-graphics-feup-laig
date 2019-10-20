@@ -82,7 +82,7 @@ class XMLscene extends CGFscene {
                     this.lights[i].setSpotDirection(light[9][0] - light[2][0], light[9][1] - light[2][1], light[9][2] - light[2][3]);
                 }
 
-                this.lights[i].setVisible(true);
+                // this.lights[i].setVisible(true);
                 if (light[0])
                     this.lights[i].enable();
                 else
@@ -184,10 +184,14 @@ class XMLscene extends CGFscene {
         if(this.displayAxis)
             this.axis.display();
 
+        // ---- END Background, camera and axis setup
+
+
+        // Light update
         for (var i = 0; i < this.lights.length; i++)
             this.lights[i].update();
 
-
+        // Scene drawing
         if (this.sceneInited) {
 
             this.setDefaultAppearance();
@@ -202,6 +206,6 @@ class XMLscene extends CGFscene {
         }
 
         this.popMatrix();
-        // ---- END Background, camera and axis setup
+
     }
 }

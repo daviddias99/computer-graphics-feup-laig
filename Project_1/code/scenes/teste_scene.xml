@@ -87,7 +87,7 @@
         <texture id="pyramid_tex" file="scenes/images/t_pyramid.jpg" />
         <texture id="lamp_top_tex" file="scenes/images/t_lamp_fabric.jpg" />
         <texture id="floor_tex" file="scenes/images/t_floor.jpg" />
-        <texture id="tarot1_tex" file="scenes/images/t_tarot1.jpeg" />
+        <texture id="tarot1_tex" file="scenes/images/t_tarot1.jpg" />
         <texture id="tarot2_tex" file="scenes/images/t_tarot2.jpg" />
         <texture id="tarot3_tex" file="scenes/images/t_tarot3.jpg" />
         <texture id="show_maia_tex" file="scenes/images/t_show_maia.png" />
@@ -126,7 +126,7 @@
         <material id="wood_material" shininess="1">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="0.7" g="0.7" b="0.7" a="1.0" />
             <specular r="0.1" g="0.1" b="0.1" a="1.0" />
         </material>
 
@@ -191,6 +191,41 @@
             <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
             <diffuse r="0.1" g="0.1" b="0.1" a="1.0" />
             <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+        </material>
+
+        <material id="carpet_material" shininess="2">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.5" g="0.35" b="0.5" a="1.0" />
+            <diffuse r="0.6" g="0.35" b="0.6" a="1.0" />
+            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+        </material>
+
+        <material id="pyramid_material" shininess="3">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
+            <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
+            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+        </material>
+
+        <material id="card_material" shininess="4">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+            <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
+            <specular r="0.4" g="0.4" b="0.4" a="1.0" />
+        </material>
+
+        <material id="blue_latex_material" shininess="8">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.2" g="0.2" b="0.25" a="1.0" />
+            <diffuse r="0.2" g="0.2" b="0.35" a="1.0" />
+            <specular r="0.3" g="0.3" b="0.8" a="1.0" />
+        </material>
+
+        <material id="metalic_material" shininess="7">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
         </material>
 
 
@@ -319,7 +354,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="none" length_s="1" length_t="1" />
+            <texture id="none"/>
             <children>
                 <componentref id="position_TableAndContents" />
                 <componentref id="position_YogaBall" />
@@ -327,14 +362,14 @@
                 <componentref id="position_Lamp" />
                 <componentref id="position_Bin" />
                 <componentref id="floor" />
+                <componentref id="carpet" />
+                <componentref id="shelves" />
                 <componentref id="table_magic" />
                 <componentref id="walls" />
-                <componentref id="carpet" />
-                <componentref id="shelf_test" />
             </children>
         </component>
 
-
+        <!-- START: Miniature of the scene that seats on top of the table -->
         <component id="table_magic">
             <transformation>
                 <translate x="-1.5" y="0" z="1.1" />
@@ -344,7 +379,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="stub_tex" length_s="1" length_t="1" />
+            <texture id="none"/>
             <children>
                 <componentref id="position_TableAndContents" />
                 <componentref id="position_YogaBall" />
@@ -353,9 +388,10 @@
                 <componentref id="position_Bin" />
                 <componentref id="floor" />
                 <componentref id="carpet" />
-                <componentref id="shelf_test" />
+                <componentref id="shelves" />
             </children>
         </component>
+        <!-- END: Miniature of the scene that seats on top of the table -->
 
 
         <!-- START: Object Positioning-->
@@ -365,9 +401,9 @@
                 <translate x="-3" y="0" z="2" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
-            <texture id="stub_tex" length_s="1" length_t="1" />
+            <texture id="none"/>
             <children>
                 <componentref id="bin" />
             </children>
@@ -378,9 +414,9 @@
                 <translate x="-1.5" y="0" z="1" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
-            <texture id="stub_tex" length_s="1" length_t="1" />
+            <texture id="none"/>
             <children>
                 <componentref id="table" />
                 <componentref id="position_PyramidOnTable" />
@@ -399,9 +435,9 @@
                 <scale x="0.4" y="0.4" z="0.4" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
-            <texture id="stub_tex" length_s="1" length_t="1" />
+            <texture id="none"/>
             <children>
                 <componentref id="pyramid" />
             </children>
@@ -414,7 +450,7 @@
                 <scale x="0.4" y="0.4" z="0.4" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="none" />
             <children>
@@ -428,7 +464,7 @@
                 <scale x="0.15" y="0.15" z="0.15" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="none" />
             <children>
@@ -442,7 +478,7 @@
                 <translate x="1" y="1" z="2" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="blue_latex_material" />
             </materials>
             <texture id="yoga_tex" length_s="1" length_t="1" />
             <children>
@@ -458,9 +494,9 @@
 
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
-            <texture id="stub_tex" length_s="1" length_t="1" />
+            <texture id="none"/>
             <children>
                 <componentref id="chair" />
             </children>
@@ -471,9 +507,9 @@
                 <translate x="1" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
-            <texture id="stub_tex" length_s="1" length_t="1" />
+            <texture id="none"/>
             <children>
                 <componentref id="lamp" />
             </children>
@@ -481,11 +517,13 @@
 
         <!-- START: Shelf component -->
 
-        <component id="shelf_test">
+        <component id="shelves">
 
-            <transformation></transformation>
+            <transformation>
+                <transformationref id="null_transformation"/>
+            </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="none" />
             <children>
@@ -508,7 +546,7 @@
                 <translate x="-3" y="1.6" z="-3.7" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="none" />
             <children>
@@ -522,7 +560,7 @@
                 <translate x="-1.0" y="1.6" z="-3.7" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="none" />
             <children>
@@ -536,7 +574,7 @@
                 <translate x="1.0" y="1.6" z="-3.7" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="none" />
             <children>
@@ -550,7 +588,7 @@
                 <translate x="3" y="1.6" z="-3.7" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="none" />
             <children>
@@ -564,7 +602,7 @@
                 <translate x="-3" y="2.8" z="-3.7" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="none" />
             <children>
@@ -578,7 +616,7 @@
                 <translate x="-1.0" y="2.8" z="-3.7" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="none" />
             <children>
@@ -592,7 +630,7 @@
                 <translate x="1." y="2.8" z="-3.7" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="none" />
             <children>
@@ -606,7 +644,7 @@
                 <translate x="3" y="2.8" z="-3.7" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="none" />
             <children>
@@ -649,7 +687,7 @@
 
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="floor_tex" length_s="4" length_t="4" />
             <children>
@@ -672,7 +710,7 @@
 
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="wood_material" />
             </materials>
             <texture id="floor_tex" length_s="4" length_t="4" />
             <children>
@@ -691,7 +729,7 @@
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="carpet_material" />
             </materials>
             <texture id="carpet_tex" length_s="1.5" length_t="1" />
             <children>
@@ -708,7 +746,7 @@
                 <transformationref id="null_transformation" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="wood_material" />
             </materials>
             <texture id="wall_tex" length_s="4" length_t="4" />
             <children>
@@ -724,7 +762,7 @@
                 <translate x="0" y="2" z="-4" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -739,7 +777,7 @@
                 <translate x="0" y="2" z="-4" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -754,7 +792,7 @@
                 <translate x="0" y="2" z="-4" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -769,7 +807,7 @@
                 <translate x="0" y="2" z="-4" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -789,9 +827,9 @@
 
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="card_material" />   
             </materials>
-            <texture id="stub_tex" length_s="1" length_t="2" />
+            <texture id="none"/>
             <children>
                 <componentref id="card1" />
                 <componentref id="card2" />
@@ -858,7 +896,7 @@
                 <transformationref id="null_transformation" />
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="metalic_material" />
             </materials>
             <texture id="bin_tex" length_s="1" length_t="1" />
             <children>
@@ -1142,7 +1180,7 @@
                 <rotate axis="y" angle="-45" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="pyramid_material" />
             </materials>
             <texture id="pyramid_tex" length_s="1" length_t="1" />
             <children>
@@ -1156,7 +1194,7 @@
                 <transformationref id="null_transformation" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -1171,7 +1209,7 @@
                 <transformationref id="y90rotate" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -1185,7 +1223,7 @@
                 <transformationref id="y90rotate" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -1199,7 +1237,7 @@
                 <transformationref id="y90rotate" />
             </transformation>
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -1341,7 +1379,7 @@
             </transformation>
 
             <materials>
-                <material id="stub_material" />
+                <material id="wood_material" />
             </materials>
 
             <texture id="none" />
@@ -1366,7 +1404,7 @@
             </transformation>
 
             <materials>
-                <material id="stub_material" />
+                <material id="inherit" />
             </materials>
 
             <texture id="chair_block_tex" length_s="2" length_t="2" />

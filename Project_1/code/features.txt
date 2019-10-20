@@ -11,9 +11,9 @@
 [X]-uso de atenuações                          | diferentes atenuações das luzes da bola/candeeiro/sala
 [X]-uso de texturas                            | ---
 [ ]-uso de fatores de escala em texturas       | ---
-[ ]-uso de materiais difusos                   | madeira, topo do candeeiro
-[ ]-uso de mateirais especulares               | bola de cristal, bola de yoga
-[ ]-transformações - rotação                   | ---
+[x]-uso de materiais difusos                   | madeira, topo do candeeiro
+[x]-uso de mateirais especulares               | bola de cristal, bola de yoga
+[x]-transformações - rotação                   | ---
 [X]-transformações - escalamentos 'padrao'     | maquete, cadeira, cilindro
 [X]-transformações - escalementos 'dispares'   | base do caixote do lixo e "interior" de cilindros
 [X]-transformações - reutilização              | piramide

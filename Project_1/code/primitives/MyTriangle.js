@@ -19,6 +19,9 @@ class MyTriangle extends CGFobject {
         this.initBuffers();
     }
 
+    /**
+     * Initialize the vertices, indices, normals and texture coordinates of the triangle
+     */
     initBuffers() {
         this.vertices = [
             this.p1[0], this.p1[1], this.p1[2],     // 0
