@@ -1,6 +1,7 @@
 var DEGREE_TO_RAD = Math.PI / 180;
 
 // Order of the groups in the XML document.
+
 var SCENE_INDEX = 0;
 var VIEWS_INDEX = 1;
 var GLOBALS_INDEX = 2;
@@ -8,8 +9,9 @@ var LIGHTS_INDEX = 3;
 var TEXTURES_INDEX = 4;
 var MATERIALS_INDEX = 5;
 var TRANSFORMATIONS_INDEX = 6;
-var PRIMITIVES_INDEX = 7;
-var COMPONENTS_INDEX = 8;
+var ANIMATIONS_INDEX = 7;
+var PRIMITIVES_INDEX = 8;
+var COMPONENTS_INDEX = 9;
 
 var GROUP_ORDER = ["scene", "views", "globals", "lights", "textures", "materials", "transformations", "primitives", "components"];
 
@@ -177,6 +179,17 @@ class MySceneGraph {
 
             //Parse transformations block
             if ((error = this.parseTransformations(nodes[index])) != null)
+                return error;
+        }
+
+        if ((index = nodeNames.indexOf("animations")) == -1)
+            return "tag <animations> missing";
+        else {
+            if (index != ANIMATIONS_INDEX)
+                this.onXMLMinorError("tag <animations> out of order");
+            
+            // Parse animations block
+            if ((error = this.parseAnimations(nodes[index])) != null)
                 return error;
         }
 
@@ -891,6 +904,14 @@ class MySceneGraph {
         return null;
     }
 
+
+    /**
+     * Method to parse the <animations> block
+     * @param {lxs animations node} animationsNode 
+     */
+    parseAnimations(animationsNode) {
+
+    }
 
     /**
      * Method to parse a lxs-format rectangle node
