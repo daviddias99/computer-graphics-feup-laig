@@ -52,6 +52,12 @@ class XMLscene extends CGFscene {
         this.camera = this.graph.cameras[this.graph.defaultCameraId];
         this.interface.setActiveCamera(this.camera);
     }
+
+    update(t) {
+
+    }
+
+
     /**
      * Initializes the scene lights with the values read from the XML file.
      */
