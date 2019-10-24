@@ -354,7 +354,7 @@
             <materials>
                 <material id="stub_material" />
             </materials>
-            <texture id="none"/>
+            <texture id="bin_tex" length_s="1" length_t="1"/>
             <children>
                 <componentref id="position_TableAndContents" />
                 <componentref id="position_YogaBall" />
@@ -416,7 +416,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="table" />
                 <componentref id="position_PyramidOnTable" />
@@ -452,7 +452,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="crystal_ball" />
             </children>
@@ -1622,7 +1622,7 @@
             <materials>
                 <material id="crystal_material_0" />
             </materials>
-            <texture id="ball_base_tex" length_s="1" length_t="1" />
+            <texture id="inherit"/>
             <children>
                 <componentref id="crystal_ball_sphere" />
                 <primitiveref id="crystal_ball_base_primitive" />
@@ -1639,7 +1639,7 @@
                 <material id="crystal_material_3" />
                 <material id="inherit" />
             </materials>
-            <texture id="none"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="crystal_ball_sphere_primitive" />
             </children>
