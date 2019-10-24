@@ -1,0 +1,30 @@
+[X]-cameras: ortho e perspective               |                                                                               
+[X]-fontes de luz: spot e omni                 | luz da sala, luz do candeeiro e luz da bola de cristal
+[X]-hierarquia de descendencia                 | formação da mesa, colocação dos objetos na mesa e movimentação do conjunto
+[X]-reutilização de primitivas                 | cilindro das pernas da mesa/cadeira faces da pirâmide
+[X]-uso do cilindro                            | pernas da mesa/cadeira, braço/topo do candeeiro, caixote do lixo
+[X]-uso do torus                               | base do candeeiro, base da bola de cristal
+[X]-uso da esfera                              | bola de yoga e bola de cristal
+[X]-uso de triangulos                          | piramide
+[X]-uso de retangulos                          | cartas de tarot e criação de paralelepipedos, tapete, paredes chao
+[X]-formação de objetos complexos              | bloco usado para a base e costas da cadeira
+[X]-uso de atenuações                          | diferentes atenuações das luzes da bola/candeeiro/sala
+[X]-uso de texturas                            | ---
+[ ]-uso de fatores de escala em texturas       | ---
+[x]-uso de materiais difusos                   | madeira, topo do candeeiro
+[x]-uso de mateirais especulares               | bola de cristal, bola de yoga
+[x]-transformações - rotação                   | ---
+[X]-transformações - escalamentos 'padrao'     | maquete, cadeira, cilindro
+[X]-transformações - escalementos 'dispares'   | base do caixote do lixo e "interior" de cilindros
+[X]-transformações - reutilização              | piramide
+[X]-transformações - inline                    | ---
+[X]-primitivas - var loops/stacks/slices       | parte de tras da televisao
+[X]-materiais - componentes com 1              | bola de yoga
+[X]-materiais - componentes com varios         | bola de cristal     
+[X]-materiais - inherit material               | mesa/piramide
+[X]-materiais - ciclar com tecla m/M           | ---
+[X]-texturas  - comportamento inherit          | mesa/piramide
+[X]-texturas - comportamento none              | bola de cristal
+[X]-texturas - comportamento normal            | cartas de tarot
+
+
