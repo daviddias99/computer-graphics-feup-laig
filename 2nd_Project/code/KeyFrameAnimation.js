@@ -1,3 +1,0 @@
-class KeyFrameAnimation extends Animation {
-    
-}

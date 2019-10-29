@@ -1,14 +1,13 @@
 class Animation {
 
-    constructor(id) {
+    constructor(scene,id) {
         this.id = id;
-
-        this.transformation;
+        this.scene = scene;
     }
 
     // TODO: implement the update method
     update(t) {
-
+        
     }
 
     // TODO: implement the apply method

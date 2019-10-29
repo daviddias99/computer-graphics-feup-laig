@@ -87,3 +87,8 @@ function distance(a, b) {
 
     return Math.sqrt(Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2) + Math.pow(a[2] - b[2], 2));
 }
+
+function linearInterpolation(x,x1,x0,y1,y0) {
+
+    return y0 + (x - x0)*(y1-y0) / (x1-x0);
+}

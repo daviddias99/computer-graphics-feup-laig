@@ -905,12 +905,100 @@ class MySceneGraph {
     }
 
 
+    parseKeyFrame(keyframeNode){
+
+        
+        var kfTransformations = [];
+        var children = keyframeNode.children;
+
+        for(var i = 0; i < children.length;i++){
+            switch (children[i].nodeName) {
+
+                case 'translate':
+                    var coordinates = this.parseCoordinates3D(children[i], "animation translation");
+                    if (!Array.isArray(coordinates))
+                        return coordinates;
+
+                    break;
+                case 'scale':
+                    var coordinates = this.parseCoordinates3D(children[i], "animation scale");
+                    if (!Array.isArray(coordinates))
+                        return coordinates;
+
+                    break;
+                case 'rotate':
+
+                    var angleXDeg = this.reader.getFloat(children[i], 'angle_x');
+                    var angleYDeg = this.reader.getFloat(children[i], 'angle_y');
+                    var angleZDeg = this.reader.getFloat(children[i], 'angle_z');
+
+                    var angleXRad = angleXDeg * DEGREE_TO_RAD;
+                    var angleYRad = angleYDeg * DEGREE_TO_RAD;
+                    var angleZRad = angleZDeg * DEGREE_TO_RAD;
+
+
+                    break;
+            }
+        }
+
+        return;
+    }
+
+    parseAnimationNode(animationNode,animationID,animation){
+
+        var children = animationNode.children;
+        // Specifications for the current animation.
+        for (var i = 0; i < children.length; i++) {
+            if(children[i].nodeName == 'keyframe'){
+
+                var keyframe = this.parseKeyFrame(children[i]);
+                animation.addKeyFrame(keyframe);  
+            }
+            else{
+                return "unknown child-tag in animation with ID=" + animationID;
+            }
+        }
+
+        return null;
+
+    }
+
     /**
      * Method to parse the <animations> block
      * @param {lxs animations node} animationsNode 
      */
     parseAnimations(animationsNode) {
 
+        var children = animationsNode.children;
+        this.animations = [];
+
+        // Any number of transformations.
+        for (var i = 0; i < children.length; i++) {
+
+            if (children[i].nodeName != "animation") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+
+            // Get id of the current transformation.
+            var animationID = this.reader.getString(children[i], 'id');
+            if (animationID == null)
+                return "no ID defined for animation";
+
+            // Checks for repeated IDs.
+            if (this.animations[animationID] != null)
+                return "ID must be unique for each animation (conflict: ID = " + animationID + ")";
+            var animation = new KeyFrameAnimation(this.scene,animationID);
+            var animationParse = this.parseAnimationNode(children[i], animationID, animation);
+
+            if (animationParse != null)
+                return animationParse;
+
+            this.animations[animationID] = animation;
+        }
+
+        this.log("Parsed transformations");
+        return null;        
     }
 
     /**
