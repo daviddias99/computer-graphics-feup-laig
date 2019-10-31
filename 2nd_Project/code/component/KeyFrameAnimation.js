@@ -2,10 +2,12 @@ class KeyFrameAnimation extends Animation {
 
     constructor(scene,id,keyframes) {
         super(scene,id);
+
         this.keyframes = [];
         this.keyframes.push(KeyFrame.getNullKeyFrame());
         this.keyframes.push(...keyframes);
         this.normalizeTimes();
+        
         this.currentFrame = 1;
         this.sumT = 0;
     }
@@ -17,36 +19,39 @@ class KeyFrameAnimation extends Animation {
 
     normalizeTimes(){
 
-        for(var i = this.keyframes.length - 1; i > 0; i--){
-
-            this.keyframes[i].time -= this.keyframes[i-1].time;
-        }
-
+        for(var i = this.keyframes.length - 1; i > 0; i--)
+            this.keyframes[i].frameDuration = this.keyframes[i].time - this.keyframes[i-1].time;
+        
         return;
     }
     
     // TODO: implement the update method
     update(t) {
 
+        // If the animation is over there is no need to update the matrix
         if(this.animationOver)
             return;
 
         this.sumT += t;
 
-        if(this.sumT > this.keyframes[this.currentFrame].time){
+        // Check for need to switch to next keyframe
+        if(this.sumT > this.keyframes[this.currentFrame].getFrameDurationMilli()){
 
-            this.sumT -= this.keyframes[this.currentFrame].time;
+            // Bound sumT to the overlaying time value
+            this.sumT -= this.keyframes[this.currentFrame].getFrameDurationMilli();
+
+            // Next frame
             this.currentFrame ++;
-            console.log("ola");
 
+            // If last frame, end animation
             if(this.currentFrame == this.keyframes.length){
                 this.animationOver = true;
-                this.currentFrame--;
                 return;
             }
 
         }
 
+        // Update the animation matrix by interpolating frames
         if(this.currentFrame > 0){
             this.transformationMatrix = this.interpolateFrames(this.sumT,this.keyframes[this.currentFrame-1],this.keyframes[this.currentFrame]);
         }
@@ -57,35 +62,16 @@ class KeyFrameAnimation extends Animation {
 
         var transfMatrix = mat4.create();
 
-        var currentX = linearInterpolation(t,frame2.time,0,frame2.translation[0],frame1.translation[0]);
-        var currentY = linearInterpolation(t,frame2.time,0,frame2.translation[1],frame1.translation[1]);
-        var currentZ = linearInterpolation(t,frame2.time,0,frame2.translation[2],frame1.translation[2]);
+        var translCoords = arrayLinearInterpolation(t,frame2.getFrameDurationMilli(),0,frame2.translation,frame1.translation);
+        transfMatrix = mat4.translate(transfMatrix, transfMatrix, translCoords);
 
-        var coordinates = [currentX,currentY,currentZ];
-        transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
+        var rotCoords = arrayLinearInterpolation(t,frame2.getFrameDurationMilli(),0,frame2.rotation,frame1.rotation);
+        transfMatrix = mat4.rotateX(transfMatrix, transfMatrix, rotCoords[0]);
+        transfMatrix = mat4.rotateY(transfMatrix, transfMatrix, rotCoords[1]);
+        transfMatrix = mat4.rotateZ(transfMatrix, transfMatrix, rotCoords[2]);
 
-        currentX = linearInterpolation(t,frame2.time,0,frame2.rotation[0],frame1.rotation[0]);
-        currentY = linearInterpolation(t,frame2.time,0,frame2.rotation[1],frame1.rotation[1]);
-        currentZ = linearInterpolation(t,frame2.time,0,frame2.rotation[2],frame1.rotation[2]);
-
-        coordinates = [currentX,currentY,currentZ];
-        transfMatrix = mat4.rotateX(transfMatrix, transfMatrix, currentX);
-        transfMatrix = mat4.rotateY(transfMatrix, transfMatrix, currentY);
-        transfMatrix = mat4.rotateZ(transfMatrix, transfMatrix, currentZ);
-
-        var n = frame2.time;
-        var ratioX = Math.pow(frame2.scale[0]/frame1.scale[0], 1/n);
-        var ratioY = Math.pow(frame2.scale[1]/frame1.scale[1], 1/n);
-        var ratioZ = Math.pow(frame2.scale[2]/frame1.scale[2], 1/n);
-
-        var scalingStep = t;
-
-        var currentXSclFactor = frame1.scale[0] * Math.pow(ratioX,scalingStep);
-        var currentYSclFactor = frame1.scale[1] * Math.pow(ratioY,scalingStep);;
-        var currentZSclFactor = frame1.scale[2] * Math.pow(ratioZ,scalingStep);;
-
-        var scaleFactors = [currentXSclFactor,currentYSclFactor,currentZSclFactor]
-        transfMatrix = mat4.scale(transfMatrix, transfMatrix, scaleFactors);   
+        var scaleCoords = arrayGeometricProgressionTerm(frame1.scale,frame2.scale,frame2.getFrameDurationMilli(),t);
+        transfMatrix = mat4.scale(transfMatrix, transfMatrix, scaleCoords);   
         
         return transfMatrix;
     }

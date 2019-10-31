@@ -95,3 +95,35 @@ function linearInterpolation(x,x1,x0,y1,y0) {
 
     return y0 + (x - x0)*(y1-y0) / (x1-x0);
 }
+
+function arrayLinearInterpolation(x,x1,x0,y1,y0) {
+
+    var result = [];
+
+    for(var i = 0; i < y1.length; i++){
+
+        result.push(linearInterpolation(x,x1,x0,y1[i],y0[i]));
+    }
+
+    return result;
+}
+
+function geometricProgressionTerm(T0,T1,n,step){
+
+    var ratio = Math.pow(T1/T0, 1/n);
+    var sclFactor = T0 * Math.pow(ratio,step);
+
+    return sclFactor;
+}
+
+function arrayGeometricProgressionTerm(T0,T1,n,step) {
+
+    var result = [];
+
+    for(var i = 0; i < T1.length; i++){
+
+        result.push(geometricProgressionTerm(T0[i],T1[i],n,step));
+    }
+
+    return result;
+}
