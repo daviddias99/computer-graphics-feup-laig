@@ -43,16 +43,26 @@
     </transformations>
 
     <animations>
-        <animation id="test_animation">
+
+
+        <animation id="test_animation2">
             <keyframe instant="2">
                 <translate x="1" y="0" z="0"/>
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="0.5" y="0.5" z="0.5" />
+            </keyframe>
+
+            <keyframe instant="4">
+                <translate x="0" y="0" z="0"/>
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
             </keyframe>
         </animation>
     </animations>
 
     <primitives>
-        <primitive id="triangle">
-            <triangle x1="0" y1="0" z1="1" x2="1" y2="0" z2="0" x3="0" y3="1" z3="0"/>
+        <primitive id="rectangle">
+            <rectangle x1="-1" y1="-1" x2="1" y2="1" />
         </primitive>
     </primitives>
 
@@ -62,12 +72,13 @@
             <transformation>
                 <translate x="0" y="0" z="0"/>
             </transformation>
+            <animationref id="test_animation2"/>
             <materials>
                 <material id="demoMaterial" />
             </materials>
             <texture id="none"/>
             <children>
-                <primitiveref id="triangle" />
+                <primitiveref id="rectangle" />
             </children>
         </component>
 

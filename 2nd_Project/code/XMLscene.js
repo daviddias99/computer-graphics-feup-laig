@@ -12,6 +12,7 @@ class XMLscene extends CGFscene {
         super();
 
         this.interface = myinterface;
+        this.lastT = 0;
     }
 
     /**
@@ -54,7 +55,18 @@ class XMLscene extends CGFscene {
     }
 
     update(t){
+
+        var deltaT = t - this.lastT
+        this.lastT = t;
         
+        if(!this.graph.loadedOk)
+            return;
+
+        for(var key in this.graph.animations){
+
+            if(this.graph.animations[key].inUse)
+                this.graph.animations[key].update(deltaT);
+        }
     }
 
     /**
@@ -169,7 +181,8 @@ class XMLscene extends CGFscene {
 
         this.pushMatrix();
         
-        if(this.displayAxis)
+        // TODO: uncomment this line
+        // if(this.displayAxis)
             this.axis.display();
 
         // ---- END Background, camera and axis setup

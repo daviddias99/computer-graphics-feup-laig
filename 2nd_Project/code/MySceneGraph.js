@@ -905,11 +905,15 @@ class MySceneGraph {
     }
 
 
+    // TODO: error checking and checking for wrong tags
     parseKeyFrame(keyframeNode){
 
-        
-        var kfTransformations = [];
         var children = keyframeNode.children;
+        var scaling = [];
+        var rotation = [];
+        var translation = [];
+
+        var instant = this.reader.getFloat(keyframeNode, 'instant');
 
         for(var i = 0; i < children.length;i++){
             switch (children[i].nodeName) {
@@ -919,12 +923,14 @@ class MySceneGraph {
                     if (!Array.isArray(coordinates))
                         return coordinates;
 
+                    translation = coordinates;
                     break;
                 case 'scale':
                     var coordinates = this.parseCoordinates3D(children[i], "animation scale");
                     if (!Array.isArray(coordinates))
                         return coordinates;
 
+                        scaling = coordinates;
                     break;
                 case 'rotate':
 
@@ -936,30 +942,34 @@ class MySceneGraph {
                     var angleYRad = angleYDeg * DEGREE_TO_RAD;
                     var angleZRad = angleZDeg * DEGREE_TO_RAD;
 
-
+                    rotation = [angleXRad,angleYRad,angleZRad];
                     break;
             }
         }
 
-        return;
+
+        return new KeyFrame(instant,translation,rotation,scaling);
     }
 
+    // TODO: error checking and checking for wrong tags
     parseAnimationNode(animationNode,animationID,animation){
 
         var children = animationNode.children;
+        var keyframes = [];
+
         // Specifications for the current animation.
         for (var i = 0; i < children.length; i++) {
             if(children[i].nodeName == 'keyframe'){
 
                 var keyframe = this.parseKeyFrame(children[i]);
-                animation.addKeyFrame(keyframe);  
+                keyframes.push(keyframe);
             }
             else{
                 return "unknown child-tag in animation with ID=" + animationID;
             }
         }
 
-        return null;
+        return new KeyFrameAnimation(this.scene,animationID,keyframes);
 
     }
 
@@ -988,14 +998,11 @@ class MySceneGraph {
             // Checks for repeated IDs.
             if (this.animations[animationID] != null)
                 return "ID must be unique for each animation (conflict: ID = " + animationID + ")";
-            var animation = new KeyFrameAnimation(this.scene,animationID);
-            var animationParse = this.parseAnimationNode(children[i], animationID, animation);
 
-            if (animationParse != null)
-                return animationParse;
-
+            var animation = this.parseAnimationNode(children[i], animationID, animation);
             this.animations[animationID] = animation;
         }
+
 
         this.log("Parsed transformations");
         return null;        
@@ -1456,6 +1463,7 @@ class MySceneGraph {
             var materialsIndex = nodeNames.indexOf("materials");
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
+            var animationIndex = nodeNames.indexOf("animationref");
 
 
             // Transformations
@@ -1465,6 +1473,20 @@ class MySceneGraph {
 
             if(transformationParsingResult != null)
                 return transformationParsingResult;
+
+            // Animations
+
+            if(animationIndex != -1){
+                var animation = grandChildren[animationIndex];
+
+                var animationID = this.reader.getString(animation,'id');
+
+                currentComponent.animation = this.animations[animationID];
+                this.animations[animationID].inUse = true;
+                
+            }
+
+            
 
             // Materials
 
@@ -1702,6 +1724,8 @@ class MySceneGraph {
 
         this.scene.pushMatrix();
         this.scene.multMatrix(node.transformation);
+
+        node.animation.apply();
 
         // process child nodes
         for (var i = 0; i < node.childrenComponents.length; i++) {
