@@ -5,10 +5,9 @@ class Animation {
         this.scene = scene;
         this.transformationMatrix = mat4.create();
         this.animationOver = false;
-        this.inUse = false;
+        this.inUse = false; 
     }
-
-    // TODO: implement the update method
+    
     update(t) {
         
     }

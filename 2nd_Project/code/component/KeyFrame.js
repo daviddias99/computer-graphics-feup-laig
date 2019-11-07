@@ -6,7 +6,7 @@ class KeyFrame {
     this.translation = translation;             // array of x,y,z translation of corresponding to the keyframe
     this.rotation = rotation;                   // array of x,y,z-axis rotations of corresponding to the keyframe
     this.scale = scale;                         // array of x,y,z scaling of corresponding to the keyframe
-    this.frameDuration = 0;
+    this.frameDuration = 0;                     // duration of the key frame in seconds
    }
 
    static getNullKeyFrame(){

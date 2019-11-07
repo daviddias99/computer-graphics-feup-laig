@@ -91,7 +91,7 @@ function distance(a, b) {
 function linearInterpolation(x,x1,x0,y1,y0) {
 
     if(x1 == x0)
-        return 0;
+        return y0;
 
     return y0 + (x - x0)*(y1-y0) / (x1-x0);
 }
