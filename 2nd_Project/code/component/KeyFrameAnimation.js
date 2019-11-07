@@ -17,6 +17,9 @@ class KeyFrameAnimation extends Animation {
         this.keyframes.push(keyframe);
     }
 
+    /**
+     * Set the frame duration values for each frame
+     */
     normalizeTimes(){
 
         for(var i = this.keyframes.length - 1; i > 0; i--)
@@ -25,7 +28,7 @@ class KeyFrameAnimation extends Animation {
         return;
     }
     
-    // TODO: implement the update method
+
     update(t) {
 
         // If the animation is over there is no need to update the matrix
