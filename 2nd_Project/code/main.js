@@ -24,6 +24,7 @@ serialInclude([ './../lib/CGF.js',
                 './component/KeyFrame.js',
                 './component/KeyFrameAnimation.js',
                 './component/MySceneComponent.js', 
+                './component/Segment.js', 
                 'misc_functions.js',
 
 
