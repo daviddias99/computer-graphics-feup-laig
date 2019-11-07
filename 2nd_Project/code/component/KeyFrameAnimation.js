@@ -32,7 +32,7 @@ class KeyFrameAnimation extends Animation {
     update(t) {
 
         // If the animation is over there is no need to update the matrix
-        if(this.animationOver)
+        if(!this.inUse)
             return;
 
         this.sumT += t;
@@ -44,11 +44,7 @@ class KeyFrameAnimation extends Animation {
         }
         else {
             this.transformationMatrix = this.keyframes[this.keyframes.length -1].getMatrix();
-            this.animationOver = true;
+            this.inUse = false;
         }
     }
-
-   
-
-
 }

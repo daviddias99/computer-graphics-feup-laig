@@ -4,7 +4,6 @@ class Animation {
         this.id = id;
         this.scene = scene;
         this.transformationMatrix = mat4.create();
-        this.animationOver = false;
         this.inUse = false; 
     }
     
