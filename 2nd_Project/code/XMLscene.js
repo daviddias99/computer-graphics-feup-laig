@@ -40,6 +40,8 @@ class XMLscene extends CGFscene {
         this.cameraIDs = {};
         this.lightIDs = [];
         this.displayAxis = false;
+
+        this.plane = new Plane(this,5,5);
     }
 
     /**
@@ -202,8 +204,8 @@ class XMLscene extends CGFscene {
             this.interface.setActiveCamera(this.graph.cameras[this.selectedCamera]);
 
             // Displays the scene (MySceneGraph function).
-            this.graph.displayScene();
-
+            // this.graph.displayScene();
+            this.plane.display();
         }
 
         this.popMatrix();
