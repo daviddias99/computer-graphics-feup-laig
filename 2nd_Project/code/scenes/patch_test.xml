@@ -43,14 +43,41 @@
     </transformations>
 
     <primitives>
-        <primitive id="patch">
-            <patch npointsU="2" npointsV="2" npartsU="10" npartsV="10">
-                <controlpoint xx="-0.5" yy="0" zz="-0.5"/>
-                <controlpoint xx="0.5" yy="0" zz="-0.5"/>
-                <controlpoint xx="-0.5" yy="0" zz="0.5"/>
-                <controlpoint xx="0.5" yy="0" zz="0.5"/>
+        <primitive id="patchy">
+            <patch npointsU="3" npointsV="4" npartsU="50" npartsV="50">
+                <controlpoint xx="-1.5" yy="-1.5" zz="0.0"/>
+                <controlpoint xx="-2.0" yy="-2.0" zz="2.0"/>
+                <controlpoint xx="-2.0" yy="2.0" zz="2.0"/>
+                <controlpoint xx="-1.5" yy="1.5" zz="0.0"/>
+                <controlpoint xx="0.0" yy="0.0" zz="3.0"/>
+                <controlpoint xx="0.0" yy="-2.0" zz="3.0"/>
+                <controlpoint xx="0.0" yy="2.0" zz="3.0"/>
+                <controlpoint xx="0.0" yy="0.0" zz="3.0"/>
+                <controlpoint xx="1.5" yy="-1.5" zz="0.0"/>
+                <controlpoint xx="2.0" yy="-2.0" zz="2.0"/>
+                <controlpoint xx="2.0" yy="2.0" zz="2.0"/>
+                <controlpoint xx="1.5" yy="1.5" zz="0.0"/>
+
             </patch>
         </primitive>
+
+        <primitive id="patcholi">
+                <patch npointsU="3" npointsV="4" npartsU="50" npartsV="50">
+                    <controlpoint xx="-2.0" yy="-2.0" zz="1.0"/>
+                    <controlpoint xx="-2.0" yy="-1.0" zz="-2.0"/>
+                    <controlpoint xx="-2.0" yy="1.0" zz="5.0"/>
+                    <controlpoint xx="-2.0" yy="2.0" zz="-1.0"/>
+                    <controlpoint xx="0.0" yy="-2.0" zz="0.0"/>
+                    <controlpoint xx="0.0" yy="-1.0" zz="-1.0"/>
+                    <controlpoint xx="0.0" yy="1.0" zz="1.5"/>
+                    <controlpoint xx="0.0" yy="2.0" zz="0.0"/>
+                    <controlpoint xx="2.0" yy="-2.0" zz="-1.0"/>
+                    <controlpoint xx="2.0" yy="-1.0" zz="2.0"/>
+                    <controlpoint xx="2.0" yy="1.0" zz="-5.0"/>
+                    <controlpoint xx="2.0" yy="2.0" zz="1.0"/>
+    
+                </patch>
+            </primitive>
     </primitives>
 
     <animations>
@@ -67,7 +94,7 @@
             </materials>
             <texture id="demoTexture" length_s="1" length_t="1" />
             <children>
-                <primitiveref id="patch" />
+                <primitiveref id="patcholi" />
             </children>
         </component>
 

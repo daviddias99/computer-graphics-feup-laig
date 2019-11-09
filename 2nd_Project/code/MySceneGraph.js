@@ -1232,7 +1232,7 @@ class MySceneGraph {
             upoints.push(vpoints);
         }
 
-        return null;
+        return new MyPatch(this.scene,npartsU,npartsV,npointsU - 1,npointsV - 1,upoints);
 
     }
 
