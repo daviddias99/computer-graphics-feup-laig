@@ -1209,26 +1209,21 @@ class MySceneGraph {
         let children = patchNode.children;
         let upoints = [];
 
-        // get control points
-
         for(let u = 0; u < npointsU; u++){
 
             let vpoints = [];
 
             for(let v = 0; v < npointsV; v++){
 
-                let index = u * npointsV + v; 
+                index = u * npointsV + v; 
+                var controlpoint = this.reader.getInteger(children[index], 'controlpoint');
+                var xx = this.reader.getFloat(controlpoint, 'xx');
+                var yy = this.reader.getFloat(controlpoint, 'yy');
+                var zz = this.reader.getFloat(controlpoint, 'zz');
 
-                if(children[index].nodeName != 'controlpoint')
-                    return "unknown tag <" + children[index].nodeName + "> for primtive with ID =  " + primitiveId;
-
-                var xx = this.reader.getFloat(children[index], 'xx');
-                var yy = this.reader.getFloat(children[index], 'yy');
-                var zz = this.reader.getFloat(children[index], 'zz');
-
-                vpoints.push([xx,yy,zz,1]);
+                vpoints.push([xx,yy,zz]);
             }
-
+            
             upoints.push(vpoints);
         }
 
