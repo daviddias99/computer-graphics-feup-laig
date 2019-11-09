@@ -14,6 +14,7 @@ class MyCylinder2 extends MyPrimitive {
     constructor(scene, baseRadius, topRadius, height, slices, stacks) {
         super(scene);   
 
+        this.scene = scene;
         this.baseRadius = baseRadius;
         this.topRadius = topRadius;
         this.height = height;
@@ -25,6 +26,58 @@ class MyCylinder2 extends MyPrimitive {
 
 
     initBuffers() {
-            
+
+        let baseH = 4/3 * this.baseRadius;
+        let topH = 4/3 * this.topRadius;
+
+        let controlPoints1 = [
+            // U = 0
+            [ // V = 0..1;
+                [-this.baseRadius,0,-this.height/2, 1],
+                [-this.baseRadius,baseH,-this.height/2, 1],
+                [this.baseRadius,baseH, -this.height/2, 1],
+                [this.baseRadius,0.0, -this.height/2, 1]
+
+            ],
+            // U = 1
+            [ // V = 0..1
+                [-this.topRadius, 0.0, this.height/2, 1],
+                [-this.topRadius, topH, this.height/2, 1],
+                [this.topRadius, topH, this.height/2, 1],
+                [this.topRadius, 0.0, this.height/2, 1]
+            ]
+        ];
+
+        let controlPoints2 = [
+
+            // U = 0
+            [ // V = 0..1
+                [-this.topRadius, 0.0, this.height/2, 1],
+                [-this.topRadius, -topH, this.height/2, 1],
+                [this.topRadius, -topH, this.height/2, 1],
+                [this.topRadius, 0.0, this.height/2, 1]
+            ],
+            // U = 1
+            [ // V = 0..1;
+                [-this.baseRadius,0,-this.height/2, 1],
+                [-this.baseRadius,-baseH,-this.height/2, 1],
+                [this.baseRadius,-baseH, -this.height/2, 1],
+                [this.baseRadius,0.0, -this.height/2, 1]
+
+            ]
+        ];
+
+        this.patch1 = new MyPatch(this.scene,this.stacks, Math.floor(this.slices/2), 1, 3,controlPoints1);
+        this.patch2 = new MyPatch(this.scene,this.stacks, Math.floor(this.slices/2), 1, 3,controlPoints2);
+    }
+
+    display() {
+
+        this.patch1.display();
+        // this.scene.pushMatrix();
+        // this.scene.rotate(Math.PI,0,0,1);
+        // this.patch1.display();
+        // this.scene.popMatrix();
+        this.patch2.display();
     }
 }
