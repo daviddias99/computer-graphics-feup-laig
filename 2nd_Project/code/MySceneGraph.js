@@ -1053,6 +1053,32 @@ class MySceneGraph {
         return new MyCylinder(this.scene, base, top, height, slices, stacks);
     }
 
+    parseCylinder2(primitiveId, cylinderNode) {
+
+        var base = this.reader.getFloat(cylinderNode, 'base');
+        if (!(base != null && !isNaN(base)))
+            return "unable to parse base of the primitive coordinates for ID = " + primitiveId;
+
+        var top = this.reader.getFloat(cylinderNode, 'top');
+        if (!(top != null && !isNaN(top)))
+            return "unable to parse top of the primitive coordinates for ID = " + primitiveId;
+
+        var height = this.reader.getFloat(cylinderNode, 'height');
+        if (!(height != null && !isNaN(height)))
+            return "unable to parse height of the primitive coordinates for ID = " + primitiveId;
+
+        var slices = this.reader.getFloat(cylinderNode, 'slices');
+        if (!(slices != null && !isNaN(slices)))
+            return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
+
+        var stacks = this.reader.getFloat(cylinderNode, 'stacks');
+        if (!(stacks != null && !isNaN(stacks)))
+            return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
+
+
+        return new MyCylinder2(this.scene, base, top, height, slices, stacks);
+    }
+
     /**
      * Method use to parse a lxs-format triangle node
      * @param {String} primitiveId 
@@ -1270,6 +1296,7 @@ class MySceneGraph {
                 (grandChildren[0].nodeName != 'rectangle'
                     && grandChildren[0].nodeName != 'triangle'
                     && grandChildren[0].nodeName != 'cylinder'
+                    && grandChildren[0].nodeName != 'cylinder2'
                     && grandChildren[0].nodeName != 'sphere'
                     && grandChildren[0].nodeName != 'plane'
                     && grandChildren[0].nodeName != 'patch'
@@ -1298,6 +1325,16 @@ class MySceneGraph {
                     return cylinder;
 
                 this.primitives[primitiveId] = cylinder;
+
+            }
+            else if (primitiveType == 'cylinder2') {
+
+                var cylinder2 = this.parseCylinder2(primitiveId, grandChildren[0]);
+
+                if (typeof cylinder2 === 'string' || cylinder2 instanceof String)
+                    return cylinder2;
+
+                this.primitives[primitiveId] = cylinder2;
 
             }
             else if (primitiveType == 'triangle') {
