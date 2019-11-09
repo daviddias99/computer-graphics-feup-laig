@@ -1,7 +1,7 @@
 /**
  * Class representing a triangle
  */
-class MyTriangle extends CGFobject {
+class MyTriangle extends MyPrimitive {
     /**
      * @constructor             Triangle constructor
      * @param {XMLscene} scene  Reference to the scene in which the triangle will be displayed

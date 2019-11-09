@@ -659,23 +659,6 @@ class MySceneGraph {
             if (fileExtension != "png" && fileExtension != "jpg" && fileExtension != "jpeg")
                 return "Invalid extension for texture source file (conflict: ID = " + textureID + ")";
 
-           /* Couldn't get this code to work
-            It is suposed to check if the texture image as dimensions that are powers of two
-
-
-            var source_img = new Image();
-
-            //source_img.src = textureSrcPath;
-
-            source_img.onload = function (sceneGraph) {
-
-                // Check image dimensions
-                if (!isPowerOfTwo(source_img.width) || !isPowerOfTwo(source_img.height))
-                    sceneGraph.onXMLMinorError("Texture with ID = " + textureID + " has dimensions that are not powers of 2");
-
-            }(this);
-
-            source_img.src = textureSrcPath; */
             this.textures[textureID] = new CGFtexture(this.scene, textureSrcPath);
         }
 
@@ -1174,6 +1157,28 @@ class MySceneGraph {
         return new MyTorus(this.scene, outer, inner, slices, loops);
     }
 
+        /**
+     * Method to parse a lxs-format plane node
+     * @param {String} primitiveId 
+     * @param {lxs plane node} planeNode 
+     */
+    parsePlane(primitiveId, planeNode) {
+
+        // npartsU
+        var npartsU = this.reader.getInteger(planeNode, 'npartsU');
+        if (!(npartsU != null && !isNaN(npartsU)))
+            return "unable to parse npartsU of the primitive parameters for ID = " + primitiveId;
+
+        // npartsV
+        var npartsV = this.reader.getInteger(planeNode, 'npartsV');
+        if (!(npartsV != null && !isNaN(npartsV)))
+            return "unable to parse npartsV of the primitive parameters for ID = " + primitiveId;
+
+
+        return new MyPlane(this.scene,npartsU,npartsV);
+
+    }
+
     /**
      * Parses the <primitives> block.
      * @param {primitives block element} primitivesNode
@@ -1209,6 +1214,7 @@ class MySceneGraph {
                     && grandChildren[0].nodeName != 'triangle'
                     && grandChildren[0].nodeName != 'cylinder'
                     && grandChildren[0].nodeName != 'sphere'
+                    && grandChildren[0].nodeName != 'plane'
                     && grandChildren[0].nodeName != 'torus')) {
                 return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere or torus)"
             }
@@ -1262,6 +1268,15 @@ class MySceneGraph {
                     return torus;
 
                 this.primitives[primitiveId] = torus;
+            }
+            else if (primitiveType == 'plane') {
+                var plane = this.parsePlane(primitiveId, grandChildren[0]);
+
+                if(typeof plane === 'string' || plane instanceof String)
+                    return plane;
+
+                this.primitives[primitiveId] = plane;
+
             }
         }
 
@@ -1725,7 +1740,8 @@ class MySceneGraph {
         this.scene.pushMatrix();
         this.scene.multMatrix(node.transformation);
 
-        node.animation.apply();
+        if(node.animation != null)
+            node.animation.apply();
 
         // process child nodes
         for (var i = 0; i < node.childrenComponents.length; i++) {

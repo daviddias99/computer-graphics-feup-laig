@@ -2,7 +2,7 @@
 /**
  * Class representing a sphere
  */
-class MySphere extends CGFobject {
+class MySphere extends MyPrimitive {
 
     /**
      * @constructor             Sphere constructor
@@ -99,14 +99,6 @@ class MySphere extends CGFobject {
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
     }
-
-    /**
-	 * @method scaleTex
-	 * Updates the list of texture coordinates of the sphere. Unused in the sphere
-	 * @param {Number} lengthS 	Number of tiles on the s axis
-	 * @param {Number} lengthT 	Number of tiles on the t axis
-	 */
-	scaleTex(lengthS, lengthT) {}
 
 	/**
 	 * @method resetTexCoords

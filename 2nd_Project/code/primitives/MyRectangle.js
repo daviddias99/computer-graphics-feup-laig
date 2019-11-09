@@ -1,7 +1,7 @@
 /**
  * MyRectangle
  */
-class MyRectangle extends CGFobject {
+class MyRectangle extends MyPrimitive {
 	/**
 	 * @constructor				Rectangle constructor
 	 * @param {XMLscene} scene 	Reference to the scene in which the rectangle will be displayed

@@ -2,7 +2,7 @@
 /**
  * Class reperesenting a cylinder
  */
-class MyCylinder extends CGFobject {
+class MyCylinder extends MyPrimitive {
     /**
      * @constructor                 Cylinder constructor
      * @param {XMLscene} scene      Reference to the scene in which the cylinder will be dispayed
@@ -104,13 +104,6 @@ class MyCylinder extends CGFobject {
 		this.initGLBuffers();
     }
 
-    /**
-	 * @method scaleTex
-	 * Updates the list of texture coordinates of the cylinder. Unused in the cylinder.
-	 * @param {Number} lengthS 	Number of tiles on the s axis
-	 * @param {Number} lengthT 	Number of tiles on the t axis
-	 */
-	scaleTex(lengthS, lengthT) {}
 
 	/**
 	 * @method resetTexCoords
