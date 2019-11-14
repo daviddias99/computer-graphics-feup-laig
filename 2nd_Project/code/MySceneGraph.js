@@ -939,10 +939,8 @@ class MySceneGraph {
 
                     scaling = coordinates;
                     break;
-                
             }
         }
-
 
         return new KeyFrame(instant, translation, rotation, scaling);
     }
@@ -961,10 +959,11 @@ class MySceneGraph {
                 let keyframe = this.parseKeyFrame(children[i], animationID);
                 if (typeof keyframe == 'string')
                     return keyframe;
-                
-                if (keyframe.time < time) {
+                    
+                if (time >= keyframe.time) {
                     return "invalid time of keyframe(" + keyframe.time + ") in animation with ID=" + animationID;
                 }
+                    
                 time = keyframe.time;
 
                 keyframes.push(keyframe);
@@ -973,9 +972,7 @@ class MySceneGraph {
                 return "unknown child-tag in animation with ID=" + animationID;
             }
         }
-
         return new KeyFrameAnimation(this.scene, animationID, keyframes);
-
     }
 
     /**
@@ -1005,6 +1002,8 @@ class MySceneGraph {
                 return "ID must be unique for each animation (conflict: ID = " + animationID + ")";
 
             var animation = this.parseAnimationNode(children[i], animationID);
+            if (typeof animation == 'string')
+                return animation;
             this.animations[animationID] = animation;
         }
 

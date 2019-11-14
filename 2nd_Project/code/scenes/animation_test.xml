@@ -24,7 +24,7 @@
     </lights>
 
     <textures>
-        <texture id="demoTexture" file="scenes/images/gold_texture.jpg" />
+        <texture id="demoTexture" file="scenes/images/rocks.jpg" />
     </textures>
 
     <materials>
