@@ -6,9 +6,9 @@ precision highp float;
 varying vec2 vTextureCoord;
 uniform sampler2D uSampler;
 
-uniform float nStripes;
-uniform float nRepitition;
-uniform float OtherFactor;
+// uniform float nStripes;
+// uniform float nRepitition;
+// uniform float OtherFactor;
 uniform float timefactor;
 
 void main() {
@@ -29,15 +29,15 @@ void main() {
 	const float nStripes = 10.0;
 	const float nRepetition = 2.0;
 	const float otherFactor = 1.0;
-	const float lineFactorValue = 0.5;
+	const float lineFactorValue = 0.05;
 
-	float lineFactor = 1.0;
+	float lineFactor = 0.0;
 	// float realTimeFactor = mod(timefactor / 10000.0, 10.0);
 
-	if(mod( mod(vTextureCoord.y + timefactor,nStripes) * nStripes, nRepetition) > otherFactor)
+	if(mod((vTextureCoord.y + timefactor) * nStripes, nRepetition) > otherFactor)
 		lineFactor = lineFactorValue;
 	
 
-	gl_FragColor = vec4(color.rgb * radialFactor * lineFactor, 1.0);
+	gl_FragColor = vec4(mod(color.rgb + lineFactor,1.0) * radialFactor, 1.0);
 
 }
