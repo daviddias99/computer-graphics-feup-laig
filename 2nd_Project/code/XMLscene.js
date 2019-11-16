@@ -49,6 +49,10 @@ class XMLscene extends CGFscene {
         this.cameraScreenShader = new CGFshader(this.gl, "shaders/camera_shader.vert", "shaders/camera_shader.frag");
         this.sec_camera = new MySecurityCamera(this,this.gl.canvas.width,this.gl.canvas.height);
         
+        this.OtherFactor = 1.0;
+        this.nStripes  = 10.0 ;
+        this.nRepitition = 2.0;
+
     }
 
     /**
@@ -63,11 +67,19 @@ class XMLscene extends CGFscene {
         this.interface.setActiveCamera(this.camera);
     }
 
+    onScaleFactorChanged(v) {
+        console.log("called");
+		this.cameraScreenShader.setUniformsValues({ OtherFactor: this.OtherFactor, nStripes: this.nStripes, nRepitition: this.nRepitition });
+	}
+
+
     update(t){
 
         var deltaT = t - this.lastT
         this.lastT = t;
-        
+
+        this.cameraScreenShader.setUniformsValues({ timefactor: t /10000 % 10 });
+
         if(!this.graph.loadedOk)
             return;
 

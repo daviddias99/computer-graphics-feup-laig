@@ -25,6 +25,9 @@ class MyInterface extends CGFinterface {
         this.initKeys();
         this.controlsFolder = this.gui.addFolder('Controls');
         this.controlsFolder.add(this.scene, 'displayAxis').name('Display Axis');
+        this.gui.add(this.scene, 'nStripes',0,20).onChange(this.scene.onScaleFactorChanged.bind(this.scene));
+        this.gui.add(this.scene, 'nRepitition',0,20).onChange(this.scene.onScaleFactorChanged.bind(this.scene));
+        this.gui.add(this.scene, 'OtherFactor',0,20).onChange(this.scene.onScaleFactorChanged.bind(this.scene));
         
         return true;
     }
