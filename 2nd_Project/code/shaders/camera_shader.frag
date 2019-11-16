@@ -13,6 +13,13 @@ void main() {
 	vec2 newCord = vec2(newS,newT);
 	vec4 color = texture2D(uSampler, newCord);
 
-	gl_FragColor = color;
+	float distanceFromCenter = sqrt( pow(newCord.x - 0.5,2.0)+ pow(newCord.y - 0.5,2.0));
+
+	float exponentBase = 3.0;
+	float maxDistance = sqrt(0.5);
+	float maxDistanceExp = pow(sqrt(0.5),exponentBase);
+	float radialFactor = 1.0 - pow(distanceFromCenter,exponentBase)/maxDistanceExp;
+
+	gl_FragColor = vec4(color.rgb * radialFactor, 1.0);
 
 }
