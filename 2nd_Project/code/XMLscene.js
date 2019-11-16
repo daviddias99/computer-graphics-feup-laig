@@ -36,11 +36,19 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(10);
 
-        this.selectedCamera = "";
+        this.selectedCameraMain = "";
+        this.selectedCameraSecurity = "";
+
         this.cameraIDs = {};
         this.lightIDs = [];
         this.displayAxis = false;
 
+        this.cameraTex = new CGFtextureRTT(this,this.gl.canvas.width,this.gl.canvas.height);
+        this.cameraTex.bind(0);
+
+        this.cameraScreenShader = new CGFshader(this.gl, "shaders/camera_shader.vert", "shaders/camera_shader.frag");
+        this.sec_camera = new MySecurityCamera(this,this.gl.canvas.width,this.gl.canvas.height);
+        
     }
 
     /**
@@ -132,7 +140,8 @@ class XMLscene extends CGFscene {
         }
 
 
-        this.selectedCamera = this.graph.defaultCameraId;
+        this.selectedCameraMain = this.graph.defaultCameraId;
+        this.selectedCameraSecurity= this.graph.defaultCameraId;
         this.interface.addCameraDropdown();
     }
 
@@ -164,9 +173,10 @@ class XMLscene extends CGFscene {
     }
 
     /**
-     * Displays the scene.
+     * Renders the scene.
      */
-    display() {
+    render() {
+        this.camera = this.selectedCamera;
         // ---- BEGIN Background, camera and axis setup
 
         // Clear image and depth buffer everytime we update the scene
@@ -182,31 +192,52 @@ class XMLscene extends CGFscene {
 
         this.pushMatrix();
         
-        // TODO: uncomment this line
-        // if(this.displayAxis)
+        if(this.displayAxis)
             this.axis.display();
 
         // ---- END Background, camera and axis setup
 
-
         // Light update
         for (var i = 0; i < this.lights.length; i++)
             this.lights[i].update();
+
 
         // Scene drawing
         if (this.sceneInited) {
 
             this.setDefaultAppearance();
 
-            // Set correct view
-            this.camera = this.graph.cameras[this.selectedCamera];
-            this.interface.setActiveCamera(this.graph.cameras[this.selectedCamera]);
-
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
         }
 
         this.popMatrix();
+
+    }
+
+    display(){
+
+        if(!this.sceneInited)
+            return;
+
+        this.selectedCamera = this.graph.cameras[this.selectedCameraSecurity];
+
+        this.cameraTex.attachToFrameBuffer();
+        this.render();
+        this.cameraTex.detachFromFrameBuffer();
+
+        this.selectedCamera =this.graph.cameras[this.selectedCameraMain];
+        this.interface.setActiveCamera(this.selectedCamera);
+        this.render();
+        
+        this.setActiveShader(this.cameraScreenShader); 
+        this.gl.disable(this.gl.DEPTH_TEST);
+        this.cameraTex.bind(0);
+
+        this.sec_camera.display();
+
+        this.gl.enable(this.gl.DEPTH_TEST);
+        this.setActiveShader(this.defaultShader); 
 
     }
 }

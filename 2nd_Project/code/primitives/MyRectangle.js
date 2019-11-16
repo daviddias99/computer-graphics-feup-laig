@@ -1,7 +1,7 @@
 /**
  * MyRectangle
  */
-class MyRectangle extends MyPrimitive {
+class MyRectangle extends CGFobject {
 	/**
 	 * @constructor				Rectangle constructor
 	 * @param {XMLscene} scene 	Reference to the scene in which the rectangle will be displayed
@@ -29,10 +29,10 @@ class MyRectangle extends MyPrimitive {
      */
 	initBuffers() {
 		this.vertices = [
-			this.x1, this.y1, 0,	//0
-			this.x2, this.y1, 0,	//1
-			this.x1, this.y2, 0,	//2
-			this.x2, this.y2, 0		//3
+			this.x1, this.y1, 0,	//0 (1,-1) (-4,-2)
+			this.x2, this.y1, 0,	//1	(0.75,-1) (4,-2)
+			this.x1, this.y2, 0,	//2 (1,-0.75) (-4,2)
+			this.x2, this.y2, 0		//3	(0.75,-0.75) (4,2)
 		];
 
 		//Counter-clockwise reference of vertices
@@ -85,6 +85,8 @@ class MyRectangle extends MyPrimitive {
 			else			// length_t
 				this.texCoords[i] *= this.height / lengthT;
 		}
+
+		
 		
 		this.updateTexCoordsGLBuffers();
 	}

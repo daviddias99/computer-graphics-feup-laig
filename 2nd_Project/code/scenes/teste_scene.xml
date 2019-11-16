@@ -249,6 +249,10 @@
 
     </transformations>
 
+    <animations>
+        
+    </animations>
+
     <primitives>
 
         <primitive id="table_top_primitive">

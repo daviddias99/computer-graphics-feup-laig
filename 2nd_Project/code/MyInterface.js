@@ -34,7 +34,8 @@ class MyInterface extends CGFinterface {
      */
     addCameraDropdown() {
 
-        this.controlsFolder.add(this.scene, 'selectedCamera', this.scene.cameraIDs).name('Selected view');
+        this.controlsFolder.add(this.scene, 'selectedCameraMain', this.scene.cameraIDs).name('Selected view');
+        this.controlsFolder.add(this.scene, 'selectedCameraSecurity', this.scene.cameraIDs).name('Security');
     }
 
     /**

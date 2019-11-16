@@ -2,7 +2,7 @@
 /**
  * Class representing a sphere
  */
-class MySphere extends MyPrimitive {
+class MySphere extends CGFobject {
 
     /**
      * @constructor             Sphere constructor
@@ -99,6 +99,8 @@ class MySphere extends MyPrimitive {
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
     }
+
+    scaleTex(lengthS, lengthT) {}
 
 	/**
 	 * @method resetTexCoords

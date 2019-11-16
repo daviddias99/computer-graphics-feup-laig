@@ -1,7 +1,7 @@
 /**
  * Class representing a torus
  */
-class MyTorus extends MyPrimitive {
+class MyTorus extends CGFobject {
     /**
      * @constructor                 Torus constructor
      * @param {XMLscene} scene      Reference to the scene in which the torus will be displayed     
@@ -93,6 +93,8 @@ class MyTorus extends MyPrimitive {
         this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
     }
+
+    scaleTex(lengthS, lengthT) {}
 
 	/**
 	 * @method resetTexCoords

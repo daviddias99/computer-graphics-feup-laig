@@ -2,7 +2,7 @@
 /**
  * Class reperesenting a cylinder
  */
-class MyCylinder extends MyPrimitive {
+class MyCylinder extends CGFobject {
     /**
      * @constructor                 Cylinder constructor
      * @param {XMLscene} scene      Reference to the scene in which the cylinder will be dispayed
@@ -103,6 +103,8 @@ class MyCylinder extends MyPrimitive {
         this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
     }
+
+    scaleTex(lengthS, lengthT) {}
 
 
 	/**
