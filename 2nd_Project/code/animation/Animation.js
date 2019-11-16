@@ -7,12 +7,10 @@ class Animation {
         this.inUse = false; 
     }
     
-    update(t) {
-        
+    update(t) { 
     }
     
     apply() {
-
         this.scene.multMatrix(this.transformationMatrix);
     }
 }

@@ -887,9 +887,9 @@ class MySceneGraph {
         return null;
     }
 
-
+    
     // TODO: error checking and checking for wrong tags
-    parseKeyFrame(keyframeNode) {
+    parseKeyFrame(keyframeNode, animationID) {
 
         var children = keyframeNode.children;
         var scaling = [];
@@ -897,63 +897,82 @@ class MySceneGraph {
         var translation = [];
 
         var instant = this.reader.getFloat(keyframeNode, 'instant');
+        if (instant == null)
+            return "no instant defined for keyframe in animation with ID=" + animationID;
 
         for (var i = 0; i < children.length; i++) {
             switch (children[i].nodeName) {
 
                 case 'translate':
+                    if (i != 0)
+                        this.onXMLMinorError("tag <translate> out of order in keyframe(" + instant + ") in animation with ID=" + animationID);
+
                     var coordinates = this.parseCoordinates3D(children[i], "animation translation");
                     if (!Array.isArray(coordinates))
                         return coordinates;
 
                     translation = coordinates;
                     break;
+
+                case 'rotate':
+                    if (i != 1)
+                        this.onXMLMinorError("tag <rotate> out of order in keyframe(" + instant + ") in animation with ID=" + animationID);
+
+                    var angleXDeg = this.reader.getFloat(children[i], 'angle_x');
+                    var angleYDeg = this.reader.getFloat(children[i], 'angle_y');
+                    var angleZDeg = this.reader.getFloat(children[i], 'angle_z');
+        
+                    var angleXRad = angleXDeg * DEGREE_TO_RAD;
+                    var angleYRad = angleYDeg * DEGREE_TO_RAD;
+                    var angleZRad = angleZDeg * DEGREE_TO_RAD;
+        
+                    rotation = [angleXRad, angleYRad, angleZRad];
+                    break;
+
                 case 'scale':
+                    if (i != 2)
+                        this.onXMLMinorError("tag <scale> out of order in keyframe(" + instant + ") in animation with ID=" + animationID);
+
                     var coordinates = this.parseCoordinates3D(children[i], "animation scale");
                     if (!Array.isArray(coordinates))
                         return coordinates;
 
                     scaling = coordinates;
                     break;
-                case 'rotate':
-
-                    var angleXDeg = this.reader.getFloat(children[i], 'angle_x');
-                    var angleYDeg = this.reader.getFloat(children[i], 'angle_y');
-                    var angleZDeg = this.reader.getFloat(children[i], 'angle_z');
-
-                    var angleXRad = angleXDeg * DEGREE_TO_RAD;
-                    var angleYRad = angleYDeg * DEGREE_TO_RAD;
-                    var angleZRad = angleZDeg * DEGREE_TO_RAD;
-
-                    rotation = [angleXRad, angleYRad, angleZRad];
-                    break;
             }
         }
-
 
         return new KeyFrame(instant, translation, rotation, scaling);
     }
 
     // TODO: error checking and checking for wrong tags
-    parseAnimationNode(animationNode, animationID, animation) {
+    parseAnimationNode(animationNode, animationID) {
 
-        var children = animationNode.children;
-        var keyframes = [];
+        let children = animationNode.children;
+        let keyframes = [];
 
         // Specifications for the current animation.
-        for (var i = 0; i < children.length; i++) {
+        let time = 0;
+        for (let i = 0; i < children.length; i++) {
             if (children[i].nodeName == 'keyframe') {
 
-                var keyframe = this.parseKeyFrame(children[i]);
+                let keyframe = this.parseKeyFrame(children[i], animationID);
+                if (typeof keyframe == 'string')
+                    return keyframe;
+                    
+                if (time >= keyframe.time) {
+                    return "invalid time of keyframe(" + keyframe.time + ") in animation with ID=" + animationID;
+                }
+                    
+                time = keyframe.time;
+
                 keyframes.push(keyframe);
             }
             else {
                 return "unknown child-tag in animation with ID=" + animationID;
             }
         }
-
         return new KeyFrameAnimation(this.scene, animationID, keyframes);
-
     }
 
     /**
@@ -982,12 +1001,14 @@ class MySceneGraph {
             if (this.animations[animationID] != null)
                 return "ID must be unique for each animation (conflict: ID = " + animationID + ")";
 
-            var animation = this.parseAnimationNode(children[i], animationID, animation);
+            var animation = this.parseAnimationNode(children[i], animationID);
+            if (typeof animation == 'string')
+                return animation;
             this.animations[animationID] = animation;
         }
 
 
-        this.log("Parsed transformations");
+        this.log("Parsed animations");
         return null;
     }
 
