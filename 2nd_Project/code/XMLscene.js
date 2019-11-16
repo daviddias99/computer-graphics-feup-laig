@@ -67,10 +67,11 @@ class XMLscene extends CGFscene {
         this.interface.setActiveCamera(this.camera);
     }
 
-    onScaleFactorChanged(v) {
-        console.log("called");
-		this.cameraScreenShader.setUniformsValues({ OtherFactor: this.OtherFactor, nStripes: this.nStripes, nRepitition: this.nRepitition });
-	}
+    // TODO: remove this
+    // onScaleFactorChanged(v) {
+    //     console.log("called");
+	// 	this.cameraScreenShader.setUniformsValues({ OtherFactor: this.OtherFactor, nStripes: this.nStripes, nRepitition: this.nRepitition });
+	// }
 
 
     update(t){
