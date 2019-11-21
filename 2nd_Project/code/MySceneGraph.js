@@ -892,9 +892,9 @@ class MySceneGraph {
     parseKeyFrame(keyframeNode, animationID) {
 
         var children = keyframeNode.children;
-        var scaling = [];
-        var rotation = [];
-        var translation = [];
+        var scaling = [1, 1, 1];
+        var rotation = [0, 0 ,0];
+        var translation = [0, 0, 0];
 
         var instant = this.reader.getFloat(keyframeNode, 'instant');
         if (instant == null)
