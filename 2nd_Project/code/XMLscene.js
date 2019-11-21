@@ -79,7 +79,7 @@ class XMLscene extends CGFscene {
         var deltaT = t - this.lastT
         this.lastT = t;
 
-        this.cameraScreenShader.setUniformsValues({ timefactor: t /5000 % 10 });
+        this.cameraScreenShader.setUniformsValues({ timefactor: t * 1.0 /5000 % 10 });
 
         if(!this.graph.loadedOk)
             return;

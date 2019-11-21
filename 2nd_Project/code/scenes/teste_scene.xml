@@ -44,7 +44,7 @@
 
     <lights>
 
-        <omni id="demoLight" enabled="0">
+        <omni id="demoLight" enabled="1">
             <location x="10" y="10" z="10" w="0.0" />
             <ambient r="1" g="1" b="1" a="1" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
@@ -173,7 +173,7 @@
         </material>
 
         <material id="tv_screen_material" shininess="2">
-            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <emission r="0.7" g="0.7" b="0.7" a="1.0" />
             <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.7" g="0.7" b="0.7" a="1.0" />
@@ -250,7 +250,19 @@
     </transformations>
 
     <animations>
-        
+        <animation id="test_animation2">
+            <keyframe instant="2">
+                <translate x="5" y="0" z="0"/>
+                <rotate angle_x="0" angle_y="0" angle_z="-360" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+
+            <keyframe instant="4">
+                <translate x="0" y="0" z="0"/>
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+        </animation>
     </animations>
 
     <primitives>
@@ -481,6 +493,7 @@
                 <scale x="0.6" y="0.6" z="0.6" />
                 <translate x="1" y="1" z="2" />
             </transformation>
+            <animationref id="test_animation2"/>
             <materials>
                 <material id="blue_latex_material" />
             </materials>
