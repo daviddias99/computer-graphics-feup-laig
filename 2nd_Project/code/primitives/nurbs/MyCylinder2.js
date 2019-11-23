@@ -33,18 +33,18 @@ class MyCylinder2 extends MyPrimitive {
         let controlPoints1 = [
             // U = 0
             [ // V = 0..1;
-                [-this.baseRadius,0,-this.height/2, 1],
-                [-this.baseRadius,baseH,-this.height/2, 1],
-                [this.baseRadius,baseH, -this.height/2, 1],
-                [this.baseRadius,0.0, -this.height/2, 1]
+                [-this.baseRadius,0,0, 1],
+                [-this.baseRadius,baseH,0, 1],
+                [this.baseRadius,baseH, 0, 1],
+                [this.baseRadius,0.0, 0, 1]
 
             ],
             // U = 1
             [ // V = 0..1
-                [-this.topRadius, 0.0, this.height/2, 1],
-                [-this.topRadius, topH, this.height/2, 1],
-                [this.topRadius, topH, this.height/2, 1],
-                [this.topRadius, 0.0, this.height/2, 1]
+                [-this.topRadius, 0.0, this.height, 1],
+                [-this.topRadius, topH, this.height, 1],
+                [this.topRadius, topH, this.height, 1],
+                [this.topRadius, 0.0, this.height, 1]
             ]
         ];
 
@@ -52,17 +52,17 @@ class MyCylinder2 extends MyPrimitive {
 
             // U = 0
             [ // V = 0..1
-                [-this.topRadius, 0.0, this.height/2, 1],
-                [-this.topRadius, -topH, this.height/2, 1],
-                [this.topRadius, -topH, this.height/2, 1],
-                [this.topRadius, 0.0, this.height/2, 1]
+                [-this.topRadius, 0.0, this.height, 1],
+                [-this.topRadius, -topH, this.height, 1],
+                [this.topRadius, -topH, this.height, 1],
+                [this.topRadius, 0.0, this.height, 1]
             ],
             // U = 1
             [ // V = 0..1;
-                [-this.baseRadius,0,-this.height/2, 1],
-                [-this.baseRadius,-baseH,-this.height/2, 1],
-                [this.baseRadius,-baseH, -this.height/2, 1],
-                [this.baseRadius,0.0, -this.height/2, 1]
+                [-this.baseRadius,0,0, 1],
+                [-this.baseRadius,-baseH,0, 1],
+                [this.baseRadius,-baseH, 0, 1],
+                [this.baseRadius,0.0, 0, 1]
 
             ]
         ];

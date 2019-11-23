@@ -2265,7 +2265,7 @@
         </primitive>
 
         <primitive id="table_leg_primitive">
-            <cylinder base="0.1" top="0.1" height="1.2" slices="10" stacks="10" />
+            <cylinder2 base="0.1" top="0.1" height="1.2" slices="50" stacks="50" />
         </primitive>
 
         <primitive id="table_top_side_primitive">
@@ -2281,7 +2281,7 @@
         </primitive>
 
         <primitive id="lamp_top_primitive">
-            <cylinder base="0.3" top="0.15" height="0.3" slices="50" stacks="50" />
+            <cylinder2 base="0.3" top="0.15" height="0.3" slices="50" stacks="50" />
         </primitive>
 
         <primitive id="pyramidTriangle">
@@ -2293,7 +2293,7 @@
         </primitive>
 
         <primitive id="chair_leg_primitive">
-            <cylinder base="0.05" top="0.05" height="0.6" slices="10" stacks="10" />
+            <cylinder2 base="0.05" top="0.05" height="0.6" slices="50" stacks="50" />
         </primitive>
 
         <primitive id="block_primitive_1">
