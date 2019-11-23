@@ -52,13 +52,14 @@
             <attenuation constant="0.0" linear="0.0" quadratic="1.0" />
         </omni>
 
-        <omni id="lamp_light" enabled="0">
-            <location x="1.0" y="1.65" z="0.0" w="0" />
+        <spot id="lamp_light" enabled="0" angle="30" exponent="2">
+            <location x="1.0" y="1.65" z="0.0" w="1" />
+            <target x="1.0" y ="0" z="0.0" />
             <ambient r="0" g="0" b="0" a="1.0" />
-            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
-            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-            <attenuation constant="0.0" linear="1.0" quadratic="0.0" />
-        </omni>
+            <diffuse r="1.0" g="1.0" b="1.0" a="0.8" />
+            <specular r="1.0" g="1.0" b="1.0" a="0.8" />
+            <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
+        </spot>
 
         <omni id="crystal_ball_light" enabled="0">
             <location x="-2.45" y="1.4" z="1.1" w="0" />
@@ -68,13 +69,13 @@
             <attenuation constant="0.0" linear="0" quadratic="1.0" />
         </omni>
 
-        <spot id="ceiling_light" enabled="1" angle="30" exponent="0">
+        <spot id="ceiling_light" enabled="1" angle="30" exponent="1">
             <location x="-1" y="3" z="1" w="1" />
             <target x="-1" y="0" z="1" />
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
             <specular r="1.0" g="0.0" b="0.0" a="1.0" />
-            <attenuation constant="1.0" linear="0" quadratic="0" />
+            <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
         </spot>
 
     </lights>
@@ -272,15 +273,23 @@
         </primitive>
 
         <primitive id="floor_primitive">
-            <rectangle x1="-4" y1="-4" x2="4" y2="4" />
+            <plane npartsU="50" npartsV="50" />
+            <!--<rectangle x1="-4" y1="-4" x2="4" y2="4" />-->
         </primitive>
 
+        <!--
         <primitive id="carpet_primitive">
             <rectangle x1="-3" y1="-2" x2="3" y2="2" />
         </primitive>
+        -->
+
+        <primitive id="carpet_primitive">
+            <plane npartsU="50" npartsV="50" />
+        </primitive>
 
         <primitive id="wall_primitive">
-            <rectangle x1="-4" y1="-2" x2="4" y2="2" />
+            <plane npartsU="200" npartsV="200" />
+            <!--<rectangle x1="-4" y1="-2" x2="4" y2="2" />-->
         </primitive>
 
         <primitive id="table_leg_primitive">
@@ -722,9 +731,7 @@
         <component id="floor">
 
             <transformation>
-
-                <rotate axis="x" angle="-90" />
-
+                <scale x="8" y="1" z="8" />
             </transformation>
             <materials>
                 <material id="wood_material" />
@@ -743,7 +750,7 @@
 
             <transformation>
                 <translate x="0" y="0.01" z="0" />
-                <rotate axis="x" angle="-90" />
+                <scale x="6" y="1" z="4" />
             </transformation>
             <materials>
                 <material id="carpet_material" />
@@ -765,12 +772,27 @@
             <materials>
                 <material id="wood_material" />
             </materials>
-            <texture id="wall_tex" length_s="4" length_t="4" />
+            <!-- wall_tex -->
+            <texture id="none" length_s="4" length_t="4" />
             <children>
                 <componentref id="wall1" />
                 <componentref id="wall2" />
                 <componentref id="wall3" />
                 <componentref id="wall4" />
+            </children>
+        </component>
+
+        <component id="wall_component">
+            <transformation>
+                <scale x="8" y="4" z="1" />
+                <rotate axis="x" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="wall_primitive" />
             </children>
         </component>
 
@@ -783,7 +805,7 @@
             </materials>
             <texture id="inherit" />
             <children>
-                <primitiveref id="wall_primitive" />
+                <componentref id="wall_component" />
             </children>
 
         </component>
@@ -798,7 +820,7 @@
             </materials>
             <texture id="inherit" />
             <children>
-                <primitiveref id="wall_primitive" />
+                <componentref id="wall_component" />
             </children>
 
         </component>
@@ -813,7 +835,7 @@
             </materials>
             <texture id="inherit" />
             <children>
-                <primitiveref id="wall_primitive" />
+                <componentref id="wall_component" />
             </children>
 
         </component>
@@ -828,7 +850,7 @@
             </materials>
             <texture id="inherit" />
             <children>
-                <primitiveref id="wall_primitive" />
+                <componentref id="wall_component" />
             </children>
 
         </component>
