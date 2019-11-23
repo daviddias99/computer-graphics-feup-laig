@@ -110,10 +110,22 @@ function arrayLinearInterpolation(x,x1,x0,y1,y0) {
 
 function geometricProgressionTerm(T0,T1,n,step){
 
-    var ratio = Math.pow(T1/T0, 1/n);
-    var sclFactor = T0 * Math.pow(ratio,step);
+    // If one or both values of the scalling bounds are non-positive the values are translated before calculating the terms
+    // after the calculation the result is translted in the opposite direction. This allows for scallings that are non-positive to work.
 
-    return sclFactor;
+    let lowestFactorValue = Math.min(T0,T1);
+    let translationDistance = 0.0
+
+    if(lowestFactorValue <= 0.0)
+        translationDistance = 1 - lowestFactorValue;
+    
+    let translatedT0 = T0 + translationDistance;
+    let translatedT1 = T1 + translationDistance;
+
+    let ratio = Math.pow(translatedT1/translatedT0, 1/n);
+    let sclFactor = translatedT0 * Math.pow(ratio,step);
+
+    return sclFactor - translationDistance;
 }
 
 function arrayGeometricProgressionTerm(T0,T1,n,step) {
