@@ -43,22 +43,18 @@ class XMLscene extends CGFscene {
         this.lightIDs = [];
         this.displayAxis = false;
 
-        this.cameraTex = new CGFtextureRTT(this,this.gl.canvas.width,this.gl.canvas.height);
+        this.cameraTex = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
         this.cameraTex.bind(0);
 
         this.cameraScreenShader = new CGFshader(this.gl, "shaders/camera_shader.vert", "shaders/camera_shader.frag");
         this.sec_camera = new MySecurityCamera(this);
-        
-        this.OtherFactor = 1.0;
-        this.nStripes  = 10.0 ;
-        this.nRepitition = 2.0;
 
-        window.addEventListener("resize",this.windowResizeHandler.bind(this));
+        window.addEventListener("resize", this.windowResizeHandler.bind(this));
 
     }
 
-    windowResizeHandler(){
-        this.cameraTex = new CGFtextureRTT(this,this.gl.canvas.width,this.gl.canvas.height);
+    windowResizeHandler() {
+        this.cameraTex = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
     }
 
     /**
@@ -74,21 +70,21 @@ class XMLscene extends CGFscene {
     }
 
 
-    update(t){
+    update(t) {
 
         var deltaT = t - this.lastT
         this.lastT = t;
 
-        this.cameraScreenShader.setUniformsValues({ timefactor: t /5000 % 10 });
-
-        if(!this.graph.loadedOk)
+        if (!this.graph.loadedOk)
             return;
 
-        for(var key in this.graph.animations){
+        for (var key in this.graph.animations) {
 
-            if(this.graph.animations[key].inUse)
+            if (this.graph.animations[key].inUse)
                 this.graph.animations[key].update(deltaT);
         }
+
+        this.cameraScreenShader.setUniformsValues({ timefactor: t / 5000 % 10 });
     }
 
     /**
@@ -151,17 +147,15 @@ class XMLscene extends CGFscene {
 
             this.cameraIDs[key] = key;
         }
-
-
         this.selectedCameraMain = this.graph.defaultCameraId;
-        this.selectedCameraSecurity= this.graph.defaultCameraId;
+        this.selectedCameraSecurity = this.graph.defaultCameraId;
         this.interface.addCameraDropdown();
     }
 
     /**
      * Add the light-control section of the interface
      */
-    activateLightSelectionCheckboxes(){
+    activateLightSelectionCheckboxes() {
         this.interface.addLightCheckboxes();
     }
 
@@ -204,8 +198,8 @@ class XMLscene extends CGFscene {
         this.applyViewMatrix();
 
         this.pushMatrix();
-        
-        if(this.displayAxis)
+
+        if (this.displayAxis)
             this.axis.display();
 
         // ---- END Background, camera and axis setup
@@ -214,8 +208,7 @@ class XMLscene extends CGFscene {
         for (var i = 0; i < this.lights.length; i++)
             this.lights[i].update();
 
-
-        // Scene drawing
+        // Scene rendering
         if (this.sceneInited) {
 
             this.setDefaultAppearance();
@@ -228,29 +221,35 @@ class XMLscene extends CGFscene {
 
     }
 
-    display(){
+    display() {
 
-        if(!this.sceneInited)
+        if (!this.sceneInited)
             return;
 
+        // Set selected camera to security camera
         this.selectedCamera = this.graph.cameras[this.selectedCameraSecurity];
 
+        // Render the scene to the camera screen texture
         this.cameraTex.attachToFrameBuffer();
         this.render();
         this.cameraTex.detachFromFrameBuffer();
 
-        this.selectedCamera =this.graph.cameras[this.selectedCameraMain];
+        // Set the selected camera to the main camera
+        this.selectedCamera = this.graph.cameras[this.selectedCameraMain];
         this.interface.setActiveCamera(this.selectedCamera);
+
+        // Render the scene to the main camera
         this.render();
-        
-        this.setActiveShader(this.cameraScreenShader); 
+
+        // Display the security camera screen
+        this.setActiveShader(this.cameraScreenShader);
         this.gl.disable(this.gl.DEPTH_TEST);
         this.cameraTex.bind(0);
 
         this.sec_camera.display();
 
         this.gl.enable(this.gl.DEPTH_TEST);
-        this.setActiveShader(this.defaultShader); 
+        this.setActiveShader(this.defaultShader);
 
     }
 }
