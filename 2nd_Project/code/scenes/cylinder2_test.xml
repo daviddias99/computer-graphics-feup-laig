@@ -63,7 +63,7 @@
                 <rectangle x1="-1" y1="-1" x2="1" y2="1" />
             </primitive>
             <primitive id="teste">
-                <cylinder2 base="0.3" top="0.15" height="0.3" slices="80" stacks="10" />
+                <cylinder base="0.3" top="0.15" height="0.3" slices="80" stacks="10" />
             </primitive>
         </primitives>
     
@@ -73,13 +73,13 @@
                 <transformation>
                     <translate x="0" y="0" z="0"/>
                 </transformation>
-                <animationref id="test_animation2"/>
+                <!-- <animationref id="test_animation2"/> -->
                 <materials>
                     <material id="demoMaterial" />
                 </materials>
                 <texture id="none" />
                 <children>
-                    <primitiveref id="rectangle" />
+                    <primitiveref id="teste" />
                 </children>
             </component>
     
