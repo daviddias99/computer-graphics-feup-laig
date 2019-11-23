@@ -199,7 +199,7 @@ class XMLscene extends CGFscene {
 
         this.pushMatrix();
         
-        // if(this.displayAxis)
+        if(this.displayAxis)
             this.axis.display();
 
         // ---- END Background, camera and axis setup
