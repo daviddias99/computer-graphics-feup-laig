@@ -62,22 +62,30 @@
         </primitive>
 
         <primitive id="patcholi">
-                <patch npointsU="3" npointsV="4" npartsU="50" npartsV="50">
-                    <controlpoint xx="-2.0" yy="-2.0" zz="1.0"/>
-                    <controlpoint xx="-2.0" yy="-1.0" zz="-2.0"/>
-                    <controlpoint xx="-2.0" yy="1.0" zz="5.0"/>
-                    <controlpoint xx="-2.0" yy="2.0" zz="-1.0"/>
-                    <controlpoint xx="0.0" yy="-2.0" zz="0.0"/>
-                    <controlpoint xx="0.0" yy="-1.0" zz="-1.0"/>
-                    <controlpoint xx="0.0" yy="1.0" zz="1.5"/>
-                    <controlpoint xx="0.0" yy="2.0" zz="0.0"/>
-                    <controlpoint xx="2.0" yy="-2.0" zz="-1.0"/>
-                    <controlpoint xx="2.0" yy="-1.0" zz="2.0"/>
-                    <controlpoint xx="2.0" yy="1.0" zz="-5.0"/>
-                    <controlpoint xx="2.0" yy="2.0" zz="1.0"/>
-    
-                </patch>
-            </primitive>
+            <patch npointsU="3" npointsV="4" npartsU="50" npartsV="50">
+                <controlpoint xx="-2.0" yy="-2.0" zz="1.0"/>
+                <controlpoint xx="-2.0" yy="-1.0" zz="-2.0"/>
+                <controlpoint xx="-2.0" yy="1.0" zz="5.0"/>
+                <controlpoint xx="-2.0" yy="2.0" zz="-1.0"/>
+                <controlpoint xx="0.0" yy="-2.0" zz="0.0"/>
+                <controlpoint xx="0.0" yy="-1.0" zz="-1.0"/>
+                <controlpoint xx="0.0" yy="1.0" zz="1.5"/>
+                <controlpoint xx="0.0" yy="2.0" zz="0.0"/>
+                <controlpoint xx="2.0" yy="-2.0" zz="-1.0"/>
+                <controlpoint xx="2.0" yy="-1.0" zz="2.0"/>
+                <controlpoint xx="2.0" yy="1.0" zz="-5.0"/>
+                <controlpoint xx="2.0" yy="2.0" zz="1.0"/>
+
+            </patch>
+        </primitive>
+
+        <primitive id="ghost" >
+            <patch npointsU="6" npointsV="6" npartsU="50" npartsV="50">
+
+
+            </patch>
+        </primitive>
+
     </primitives>
 
     <animations>
