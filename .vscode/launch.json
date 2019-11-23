@@ -9,7 +9,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "http://127.0.0.1:5500/2nd_Project/code/?file=teste_scene.xml",
+            "url": "http://127.0.0.1:5500/2nd_Project/code/",
             
             "webRoot": "${workspaceFolder}"
         }

@@ -47,12 +47,18 @@ class XMLscene extends CGFscene {
         this.cameraTex.bind(0);
 
         this.cameraScreenShader = new CGFshader(this.gl, "shaders/camera_shader.vert", "shaders/camera_shader.frag");
-        this.sec_camera = new MySecurityCamera(this,this.gl.canvas.width,this.gl.canvas.height);
+        this.sec_camera = new MySecurityCamera(this);
         
         this.OtherFactor = 1.0;
         this.nStripes  = 10.0 ;
         this.nRepitition = 2.0;
 
+        window.addEventListener("resize",this.windowResizeHandler.bind(this));
+
+    }
+
+    windowResizeHandler(){
+        this.cameraTex = new CGFtextureRTT(this,this.gl.canvas.width,this.gl.canvas.height);
     }
 
     /**
