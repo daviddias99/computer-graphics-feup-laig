@@ -66,7 +66,7 @@
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="0.8" g="0.8" b="0.8" a="0.5" />
             <specular r="0.8" g="0.8" b="0.8" a="0.5" />
-            <attenuation constant="0.0" linear="0" quadratic="1.0" />
+            <attenuation constant="0.0" linear="1.0" quadratic="0.0" />
         </omni>
 
         <spot id="ceiling_light" enabled="1" angle="30" exponent="1">
@@ -2238,26 +2238,19 @@
 
         <primitive id="floor_primitive">
             <plane npartsU="50" npartsV="50" />
-            <!--<rectangle x1="-4" y1="-4" x2="4" y2="4" />-->
         </primitive>
-
-        <!--
-        <primitive id="carpet_primitive">
-            <rectangle x1="-3" y1="-2" x2="3" y2="2" />
-        </primitive>
-        -->
 
         <primitive id="carpet_primitive">
             <plane npartsU="50" npartsV="50" />
         </primitive>
 
         <primitive id="wall_primitive">
-            <plane npartsU="200" npartsV="200" />
+            <plane npartsU="50" npartsV="50" />
             <!--<rectangle x1="-4" y1="-2" x2="4" y2="2" />-->
         </primitive>
 
         <primitive id="table_leg_primitive">
-            <cylinder2 base="0.1" top="0.1" height="1.2" slices="50" stacks="50" />
+            <cylinder2 base="0.1" top="0.1" height="1.2" slices="20" stacks="20" />
         </primitive>
 
         <primitive id="table_top_side_primitive">
@@ -2273,7 +2266,7 @@
         </primitive>
 
         <primitive id="lamp_top_primitive">
-            <cylinder2 base="0.3" top="0.15" height="0.3" slices="50" stacks="50" />
+            <cylinder2 base="0.3" top="0.15" height="0.3" slices="20" stacks="20" />
         </primitive>
 
         <primitive id="pyramidTriangle">
@@ -2281,11 +2274,11 @@
         </primitive>
 
         <primitive id="yoga_ball_sphere">
-            <sphere radius="1" slices="100" stacks="100" />
+            <sphere radius="1" slices="80" stacks="80" />
         </primitive>
 
         <primitive id="chair_leg_primitive">
-            <cylinder2 base="0.05" top="0.05" height="0.6" slices="50" stacks="50" />
+            <cylinder2 base="0.05" top="0.05" height="0.6" slices="20" stacks="20" />
         </primitive>
 
         <primitive id="block_primitive_1">
