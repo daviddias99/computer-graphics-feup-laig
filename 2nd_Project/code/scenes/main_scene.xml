@@ -105,10 +105,18 @@
         <texture id="chair_legs_tex" file="scenes/images/t_darker_wood.png" />
         <texture id="bin_tex" file="scenes/images/t_metalic_grid.jpg" />
         <texture id="ball_base_tex" file="scenes/images/t_ball_base.jpg" />
+        <texture id="porcelain" file="scenes/images/t_porcelain.jpg" />
 
     </textures>
 
     <materials>
+
+        <material id="porcelain" shininess="4">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <diffuse r="0.3" g="0.3" b="0.3" a="1.0" />
+            <specular r="0.7" g="0.7" b="0.7" a="1.0" />
+        </material>
 
         <material id="ghost_material" shininess="5">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
@@ -266,7 +274,6 @@
 
     <animations>
 
-      
 
         <animation id="ball_fall_animation">
 
@@ -1703,18 +1710,18 @@
             </keyframe>
 
             <keyframe instant="7">
-                    <translate x="4" y="-0.5" z="0.0" />
-                    <scale x="1" y="1.0" z="1.0" />
+                <translate x="4" y="-0.5" z="0.0" />
+                <scale x="1" y="1.0" z="1.0" />
             </keyframe>
 
             <keyframe instant="8">
-                    <translate x="6" y="0.5" z="0.0" />
-                    <scale x="1" y="1.0" z="1.0" />
+                <translate x="6" y="0.5" z="0.0" />
+                <scale x="1" y="1.0" z="1.0" />
             </keyframe>
 
             <keyframe instant="9">
-                    <translate x="8" y="-0.5" z="0.0" />
-                    <scale x="1" y="1.0" z="1.0" />
+                <translate x="8" y="-0.5" z="0.0" />
+                <scale x="1" y="1.0" z="1.0" />
             </keyframe>
 
             <keyframe instant="10">
@@ -1722,8 +1729,13 @@
                 <scale x="1" y="1.0" z="1.0" />
             </keyframe>
 
-            <keyframe instant="11">
-                <translate x="10" y="0.0" z="0.0" />
+            <keyframe instant="12">
+                <translate x="14" y="0.5" z="0.0" />
+                <scale x="1" y="1.0" z="1.0" />
+            </keyframe>
+
+            <keyframe instant="12.5">
+                <translate x="14" y="0.5" z="0.0" />
                 <scale x="0.0" y="0.0" z="0.0" />
             </keyframe>
         </animation>
@@ -2350,6 +2362,48 @@
             <sphere radius="0.5" slices="20" stacks="20" />
         </primitive>
 
+        <primitive id="jar_bottom">
+            <sphere radius="0.5" slices="20" stacks="20" />
+        </primitive>
+
+        <primitive id="jar">
+            <patch npointsU="4" npointsV="7" npartsU="50" npartsV="50">
+
+                <controlpoint xx="0.2" yy="1.0" zz="0" />
+                <controlpoint xx="0.3" yy="0.7" zz="0" />
+                <controlpoint xx="0.3" yy="0.45" zz="0" />
+                <controlpoint xx="0.3" yy="0.15" zz="0" />
+                <controlpoint xx="0.3" yy="-0.15" zz="0" />
+                <controlpoint xx="0.3" yy="-0.550" zz="0" />
+                <controlpoint xx="0.3" yy="-0.9" zz="0" />
+
+                <controlpoint xx="0.2" yy="1.0" zz="0.25" />
+                <controlpoint xx="0.2" yy="0.6" zz="0.35" />
+                <controlpoint xx="0.2" yy="0.25" zz="0.5" />
+                <controlpoint xx="0.2" yy="0.0" zz="1.15" />
+                <controlpoint xx="0.2" yy="-0.2" zz="0.5" />
+                <controlpoint xx="0.2" yy="-0.6" zz="-0.4" />
+                <controlpoint xx="0.3" yy="-0.9" zz="0.6" />
+
+                <controlpoint xx="-0.2" yy="1.0" zz="0.25" />
+                <controlpoint xx="-0.2" yy="0.6" zz="0.35" />
+                <controlpoint xx="-0.2" yy="0.25" zz="0.5" />
+                <controlpoint xx="-0.2" yy="0" zz="1.14" />
+                <controlpoint xx="-0.2" yy="-0.2" zz="0.5" />
+                <controlpoint xx="-0.2" yy="-0.6" zz="-0.4" />
+                <controlpoint xx="-0.3" yy="-0.9" zz="0.6" />
+
+                <controlpoint xx="-0.2" yy="1" zz="0" />
+                <controlpoint xx="-0.3" yy="0.7" zz="0" />
+                <controlpoint xx="-0.3" yy="0.45" zz="0" />
+                <controlpoint xx="-0.3" yy="0.15" zz="0" />
+                <controlpoint xx="-0.3" yy="-0.15" zz="0" />
+                <controlpoint xx="-0.3" yy="-0.550" zz="0" />
+                <controlpoint xx="-0.3" yy="-0.9" zz="0" />
+
+            </patch>
+        </primitive>
+
     </primitives>
 
     <components>
@@ -2402,112 +2456,6 @@
         </component>
         <!-- END: Miniature of the scene that seats on top of the table -->
 
-        <component id="ghost_position">
-
-            <transformation>
-                <translate x="-5" y="2" z="-1.5" />
-            </transformation>
-            <animationref id="ghost_animation" />
-            <materials>
-                <material id="ghost_material" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <componentref id="ghost" />
-
-            </children>
-        </component>
-
-        <component id="ghost">
-            <transformation>
-                <scale x="0.3" y="0.3" z="0.3" />
-            </transformation>
-
-            <materials>
-                <material id="ghost_material" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <componentref id="ghost_half1" />
-                <componentref id="ghost_half2" />
-                <componentref id="eye1" />
-                <componentref id="eye2" />
-                <componentref id="mouth" />
-            </children>
-        </component>
-
-        <component id="ghost_half1">
-            <transformation>
-                <translate x="0" y="0" z="0" />
-                <rotate axis="z" angle="180" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <primitiveref id="ghost" />
-            </children>
-        </component>
-
-        <component id="ghost_half2">
-            <transformation>
-                <translate x="0" y="0" z="0" />
-                <rotate axis="z" angle="180" />
-                <rotate axis="y" angle="180" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <primitiveref id="ghost" />
-            </children>
-        </component>
-
-        <component id="eye1">
-            <transformation>
-                <translate x="0.6" y="0.55" z="0.45" />
-                <scale x="0.2" y="0.3" z="0.2" />
-            </transformation>
-            <materials>
-                <material id="ghost_eye_material" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <primitiveref id="eye" />
-            </children>
-        </component>
-
-        <component id="eye2">
-            <transformation>
-                <translate x="0.6" y="0.55" z="-0.45" />
-                <scale x="0.2" y="0.3" z="0.2" />
-            </transformation>
-            <materials>
-                <material id="ghost_eye_material" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <primitiveref id="eye" />
-            </children>
-        </component>
-
-        <component id="mouth">
-            <transformation>
-                <translate x="0.9" y="0.1" z="0" />
-                <scale x="0.1" y="0.2" z="0.5" />
-            </transformation>
-            <materials>
-                <material id="ghost_eye_material" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <primitiveref id="eye" />
-            </children>
-        </component>
-
-
         <!-- START: Object Positioning-->
 
         <component id="position_Bin">
@@ -2538,6 +2486,7 @@
                 <componentref id="position_PyramidOnTable" />
                 <componentref id="position_ballOnTable" />
                 <componentref id="position_cardfanOnTable" />
+                <componentref id="position_JarOnTable" />
 
             </children>
 
@@ -2559,6 +2508,24 @@
             </children>
 
         </component>
+
+        <component id="position_JarOnTable">
+
+                <transformation>
+                    <translate x="-1.0" y="1.52" z="-0.5" />
+                    <rotate axis="y" angle="-45" />
+                    <scale x="0.3" y="0.3" z="0.3" />
+                </transformation>
+                <materials>
+                    <material id="inherit" />
+                </materials>
+                <texture id="none" />
+                <children>
+                    <componentref id="jar" />
+                </children>
+    
+        </component>
+
 
         <component id="position_ballOnTable">
             <transformation>
@@ -2816,8 +2783,213 @@
 
         <!-- END: Shelf component -->
 
-
         <!-- END: Object Positioning-->
+
+        <!-- START: Jar component-->
+        <component id="jar">
+
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="porcelain" />
+            </materials>
+            <texture id="porcelain" length_s="1" length_t="1" />
+            <children>
+                <componentref id="jar_inside" />
+                <componentref id="jar_outside" />
+                <componentref id="jar_bottom" />
+            </children>
+
+        </component>
+
+        <component id="jar_bottom">
+
+            <transformation>
+                <translate x="0" y="-0.95" z="0" />
+                <scale x="0.4" y="0.05" z="0.4" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="jar_bottom" />
+            </children>
+
+        </component>
+
+        <component id="jar_inside">
+
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                <scale x="-1" y="1" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="jar_half1" />
+                <componentref id="jar_half2" />
+            </children>
+
+        </component>
+
+        <component id="jar_outside">
+
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="jar_half1" />
+                <componentref id="jar_half2" />
+            </children>
+
+        </component>
+
+
+        <component id="jar_half1">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                <rotate axis="z" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="jar" />
+            </children>
+        </component>
+
+        <component id="jar_half2">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                <rotate axis="z" angle="180" />
+                <rotate axis="y" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="jar" />
+            </children>
+        </component>
+
+        <!-- END: Jar component-->
+        <!-- START: Ghost component-->
+        <component id="ghost_position">
+
+            <transformation>
+                <translate x="-5" y="2" z="-1.5" />
+            </transformation>
+            <animationref id="ghost_animation" />
+            <materials>
+                <material id="ghost_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="ghost" />
+
+            </children>
+        </component>
+
+        <component id="ghost">
+            <transformation>
+                <scale x="0.3" y="0.3" z="0.3" />
+            </transformation>
+
+            <materials>
+                <material id="ghost_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="ghost_half1" />
+                <componentref id="ghost_half2" />
+                <componentref id="eye1" />
+                <componentref id="eye2" />
+                <componentref id="mouth" />
+            </children>
+        </component>
+
+        <component id="ghost_half1">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                <rotate axis="z" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="ghost" />
+            </children>
+        </component>
+
+        <component id="ghost_half2">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                <rotate axis="z" angle="180" />
+                <rotate axis="y" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="ghost" />
+            </children>
+        </component>
+
+        <component id="eye1">
+            <transformation>
+                <translate x="0.6" y="0.55" z="0.45" />
+                <scale x="0.2" y="0.3" z="0.2" />
+            </transformation>
+            <materials>
+                <material id="ghost_eye_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="eye" />
+            </children>
+        </component>
+
+        <component id="eye2">
+            <transformation>
+                <translate x="0.6" y="0.55" z="-0.45" />
+                <scale x="0.2" y="0.3" z="0.2" />
+            </transformation>
+            <materials>
+                <material id="ghost_eye_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="eye" />
+            </children>
+        </component>
+
+        <component id="mouth">
+            <transformation>
+                <translate x="0.9" y="0.1" z="0" />
+                <scale x="0.1" y="0.2" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="ghost_eye_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="eye" />
+            </children>
+        </component>
+
+        <!-- End Ghost component -->
 
         <!-- START: Floor component -->
 

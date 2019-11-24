@@ -9,7 +9,7 @@ varying vec2 vTextureCoord;
 
 void main() {
 
-	gl_Position = vec4(aVertexPosition, 1.0);
+	gl_Position = vec4(aVertexPosition, 1.0);   // Remove the view matrix and projection matrix applications in order to place the camera as an overlay
     vTextureCoord = aTextureCoord;	
 
 }

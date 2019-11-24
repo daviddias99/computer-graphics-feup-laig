@@ -28,8 +28,8 @@ serialInclude([ './../lib/CGF.js',
                 './animation/Animation.js',
                 './animation/KeyFrame.js',
                 './animation/KeyFrameAnimation.js',
-                './animation/MySceneComponent.js', 
                 './animation/Segment.js', 
+                './MySceneComponent.js', 
                 'misc_functions.js',
 
 

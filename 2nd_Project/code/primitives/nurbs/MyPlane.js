@@ -1,5 +1,14 @@
+/**
+ * MyPlane is a class that represents a plane through NURBS. It is equivalent to a Patch with U and V degree of 1
+ */
 class MyPlane extends MyPrimitive {
 
+    /**
+     * @constructor
+     * @param {XMLScene} scene 
+     * @param {Number} nDivisionsU  Number of divisions on the U Axis
+     * @param {Number} nDivisionsV  Number of divisions on the V Axis
+     */
     constructor(scene, nDivisionsU, nDivisionsV) {
         super(scene);
 
@@ -9,6 +18,11 @@ class MyPlane extends MyPrimitive {
     }
 
 
+    /**
+     * @method initBuffers
+     * 
+     * Create the array of control points and init the NURBS object/surface.
+     */
     initBuffers() {
 
 
@@ -27,10 +41,15 @@ class MyPlane extends MyPrimitive {
         ];
 
         let nurbsSurface = new CGFnurbsSurface(1, 1, controlPoints);
-        this.nurbsObject = new CGFnurbsObject(this.scene, this.nDivisionsU, this.nDivisionsV, nurbsSurface); // must provide an object with the function getPoint(u, v) (CGFnurbsSurface has it)
+        this.nurbsObject = new CGFnurbsObject(this.scene, this.nDivisionsU, this.nDivisionsV, nurbsSurface); 
 
     }
 
+    /**
+     * @method display
+     * 
+     * Display the scene
+     */
     display(){
 
         this.nurbsObject.display();

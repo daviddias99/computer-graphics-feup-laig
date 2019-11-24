@@ -25,6 +25,7 @@
 
     <textures>
         <texture id="demoTexture" file="scenes/images/rocks.jpg" />
+        <texture id="porcelain" file="scenes/images/t_porcelain.jpg" />
     </textures>
 
     <materials>
@@ -40,6 +41,13 @@
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="0.0" g="0.0" b="0.0" a="1.0" />
             <specular r="0.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+
+        <material id="porcelain" shininess="6">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.6" g="0.6" b="0.6" a="1.0" />
+            <diffuse r="0.3" g="0.3" b="0.3" a="1.0" />
+            <specular r="0.7" g="0.7" b="0.7" a="1.0" />
         </material>
     </materials>
 
@@ -116,6 +124,48 @@
             <sphere radius="0.5" slices="20" stacks="20" />
         </primitive>
 
+        <primitive id="jar_bottom">
+            <sphere radius="0.5" slices="20" stacks="20" />
+        </primitive>
+
+        <primitive id="jar">
+            <patch npointsU="4" npointsV="7" npartsU="50" npartsV="50">
+
+                <controlpoint xx="0.2" yy="1.0" zz="0" />
+                <controlpoint xx="0.3" yy="0.7" zz="0" />
+                <controlpoint xx="0.3" yy="0.45" zz="0" />
+                <controlpoint xx="0.3" yy="0.15" zz="0" />
+                <controlpoint xx="0.3" yy="-0.15" zz="0" />
+                <controlpoint xx="0.3" yy="-0.550" zz="0" />
+                <controlpoint xx="0.3" yy="-0.9" zz="0" />
+
+                <controlpoint xx="0.2" yy="1.0" zz="0.25" />
+                <controlpoint xx="0.2" yy="0.6" zz="0.35" />
+                <controlpoint xx="0.2" yy="0.25" zz="0.5" />
+                <controlpoint xx="0.2" yy="0.0" zz="1.15" />
+                <controlpoint xx="0.2" yy="-0.2" zz="0.5" />
+                <controlpoint xx="0.2" yy="-0.6" zz="-0.4" />
+                <controlpoint xx="0.3" yy="-0.9" zz="0.6" />
+
+                <controlpoint xx="-0.2" yy="1.0" zz="0.25" />
+                <controlpoint xx="-0.2" yy="0.6" zz="0.35" />
+                <controlpoint xx="-0.2" yy="0.25" zz="0.5" />
+                <controlpoint xx="-0.2" yy="0" zz="1.14" />
+                <controlpoint xx="-0.2" yy="-0.2" zz="0.5" />
+                <controlpoint xx="-0.2" yy="-0.6" zz="-0.4" />
+                <controlpoint xx="-0.3" yy="-0.9" zz="0.6" />
+
+                <controlpoint xx="-0.2" yy="1" zz="0" />
+                <controlpoint xx="-0.3" yy="0.7" zz="0" />
+                <controlpoint xx="-0.3" yy="0.45" zz="0" />
+                <controlpoint xx="-0.3" yy="0.15" zz="0" />
+                <controlpoint xx="-0.3" yy="-0.15" zz="0" />
+                <controlpoint xx="-0.3" yy="-0.550" zz="0" />
+                <controlpoint xx="-0.3" yy="-0.9" zz="0" />
+
+            </patch>
+        </primitive>
+
     </primitives>
 
     <animations></animations>
@@ -127,11 +177,107 @@
                 <translate x="0" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="porcelain" />
             </materials>
-            <texture id="none" />
+            <texture id="porcelain" length_s="1" length_t="1" />
             <children>
-                <componentref id="ghost" />
+                <componentref id="jar" />
+            </children>
+        </component>
+
+        <component id="jar">
+
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="porcelain" />
+            </materials>
+            <texture id="porcelain" length_s="1" length_t="1" />
+            <children>
+                <componentref id="jar_inside" />
+                <componentref id="jar_outside" />
+                <componentref id="jar_bottom" />
+            </children>
+
+        </component>
+
+        <component id="jar_bottom">
+
+            <transformation>
+                <translate x="0" y="-0.95" z="0" />
+                <scale x="0.4" y="0.05" z="0.4" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="jar_bottom"/>
+            </children>
+
+        </component>
+
+        <component id="jar_inside">
+
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                <scale x="-1" y="1" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="jar_half1" />
+                <componentref id="jar_half2" />
+            </children>
+
+        </component>
+
+        <component id="jar_outside">
+
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="jar_half1" />
+                <componentref id="jar_half2" />
+            </children>
+
+        </component>
+
+
+        <component id="jar_half1">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                <rotate axis="z" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="jar" />
+            </children>
+        </component>
+
+        <component id="jar_half2">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                <rotate axis="z" angle="180" />
+                <rotate axis="y" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="jar" />
             </children>
         </component>
 
