@@ -43,10 +43,6 @@ class XMLscene extends CGFscene {
         this.lightIDs = [];
         this.displayAxis = false;
 
-        this.cameraTex = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
-        this.cameraTex.bind(0);
-
-        this.cameraScreenShader = new CGFshader(this.gl, "shaders/camera_shader.vert", "shaders/camera_shader.frag");
         this.sec_camera = new MySecurityCamera(this);
 
         window.addEventListener("resize", this.windowResizeHandler.bind(this));
@@ -54,7 +50,9 @@ class XMLscene extends CGFscene {
     }
 
     windowResizeHandler() {
-        this.cameraTex = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
+
+        this.sec_camera.reload();
+        // this.cameraTex = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
     }
 
     /**
@@ -84,7 +82,7 @@ class XMLscene extends CGFscene {
                 this.graph.animations[key].update(deltaT);
         }
 
-        this.cameraScreenShader.setUniformsValues({ timefactor: t / 5000 % 10 });
+        this.sec_camera.setUniformsValues({ timefactor: t / 5000 % 10 });
     }
 
     /**
@@ -230,9 +228,9 @@ class XMLscene extends CGFscene {
         this.selectedCamera = this.graph.cameras[this.selectedCameraSecurity];
 
         // Render the scene to the camera screen texture
-        this.cameraTex.attachToFrameBuffer();
+        this.sec_camera.attachToFrameBuffer();
         this.render();
-        this.cameraTex.detachFromFrameBuffer();
+        this.sec_camera.detachFromFrameBuffer();
 
         // Set the selected camera to the main camera
         this.selectedCamera = this.graph.cameras[this.selectedCameraMain];
@@ -241,15 +239,7 @@ class XMLscene extends CGFscene {
         // Render the scene to the main camera
         this.render();
 
-        // Display the security camera screen
-        this.setActiveShader(this.cameraScreenShader);
-        this.gl.disable(this.gl.DEPTH_TEST);
-        this.cameraTex.bind(0);
-
         this.sec_camera.display();
-
-        this.gl.enable(this.gl.DEPTH_TEST);
-        this.setActiveShader(this.defaultShader);
 
     }
 }

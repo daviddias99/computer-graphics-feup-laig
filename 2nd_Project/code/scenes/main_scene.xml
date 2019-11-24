@@ -2504,7 +2504,7 @@
         <component id="position_JarOnTable">
 
                 <transformation>
-                    <translate x="-1.0" y="1.50" z="-0.5" />
+                    <translate x="-1.0" y="1.52" z="-0.5" />
                     <rotate axis="y" angle="-45" />
                     <scale x="0.3" y="0.3" z="0.3" />
                 </transformation>
