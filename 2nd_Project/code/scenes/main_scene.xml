@@ -772,8 +772,7 @@
             <materials>
                 <material id="wood_material" />
             </materials>
-            <!-- wall_tex -->
-            <texture id="none" length_s="4" length_t="4" />
+            <texture id="wall_tex" length_s="4" length_t="4" />
             <children>
                 <componentref id="wall1" />
                 <componentref id="wall2" />
