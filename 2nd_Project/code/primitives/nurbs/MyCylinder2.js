@@ -1,5 +1,5 @@
 /**
- * Class reperesenting a cylinder
+ * Class reperesenting a cylinder constructed using NURBS sufaces
  */
 class MyCylinder2 extends MyPrimitive {
     /**
@@ -12,7 +12,7 @@ class MyCylinder2 extends MyPrimitive {
      * @param {Number} stacks       Nuber of stacks, height divisions
      */
     constructor(scene, baseRadius, topRadius, height, slices, stacks) {
-        super(scene);   
+        super(scene);
 
         this.scene = scene;
         this.baseRadius = baseRadius;
@@ -24,19 +24,23 @@ class MyCylinder2 extends MyPrimitive {
         this.initBuffers();
     }
 
-
+    /**
+     * @method initBuffers
+     * 
+     * Create the array of control points and init the patches.
+     */
     initBuffers() {
 
-        let baseH = 4/3 * this.baseRadius;
-        let topH = 4/3 * this.topRadius;
+        let baseH = 4 / 3 * this.baseRadius;
+        let topH = 4 / 3 * this.topRadius;
 
         let controlPoints1 = [
             // U = 0
             [ // V = 0..1;
-                [-this.baseRadius,0,0, 1],
-                [-this.baseRadius,baseH,0, 1],
-                [this.baseRadius,baseH, 0, 1],
-                [this.baseRadius,0.0, 0, 1]
+                [-this.baseRadius, 0, 0, 1],
+                [-this.baseRadius, baseH, 0, 1],
+                [this.baseRadius, baseH, 0, 1],
+                [this.baseRadius, 0.0, 0, 1]
 
             ],
             // U = 1
@@ -59,25 +63,32 @@ class MyCylinder2 extends MyPrimitive {
             ],
             // U = 1
             [ // V = 0..1;
-                [-this.baseRadius,0,0, 1],
-                [-this.baseRadius,-baseH,0, 1],
-                [this.baseRadius,-baseH, 0, 1],
-                [this.baseRadius,0.0, 0, 1]
+                [-this.baseRadius, 0, 0, 1],
+                [-this.baseRadius, -baseH, 0, 1],
+                [this.baseRadius, -baseH, 0, 1],
+                [this.baseRadius, 0.0, 0, 1]
 
             ]
         ];
 
-        this.patch1 = new MyPatch(this.scene,this.stacks, Math.floor(this.slices/2), 1, 3,controlPoints1);
-        this.patch2 = new MyPatch(this.scene,this.stacks, Math.floor(this.slices/2), 1, 3,controlPoints2);
+        this.patch1 = new MyPatch(this.scene, this.stacks, Math.floor(this.slices / 2), 1, 3, controlPoints1);
+        this.patch2 = new MyPatch(this.scene, this.stacks, Math.floor(this.slices / 2), 1, 3, controlPoints2);
     }
 
+    /**
+     * @method display
+     * 
+     * Display the cylinder
+     */
     display() {
 
         this.patch1.display();
+        this.patch2.display();
+
+        /// Another option would be to display the same patch but rotated, but we figured that it would be slower
         // this.scene.pushMatrix();
         // this.scene.rotate(Math.PI,0,0,1);
         // this.patch1.display();
         // this.scene.popMatrix();
-        this.patch2.display();
     }
 }

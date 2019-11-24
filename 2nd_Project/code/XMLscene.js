@@ -12,7 +12,7 @@ class XMLscene extends CGFscene {
         super();
 
         this.interface = myinterface;
-        this.lastT = 0;
+
     }
 
     /**
@@ -21,10 +21,6 @@ class XMLscene extends CGFscene {
      */
     init(application) {
         super.init(application);
-
-        this.sceneInited = false;
-
-        this.initCameras();
 
         this.enableTextures(true);
 
@@ -36,12 +32,17 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(10);
 
+        // Variable initialization
+
+        this.sceneInited = false;
+        this.displayAxis = false;
+        this.lastT = 0;
+
         this.selectedCameraMain = "";
         this.selectedCameraSecurity = "";
 
         this.cameraIDs = {};
         this.lightIDs = [];
-        this.displayAxis = false;
 
         this.sec_camera = new MySecurityCamera(this);
 
@@ -49,25 +50,26 @@ class XMLscene extends CGFscene {
 
     }
 
+    /**
+     * Reload the security camera on window resize
+     */
     windowResizeHandler() {
 
         this.sec_camera.reload();
-        // this.cameraTex = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
     }
 
     /**
-     * Initializes the scene cameras.
+     * Initialize the defaukt camera
      */
-    initCameras() {
-        this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
-    }
-
     initDefaultCamera() {
         this.camera = this.graph.cameras[this.graph.defaultCameraId];
         this.interface.setActiveCamera(this.camera);
     }
 
 
+    /**
+     * Update the animations and the shader according to the time.
+     */
     update(t) {
 
         var deltaT = t - this.lastT
@@ -115,7 +117,6 @@ class XMLscene extends CGFscene {
                     this.lights[i].setSpotDirection(light[9][0] - light[2][0], light[9][1] - light[2][1], light[9][2] - light[2][2]);
                 }
 
-                // this.lights[i].setVisible(true);
                 if (light[0])
                     this.lights[i].enable();
                 else
@@ -166,9 +167,7 @@ class XMLscene extends CGFscene {
         this.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
 
         this.setGlobalAmbientLight(this.graph.ambient[0], this.graph.ambient[1], this.graph.ambient[2], this.graph.ambient[3]);
-
         this.initLights();
-
         this.initDefaultCamera();
 
         this.activateCameraSelectionDropdown();
@@ -178,11 +177,13 @@ class XMLscene extends CGFscene {
     }
 
     /**
-     * Renders the scene.
+     * Renders the graph scene.
      */
     render() {
-        this.camera = this.selectedCamera;
+
         // ---- BEGIN Background, camera and axis setup
+
+        this.camera = this.selectedCamera;
 
         // Clear image and depth buffer everytime we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
@@ -195,12 +196,12 @@ class XMLscene extends CGFscene {
         // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();
 
+        // ---- END Background, camera and axis setup
+
         this.pushMatrix();
 
         if (this.displayAxis)
             this.axis.display();
-
-        // ---- END Background, camera and axis setup
 
         // Light update
         for (var i = 0; i < this.lights.length; i++)
@@ -219,6 +220,9 @@ class XMLscene extends CGFscene {
 
     }
 
+    /**
+     * Displays the scene including the security camera
+     */
     display() {
 
         if (!this.sceneInited)
@@ -239,6 +243,7 @@ class XMLscene extends CGFscene {
         // Render the scene to the main camera
         this.render();
 
+        // Display the security camera
         this.sec_camera.display();
 
     }
