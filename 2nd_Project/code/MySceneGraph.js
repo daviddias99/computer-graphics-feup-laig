@@ -898,14 +898,12 @@ class MySceneGraph {
         var children = keyframeNode.children;
 
         // Default values for the transformations
-        var scaling = [1, 1, 1];
-        var rotation = [0, 0 ,0];
-        var translation = [0, 0, 0];
+        let scaling, rotation, translation;
 
         var instant = this.reader.getFloat(keyframeNode, 'instant');
         if (instant == null)
             return "no instant defined for keyframe in animation with ID=" + animationID;
-
+        
         for (var i = 0; i < children.length; i++) {
             switch (children[i].nodeName) {
 
@@ -946,6 +944,25 @@ class MySceneGraph {
 
                     scaling = coordinates;
                     break;
+            }
+        }
+
+        if (children.length < 3) {
+            
+            if (scaling == undefined) {
+                scaling = [1, 1, 1];
+                this.onXMLMinorError("tag <scale> is not defined in keyframe(" + instant + ") in animation with ID=" + animationID);
+            }
+
+            if (rotation == undefined) {
+                rotation = [0, 0, 0];
+                this.onXMLMinorError("tag <rotation> is not defined in keyframe(" + instant + ") in animation with ID=" + animationID);
+            }
+
+            if (translation == undefined) {
+                translation = [0, 0, 0];
+                this.onXMLMinorError("tag <translation> is not defined in keyframe(" + instant + ") in animation with ID=" + animationID);
+
             }
         }
 
