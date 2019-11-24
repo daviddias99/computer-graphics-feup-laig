@@ -19,9 +19,8 @@ class KeyFrameAnimation extends Animation {
     getActiveSegment(){
 
         for(let i = 0; i < this.keyframes.length - 1; i++){
-
-            if( (this.sumT > this.keyframes[i].getTimeMilli()) && (this.sumT < this.keyframes[i+1].getTimeMilli())){
-
+            
+            if( (this.sumT >= this.keyframes[i].getTimeMilli()) && (this.sumT < this.keyframes[i+1].getTimeMilli())){
                 return new Segment( this.keyframes[i], this.keyframes[i+1]);
             }
         }

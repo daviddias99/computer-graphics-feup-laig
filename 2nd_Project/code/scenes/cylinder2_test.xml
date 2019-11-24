@@ -73,13 +73,13 @@
                 <transformation>
                     <translate x="0" y="0" z="0"/>
                 </transformation>
-                <animationref id="test_animation2"/>
+                <!-- <animationref id="test_animation2"/> -->
                 <materials>
                     <material id="demoMaterial" />
                 </materials>
                 <texture id="none" />
                 <children>
-                    <primitiveref id="rectangle" />
+                    <primitiveref id="teste" />
                 </children>
             </component>
     
