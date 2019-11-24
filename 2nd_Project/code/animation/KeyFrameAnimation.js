@@ -20,6 +20,9 @@ class KeyFrameAnimation extends Animation {
         
         // Start the time keeping. SumT stores the real time that passed since the beginning of the animation
         this.sumT = 0;
+
+        // LastKF stores the last keyframe where a segment started in order to imporve performance on active segment fetching
+        this.lastKF = 0;
     }
 
     /**
@@ -39,10 +42,12 @@ class KeyFrameAnimation extends Animation {
     */
     getActiveSegment(){
 
-        for(let i = 0; i < this.keyframes.length - 1; i++){
+        for(let i = this.lastKF; i < this.keyframes.length - 1; i++){
             
             // Check if the current time(sumT) is between the instants of two consecutive frames
             if( (this.sumT >= this.keyframes[i].getTimeMilli()) && (this.sumT < this.keyframes[i+1].getTimeMilli())){
+
+                this.lastKF = i;
                 return new Segment( this.keyframes[i], this.keyframes[i+1]);
             }
         }

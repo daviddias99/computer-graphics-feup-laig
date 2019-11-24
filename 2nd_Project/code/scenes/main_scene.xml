@@ -2245,7 +2245,7 @@
                 <scale x="1" y="1" z="1" />
             </keyframe>
 
-            <keyframe instant="34">
+            <keyframe instant="36">
                 <translate x="0" y="3.0" z="0" />
                 <rotate angle_x="0" angle_y="0" angle_z="0" />
                 <scale x="0.7" y="0.7" z="0.7" />
