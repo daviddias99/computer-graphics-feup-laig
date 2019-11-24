@@ -888,10 +888,16 @@ class MySceneGraph {
     }
 
     
-    // TODO: error checking and checking for wrong tags
+    /**
+     * Parse a keyframe
+     * @param {keyframe node} keyframeNode 
+     * @param {Number} animationID 
+     */
     parseKeyFrame(keyframeNode, animationID) {
 
         var children = keyframeNode.children;
+
+        // Default values for the transformations
         var scaling = [1, 1, 1];
         var rotation = [0, 0 ,0];
         var translation = [0, 0, 0];
@@ -922,6 +928,7 @@ class MySceneGraph {
                     var angleYDeg = this.reader.getFloat(children[i], 'angle_y');
                     var angleZDeg = this.reader.getFloat(children[i], 'angle_z');
         
+                    // Convert to radians
                     var angleXRad = angleXDeg * DEGREE_TO_RAD;
                     var angleYRad = angleYDeg * DEGREE_TO_RAD;
                     var angleZRad = angleZDeg * DEGREE_TO_RAD;
@@ -945,7 +952,10 @@ class MySceneGraph {
         return new KeyFrame(instant, translation, rotation, scaling);
     }
 
-    // TODO: error checking and checking for wrong tags
+    /**
+     * Parses an <animation> node. Returns a Keyframe animation
+     * @param {animation node element} animationNode
+     */
     parseAnimationNode(animationNode, animationID) {
 
         let children = animationNode.children;
@@ -956,10 +966,12 @@ class MySceneGraph {
         for (let i = 0; i < children.length; i++) {
             if (children[i].nodeName == 'keyframe') {
 
+                // Get every keyframe
                 let keyframe = this.parseKeyFrame(children[i], animationID);
                 if (typeof keyframe == 'string')
                     return keyframe;
-                    
+                
+                // A keyframes instant should be greater than the instant of the previous keyframe
                 if (time >= keyframe.time) {
                     return "invalid time of keyframe(" + keyframe.time + ") in animation with ID=" + animationID;
                 }
@@ -984,7 +996,7 @@ class MySceneGraph {
         var children = animationsNode.children;
         this.animations = [];
 
-        // Any number of transformations.
+        // Any number of animations.
         for (var i = 0; i < children.length; i++) {
 
             if (children[i].nodeName != "animation") {
@@ -992,7 +1004,7 @@ class MySceneGraph {
                 continue;
             }
 
-            // Get id of the current transformation.
+            // Get id of the current animation.
             var animationID = this.reader.getString(children[i], 'id');
             if (animationID == null)
                 return "no ID defined for animation";
@@ -1278,7 +1290,6 @@ class MySceneGraph {
 
             upoints.push(vpoints);
         }
-
         return new MyPatch(this.scene,npartsU,npartsV,npointsU - 1,npointsV - 1,upoints);
 
     }
@@ -1322,7 +1333,7 @@ class MySceneGraph {
                     && grandChildren[0].nodeName != 'plane'
                     && grandChildren[0].nodeName != 'patch'
                     && grandChildren[0].nodeName != 'torus')) {
-                return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere or torus)"
+                return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, cylinder2, plane, patch, sphere or torus)"
             }
 
             // Specifications for the current primitive.
@@ -1626,8 +1637,6 @@ class MySceneGraph {
 
             }
 
-
-
             // Materials
 
             var materialsNode = grandChildren[materialsIndex];
@@ -1865,6 +1874,7 @@ class MySceneGraph {
         this.scene.pushMatrix();
         this.scene.multMatrix(node.transformation);
 
+        // apply the animation transformation if it exists
         if (node.animation != null)
             node.animation.apply();
 
