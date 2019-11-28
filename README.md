@@ -30,4 +30,5 @@ Repository of projects developed for the course LAIG (Graphical Applications and
 
 ### 3rd Project
 * **Specification** - [Portuguese](3rd_Project/docs/proj3_specification.pdf)
+* **Squex** - [Portuguese](3rd_Project/docs/squex_specification.pdf)
 * **Grade** - 
