@@ -10,16 +10,24 @@ Repository of projects developed for the course LAIG (Graphical Applications and
 ## Technologies
 * WebGL
 * Javascript
-* Shaders
+* GLSL Shaders
+* Prolog
 
 ---
 
 ## Table of Contents
 * [**1st Project**](#1st-project)
 * [**2nd Project**](#2nd-project)
+* [**3rd Project**](#3rd-project)
 
 ### 1st Project
 * **Specification** - [Portuguese](1st_Project/docs/proj1_specification.pdf)
+* **Grade** - 
 
 ### 2nd Project
 * **Specification** - [Portuguese](2nd_Project/docs/proj2_specification.pdf)
+* **Grade** - 
+
+### 3rd Project
+* **Specification** - [Portuguese](3rd_Project/docs/proj3_specification.pdf)
+* **Grade** - 

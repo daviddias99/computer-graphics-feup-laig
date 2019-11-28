@@ -1,0 +1,374 @@
+<lxs>
+    <scene root="demoRoot" axis_length="1" />
+
+    <views default="defaultCamera">
+        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
+            <from x="0" y="0" z="5" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+    </views>
+
+    <globals>
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+        <background r="0.0" g="0.0" b="0.0" a="1.0" />
+    </globals>
+
+    <lights>
+        <omni id="demoLight" enabled="1">
+            <location x="0" y="10" z="0" w="0.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="0" linear="0" quadratic="0" />
+        </omni>
+    </lights>
+
+    <textures>
+        <texture id="demoTexture" file="scenes/images/rocks.jpg" />
+        <texture id="porcelain" file="scenes/images/t_porcelain.jpg" />
+    </textures>
+
+    <materials>
+        <material id="demoMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+        </material>
+
+        <material id="demoMaterial2" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.0" g="0.0" b="0.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+
+        <material id="porcelain" shininess="6">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.6" g="0.6" b="0.6" a="1.0" />
+            <diffuse r="0.3" g="0.3" b="0.3" a="1.0" />
+            <specular r="0.7" g="0.7" b="0.7" a="1.0" />
+        </material>
+    </materials>
+
+    <transformations>
+        <transformation id="demoTransform">
+            <translate x="1" y="0" z="0" />
+        </transformation>
+    </transformations>
+
+    <primitives>
+        <primitive id="patchy">
+            <patch npointsU="3" npointsV="4" npartsU="50" npartsV="50">
+                <controlpoint xx="-1.5" yy="-1.5" zz="0.0" />
+                <controlpoint xx="-2.0" yy="-2.0" zz="2.0" />
+                <controlpoint xx="-2.0" yy="2.0" zz="2.0" />
+                <controlpoint xx="-1.5" yy="1.5" zz="0.0" />
+                <controlpoint xx="0.0" yy="0.0" zz="3.0" />
+                <controlpoint xx="0.0" yy="-2.0" zz="3.0" />
+                <controlpoint xx="0.0" yy="2.0" zz="3.0" />
+                <controlpoint xx="0.0" yy="0.0" zz="3.0" />
+                <controlpoint xx="1.5" yy="-1.5" zz="0.0" />
+                <controlpoint xx="2.0" yy="-2.0" zz="2.0" />
+                <controlpoint xx="2.0" yy="2.0" zz="2.0" />
+                <controlpoint xx="1.5" yy="1.5" zz="0.0" />
+
+            </patch>
+        </primitive>
+
+        <primitive id="patcholi">
+            <patch npointsU="3" npointsV="4" npartsU="50" npartsV="50">
+                <controlpoint xx="-2.0" yy="-2.0" zz="1.0" />
+                <controlpoint xx="-2.0" yy="-1.0" zz="-2.0" />
+                <controlpoint xx="-2.0" yy="1.0" zz="5.0" />
+                <controlpoint xx="-2.0" yy="2.0" zz="-1.0" />
+                <controlpoint xx="0.0" yy="-2.0" zz="0.0" />
+                <controlpoint xx="0.0" yy="-1.0" zz="-1.0" />
+                <controlpoint xx="0.0" yy="1.0" zz="1.5" />
+                <controlpoint xx="0.0" yy="2.0" zz="0.0" />
+                <controlpoint xx="2.0" yy="-2.0" zz="-1.0" />
+                <controlpoint xx="2.0" yy="-1.0" zz="2.0" />
+                <controlpoint xx="2.0" yy="1.0" zz="-5.0" />
+                <controlpoint xx="2.0" yy="2.0" zz="1.0" />
+
+            </patch>
+        </primitive>
+
+        <primitive id="ghost">
+            <patch npointsU="4" npointsV="4" npartsU="50" npartsV="50">
+
+                <controlpoint xx="1.0" yy="1.0" zz="0.0" />
+                <controlpoint xx="1.0" yy="1.0" zz="0.0" />
+                <controlpoint xx="0.75" yy="-0.85" zz="0.00" />
+                <controlpoint xx="0.75" yy="-0.85" zz="0.0" />
+
+                <controlpoint xx="0.7" yy="1.0" zz="1.5" />
+                <controlpoint xx="0.5" yy="1.0" zz="0.0" />
+                <controlpoint xx="0.9" yy="-0.85" zz="2.15" />
+                <controlpoint xx="0.2" yy="-1.2" zz="0.0" />
+
+                <controlpoint xx="-0.7" yy="1.0" zz="1.5" />
+                <controlpoint xx="-0.5" yy="1.0" zz="0.0" />
+                <controlpoint xx="-0.9" yy="-0.85" zz="2.15" />
+                <controlpoint xx="-0.2" yy="-1.2" zz="0.0" />
+
+                <controlpoint xx="-1.0" yy="1.0" zz="0.0" />
+                <controlpoint xx="-1.0" yy="1.0" zz="0.0" />
+                <controlpoint xx="-0.75" yy="-0.85" zz="0" />
+                <controlpoint xx="-0.75" yy="-0.85" zz="0" />
+
+            </patch>
+        </primitive>
+
+        <primitive id="eye">
+            <sphere radius="0.5" slices="20" stacks="20" />
+        </primitive>
+
+        <primitive id="jar_bottom">
+            <sphere radius="0.5" slices="20" stacks="20" />
+        </primitive>
+
+        <primitive id="jar">
+            <patch npointsU="4" npointsV="7" npartsU="50" npartsV="50">
+
+                <controlpoint xx="0.2" yy="1.0" zz="0" />
+                <controlpoint xx="0.3" yy="0.7" zz="0" />
+                <controlpoint xx="0.3" yy="0.45" zz="0" />
+                <controlpoint xx="0.3" yy="0.15" zz="0" />
+                <controlpoint xx="0.3" yy="-0.15" zz="0" />
+                <controlpoint xx="0.3" yy="-0.550" zz="0" />
+                <controlpoint xx="0.3" yy="-0.9" zz="0" />
+
+                <controlpoint xx="0.2" yy="1.0" zz="0.25" />
+                <controlpoint xx="0.2" yy="0.6" zz="0.35" />
+                <controlpoint xx="0.2" yy="0.25" zz="0.5" />
+                <controlpoint xx="0.2" yy="0.0" zz="1.15" />
+                <controlpoint xx="0.2" yy="-0.2" zz="0.5" />
+                <controlpoint xx="0.2" yy="-0.6" zz="-0.4" />
+                <controlpoint xx="0.3" yy="-0.9" zz="0.6" />
+
+                <controlpoint xx="-0.2" yy="1.0" zz="0.25" />
+                <controlpoint xx="-0.2" yy="0.6" zz="0.35" />
+                <controlpoint xx="-0.2" yy="0.25" zz="0.5" />
+                <controlpoint xx="-0.2" yy="0" zz="1.14" />
+                <controlpoint xx="-0.2" yy="-0.2" zz="0.5" />
+                <controlpoint xx="-0.2" yy="-0.6" zz="-0.4" />
+                <controlpoint xx="-0.3" yy="-0.9" zz="0.6" />
+
+                <controlpoint xx="-0.2" yy="1" zz="0" />
+                <controlpoint xx="-0.3" yy="0.7" zz="0" />
+                <controlpoint xx="-0.3" yy="0.45" zz="0" />
+                <controlpoint xx="-0.3" yy="0.15" zz="0" />
+                <controlpoint xx="-0.3" yy="-0.15" zz="0" />
+                <controlpoint xx="-0.3" yy="-0.550" zz="0" />
+                <controlpoint xx="-0.3" yy="-0.9" zz="0" />
+
+            </patch>
+        </primitive>
+
+    </primitives>
+
+    <animations></animations>
+
+    <components>
+
+        <component id="demoRoot">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="porcelain" />
+            </materials>
+            <texture id="porcelain" length_s="1" length_t="1" />
+            <children>
+                <componentref id="jar" />
+            </children>
+        </component>
+
+        <component id="jar">
+
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="porcelain" />
+            </materials>
+            <texture id="porcelain" length_s="1" length_t="1" />
+            <children>
+                <componentref id="jar_inside" />
+                <componentref id="jar_outside" />
+                <componentref id="jar_bottom" />
+            </children>
+
+        </component>
+
+        <component id="jar_bottom">
+
+            <transformation>
+                <translate x="0" y="-0.95" z="0" />
+                <scale x="0.4" y="0.05" z="0.4" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="jar_bottom"/>
+            </children>
+
+        </component>
+
+        <component id="jar_inside">
+
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                <scale x="-1" y="1" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="jar_half1" />
+                <componentref id="jar_half2" />
+            </children>
+
+        </component>
+
+        <component id="jar_outside">
+
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="jar_half1" />
+                <componentref id="jar_half2" />
+            </children>
+
+        </component>
+
+
+        <component id="jar_half1">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                <rotate axis="z" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="jar" />
+            </children>
+        </component>
+
+        <component id="jar_half2">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                <rotate axis="z" angle="180" />
+                <rotate axis="y" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="jar" />
+            </children>
+        </component>
+
+        <component id="ghost">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="ghost_half1" />
+                <componentref id="ghost_half2" />
+                <componentref id="eye1" />
+                <componentref id="eye2" />
+                <componentref id="mouth" />
+            </children>
+        </component>
+
+        <component id="ghost_half1">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                <rotate axis="z" angle="180" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="ghost" />
+            </children>
+        </component>
+
+        <component id="ghost_half2">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                <rotate axis="z" angle="180" />
+                <rotate axis="y" angle="180" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="ghost" />
+            </children>
+        </component>
+
+        <component id="eye1">
+            <transformation>
+                <translate x="0.6" y="0.55" z="0.45" />
+                <scale x="0.2" y="0.3" z="0.2" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial2" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="eye" />
+            </children>
+        </component>
+
+        <component id="eye2">
+            <transformation>
+                <translate x="0.6" y="0.55" z="-0.45" />
+                <scale x="0.2" y="0.3" z="0.2" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial2" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="eye" />
+            </children>
+        </component>
+
+        <component id="mouth">
+            <transformation>
+                <translate x="0.9" y="0.1" z="0" />
+                <scale x="0.1" y="0.2" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial2" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="eye" />
+            </children>
+        </component>
+
+
+    </components>
+</lxs>
