@@ -48,6 +48,9 @@ class XMLscene extends CGFscene {
 
         window.addEventListener("resize", this.windowResizeHandler.bind(this));
 
+
+        this.board = new Board(this, 4, 4);
+
     }
 
     /**
@@ -246,5 +249,7 @@ class XMLscene extends CGFscene {
         // Display the security camera
         this.sec_camera.display();
 
+
+        this.board.display();
     }
 }

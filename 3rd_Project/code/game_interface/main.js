@@ -29,7 +29,15 @@ serialInclude([ './../lib/CGF.js',
                 './animation/KeyFrame.js',
                 './animation/KeyFrameAnimation.js',
                 './animation/Segment.js', 
-                './MySceneComponent.js', 
+                './MySceneComponent.js',
+
+                './primitives/Poligon.js',
+                './primitives/Prism.js',
+
+                './game/Board.js',
+                './game/Piece.js',
+                './game/Tile.js',
+
                 'misc_functions.js',
 
 
