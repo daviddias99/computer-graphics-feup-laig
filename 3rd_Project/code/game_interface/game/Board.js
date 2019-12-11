@@ -40,6 +40,38 @@ class Board extends CGFobject {
         }
     }
 
+    fillBoards(octagons, squares){
+
+        for(let i = 0; i < octagons.length; i++){
+
+            for(let j = 0; j < octagons[i].length; j++){
+
+                let octagon = octagons[i][j];
+
+                if(octagon != 0){
+
+                    // TODO - PIECE HEIGHT AND RADIUS ???
+                    this.octogons[i][j].setPiece(new Piece(this.scene,8, null,null,octagon));
+                }
+            }
+        }
+
+        for(let i = 0; i < squares.length; i++){
+
+            for(let j = 0; j < squares[i].length; j++){
+
+                let square = squares[i][j];
+
+                if(square != 0){
+
+                    // TODO - PIECE HEIGHT AND RADIUS ???
+                    this.squares[i][j].setPiece(new Piece(this.scene,4, null,null,octagon));
+                }
+            }
+        }
+
+    }
+
     display() {
         let oct_row = this.sqr_radius + this.oct_diagonal / 2.0;
         let oct_col = oct_row;

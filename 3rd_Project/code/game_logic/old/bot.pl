@@ -2,6 +2,7 @@
 :- ensure_loaded('game_model.pl').
 :- ensure_loaded('graph.pl').
 :- ensure_loaded('gameover.pl').
+:- ensure_loaded('display.pl').
 
 %   In this file:
 % 

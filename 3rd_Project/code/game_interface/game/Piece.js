@@ -1,6 +1,6 @@
 class Piece extends CGFobject {
 
-    constructor(scene, sides, radius, height) {
+    constructor(scene, sides, radius, height, player) {
         super(scene);
 
         this.radius = radius;
@@ -8,6 +8,7 @@ class Piece extends CGFobject {
 
         this.prism = new Prism(scene, side);
         this.base = new Poligon(scene, sides);
+        this.player = player;
     }
 
     display() {
