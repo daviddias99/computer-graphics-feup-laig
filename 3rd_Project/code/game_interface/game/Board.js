@@ -16,8 +16,8 @@ class Board extends CGFobject {
     }
 
     initBoard() {
-        this.octogons = [][];
-        this.squares = [][];
+        this.octogons = [];
+        this.squares = [];
 
         // TODO: the radius needs to change according to the tile
         this.oct_radius = 0.05;
@@ -31,41 +31,48 @@ class Board extends CGFobject {
 
             for (let j = 0; j <= this.width; j++) {
                 if (j < this.width && i < this.height)
-                    this.octogons[i][j] = new Tile(this.scene, 8, this.oct_radius);
+                    oct_line.push(new Tile(this.scene, 8, this.oct_radius));
 
                 if ((i > 0 && i < this.height) || (j > 0 && j < this.width)) {
-                    this.squares = [i][j] = new Tile(this.scene, 4, this.sqr_radius);
+                    sqr_line.push(new Tile(this.scene, 4, this.sqr_radius));
                 }
             }
+
+            if (i < this.height)
+                this.octogons[i] = oct_line;
+
+            this.squares[i] = sqr_line;
         }
+
     }
 
-    fillBoards(octagons, squares){
 
-        for(let i = 0; i < octagons.length; i++){
+    fillBoards(octagons, squares) {
 
-            for(let j = 0; j < octagons[i].length; j++){
+        for (let i = 0; i < octagons.length; i++) {
+
+            for (let j = 0; j < octagons[i].length; j++) {
 
                 let octagon = octagons[i][j];
 
-                if(octagon != 0){
+                if (octagon != 0) {
 
                     // TODO - PIECE HEIGHT AND RADIUS ???
-                    this.octogons[i][j].setPiece(new Piece(this.scene,8, null,null,octagon));
+                    this.octogons[i][j].setPiece(new Piece(this.scene, 8, null, null, octagon));
                 }
             }
         }
 
-        for(let i = 0; i < squares.length; i++){
+        for (let i = 0; i < squares.length; i++) {
 
-            for(let j = 0; j < squares[i].length; j++){
+            for (let j = 0; j < squares[i].length; j++) {
 
                 let square = squares[i][j];
 
-                if(square != 0){
+                if (square != 0) {
 
                     // TODO - PIECE HEIGHT AND RADIUS ???
-                    this.squares[i][j].setPiece(new Piece(this.scene,4, null,null,octagon));
+                    this.squares[i][j].setPiece(new Piece(this.scene, 4, null, null, octagon));
                 }
             }
         }
@@ -73,40 +80,24 @@ class Board extends CGFobject {
     }
 
     display() {
-        let oct_row = this.sqr_radius + this.oct_diagonal / 2.0;
-        let oct_col = oct_row;
-        let sqr_row = this.sqr_radius;
-        let sqr_col = this.sqr_radius;
 
-        for (let i = 0; i <= this.height; i++) {
-            for (let j = 0; j <= this.width; j++) {
-                if (j < this.width && i < this.height) {
-                    // display octogon
-                    this.scene.pushMatrix();
-                    this.scene.translate(oct_col, 0.0, oct_row);
-                    this.octogons[i][j].display();
-                    this.scene.popMatrix();
-
-                    oct_col += this.oct_diagonal / 2.0;
-                }
-
-                if ((i > 0 && i < this.height) || (j > 0 && j < this.width)) {
-                    // display octogon
-                    this.scene.pushMatrix();
-                    this.scene.translate(sqr_col, 0.0, sqr_row);
-                    this.squares[i][j].display();
-                    this.scene.popMatrix();
-                }
-
-                sqr_col += this.oct_diagonal;
+        let oct_pos = this.sqr_radius + this.oct_diagonal / 2.0;
+        for (let i = 0; i < this.octogons.length; i++) {
+            for (let j = 0; i < this.octogons[i].length; j++) {
+                this.scene.pushMatrix();
+                this.scene.translate(oct_pos + i * this.oct_diagonal, 0.05, oct_pos + j * this.oct_diagonal);
+                this.octogons[i][j].display();
+                this.scene.popMatrix();
             }
-
-            oct_col = this.sqr_radius + this.oct_diagonal / 2.0;
-            oct_row += this.oct_diagonal / 2.0;
-
-            sqr_col = this.sqr_radius;
-            sqr_row = this.sqr_radius;
         }
 
+        for (let i = 0; i < this.squares.length; i++) {
+            for (let j = 0; i < this.squares[i].length; j++) {
+                this.scene.pushMatrix();
+                this.scene.translate(this.square_radius + i * this.oct_diagonal, 0.05, this.square_radius + j * this.oct_diagonal);
+                this.squares[i][j].display();
+                this.scene.popMatrix();
+            }
+        }
     }
 }
