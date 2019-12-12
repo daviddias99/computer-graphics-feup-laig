@@ -1,29 +1,29 @@
 class Piece extends CGFobject {
 
-    constructor(scene, sides, radius, height) {
+    constructor(scene, sides, material) {
         super(scene);
-
-        this.radius = radius;
-        this.height = height;
-
-        this.prism = new Prism(scene, side);
+        this.material = material;
+        this.height = 0.015;
+        this.prism = new Prism(scene, sides);
         this.base = new Poligon(scene, sides);
     }
 
     display() {
+        this.material.apply();
+
         this.scene.pushMatrix();
-        this.scene.scale(this.radius, -1, this.radius);
+        this.scene.rotate(Math.PI, 1, 0, 0);
         this.base.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.scale(this.radius, this.height, this.radius);
+        this.scene.scale(1, this.height, 1);
         this.prism.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
         this.scene.translate(0, this.height, 0);
-        this.scene.scale(this.radius, 1, this.radius);
+        this.base.display();
         this.scene.popMatrix();
     }
 }

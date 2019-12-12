@@ -3,13 +3,14 @@ class Tile extends CGFobject {
     constructor(scene, sides, radius) {
         super(scene);
 
+        this.sides = sides;
         this.radius = radius;
         this.piece = null;
-        this.tile = new Poligon(scene, sides);
+        this.tile = new Poligon(this.scene, this.sides);
     }
 
-    setPiece(piece) {
-        this.piece = piece;
+    setPiece(material) {
+        this.piece = new Piece(this.scene, this.sides, material)
     }
     unsetPiece() {
         this.piece = null;
@@ -21,7 +22,13 @@ class Tile extends CGFobject {
 
         if (this.piece != null)
             this.piece.display();
-        else 
+        else if (this.sides == 8) {
+            this.scene.registerForPick(this.scene.pick_id, this.tile);
+            this.tile.display();
+            this.scene.pick_id++;
+            this.scene.clearPickRegistration();
+        }
+        else
             this.tile.display();
 
         this.scene.popMatrix();

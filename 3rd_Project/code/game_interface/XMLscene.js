@@ -45,7 +45,8 @@ class XMLscene extends CGFscene {
         this.oct.setSpecular(0.1, 0.0, 0.0, 1);
         this.oct.setShininess(10.0);
 
-        this.board = new Board(this, 2, 2, this.sqr, this.oct);
+
+        this.board = new Board(this, 6, 2, this.sqr, this.oct);
         // to here
 
         // Variable initialization
@@ -211,6 +212,7 @@ class XMLscene extends CGFscene {
      * Renders the graph scene.
      */
     render() {
+        this.pick_id = 1;
 
         // ---- BEGIN Background, camera and axis setup
 
@@ -236,7 +238,6 @@ class XMLscene extends CGFscene {
 
 
         this.logPicking();
-		this.clearPickRegistration();
         this.board.display();
         
 
@@ -255,6 +256,7 @@ class XMLscene extends CGFscene {
 
         this.popMatrix();
 
+        this.pick_id = 1;
     }
 
     /**

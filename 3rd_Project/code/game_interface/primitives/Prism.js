@@ -15,7 +15,7 @@ class Prism extends CGFobject {
         this.texCoords = [];
 
         let ang = 0;
-        let alpha = 0;
+        let alpha = 2 * Math.PI / this.sides;
 
         for (let i = 0; i < this.sides; i++) {
             
@@ -38,7 +38,7 @@ class Prism extends CGFobject {
             this.normals.push(...normal);
 
             this.indices.push(4 * i + 2, 4 * i, 4 * i + 1);
-            this.indices.push(4 * i, 4 * i + 3, 4 * i + 2);
+            this.indices.push(4 * i + 1, 4 * i + 3, 4 * i + 2);
 
             let tex = [
                 i / this.sides, 1,
@@ -52,6 +52,6 @@ class Prism extends CGFobject {
         }
 
         this.primitiveType = this.scene.gl.TRIANGLES;
-        this.initGLBuffers
+        this.initGLBuffers();
     }
 }
