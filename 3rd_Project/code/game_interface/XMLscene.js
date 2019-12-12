@@ -32,8 +32,21 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(20);
 
-        this.board = new Board(this, 2, 2);
+        // TODO: remove from here
+        this.sqr = new CGFappearance(this);
+        this.sqr.setAmbient(0.0, 0.1, 0.0, 1);
+        this.sqr.setDiffuse(0.0, 0.9, 0.0, 1);
+        this.sqr.setSpecular(0.0, 0.1, 0.0, 1);
+        this.sqr.setShininess(10.0);
 
+        this.oct = new CGFappearance(this);
+        this.oct.setAmbient(0.1, 0.0, 0.0, 1);
+        this.oct.setDiffuse(0.9, 0.0, 0.0, 1);
+        this.oct.setSpecular(0.1, 0.0, 0.0, 1);
+        this.oct.setShininess(10.0);
+
+        this.board = new Board(this, 2, 2, this.sqr, this.oct);
+        // to here
 
         // Variable initialization
 
@@ -268,6 +281,6 @@ class XMLscene extends CGFscene {
         this.render();
 
         // Display the security camera
-        this.sec_camera.display();
+        // this.sec_camera.display();
     }
 }
