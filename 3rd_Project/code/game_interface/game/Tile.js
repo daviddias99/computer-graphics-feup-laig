@@ -18,7 +18,12 @@ class Tile extends CGFobject {
     display() {
         this.scene.pushMatrix();
         this.scene.scale(this.radius, 1, this.radius);
-        this.tile.display()
+
+        if (this.piece != null)
+            this.piece.display();
+        else 
+            this.tile.display();
+
         this.scene.popMatrix();
     }
 }

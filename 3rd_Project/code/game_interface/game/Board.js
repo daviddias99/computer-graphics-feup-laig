@@ -19,7 +19,6 @@ class Board extends CGFobject {
         this.octagons = [];
         this.squares = [];
 
-        // TODO: the radius needs to change according to the tile
         this.oct_radius = 0.05;
         this.oct_diagonal = this.oct_radius * Math.cos(Math.PI / 8.0) * 2.0;
         this.side = this.oct_radius * Math.sin(Math.PI / 8.0) * 2.0;
@@ -30,12 +29,10 @@ class Board extends CGFobject {
             let sqr_line = [];
 
             for (let j = 0; j <= this.width; j++) {
-                if (j < this.width && i < this.height)
+                if (j < this.width && i < this.height) {
                     oct_line.push(new Tile(this.scene, 8, this.oct_radius));
-
-                if ((i > 0 && i < this.height) || (j > 0 && j < this.width)) {
-                    sqr_line.push(new Tile(this.scene, 4, this.sqr_radius));
                 }
+                sqr_line.push(new Tile(this.scene, 4, this.sqr_radius));
             }
 
             if (i < this.height)
@@ -43,30 +40,34 @@ class Board extends CGFobject {
 
             this.squares[i] = sqr_line;
         }
-
-        console.log(this.octagons);
-        console.log(this.squares);
     }
 
     display() {        
+        let pick_id = 1;
         
-        let oct_pos = this.sqr_radius + this.oct_diagonal / 2.0;
+        let oct_pos = this.sqr_radius + this.oct_diagonal / 2.0 + 0.01;
         for (let i = 0; i < this.octagons.length; i++) {
-            for (let j = 0; i < this.octagons[i].length; j++) {
+            for (let j = 0; j < this.octagons[i].length; j++) {
                 this.scene.pushMatrix();
-                this.scene.translate(oct_pos + i * this.oct_diagonal, 0.05, oct_pos + j * this.oct_diagonal);
-                console.log(this.octagons[i]);
+                this.scene.translate(oct_pos + i * (this.oct_diagonal + 0.01), 0.05, oct_pos + j * (this.oct_diagonal + 0.01));
+                this.scene.rotate(Math.PI / 8, 0, 1, 0);
+                this.scene.registerForPick(pick_id, this.octagons[i][j]);
                 this.octagons[i][j].display();
                 this.scene.popMatrix();
+
+                pick_id++;
             }
         }
 
         for (let i = 0; i < this.squares.length; i++) {
-            for (let j = 0; i < this.squares[i].length; j++) {
-                this.scene.pushMatrix();
-                this.scene.translate(this.square_radius + i * this.oct_diagonal, 0.05, this.square_radius + j * this.oct_diagonal);
+            for (let j = 0; j < this.squares[i].length; j++) {
+                this.scene.pushMatrix();   
+                this.scene.translate(this.sqr_radius + 0.005 + i * (this.oct_diagonal + 0.01), 0.05, this.sqr_radius + 0.005 + j * (this.oct_diagonal + 0.01));
+                this.scene.registerForPick(pick_id, this.squares[i][j]);
                 this.squares[i][j].display();
                 this.scene.popMatrix();
+
+                pick_id++;
             }
         }
     }

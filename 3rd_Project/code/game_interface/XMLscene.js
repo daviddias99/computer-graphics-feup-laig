@@ -32,6 +32,9 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(20);
 
+        this.board = new Board(this, 2, 2);
+
+
         // Variable initialization
 
         this.sceneInited = false;
@@ -47,9 +50,6 @@ class XMLscene extends CGFscene {
         this.sec_camera = new MySecurityCamera(this);
 
         window.addEventListener("resize", this.windowResizeHandler.bind(this));
-
-
-        this.board = new Board(this, 2, 2);
 
     }
 
@@ -179,6 +179,21 @@ class XMLscene extends CGFscene {
         this.sceneInited = true;
     }
 
+    logPicking() {
+		if (this.pickMode == false) {
+			if (this.pickResults != null && this.pickResults.length > 0) {
+				for (var i = 0; i < this.pickResults.length; i++) {
+					var obj = this.pickResults[i][0];
+					if (obj) {
+						var customId = this.pickResults[i][1];
+						console.log("Picked object: " + obj + ", with pick id " + customId);						
+					}
+				}
+				this.pickResults.splice(0, this.pickResults.length);
+			}
+		}
+	}
+
     /**
      * Renders the graph scene.
      */
@@ -205,6 +220,12 @@ class XMLscene extends CGFscene {
 
         if (this.displayAxis)
             this.axis.display();
+
+
+        this.logPicking();
+		this.clearPickRegistration();
+        this.board.display();
+        
 
         // Light update
         for (var i = 0; i < this.lights.length; i++)
@@ -248,8 +269,5 @@ class XMLscene extends CGFscene {
 
         // Display the security camera
         this.sec_camera.display();
-
-
-        this.board.display();
     }
 }
