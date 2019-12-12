@@ -3,8 +3,8 @@ class Board extends CGFobject {
     /**
      * 
      * @param {XMLscene} scene      Reference to the scene where the Board will be displayed
-     * @param {Number} height       Number of octogons in a column
-     * @param {Number} width        Number of octogons in a row
+     * @param {Number} height       Number of octagons in a column
+     * @param {Number} width        Number of octagons in a row
      */
     constructor(scene, height, width) {
         super(scene);
@@ -16,7 +16,7 @@ class Board extends CGFobject {
     }
 
     initBoard() {
-        this.octogons = [];
+        this.octagons = [];
         this.squares = [];
 
         // TODO: the radius needs to change according to the tile
@@ -39,23 +39,24 @@ class Board extends CGFobject {
             }
 
             if (i < this.height)
-                this.octogons[i] = oct_line;
+                this.octagons[i] = oct_line;
 
             this.squares[i] = sqr_line;
         }
 
-        console.log(this.octogons);
+        console.log(this.octagons);
         console.log(this.squares);
     }
 
     display() {        
         
         let oct_pos = this.sqr_radius + this.oct_diagonal / 2.0;
-        for (let i = 0; i < this.octogons.length; i++) {
-            for (let j = 0; i < this.octogons[i].length; j++) {
+        for (let i = 0; i < this.octagons.length; i++) {
+            for (let j = 0; i < this.octagons[i].length; j++) {
                 this.scene.pushMatrix();
                 this.scene.translate(oct_pos + i * this.oct_diagonal, 0.05, oct_pos + j * this.oct_diagonal);
-                this.octogons[i][j].display();
+                console.log(this.octagons[i]);
+                this.octagons[i][j].display();
                 this.scene.popMatrix();
             }
         }
