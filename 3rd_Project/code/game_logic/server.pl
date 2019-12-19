@@ -112,6 +112,7 @@ parse_input(test(C,N), Res) :- test(C,Res,N).
 parse_input(valid_moves(Gm),Res) :- valid_moves(Gm,Res).
 parse_input(move(Mv,Gm),Res) :- move(Mv,Gm,Res).
 parse_input(gameover(Gm),Res) :- gameover(Gm,Res).
+parse_input(gameover(Gm),false) :- \+gameover(Gm,_).
 parse_input(random_move(Gm),Res) :- random_move(Gm,Res).
 parse_input(greedy_move(Gm),Res) :- greedy_move(Gm,Res).
 

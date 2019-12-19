@@ -1,62 +1,30 @@
 class PrologInterface {
 
-    getValidMoves(Gamestate) {
-        let plogGamestateArrayStr = this.parseGamestateToProlog(Gamestate);
 
-        let requestStr = "valid_moves(" + plogGamestateArrayStr + ")";
-        this.sendRequest(requestStr, 'getValidMoves', null, null);
-    }
-
-    getBotMove(Gamestate,level){
-
-        let plogGamestateArrayStr = this.parseGamestateToProlog(Gamestate);
-        let requestStr = "(" + plogGamestateArrayStr + ")";
-
-        if(level == 1){
-            
-            requestStr = "random_move" + requestStr;
-        }
-        else if (level == 2){
-            
-            requestStr = "greedy_move" + requestStr;
-        }
-        
-        console.log(plogGamestateArrayStr);
-
-        this.sendRequest(requestStr, 'getBotMove', null, null);
-    }
-
-    isGameover(Gamestate) {
-        let plogGamestateArrayStr = this.parseGamestateToProlog(Gamestate);
-
-        let requestStr = "gameover(" + plogGamestateArrayStr + ")";
-        this.sendRequest(requestStr, 'getGameover', null, null);
-    }
-
-    applyMove(Gamestate, move) {
-
-        let plogGamestateArrayStr = this.parseGamestateToProlog(Gamestate);
-        let plogMoveStr  = move.toString();
-
-        let requestStr = "move(" + plogMoveStr + ',' + plogGamestateArrayStr +")";
-        this.sendRequest(requestStr, 'doMove', null, null);
-
-    }
-
-    sendRequest(requestStr, type, orchestrator,port) {
+    static sendRequest(requestMsg,port) {
 
         let requestPort = port || 8081
         let request = new XMLHttpRequest();
-        let requestURL = 'http://localhost:'.concat(requestPort).concat('/').concat(requestStr);
+        let requestURL = 'http://localhost:'.concat(requestPort).concat('/').concat(requestMsg.getRequest());
         request.open('GET', requestURL, true);
-        request.addEventListener("load", this.parseReply.bind(request,type,orchestrator));
+        request.addEventListener("load", requestMsg.handleReply);
         request.setRequestHeader("Content-type", "text/plain; charset=UTF-8");
         request.send();
 
     }
 
-    // (OctagonBoard, SquareBoard, Height, Width, P1Type, P2Type, Player, CutInfo), 
-    parseGamestateToProlog(gameState) {
+    static parseMoveFromProlog(move){
+
+        let x,y;
+
+        x = parseInt(move.substring(0,move.indexOf('-')));
+        y = parseInt(move.substring(move.indexOf('-') +1, move.length));
+
+        return new Move(x,y);
+
+    }
+
+    static parseGamestateToProlog(gameState) {
 
         let octagonBoard = [];
         let squareBoard = [];
@@ -95,6 +63,8 @@ class PrologInterface {
 
         let resultArray = [octagonBoard, squareBoard, gameState.board.height, gameState.board.width, 'P1PLACEHOLDER', 'P2PLACEHOLDER', gameState.nextPlayer,'CUTINFOPLACEHOLDER'];
         let plogString = JSON.stringify(resultArray);
+        console.log(plogString);
+        console.log(JSON.parse(plogString));
         plogString = plogString.replace(/"/g, "");
         plogString = (typeof p1Type == 'number') ? plogString.replace("P1PLACEHOLDER",p1Type) : plogString.replace("P1PLACEHOLDER","'"+ p1Type + "'");
         plogString = (typeof p2Type == 'number') ? plogString.replace("P2PLACEHOLDER",p2Type) : plogString.replace("P2PLACEHOLDER","'"+ p2Type + "'");
@@ -104,22 +74,22 @@ class PrologInterface {
 
     }
 
-    parseReply(type, orchestrator) {
+    static parseGamestateFromProlog(gameStateStr){
 
-        if(type == 'getValidMoves'){
-
-        }
-        else if(type == 'getBotMove'){
-
-        }
-        else if(type == 'getGameover'){
-            
-        }
-        else if(type == 'doMove'){
-            
-        }
+        let gsArraysStr = gameStateStr.substring(0,gameStateStr.length-1)
+        let gsInfo = gsArraysStr.substring(gsArraysStr.lastIndexOf(']')+2,gsArraysStr.length);
+        gsArraysStr = gsArraysStr.substring(0,gsArraysStr.lastIndexOf(']')+1) + ']';
+        let gsArrays = JSON.parse(gsArraysStr);
+        gsInfo = gsInfo.split(',');
         
-    }
+        gsInfo[0] = parseInt(gsInfo[0]);
+        gsInfo[1] = parseInt(gsInfo[1]);
+        gsInfo[4] = parseInt(gsInfo[4]);
 
+
+        console.log(gsArrays);
+        console.log(gsInfo);
+
+    }
 
 }

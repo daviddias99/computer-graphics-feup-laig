@@ -51,10 +51,10 @@ class XMLscene extends CGFscene {
 
         this.board = new Board(this, 4, 4);
         this.gamestate = new GameState(this.board,'P',1,1,'1-0');
-        this.plogInterface = new PrologInterface();
-        // this.plogInterface.getValidMoves(this.gamestate);
-        this.plogInterface.getBotMove(this.gamestate,2);
-        // this.plogInterface.isGameover(this.gamestate);
+
+        // this.plogInterface.sendRequest(new PMsg_GetValidMoves(this.gamestate));
+        // this.plogInterface.sendRequest(new PMsg_GetBotMove(this.gamestate,1));
+        PrologInterface.sendRequest(new PMsg_ApplyMove(this.gamestate, new Move(2,2)));
 
     }
 
