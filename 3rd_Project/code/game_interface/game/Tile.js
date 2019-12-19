@@ -1,35 +1,52 @@
-class Tile extends CGFobject {
+class Tile {
 
-    constructor(scene, sides, radius) {
-        super(scene);
+    constructor(scene, coords, pos, primitive, sides) {
+        this.scene = scene;
+        
+        this.coords = coords
 
+        this.pos = pos;
+
+        this.primitive = primitive;
         this.sides = sides;
-        this.radius = radius;
+
         this.piece = null;
-        this.tile = new Poligon(this.scene, this.sides);
     }
 
-    setPiece(material) {
-        this.piece = new Piece(this.scene, this.sides, material)
+    setPiece(piece) {
+        this.piece = piece;
     }
+
     unsetPiece() {
         this.piece = null;
     }
 
-    display() {
-        this.scene.pushMatrix();
-        this.scene.scale(this.radius, 1, this.radius);
+    getBoardPosition()
+    {
+        return this.pos;
+    }
 
-        if (this.piece != null)
-            this.piece.display();
-        else if (this.sides == 8) {
-            this.scene.registerForPick(this.scene.pick_id, this.tile);
-            this.tile.display();
-            this.scene.pick_id++;
-            this.scene.clearPickRegistration();
+    display()
+    {
+        this.scene.pushMatrix();
+        this.scene.translate(...this.coords);
+
+        if (this.sides == 8)
+        {            
+            this.scene.rotate(Math.PI / 8, 0, 1, 0);
+            this.scene.registerForPick(this.scene.pick_id, this);
         }
-        else
-            this.tile.display();
+
+        if (this.piece == null)
+            this.primitive.display();
+        else 
+            this.piece.display();
+        
+        if (this.sides == 8)
+        {
+            this.scene.clearPickRegistration();
+            this.scene.pick_id++;
+        }
 
         this.scene.popMatrix();
     }

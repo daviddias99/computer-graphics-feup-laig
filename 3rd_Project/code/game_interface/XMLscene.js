@@ -46,7 +46,17 @@ class XMLscene extends CGFscene {
         this.oct.setShininess(10.0);
 
 
-        this.board = new Board(this, 6, 2, this.sqr, this.oct);
+        let oct_radius = 0.2;
+        let sqr_radius = Math.sqrt(Math.pow(oct_radius * Math.sin(Math.PI / 8.0) * 2.0, 2) / 2.0);
+
+        let primitives = [
+            new TilePrimitive(this, oct_radius, 8, this.oct),          // octogonal tile
+            new PiecePrimitive(this, oct_radius, 8, 0.05, this.oct),   // octogonal piece
+            new TilePrimitive(this, sqr_radius, 4, this.sqr),          // square tile
+            new PiecePrimitive(this, sqr_radius, 4, 0.05, this.sqr)    // square piece
+        ];
+
+        this.board = new Board(this, primitives, 4, 3);
         // to here
 
         // Variable initialization
@@ -200,7 +210,8 @@ class XMLscene extends CGFscene {
 					var obj = this.pickResults[i][0];
 					if (obj) {
 						var customId = this.pickResults[i][1];
-						console.log("Picked object: " + obj + ", with pick id " + customId);						
+                        console.log("Picked object: " + obj + ", with pick id " + customId);
+                        console.log(obj.getBoardPosition());						
 					}
 				}
 				this.pickResults.splice(0, this.pickResults.length);
