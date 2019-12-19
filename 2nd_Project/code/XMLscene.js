@@ -244,7 +244,7 @@ class XMLscene extends CGFscene {
         this.render();
 
         // Display the security camera
-        this.sec_camera.display();
+        // this.sec_camera.display();
 
     }
 }
