@@ -18,6 +18,7 @@
 		<script>
 			function getPrologRequest(requestString, onSuccess, onError, port)
 			{
+				console.log(requestString);
 				var requestPort = port || 8081
 				var request = new XMLHttpRequest();
 				request.open('GET', 'http://localhost:'+requestPort+'/'+requestString, true);

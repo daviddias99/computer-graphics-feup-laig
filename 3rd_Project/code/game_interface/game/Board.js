@@ -33,9 +33,9 @@ class Board extends CGFobject {
                 if (j < this.width && i < this.height)
                     oct_line.push(new Tile(this.scene, 8, this.oct_radius));
 
-                if ((i > 0 && i < this.height) || (j > 0 && j < this.width)) {
+                // if ((i > 0 && i < this.height) || (j > 0 && j < this.width)) {
                     sqr_line.push(new Tile(this.scene, 4, this.sqr_radius));
-                }
+                // }
             }
 
             if (i < this.height)

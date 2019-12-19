@@ -32,6 +32,7 @@ server_loop(Socket) :-
 	    % Parse Request
 		catch((
 			read_request(Stream, Request),
+			write(Request),
 			read_header(Stream)
 		),_Exception,(
 			% write('Error parsing request.'),nl,
@@ -109,6 +110,11 @@ parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).
 
 parse_input(valid_moves(Gm),Res) :- valid_moves(Gm,Res).
+parse_input(move(Mv,Gm),Res) :- move(Mv,Gm,Res).
+parse_input(gameover(Gm),Res) :- gameover(Gm,Res).
+parse_input(random_move(Gm),Res) :- random_move(Gm,Res).
+parse_input(greedy_move(Gm),Res) :- greedy_move(Gm,Res).
+
 parse_input(quit, goodbye).
 
 test(_,[],N) :- N =< 0.

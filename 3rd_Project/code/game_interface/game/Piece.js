@@ -6,7 +6,7 @@ class Piece extends CGFobject {
         this.radius = radius;
         this.height = height;
 
-        this.prism = new Prism(scene, side);
+        this.prism = new Prism(scene, sides);
         this.base = new Poligon(scene, sides);
         this.player = player;
     }

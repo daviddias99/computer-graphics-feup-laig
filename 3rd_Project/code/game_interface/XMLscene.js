@@ -49,7 +49,12 @@ class XMLscene extends CGFscene {
         window.addEventListener("resize", this.windowResizeHandler.bind(this));
 
 
-        this.board = new Board(this, 2, 2);
+        this.board = new Board(this, 4, 4);
+        this.gamestate = new GameState(this.board,'P',1,1,'1-0');
+        this.plogInterface = new PrologInterface();
+        // this.plogInterface.getValidMoves(this.gamestate);
+        this.plogInterface.getBotMove(this.gamestate,2);
+        // this.plogInterface.isGameover(this.gamestate);
 
     }
 
@@ -68,6 +73,8 @@ class XMLscene extends CGFscene {
         this.camera = this.graph.cameras[this.graph.defaultCameraId];
         this.interface.setActiveCamera(this.camera);
     }
+
+
 
 
     /**

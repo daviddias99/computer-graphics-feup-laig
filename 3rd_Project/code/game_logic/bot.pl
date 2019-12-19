@@ -2,6 +2,7 @@
 :- ensure_loaded('game_model.pl').
 :- ensure_loaded('graph.pl').
 :- ensure_loaded('gameover.pl').
+:- use_module(library(random)).
 
 %   In this file:
 % 
@@ -29,6 +30,9 @@ random_move(GameState, Move) :-
 * Level-2 Bot - This bot chooses the "best" possible move at a given gamestate
 */
 
+same_key(K-_, K-_).
+
+
 /**
 *   greedy_move(+GameState,-BestMove)
 *
@@ -45,13 +49,17 @@ greedy_move(GameState, BestMove) :-
     % Sort the pairs Value-Move in descending order according to Value
     keysort(Result,SortedResultAsc),
     reverse(SortedResultAsc,SortedResultDsc),
-    print(SortedResultDsc),
+    % print(SortedResultDsc),
 
     % Get the moves that lead to the best value and randomly choose one of them
-    group_pairs_by_key(SortedResultDsc, [_-BestMoves|_]),
+    % group_pairs_by_key(SortedResultDsc, [_-BestMoves|_]),
+    group(same_key,SortedResultDsc,[BestMoves|_]),
     length(BestMoves,Length),
-    random_between(1,Length,Rnd),
-    nth1(Rnd,BestMoves,BestMove).
+    LengthAdjusted is Length + 1,
+    random(1,LengthAdjusted,Rnd),
+    nth1(Rnd,BestMoves,_-BestMove).
+
+    
 
 /**
 *   value(+GameState,-Value)
