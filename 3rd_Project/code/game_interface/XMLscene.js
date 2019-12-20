@@ -32,6 +32,33 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(20);
 
+        // TODO: remove from here
+        this.sqr = new CGFappearance(this);
+        this.sqr.setAmbient(0.0, 0.1, 0.0, 1);
+        this.sqr.setDiffuse(0.0, 0.9, 0.0, 1);
+        this.sqr.setSpecular(0.0, 0.1, 0.0, 1);
+        this.sqr.setShininess(10.0);
+
+        this.oct = new CGFappearance(this);
+        this.oct.setAmbient(0.1, 0.0, 0.0, 1);
+        this.oct.setDiffuse(0.9, 0.0, 0.0, 1);
+        this.oct.setSpecular(0.1, 0.0, 0.0, 1);
+        this.oct.setShininess(10.0);
+
+
+        let oct_radius = 0.2;
+        let sqr_radius = Math.sqrt(Math.pow(oct_radius * Math.sin(Math.PI / 8.0) * 2.0, 2) / 2.0);
+
+        let primitives = [
+            new TilePrimitive(this, oct_radius, 8, this.oct),          // octogonal tile
+            new PiecePrimitive(this, oct_radius, 8, 0.05, this.oct),   // octogonal piece
+            new TilePrimitive(this, sqr_radius, 4, this.sqr),          // square tile
+            new PiecePrimitive(this, sqr_radius, 4, 0.05, this.sqr)    // square piece
+        ];
+
+        this.board = new Board(this, primitives, 4, 3);
+        // to here
+
         // Variable initialization
 
         this.sceneInited = false;
@@ -49,11 +76,8 @@ class XMLscene extends CGFscene {
         window.addEventListener("resize", this.windowResizeHandler.bind(this));
 
 
-        this.board = new Board(this, 4, 4);
         this.gamestate = new GameState(this.board,'P',1,1,'1-0');
 
-        // this.plogInterface.sendRequest(new PMsg_GetValidMoves(this.gamestate));
-        // this.plogInterface.sendRequest(new PMsg_GetBotMove(this.gamestate,1));
         PrologInterface.sendRequest(new PMsg_ApplyMove(this.gamestate, new Move(2,2)));
 
     }
@@ -186,10 +210,27 @@ class XMLscene extends CGFscene {
         this.sceneInited = true;
     }
 
+    logPicking() {
+		if (this.pickMode == false) {
+			if (this.pickResults != null && this.pickResults.length > 0) {
+				for (var i = 0; i < this.pickResults.length; i++) {
+					var obj = this.pickResults[i][0];
+					if (obj) {
+						var customId = this.pickResults[i][1];
+                        console.log("Picked object: " + obj + ", with pick id " + customId);
+                        console.log(obj.getBoardPosition());						
+					}
+				}
+				this.pickResults.splice(0, this.pickResults.length);
+			}
+		}
+	}
+
     /**
      * Renders the graph scene.
      */
     render() {
+        this.pick_id = 1;
 
         // ---- BEGIN Background, camera and axis setup
 
@@ -213,6 +254,11 @@ class XMLscene extends CGFscene {
         if (this.displayAxis)
             this.axis.display();
 
+
+        this.logPicking();
+        this.board.display();
+        
+
         // Light update
         for (var i = 0; i < this.lights.length; i++)
             this.lights[i].update();
@@ -228,6 +274,7 @@ class XMLscene extends CGFscene {
 
         this.popMatrix();
 
+        this.pick_id = 1;
     }
 
     /**
@@ -254,9 +301,6 @@ class XMLscene extends CGFscene {
         this.render();
 
         // Display the security camera
-        this.sec_camera.display();
-
-
-        // this.board.display();
+        // this.sec_camera.display();
     }
 }

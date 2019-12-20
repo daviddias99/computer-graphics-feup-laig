@@ -33,13 +33,13 @@ class PrologInterface {
         let cutInfo = gameState.cutInfo;
 
 
-        for (let i = 0; i < gameState.board.octogons.length; i++) {
+        for (let i = 0; i < gameState.board.octagons.length; i++) {
 
             let row = [];
 
-            for (let j = 0; j < gameState.board.octogons[i].length; j++) {
+            for (let j = 0; j < gameState.board.octagons[i].length; j++) {
 
-                let octagon = gameState.board.octogons[i][j];
+                let octagon = gameState.board.octagons[i][j];
 
                 row[j] = octagon.piece == null ? 0 : octagon.piece.player;
             }
