@@ -34,7 +34,7 @@ class PMsg_GetValidMoves extends PrologMessage{
         
         console.log(moveArr);
 
-        this.callback(moveArr);
+        // this.callback(moveArr);
     }
 
 }
@@ -78,7 +78,7 @@ class PMsg_GetBotMove extends PrologMessage{
         
         console.log(move);
 
-        this.callback(move);
+        // this.callback(move);
     }
 
 }
@@ -108,7 +108,7 @@ class PMsg_IsGameover extends PrologMessage{
         console.log("Plog reply status: " + this.status); 
 
 
-        this.callback(this.responseText);
+        // this.callback(this.responseText);
     }
 
 }
@@ -141,7 +141,7 @@ class PMsg_ApplyMove extends PrologMessage{
 
         let gamestate = PrologInterface.parseGamestateFromProlog(this.responseText);
 
-        this.callback(gamestate);
+        // this.callback(gamestate);
     }
 
 }
