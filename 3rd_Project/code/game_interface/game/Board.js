@@ -49,9 +49,9 @@ class Board {
             {
                 if (j < this.cols && i < this.rows)
                 {
-                    oct_line.push(new Tile(this.scene, [oct_pos + i * delta, this.board_height + 0.01, oct_pos + j * delta], [j, i], this.primitives[0], 8));
+                    oct_line.push(new Tile([oct_pos + i * delta, this.board_height + 0.01, oct_pos + j * delta], [j, i], this.primitives[0], 8));
                 }
-                sqr_line.push(new Tile(this.scene, [sqr_pos + i * delta, this.board_height + 0.01, sqr_pos + j * delta], [j, i], this.primitives[2], 4));
+                sqr_line.push(new Tile([sqr_pos + i * delta, this.board_height + 0.01, sqr_pos + j * delta], [j, i], this.primitives[2], 4));
             }
             if (i < this.rows)
                 this.octagons[i] = oct_line;
@@ -72,8 +72,7 @@ class Board {
 
                 if (octagon != 0) {
 
-                    // TODO - PIECE HEIGHT AND RADIUS ???
-                    this.octogons[i][j].setPiece(new Piece(this.scene, 8, null, null, octagon));
+                    this.octagons[i][j].setPiece(new Piece(this.primitives['piecePrimitive'], octagon));
                 }
             }
         }
@@ -86,8 +85,7 @@ class Board {
 
                 if (square != 0) {
 
-                    // TODO - PIECE HEIGHT AND RADIUS ???
-                    this.squares[i][j].setPiece(new Piece(this.scene, 4, null, null, octagon));
+                    this.squares[i][j].setPiece(new Piece(this.primitives['piecePrimitive'], square));
                 }
             }
         }

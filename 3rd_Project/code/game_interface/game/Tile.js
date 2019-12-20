@@ -1,7 +1,6 @@
 class Tile {
 
-    constructor(scene, coords, pos, primitive, sides) {
-        this.scene = scene;
+    constructor(coords, pos, primitive, sides) {
         
         this.coords = coords
 
@@ -28,13 +27,16 @@ class Tile {
 
     display()
     {
-        this.scene.pushMatrix();
-        this.scene.translate(...this.coords);
+
+        let scene = this.primitive.scene;
+
+        scene.pushMatrix();
+        scene.translate(...this.coords);
 
         if (this.sides == 8)
         {            
-            this.scene.rotate(Math.PI / 8, 0, 1, 0);
-            this.scene.registerForPick(this.scene.pick_id, this);
+            scene.rotate(Math.PI / 8, 0, 1, 0);
+            scene.registerForPick(scene.pick_id, this);
         }
 
         if (this.piece == null)
@@ -44,10 +46,10 @@ class Tile {
         
         if (this.sides == 8)
         {
-            this.scene.clearPickRegistration();
-            this.scene.pick_id++;
+            scene.clearPickRegistration();
+            scene.pick_id++;
         }
 
-        this.scene.popMatrix();
+        scene.popMatrix();
     }
 }
