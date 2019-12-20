@@ -61,16 +61,17 @@ class PrologInterface {
             squareBoard[i] = row;
         }
 
-        let resultArray = [octagonBoard, squareBoard, gameState.board.height, gameState.board.width, 'P1PLACEHOLDER', 'P2PLACEHOLDER', gameState.nextPlayer,'CUTINFOPLACEHOLDER'];
+        let resultArray = [octagonBoard, squareBoard, gameState.board.rows, gameState.board.cols, 'P1PLACEHOLDER', 'P2PLACEHOLDER', gameState.nextPlayer,'CUTINFOPLACEHOLDER'];
         let plogString = JSON.stringify(resultArray);
-        console.log(plogString);
-        console.log(JSON.parse(plogString));
+        
         plogString = plogString.replace(/"/g, "");
         plogString = (typeof p1Type == 'number') ? plogString.replace("P1PLACEHOLDER",p1Type) : plogString.replace("P1PLACEHOLDER","'"+ p1Type + "'");
         plogString = (typeof p2Type == 'number') ? plogString.replace("P2PLACEHOLDER",p2Type) : plogString.replace("P2PLACEHOLDER","'"+ p2Type + "'");
         plogString = plogString.replace("CUTINFOPLACEHOLDER",cutInfo);
-
+        
+        console.log(plogString);
         return plogString;
+
 
     }
 
@@ -89,6 +90,13 @@ class PrologInterface {
 
         console.log(gsArrays);
         console.log(gsInfo);
+
+        let gameState = [];
+
+        gameState['board'] = gsArrays;
+        gameState['info'] = gsInfo;
+
+        return gameState;
 
     }
 

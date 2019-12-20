@@ -79,6 +79,7 @@ class XMLscene extends CGFscene {
         this.gamestate = new GameState(this.board,'P',1,1,'1-0');
 
         PrologInterface.sendRequest(new PMsg_ApplyMove(this.gamestate, new Move(2,2)));
+        PrologInterface.sendRequest(new PMsg_GetValidMoves(this.gamestate));
 
     }
 
