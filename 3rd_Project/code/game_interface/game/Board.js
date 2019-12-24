@@ -36,7 +36,7 @@ class Board {
         let delta = oct_diagonal + spacing;
 
         this.board_height = 0.1;
-        this.board_scaling = [this.rows * oct_diagonal + 2 * sqr_radius + spacing * (this.rows - 1) * 2, 1.0, this.cols * oct_diagonal + 2 * sqr_radius + spacing * (this.cols - 1) * 2];
+        this.board_scaling = [this.cols * oct_diagonal + 2 * sqr_radius + spacing * (this.cols - 1) * 2,1.0,this.rows * oct_diagonal + 2 * sqr_radius + spacing * (this.rows - 1) * 2];
         this.board_rotation = Math.PI / 4.0;
         this.board_translation = [Math.sqrt(0.5), 0.0, Math.sqrt(0.5)];
 
@@ -49,9 +49,9 @@ class Board {
             {
                 if (j < this.cols && i < this.rows)
                 {
-                    oct_line.push(new Tile([oct_pos + i * delta, this.board_height + 0.01, oct_pos + j * delta], [j, i], this.primitives[0], 8));
+                    oct_line.push(new Tile([oct_pos + j * delta, this.board_height + 0.01, oct_pos + i * delta], [j, i], this.primitives[0], 8));
                 }
-                sqr_line.push(new Tile([sqr_pos + i * delta, this.board_height + 0.01, sqr_pos + j * delta], [j, i], this.primitives[2], 4));
+                sqr_line.push(new Tile([sqr_pos + j * delta, this.board_height + 0.01, sqr_pos + i * delta], [j, i], this.primitives[2], 4));
             }
             if (i < this.rows)
                 this.octagons[i] = oct_line;
