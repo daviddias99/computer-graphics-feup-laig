@@ -66,14 +66,11 @@ class XMLscene extends CGFscene {
         this.lastT = 0;
 
         this.selectedCameraMain = "";
-        this.selectedCameraSecurity = "";
 
         this.cameraIDs = {};
         this.lightIDs = [];
 
-        this.sec_camera = new MySecurityCamera(this);
 
-        window.addEventListener("resize", this.windowResizeHandler.bind(this));
 
 
         this.gamestate = new GameState(this.board,'P',1,1,'1-0');
@@ -84,23 +81,12 @@ class XMLscene extends CGFscene {
     }
 
     /**
-     * Reload the security camera on window resize
-     */
-    windowResizeHandler() {
-
-        this.sec_camera.reload();
-    }
-
-    /**
      * Initialize the defaukt camera
      */
     initDefaultCamera() {
         this.camera = this.graph.cameras[this.graph.defaultCameraId];
         this.interface.setActiveCamera(this.camera);
     }
-
-
-
 
     /**
      * Update the animations and the shader according to the time.
@@ -118,8 +104,6 @@ class XMLscene extends CGFscene {
             if (this.graph.animations[key].inUse)
                 this.graph.animations[key].update(deltaT);
         }
-
-        this.sec_camera.setUniformsValues({ timefactor: t / 5000 % 10 });
     }
 
     /**
@@ -182,7 +166,6 @@ class XMLscene extends CGFscene {
             this.cameraIDs[key] = key;
         }
         this.selectedCameraMain = this.graph.defaultCameraId;
-        this.selectedCameraSecurity = this.graph.defaultCameraId;
         this.interface.addCameraDropdown();
     }
 
@@ -230,12 +213,17 @@ class XMLscene extends CGFscene {
     /**
      * Renders the graph scene.
      */
-    render() {
+    display() {
+
+        if (!this.sceneInited)
+        return;
+        
         this.pick_id = 1;
-
+        
         // ---- BEGIN Background, camera and axis setup
-
-        this.camera = this.selectedCamera;
+        
+        this.camera = this.graph.cameras[this.selectedCameraMain];
+        this.interface.setActiveCamera(this.camera);
 
         // Clear image and depth buffer everytime we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
@@ -278,30 +266,4 @@ class XMLscene extends CGFscene {
         this.pick_id = 1;
     }
 
-    /**
-     * Displays the scene including the security camera
-     */
-    display() {
-
-        if (!this.sceneInited)
-            return;
-
-        // Set selected camera to security camera
-        this.selectedCamera = this.graph.cameras[this.selectedCameraSecurity];
-
-        // Render the scene to the camera screen texture
-        this.sec_camera.attachToFrameBuffer();
-        this.render();
-        this.sec_camera.detachFromFrameBuffer();
-
-        // Set the selected camera to the main camera
-        this.selectedCamera = this.graph.cameras[this.selectedCameraMain];
-        this.interface.setActiveCamera(this.selectedCamera);
-
-        // Render the scene to the main camera
-        this.render();
-
-        // Display the security camera
-        // this.sec_camera.display();
-    }
 }

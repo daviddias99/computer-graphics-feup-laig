@@ -5,6 +5,7 @@ class GameOrchestrator {
     }
 
     update(time) {
+        
     }
 
     display() {
