@@ -26,7 +26,7 @@
 
     <textures>
         <!-- TODO: change this in case you don't have this texture -->
-        <texture id="test_tex" file="scenes/images/rocks.jpg" />
+        <texture id="test_tex" file="scenes/images/t_floor.jpg" />
     </textures>
 
     <materials>
