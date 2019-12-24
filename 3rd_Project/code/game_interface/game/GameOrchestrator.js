@@ -5,7 +5,6 @@ class GameOrchestrator {
     }
 
     update(time) {
-        this.animator.update(time);
     }
 
     display() {
