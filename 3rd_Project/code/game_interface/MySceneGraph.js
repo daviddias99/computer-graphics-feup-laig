@@ -30,7 +30,7 @@ class MySceneGraph {
     /**
      * @constructor
      */
-    constructor(filename, scene, theme) {
+    constructor(filename, scene, theme, orchestrator) {
         this.loadedOk = null;
 
         // Establish bidirectional references between scene and graph.
@@ -56,6 +56,7 @@ class MySceneGraph {
          * If any error occurs, the reader calls onXMLError on this object, with an error message
          */
         this.reader.open('scenes/' + filename, this);
+        this.orchestrator = orchestrator;
     }
 
     /*
@@ -888,7 +889,7 @@ class MySceneGraph {
         return null;
     }
 
-    
+
     /**
      * Parse a keyframe
      * @param {keyframe node} keyframeNode 
@@ -904,7 +905,7 @@ class MySceneGraph {
         var instant = this.reader.getFloat(keyframeNode, 'instant');
         if (instant == null)
             return "no instant defined for keyframe in animation with ID=" + animationID;
-        
+
         for (var i = 0; i < children.length; i++) {
             switch (children[i].nodeName) {
 
@@ -926,12 +927,12 @@ class MySceneGraph {
                     var angleXDeg = this.reader.getFloat(children[i], 'angle_x');
                     var angleYDeg = this.reader.getFloat(children[i], 'angle_y');
                     var angleZDeg = this.reader.getFloat(children[i], 'angle_z');
-        
+
                     // Convert to radians
                     var angleXRad = angleXDeg * DEGREE_TO_RAD;
                     var angleYRad = angleYDeg * DEGREE_TO_RAD;
                     var angleZRad = angleZDeg * DEGREE_TO_RAD;
-        
+
                     rotation = [angleXRad, angleYRad, angleZRad];
                     break;
 
@@ -949,7 +950,7 @@ class MySceneGraph {
         }
 
         if (children.length < 3) {
-            
+
             if (scaling == undefined) {
                 scaling = [1, 1, 1];
                 this.onXMLMinorError("tag <scale> is not defined in keyframe(" + instant + ") in animation with ID=" + animationID);
@@ -988,12 +989,12 @@ class MySceneGraph {
                 let keyframe = this.parseKeyFrame(children[i], animationID);
                 if (typeof keyframe == 'string')
                     return keyframe;
-                
+
                 // A keyframes instant should be greater than the instant of the previous keyframe
                 if (time >= keyframe.time) {
                     return "invalid time of keyframe(" + keyframe.time + ") in animation with ID=" + animationID;
                 }
-                    
+
                 time = keyframe.time;
 
                 keyframes.push(keyframe);
@@ -1288,27 +1289,27 @@ class MySceneGraph {
 
         // get control points
 
-        for(let u = 0; u < npointsU; u++){
+        for (let u = 0; u < npointsU; u++) {
 
             let vpoints = [];
 
-            for(let v = 0; v < npointsV; v++){
+            for (let v = 0; v < npointsV; v++) {
 
-                let index = u * npointsV + v; 
+                let index = u * npointsV + v;
 
-                if(children[index].nodeName != 'controlpoint')
+                if (children[index].nodeName != 'controlpoint')
                     return "unknown tag <" + children[index].nodeName + "> for primtive with ID =  " + primitiveId;
 
                 var xx = this.reader.getFloat(children[index], 'xx');
                 var yy = this.reader.getFloat(children[index], 'yy');
                 var zz = this.reader.getFloat(children[index], 'zz');
 
-                vpoints.push([xx,yy,zz,1]);
+                vpoints.push([xx, yy, zz, 1]);
             }
 
             upoints.push(vpoints);
         }
-        return new MyPatch(this.scene,npartsU,npartsV,npointsU - 1,npointsV - 1,upoints);
+        return new MyPatch(this.scene, npartsU, npartsV, npointsU - 1, npointsV - 1, upoints);
 
     }
 
@@ -1608,6 +1609,12 @@ class MySceneGraph {
             var componentID = this.reader.getString(children[i], 'id');
             if (componentID == null)
                 return "no ID defined for componentID";
+            else if(componentID == "special_gameboard"){
+                currentComponent = new MySceneComponent(componentID);
+                currentComponent.loadedOk = true;
+                this.components[componentID] = currentComponent;
+                continue;
+            }
 
             // Checks for repeated IDs.
             if ((this.components[componentID] != null)) {
@@ -1899,7 +1906,13 @@ class MySceneGraph {
         // process child nodes
         for (var i = 0; i < node.childrenComponents.length; i++) {
 
-            this.process(node.childrenComponents[i], childMaterial, childTexture, childLengthS, childLengthT);
+            if (node.childrenComponents[i].id == 'special_gameboard') {
+                this.orchestrator.board.display();
+            }
+            else {
+
+                this.process(node.childrenComponents[i], childMaterial, childTexture, childLengthS, childLengthT);
+            }
         }
 
         // process child primitives
@@ -1908,10 +1921,15 @@ class MySceneGraph {
             childMaterial.setTexture(childTexture);                                     // set the texture
             childMaterial.setTextureWrap('REPEAT', 'REPEAT');                           // set the texture wrap
             childMaterial.apply();                                                      // apply the material   
+
             node.childrenPrimitives[i].scaleTex(childLengthS, childLengthT);            // apply scalefactors
             node.childrenPrimitives[i].display();                                       // display the primitive
             node.childrenPrimitives[i].resetTexCoords();                                // reset texture coordinates
+
+
         }
+
+
 
         this.scene.popMatrix();
     }

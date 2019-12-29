@@ -1,47 +1,30 @@
 class GameOrchestrator {
 
     constructor(scene) {
-        // TODO: remove from here
-        this.sqr = new CGFappearance(scene);
-        this.sqr.setAmbient(0.0, 0.1, 0.0, 1);
-        this.sqr.setDiffuse(0.0, 0.9, 0.0, 1);
-        this.sqr.setSpecular(0.0, 0.1, 0.0, 1);
-        this.sqr.setShininess(10.0);
 
-        this.oct = new CGFappearance(scene);
-        this.oct.setAmbient(0.1, 0.0, 0.0, 1);
-        this.oct.setDiffuse(0.9, 0.0, 0.0, 1);
-        this.oct.setSpecular(0.1, 0.0, 0.0, 1);
-        this.oct.setShininess(10.0);
+        this.scene = scene;
+        this.theme = new GameTheme(null, scene, this);
+        this.orchestratorReady = false;
+    }
 
-        this.p1 = new CGFappearance(scene);
-        this.p1.setAmbient(0.0, 0.1, 0.0, 1);
-        this.p1.setDiffuse(0.9, 0.9, 0.0, 1);
-        this.p1.setSpecular(0.0, 0.1, 0.0, 1);
-        this.p1.setShininess(10.0);
-
-        this.p2 = new CGFappearance(scene);
-        this.p2.setAmbient(0.1, 0.0, 0.0, 1);
-        this.p2.setDiffuse(0.0, 0.9, 0.9, 1);
-        this.p2.setSpecular(0.1, 0.0, 0.0, 1);
-        this.p2.setShininess(10.0);
+    init(){
 
         let oct_radius = 0.2;
         let sqr_radius = Math.sqrt(Math.pow(oct_radius * Math.sin(Math.PI / 8.0) * 2.0, 2) / 2.0);
 
         let primitives = [
-            new TilePrimitive(scene, oct_radius, 8, this.oct),          // octogonal tile
-            new PiecePrimitive(scene, oct_radius, 8, 0.05, [null,this.p1,this.p2]),   // octogonal piece
-            new TilePrimitive(scene, sqr_radius, 4, this.sqr),          // square tile
-            new PiecePrimitive(scene, sqr_radius, 4, 0.05, [null,this.p1,this.p2])    // square piece
+            new TilePrimitive(this.scene, oct_radius, 8, this.theme.tileMaterials[0]),          // octogonal tile
+            new PiecePrimitive(this.scene, oct_radius, 8, 0.05, this.theme.playerMaterials),   // octogonal piece
+            new TilePrimitive(this.scene, sqr_radius, 4, this.theme.tileMaterials[1]),          // square tile
+            new PiecePrimitive(this.scene, sqr_radius, 4, 0.05, this.theme.playerMaterials)    // square piece
         ];
 
         // to here
-        this.board = new Board(scene, primitives, 4, 4);
-        this.theme = new GameTheme(null, scene);
+        this.board = new Board(this.scene, primitives, 4, 4);
         
         this.resetGamestate();
 
+        this.orchestratorReady = true;
     }
 
     handlePicking(results) {
@@ -121,14 +104,19 @@ class GameOrchestrator {
 
     update(time) {
         
+        if(!this.orchestratorReady)
+            return;
+
         this.theme.update(time);
     }
 
-
     display() {
 
+        if(!this.orchestratorReady)
+            return;
+
         this.theme.display();
-        this.board.display();
+        // this.board.display();
 
     }
 }

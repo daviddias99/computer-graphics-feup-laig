@@ -1,10 +1,11 @@
 class GameTheme {
 
-    constructor(filename, scene){
+    constructor(filename, scene, orchestrator){
 
         var filename=getUrlVars()['file'] || "test_scenes/board.xml";
         this.scene = scene;
-        this.graph = new MySceneGraph(filename,scene,this);
+        this.orchestrator = orchestrator;
+        this.graph = new MySceneGraph(filename,scene,this,orchestrator);
     }
 
 
@@ -59,6 +60,36 @@ class GameTheme {
         }
     }
 
+    initMaterials(){
+
+        this.materials = [];
+        this.materials['special_p1_material'] = this.graph.materials['special_p1_material'];
+        this.materials['special_p2_material'] = this.graph.materials['special_p2_material'];
+        this.materials['special_square_tile_material'] = this.graph.materials['special_square_tile_material'];
+        this.materials['special_octagonal_tile_material'] = this.graph.materials['special_octagonal_tile_material'];
+
+        this.textures = [];
+        this.textures['special_p1_tex']  = this.graph.textures['special_p1_tex'];
+        this.textures['special_p2_tex']  = this.graph.textures['special_p2_tex'];
+        this.textures['special_square_tile_tex']  = this.graph.textures['special_square_tile_tex'];
+        this.textures['special_octagon_tile_tex']  = this.graph.textures['special_octagon_tile_tex'];
+ 
+        this.playerMaterials = [];
+
+        this.playerMaterials[0] = this.materials['special_p1_material'];
+        this.playerMaterials[1] = this.materials['special_p2_material'];
+
+        this.playerMaterials[0].setTexture(this.textures['special_p1_tex']);
+        this.playerMaterials[1].setTexture(this.textures['special_p2_tex']);
+
+        this.tileMaterials = [];
+
+        this.tileMaterials[0] = this.materials['special_octagonal_tile_material'];
+        this.tileMaterials[1] = this.materials['special_square_tile_material'];
+
+        this.tileMaterials[0].setTexture(this.textures['special_square_tile_tex']);
+        this.tileMaterials[1].setTexture(this.textures['special_octagon_tile_tex']);
+    }
 
 
     /**
@@ -88,7 +119,7 @@ class GameTheme {
         this.scene.axis = new CGFaxis(this.scene, this.graph.referenceLength);
         this.scene.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
         this.scene.setGlobalAmbientLight(this.graph.ambient[0], this.graph.ambient[1], this.graph.ambient[2], this.graph.ambient[3]);
-        
+        this.initMaterials();
         this.initLights();
         this.initDefaultCamera();
 
@@ -96,6 +127,8 @@ class GameTheme {
         // this.activateLightSelectionCheckboxes();
 
         this.sceneInited = true;
+
+        this.orchestrator.init();
     }
 
     update(time){

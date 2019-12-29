@@ -13,7 +13,7 @@ class PiecePrimitive extends CGFobject {
 
     display(material_index) {
 
-        this.materials[material_index].apply();
+        this.materials[material_index-1].apply();
         
         this.scene.pushMatrix();
         this.scene.scale(this.radius, 1, this.radius);

@@ -50,10 +50,7 @@ class Tile {
             this.piece.display();
         }
         
-        if (this.sides == 8)
-        {
-            
-        }
+
 
         scene.popMatrix();
     }
