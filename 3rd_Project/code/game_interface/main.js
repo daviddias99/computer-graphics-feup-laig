@@ -41,7 +41,7 @@ serialInclude([ './../lib/CGF.js',
                 './game/PiecePrimitive.js',
                 './game/GameState.js',
                 './game/GameOrchestrator.js',
-                './game/GameTheme.js',
+                './GameTheme.js',
                 './game/PrologInterface.js',
                 './game/PrologMessage.js',
                 './game/Move.js',
@@ -71,7 +71,8 @@ main=function()
 
 	// create and load graph, and associate it to scene. 
 	// Check console for loading errors
-	var myGraph = new MySceneGraph(filename, myScene);
+    // var myGraph = new MySceneGraph(filename, myScene);
+    // let myOrchestrator = new GameOrchestrator(myScene);
 	
 	// start
     app.run();

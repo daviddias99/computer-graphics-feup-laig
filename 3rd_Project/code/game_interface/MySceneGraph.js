@@ -30,12 +30,13 @@ class MySceneGraph {
     /**
      * @constructor
      */
-    constructor(filename, scene) {
+    constructor(filename, scene, theme) {
         this.loadedOk = null;
 
         // Establish bidirectional references between scene and graph.
         this.scene = scene;
-        scene.graph = this;
+        this.theme = theme;
+        // scene.graph = this;
 
         this.nodes = [];
 
@@ -75,7 +76,7 @@ class MySceneGraph {
         this.loadedOk = true;
 
         // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
-        this.scene.onGraphLoaded();
+        this.theme.onGraphLoaded();
     }
 
     /**
