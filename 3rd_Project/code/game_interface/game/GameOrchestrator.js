@@ -89,6 +89,7 @@ class GameOrchestrator {
 
         this.board.fillBoards(gamestate.boardMatrix['octagonBoard'],gamestate.boardMatrix['squareBoard']);
         this.sequence.addGamestate(gamestate);
+        PrologInterface.sendRequest(new PMsg_IsGameover(this.sequence.getCurrentGamestate(),this.logGameover.bind(this)));
     }
 
     refreshGamestate(inMovie) {
@@ -102,6 +103,11 @@ class GameOrchestrator {
             this.board.fillBoards(this.sequence.getCurrentGamestate().boardMatrix['octagonBoard'],this.sequence.getCurrentGamestate().boardMatrix['squareBoard']);
         }
         
+    }
+
+    logGameover(text){
+
+        console.log(text);
     }
 
     undoMove(){
@@ -119,6 +125,7 @@ class GameOrchestrator {
 
         this.theme.update(time);
     }
+
 
     display() {
 

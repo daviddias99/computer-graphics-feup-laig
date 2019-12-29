@@ -92,9 +92,9 @@ class PMsg_IsGameover extends PrologMessage{
         return requestStr;
     }
 
-    handleReply(){
+    handleReply(httpRequest){
         
-        // this.callback(this.responseText);
+        this.callback(httpRequest.responseText);
     }
 
 }
