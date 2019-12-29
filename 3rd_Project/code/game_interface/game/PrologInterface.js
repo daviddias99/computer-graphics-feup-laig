@@ -7,7 +7,7 @@ class PrologInterface {
         let request = new XMLHttpRequest();
         let requestURL = 'http://localhost:'.concat(requestPort).concat('/').concat(requestMsg.getRequest());
         request.open('GET', requestURL, true);
-        request.addEventListener("load", requestMsg.handleReply);
+        request.addEventListener("load", requestMsg.handleReply.bind(requestMsg,request));
         request.setRequestHeader("Content-type", "text/plain; charset=UTF-8");
         request.send();
 
@@ -26,42 +26,12 @@ class PrologInterface {
 
     static parseGamestateToProlog(gameState) {
 
-        let octagonBoard = [];
-        let squareBoard = [];
+        let board = gameState.boardMatrix;
         let p1Type = gameState.p1Type;
         let p2Type = gameState.p2Type;
         let cutInfo = gameState.cutInfo;
 
-
-        for (let i = 0; i < gameState.board.octagons.length; i++) {
-
-            let row = [];
-
-            for (let j = 0; j < gameState.board.octagons[i].length; j++) {
-
-                let octagon = gameState.board.octagons[i][j];
-
-                row[j] = octagon.piece == null ? 0 : octagon.piece.player;
-            }
-
-            octagonBoard[i] = row;
-        }
-
-        for (let i = 0; i < gameState.board.squares.length; i++) {
-
-            let row = [];
-
-            for (let j = 0; j < gameState.board.squares[i].length; j++) {
-
-                let square = gameState.board.squares[i][j];
-
-                row[j] = square.piece == null ? 0 : square.piece.player;
-            }
-
-            squareBoard[i] = row;
-        }
-
-        let resultArray = [octagonBoard, squareBoard, gameState.board.rows, gameState.board.cols, 'P1PLACEHOLDER', 'P2PLACEHOLDER', gameState.nextPlayer,'CUTINFOPLACEHOLDER'];
+        let resultArray = [board['octagonBoard'], board['squareBoard'], board['height'], board['width'], 'P1PLACEHOLDER', 'P2PLACEHOLDER', gameState.nextPlayer,'CUTINFOPLACEHOLDER'];
         let plogString = JSON.stringify(resultArray);
         
         plogString = plogString.replace(/"/g, "");
@@ -69,9 +39,7 @@ class PrologInterface {
         plogString = (typeof p2Type == 'number') ? plogString.replace("P2PLACEHOLDER",p2Type) : plogString.replace("P2PLACEHOLDER","'"+ p2Type + "'");
         plogString = plogString.replace("CUTINFOPLACEHOLDER",cutInfo);
         
-        console.log(plogString);
         return plogString;
-
 
     }
 
@@ -87,16 +55,13 @@ class PrologInterface {
         gsInfo[1] = parseInt(gsInfo[1]);
         gsInfo[4] = parseInt(gsInfo[4]);
 
+        let boardMatrix = [];
+        boardMatrix['octagonBoard'] = gsArrays[0];
+        boardMatrix['squareBoard'] = gsArrays[1];
+        boardMatrix['height'] = gsInfo[0];
+        boardMatrix['width'] = gsInfo[1];
 
-        console.log(gsArrays);
-        console.log(gsInfo);
-
-        let gameState = [];
-
-        gameState['board'] = gsArrays;
-        gameState['info'] = gsInfo;
-
-        return gameState;
+        return new GameState(boardMatrix,gsInfo[2],gsInfo[3],gsInfo[4],gsInfo[5]);
 
     }
 

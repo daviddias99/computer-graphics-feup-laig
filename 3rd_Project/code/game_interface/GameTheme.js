@@ -8,26 +8,6 @@ class GameTheme {
     }
 
 
-    changeSceneGraph(newSceneGraph){
-
-        this.sceneInited = true;
-
-        this.graph = newSceneGraph;
-
-        this.axis = new CGFaxis(this.scene, this.graph.referenceLength);
-
-        this.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
-
-        this.setGlobalAmbientLight(this.graph.ambient[0], this.graph.ambient[1], this.graph.ambient[2], this.graph.ambient[3]);
-        this.initLights();
-        this.initDefaultCamera();
-
-        // this.activateCameraSelectionDropdown();
-        // this.activateLightSelectionCheckboxes();
-
-        this.sceneInited = true;
-    }
-
     /**
      * Initialize the defaukt camera
      */
@@ -116,6 +96,20 @@ class GameTheme {
         // this.activateLightSelectionCheckboxes();
 
         this.sceneInited = true;
+    }
+
+    update(time){
+        var deltaT = time - this.lastT
+        this.lastT = time;
+
+        if (!this.graph.loadedOk)
+            return;
+
+        for (var key in this.graph.animations) {
+
+            if (this.graph.animations[key].inUse)
+                this.graph.animations[key].update(deltaT);
+        }
     }
 
     /**

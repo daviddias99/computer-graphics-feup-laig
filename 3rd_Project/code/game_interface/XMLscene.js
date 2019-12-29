@@ -34,46 +34,16 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(20);
 
-        // // TODO: remove from here
-        // this.sqr = new CGFappearance(this);
-        // this.sqr.setAmbient(0.0, 0.1, 0.0, 1);
-        // this.sqr.setDiffuse(0.0, 0.9, 0.0, 1);
-        // this.sqr.setSpecular(0.0, 0.1, 0.0, 1);
-        // this.sqr.setShininess(10.0);
-
-        // this.oct = new CGFappearance(this);
-        // this.oct.setAmbient(0.1, 0.0, 0.0, 1);
-        // this.oct.setDiffuse(0.9, 0.0, 0.0, 1);
-        // this.oct.setSpecular(0.1, 0.0, 0.0, 1);
-        // this.oct.setShininess(10.0);
-
-
-        // let oct_radius = 0.2;
-        // let sqr_radius = Math.sqrt(Math.pow(oct_radius * Math.sin(Math.PI / 8.0) * 2.0, 2) / 2.0);
-
-        // let primitives = [
-        //     new TilePrimitive(this, oct_radius, 8, this.oct),          // octogonal tile
-        //     new PiecePrimitive(this, oct_radius, 8, 0.05, this.oct),   // octogonal piece
-        //     new TilePrimitive(this, sqr_radius, 4, this.sqr),          // square tile
-        //     new PiecePrimitive(this, sqr_radius, 4, 0.05, this.sqr)    // square piece
-        // ];
-
-        // this.board = new Board(this, primitives, 4, 3);
-        // // to here
-
         // Variable initialization
 
         this.sceneInited = false;
         this.displayAxis = false;
         this.lastT = 0;
 
-        this.selectedCameraMain = "";
+        // this.selectedCameraMain = "";
 
         this.cameraIDs = {};
         this.lightIDs = [];
-
-        this.gamestate = new GameState(this.board,'P',1,1,'1-0');
-
         this.orchestrator = new GameOrchestrator(this);
 
         // PrologInterface.sendRequest(new PMsg_ApplyMove(this.gamestate, new Move(2,2)));
@@ -87,99 +57,16 @@ class XMLscene extends CGFscene {
      * Update the animations and the shader according to the time.
      */
     update(t) {
-
-        var deltaT = t - this.lastT
-        this.lastT = t;
-
-        // if (!this.graph.loadedOk)
-        //     return;
-
-        // for (var key in this.graph.animations) {
-
-        //     if (this.graph.animations[key].inUse)
-        //         this.graph.animations[key].update(deltaT);
-        // }
+        this.orchestrator.update(t);
     }
 
-    // changeSceneGraph(newSceneGraph){
-
-    //     this.sceneInited = true;
-
-    //     this.graph = newSceneGraph;
-
-    //     this.axis = new CGFaxis(this, this.graph.referenceLength);
-
-    //     this.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
-
-    //     this.setGlobalAmbientLight(this.graph.ambient[0], this.graph.ambient[1], this.graph.ambient[2], this.graph.ambient[3]);
-    //     this.initLights();
-    //     this.initDefaultCamera();
-
-    //     // this.activateCameraSelectionDropdown();
-    //     // this.activateLightSelectionCheckboxes();
-
-    //     this.sceneInited = true;
-    // }
-
-
-
+    
     setDefaultAppearance() {
         this.setAmbient(0.2, 0.4, 0.8, 1.0);
         this.setDiffuse(0.2, 0.4, 0.8, 1.0);
         this.setSpecular(0.2, 0.4, 0.8, 1.0);
         this.setShininess(10.0);
     }
-
-    // /**
-    //  * Initialize the defaukt camera
-    //  */
-    // initDefaultCamera() {
-    //     this.camera = this.graph.cameras[this.graph.defaultCameraId];
-    //     this.interface.setActiveCamera(this.camera);
-    // }
-
-    /**
-     * Initializes the scene lights with the values read from the XML file.
-     */
-    // initLights() {
-    //     var i = 0;
-    //     // Lights index.
-
-    //     // Reads the lights from the scene graph.
-    //     for (var key in this.graph.lights) {
-    //         if (i >= 8)
-    //             break;              // Only eight lights allowed by WebGL.
-
-    //         if (this.graph.lights.hasOwnProperty(key)) {
-    //             var light = this.graph.lights[key];
-
-    //             this.lights[i].setPosition(light[2][0], light[2][1], light[2][2], light[2][3]);
-    //             this.lights[i].setAmbient(light[3][0], light[3][1], light[3][2], light[3][3]);
-    //             this.lights[i].setDiffuse(light[4][0], light[4][1], light[4][2], light[4][3]);
-    //             this.lights[i].setSpecular(light[5][0], light[5][1], light[5][2], light[5][3]);
-
-    //             this.lights[i].setConstantAttenuation(light[6][0]);
-    //             this.lights[i].setLinearAttenuation(light[6][1]);
-    //             this.lights[i].setQuadraticAttenuation(light[6][2]);
-
-    //             if (light[1] == "spot") {
-    //                 this.lights[i].setSpotCutOff(light[7]);
-    //                 this.lights[i].setSpotExponent(light[8]);
-    //                 this.lights[i].setSpotDirection(light[9][0] - light[2][0], light[9][1] - light[2][1], light[9][2] - light[2][2]);
-    //             }
-
-    //             if (light[0])
-    //                 this.lights[i].enable();
-    //             else
-    //                 this.lights[i].disable();
-
-    //             this.lights[i].update();
-    //             this.lightIDs[i] = key;
-    //             i++;
-
-    //         }
-    //     }
-    // }
 
 
 
@@ -202,24 +89,6 @@ class XMLscene extends CGFscene {
     activateLightSelectionCheckboxes() {
         this.interface.addLightCheckboxes();
     }
-
-    // /** Handler called when the graph is finally loaded. 
-    //  * As loading is asynchronous, this may be called already after the application has started the run loop
-    //  */
-    // onGraphLoaded() {
-    //     this.axis = new CGFaxis(this, this.graph.referenceLength);
-
-    //     this.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
-
-    //     this.setGlobalAmbientLight(this.graph.ambient[0], this.graph.ambient[1], this.graph.ambient[2], this.graph.ambient[3]);
-    //     this.initLights();
-    //     this.initDefaultCamera();
-
-    //     this.activateCameraSelectionDropdown();
-    //     this.activateLightSelectionCheckboxes();
-
-    //     this.sceneInited = true;
-    // }
 
     logPicking() {
 		if (this.pickMode == false) {
@@ -261,11 +130,11 @@ class XMLscene extends CGFscene {
 
         this.pushMatrix();
 
-        if (this.displayAxis)
+        // if (this.displayAxis)
             this.axis.display();
 
 
-        this.logPicking();
+        this.orchestrator.handlePicking(this.pickResults);
         
         // Light update
         for (var i = 0; i < this.lights.length; i++)

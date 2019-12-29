@@ -115,33 +115,33 @@ class PMsg_IsGameover extends PrologMessage{
 
 class PMsg_ApplyMove extends PrologMessage{
 
-    constructor(plog_gamestate,move,callback){
+    constructor(gamestate,move,callback){
 
         super();
         this.callback = callback;
-        this.plog_gamestate =  plog_gamestate;
+        this.gamestate =  gamestate;
         this.move = move;
 
     }
 
     getRequest(){
         
-        let plogGamestateArrayStr = PrologInterface.parseGamestateToProlog(this.plog_gamestate);
+        let plogGamestateArrayStr = PrologInterface.parseGamestateToProlog(this.gamestate);
         let plogMoveStr  = this.move.toString();
         let requestStr = "move(" + plogMoveStr + ',' + plogGamestateArrayStr +")";
 
-        console.log(requestStr);
         return requestStr;
     }
 
-    handleReply(){
+    handleReply(httpRequest){
         
-        console.log("Plog reply text: " + this.responseText);
-        console.log("Plog reply status: " + this.status); 
+        console.log("Plog reply text: " + httpRequest.responseText);
+        // console.log("Plog reply status: " + this.status); 
 
-        let gamestate = PrologInterface.parseGamestateFromProlog(this.responseText);
+        let gamestate = PrologInterface.parseGamestateFromProlog(httpRequest.responseText);
+        console.log(gamestate);
 
-        // this.callback(gamestate);
+        this.callback(gamestate);
     }
 
 }

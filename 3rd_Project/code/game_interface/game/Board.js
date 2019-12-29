@@ -72,7 +72,7 @@ class Board {
 
                 if (octagon != 0) {
 
-                    this.octagons[i][j].setPiece(new Piece(this.primitives['piecePrimitive'], octagon));
+                    this.octagons[i][j].setPiece(new Piece(this.primitives[1], octagon));
                 }
             }
         }
@@ -85,7 +85,7 @@ class Board {
 
                 if (square != 0) {
 
-                    this.squares[i][j].setPiece(new Piece(this.primitives['piecePrimitive'], square));
+                    this.squares[i][j].setPiece(new Piece(this.primitives[3], square));
                 }
             }
         }
