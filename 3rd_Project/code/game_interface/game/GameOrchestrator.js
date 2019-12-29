@@ -40,9 +40,7 @@ class GameOrchestrator {
         this.board = new Board(scene, primitives, 4, 4);
         this.theme = new GameTheme(null, scene);
         
-
         this.resetGamestate();
-        this.sequence = new GameSequence()
 
     }
 
@@ -69,7 +67,6 @@ class GameOrchestrator {
             let pos = obj.getBoardPosition();
             PrologInterface.sendRequest(new PMsg_ApplyMove(this.sequence.getCurrentGamestate(), new Move(...pos), this.updateGamestate.bind(this)));
         }
-
 
     }
 
@@ -114,7 +111,6 @@ class GameOrchestrator {
 
         this.sequence.undo();
         this.refreshGamestate(false);
-        
     }
 
     playMovie(){
@@ -122,7 +118,7 @@ class GameOrchestrator {
     }
 
     update(time) {
-
+        
         this.theme.update(time);
     }
 

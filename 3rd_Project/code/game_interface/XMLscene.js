@@ -134,9 +134,7 @@ class XMLscene extends CGFscene {
         
         if(this.oldDisplayAxis != this.displayAxis){
 
-            console.log("ola");
             this.oldDisplayAxis = this.displayAxis;
-
             this.orchestrator.undo();
         }
 
