@@ -141,7 +141,6 @@ class XMLscene extends CGFscene {
         if (this.displayAxis)
             this.axis.display();
 
-
         this.orchestrator.handlePicking(this.pickResults);
         
         // Light update

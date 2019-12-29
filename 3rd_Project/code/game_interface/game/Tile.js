@@ -39,15 +39,20 @@ class Tile {
             scene.registerForPick(scene.pick_id, this);
         }
 
-        if (this.piece == null)
+        if (this.piece == null){
             this.primitive.display();
-        else 
+            scene.clearPickRegistration();
+            scene.pick_id++;
+        }
+        else {
+            scene.clearPickRegistration();
+            scene.pick_id++;
             this.piece.display();
+        }
         
         if (this.sides == 8)
         {
-            scene.clearPickRegistration();
-            scene.pick_id++;
+            
         }
 
         scene.popMatrix();

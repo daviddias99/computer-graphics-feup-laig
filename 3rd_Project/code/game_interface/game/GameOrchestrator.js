@@ -46,8 +46,9 @@ class GameOrchestrator {
 
     handlePicking(results) {
 
+        
         if (results != null && results.length > 0) { // any results?
-
+            
             for (var i = 0; i < results.length; i++) {
                 var obj = results[i][0]; // get object from result
                 if (obj) { // exists?
@@ -62,6 +63,7 @@ class GameOrchestrator {
 
     onObjectSelected(obj, uniqueID) {
 
+        console.log(obj);
         if(obj instanceof Tile) {
 
             let pos = obj.getBoardPosition();
