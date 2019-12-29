@@ -115,6 +115,7 @@ parse_input(gameover(Gm),Res) :- gameover(Gm,Res).
 parse_input(gameover(Gm),false) :- \+gameover(Gm,_).
 parse_input(random_move(Gm),Res) :- random_move(Gm,Res).
 parse_input(greedy_move(Gm),Res) :- greedy_move(Gm,Res).
+parse_input(reset_gs(Height,Width,P1Type,P2Type),Res) :- generate_initial_game_state(Height,Width , P1Type, P2Type, Res).
 
 parse_input(quit, goodbye).
 

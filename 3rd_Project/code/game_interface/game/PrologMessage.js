@@ -26,14 +26,9 @@ class PMsg_GetValidMoves extends PrologMessage{
 
         let responseText = this.responseText;
 
-        console.log("Plog reply text: " + this.responseText);
-        console.log("Plog reply status: " + this.status); 
-
         let moveStringArr = responseText.substring(1, responseText.length - 1).split(',');
         let moveArr = moveStringArr.map(PrologInterface.parseMoveFromProlog);
         
-        console.log(moveArr);
-
         // this.callback(moveArr);
     }
 
@@ -71,13 +66,8 @@ class PMsg_GetBotMove extends PrologMessage{
 
         let responseText = this.responseText;
 
-        console.log("Plog reply text: " + this.responseText);
-        console.log("Plog reply status: " + this.status); 
-
         let move = PrologInterface.parseMoveFromProlog(responseText);
         
-        console.log(move);
-
         // this.callback(move);
     }
 
@@ -104,10 +94,6 @@ class PMsg_IsGameover extends PrologMessage{
 
     handleReply(){
         
-        console.log("Plog reply text: " + this.responseText);
-        console.log("Plog reply status: " + this.status); 
-
-
         // this.callback(this.responseText);
     }
 
@@ -135,13 +121,40 @@ class PMsg_ApplyMove extends PrologMessage{
 
     handleReply(httpRequest){
         
-        console.log("Plog reply text: " + httpRequest.responseText);
-        // console.log("Plog reply status: " + this.status); 
 
         let gamestate = PrologInterface.parseGamestateFromProlog(httpRequest.responseText);
-        console.log(gamestate);
 
         this.callback(gamestate);
     }
 
+}
+
+class PMsg_ResetGamestate extends PrologMessage {
+
+    constructor(width,height, p1type, p2type, callback){
+
+        super();
+        this.callback = callback;
+        this.width = width;
+        this.height = height;
+        this.p1Type = p1type;
+        this.p2Type = p2type;
+
+    }
+
+    getRequest(){
+        
+        let requestStr = "reset_gs(" + this.height + ',' + this.width + ',' + "P1PLACEHOLDER" + ',' + "P2PLACEHOLDER" +")";
+        requestStr = (typeof this.p1Type == 'number') ? requestStr.replace("P1PLACEHOLDER",this.p1Type) : requestStr.replace("P1PLACEHOLDER","'"+ this.p1Type + "'");
+        requestStr = (typeof this.p2Type == 'number') ? requestStr.replace("P2PLACEHOLDER",this.p2Type) : requestStr.replace("P2PLACEHOLDER","'"+ this.p2Type + "'");
+
+        return requestStr;
+    }
+
+    handleReply(httpRequest){
+
+        let gamestate = PrologInterface.parseGamestateFromProlog(httpRequest.responseText);
+
+        this.callback(gamestate);
+    }
 }

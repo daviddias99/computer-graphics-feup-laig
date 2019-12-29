@@ -49,7 +49,6 @@ class GameState {
         this.boardMatrix['width'] = board.cols;
         this.boardMatrix['height'] = board.rows;
 
-        console.log(this.boardMatrix);
     }
 
 }

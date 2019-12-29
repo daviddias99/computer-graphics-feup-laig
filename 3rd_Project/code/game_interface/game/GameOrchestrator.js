@@ -26,8 +26,6 @@ class GameOrchestrator {
         this.p2.setSpecular(0.1, 0.0, 0.0, 1);
         this.p2.setShininess(10.0);
 
-
-
         let oct_radius = 0.2;
         let sqr_radius = Math.sqrt(Math.pow(oct_radius * Math.sin(Math.PI / 8.0) * 2.0, 2) / 2.0);
 
@@ -41,8 +39,10 @@ class GameOrchestrator {
         // to here
         this.board = new Board(scene, primitives, 4, 4);
         this.theme = new GameTheme(null, scene);
-        this.gamestate = new GameState(null, 'P','P',1,'1-0');
-        this.gamestate.buildMatrixFromBoard(this.board);
+        
+
+        this.resetGamestate();
+        this.sequence = new GameSequence()
 
     }
 
@@ -64,23 +64,55 @@ class GameOrchestrator {
 
     onObjectSelected(obj, uniqueID) {
 
-        console.log("On orchestrator - object selected:" );
-        console.log(obj);
-
         if(obj instanceof Tile) {
 
             let pos = obj.getBoardPosition();
-            PrologInterface.sendRequest(new PMsg_ApplyMove(this.gamestate, new Move(...pos), this.updateGamestate.bind(this)));
+            PrologInterface.sendRequest(new PMsg_ApplyMove(this.sequence.getCurrentGamestate(), new Move(...pos), this.updateGamestate.bind(this)));
         }
+
 
     }
 
+    resetGamestate() {
+
+        PrologInterface.sendRequest(new PMsg_ResetGamestate(4,4,'P','P',this.resetGamestateAction.bind(this)));
+    }
+
+    resetGamestateAction(gamestate) {
+
+        this.board.fillBoards(gamestate.boardMatrix['octagonBoard'],gamestate.boardMatrix['squareBoard']);
+        this.sequence = new GameSequence(gamestate);
+    }
+
+
     updateGamestate(gamestate) {
 
-        console.log("Received new gamestate: ");
-        console.log(gamestate);
         this.board.fillBoards(gamestate.boardMatrix['octagonBoard'],gamestate.boardMatrix['squareBoard']);
-        this.gamestate = gamestate;
+        this.sequence.addGamestate(gamestate);
+    }
+
+    refreshGamestate(inMovie) {
+
+        if(inMovie){
+            let boardMatrix = this.sequence.getNextMovieGamestate().boardMatrix;
+            this.board.fillBoards(boardMatrix['octagonBoard'],boardMatrix['squareBoard']);
+        }
+        else{
+
+            this.board.fillBoards(this.sequence.getCurrentGamestate().boardMatrix['octagonBoard'],this.sequence.getCurrentGamestate().boardMatrix['squareBoard']);
+        }
+        
+    }
+
+    undoMove(){
+
+        this.sequence.undo();
+        this.refreshGamestate(false);
+        
+    }
+
+    playMovie(){
+        this.refreshGamestate(true);
     }
 
     update(time) {

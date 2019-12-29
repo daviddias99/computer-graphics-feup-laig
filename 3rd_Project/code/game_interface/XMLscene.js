@@ -45,6 +45,7 @@ class XMLscene extends CGFscene {
         this.cameraIDs = {};
         this.lightIDs = [];
         this.orchestrator = new GameOrchestrator(this);
+        this.oldDisplayAxis = false;
 
         // PrologInterface.sendRequest(new PMsg_ApplyMove(this.gamestate, new Move(2,2)));
         // PrologInterface.sendRequest(new PMsg_GetValidMoves(this.gamestate));
@@ -130,7 +131,16 @@ class XMLscene extends CGFscene {
 
         this.pushMatrix();
 
-        // if (this.displayAxis)
+        
+        if(this.oldDisplayAxis != this.displayAxis){
+
+            console.log("ola");
+            this.oldDisplayAxis = this.displayAxis;
+
+            this.orchestrator.undo();
+        }
+
+        if (this.displayAxis)
             this.axis.display();
 
 
