@@ -3,8 +3,8 @@
 
     <views default="mainCamera">
         <perspective id="mainCamera" near="0.1" far="500" angle="45">
-            <from x="0" y="0" z="5" />
-            <to x="0.5" y="-0.5" z="0" />
+            <from x="3" y="2" z="3" />
+            <to x="0" y="0" z="0" />
         </perspective>
     </views>
 
@@ -99,7 +99,6 @@
             </materials>
             <texture id="none" />
             <children>
-                <primitiveref id="test_primitive" />
                 <componentref id="special_gameboard" />
             </children>
         </component>

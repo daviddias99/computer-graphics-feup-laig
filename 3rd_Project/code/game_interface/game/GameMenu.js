@@ -7,7 +7,7 @@ class GameMenu {
         this.orchestrator = orchestrator;
         this.graph = new MySceneGraph(filename,scene,this,orchestrator);
 
-        this.button = new MenuButton(this.scene,[0.5,1,-1,-0.5]);
+        this.button = new MenuButton(this.scene,"play",[0.5,1,-1,-0.5]);
 
     }
 
@@ -164,8 +164,8 @@ class GameMenu {
 
             // Displays the scene (MySceneGraph function).
 
-            this.button.display();
             this.graph.displayScene();
+            this.button.display();
         }
 
     }
