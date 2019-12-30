@@ -48,7 +48,6 @@ serialInclude([ './../lib/CGF.js',
                 './game/PrologInterface.js',
                 './game/PrologMessage.js',
                 './game/Move.js',
-                './game/OverlayButton.js',
 
                 'misc_functions.js',
 

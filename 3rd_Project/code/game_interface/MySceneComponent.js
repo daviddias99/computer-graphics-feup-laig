@@ -19,6 +19,8 @@ class MySceneComponent{
         this.loadedOk = false;                  // the component was correctly loaded
 
         this.animation;                         // animation
+        this.pickable = false;
+        this.pickID = null;
     }
 
     /**

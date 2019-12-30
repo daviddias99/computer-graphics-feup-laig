@@ -4,7 +4,7 @@ class GameOrchestrator {
 
         this.scene = scene;
         // this.theme = new GameTheme(null, scene, this);
-        this.theme = new GameMenu(null, scene, this);
+        this.theme = new GameTheme(null, scene, this);
         
         this.orchestratorReady = false;
     }
@@ -48,7 +48,7 @@ class GameOrchestrator {
 
     onObjectSelected(obj, uniqueID) {
 
-        console.log(obj);
+
         if(obj instanceof Tile) {
 
             let pos = obj.getBoardPosition();
@@ -56,6 +56,10 @@ class GameOrchestrator {
         }
         else if(obj instanceof MenuButton){
             console.log("Button clicked");
+        }
+        else if(obj instanceof MySceneComponent){
+            console.log("Component clicked");
+            console.log(obj);
         }
 
     }

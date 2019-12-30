@@ -1609,7 +1609,7 @@ class MySceneGraph {
             var componentID = this.reader.getString(children[i], 'id');
             if (componentID == null)
                 return "no ID defined for componentID";
-            else if(componentID == "special_gameboard"){
+            else if (componentID == "special_gameboard") {
                 currentComponent = new MySceneComponent(componentID);
                 currentComponent.loadedOk = true;
                 this.components[componentID] = currentComponent;
@@ -1640,6 +1640,18 @@ class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
             var animationIndex = nodeNames.indexOf("animationref");
+            var pickableIndex = nodeNames.indexOf("pickable");
+
+            if (pickableIndex != -1) {
+
+                var pickable = this.reader.getString(grandChildren[pickableIndex], 'id');
+
+                currentComponent.pickable = true;
+                currentComponent.pickID = pickable;
+            }
+            else {
+                currentComponent.pickable = false;
+            }
 
 
             // Transformations
@@ -1902,6 +1914,7 @@ class MySceneGraph {
         // apply the animation transformation if it exists
         if (node.animation != null)
             node.animation.apply();
+            
 
         // process child nodes
         for (var i = 0; i < node.childrenComponents.length; i++) {
@@ -1911,7 +1924,17 @@ class MySceneGraph {
             }
             else {
 
+                if (node.childrenComponents[i].pickable) {
+
+                    this.scene.registerForPick(this.scene.pick_id, node.childrenComponents[i]);
+                    this.scene.pick_id++;
+                }
+
                 this.process(node.childrenComponents[i], childMaterial, childTexture, childLengthS, childLengthT);
+
+                if (node.childrenComponents[i].pickable) {
+                    this.scene.clearPickRegistration();
+                }
             }
         }
 
