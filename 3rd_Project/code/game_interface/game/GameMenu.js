@@ -7,8 +7,6 @@ class GameMenu {
         this.orchestrator = orchestrator;
         this.graph = new MySceneGraph(filename,scene,this,orchestrator);
 
-        this.button = new MenuButton(this.scene,"play",[0.5,1,-1,-0.5]);
-
     }
 
 
@@ -94,27 +92,6 @@ class GameMenu {
         this.tileMaterials[1].setTexture(this.textures['special_octagon_tile_tex']);
     }
 
-
-    /**
-     * Set the camera to the default one and add the camera selection section of the interface.
-     */
-    activateCameraSelectionDropdown() {
-
-        for (var key in this.graph.cameras) {
-
-            this.cameraIDs[key] = key;
-        }
-        this.selectedCameraMain = this.graph.defaultCameraId;
-        this.interface.addCameraDropdown();
-    }
-
-    /**
-     * Add the light-control section of the interface
-     */
-    activateLightSelectionCheckboxes() {
-        this.interface.addLightCheckboxes();
-    }
-
     /** Handler called when the graph is finally loaded. 
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
@@ -126,26 +103,10 @@ class GameMenu {
         this.initLights();
         this.initDefaultCamera();
 
-        // this.activateCameraSelectionDropdown();
-        // this.activateLightSelectionCheckboxes();
 
         this.sceneInited = true;
 
         this.orchestrator.init();
-    }
-
-    update(time){
-        var deltaT = time - this.lastT
-        this.lastT = time;
-
-        if (!this.graph.loadedOk)
-            return;
-
-        for (var key in this.graph.animations) {
-
-            if (this.graph.animations[key].inUse)
-                this.graph.animations[key].update(deltaT);
-        }
     }
 
     /**
