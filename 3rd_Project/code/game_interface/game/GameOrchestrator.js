@@ -3,7 +3,9 @@ class GameOrchestrator {
     constructor(scene) {
 
         this.scene = scene;
-        this.theme = new GameTheme(null, scene, this);
+        // this.theme = new GameTheme(null, scene, this);
+        this.theme = new GameMenu(null, scene, this);
+        
         this.orchestratorReady = false;
     }
 
@@ -51,6 +53,9 @@ class GameOrchestrator {
 
             let pos = obj.getBoardPosition();
             PrologInterface.sendRequest(new PMsg_ApplyMove(this.sequence.getCurrentGamestate(), new Move(...pos), this.updateGamestate.bind(this)));
+        }
+        else if(obj instanceof MenuButton){
+            console.log("Button clicked");
         }
 
     }
@@ -116,7 +121,6 @@ class GameOrchestrator {
             return;
 
         this.theme.display();
-        // this.board.display();
 
     }
 }
