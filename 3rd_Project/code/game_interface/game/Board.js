@@ -17,6 +17,7 @@ class Board {
         this.cols = cols;
 
         this.initBoard();
+        
     }
 
     initBoard()
@@ -39,6 +40,8 @@ class Board {
         this.board_scaling = [this.cols * oct_diagonal + 2 * sqr_radius + spacing * (this.cols - 1) * 2,1.0,this.rows * oct_diagonal + 2 * sqr_radius + spacing * (this.rows - 1) * 2];
         this.board_rotation = Math.PI / 4.0;
         this.board_translation = [Math.sqrt(0.5), 0.0, Math.sqrt(0.5)];
+
+        this.auxBoard = new GameAuxBoard(this.scene,this.cols,this.rows,this.primitives,[this.board_height,this.board_scaling,this.board_rotation,this.board_translation]);
 
         for (let i = 0; i <= this.rows; i++)
         {
@@ -98,19 +101,21 @@ class Board {
 
     }
 
-        
-
     display()
     {   
         this.scene.pushMatrix();
         this.scene.scale(...this.board_scaling);
         this.scene.translate(0.5, this.board_height, 0.5);
         this.plane.display();
+        
+        
         this.scene.translate(0.0, -this.board_height, 0.0);
-        this.scene.scale(Math.sqrt(0.5), this.board_height, Math.sqrt(0.5));
         this.scene.rotate(this.board_rotation, 0.0, 1.0, 0.0);
+        this.scene.scale(Math.sqrt(0.5), this.board_height, Math.sqrt(0.5));
         this.outer_board.display();
         this.scene.popMatrix();
+        
+        this.auxBoard.display();
 
         for (let i = 0; i <= this.rows; i++)
         {

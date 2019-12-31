@@ -2,7 +2,7 @@ class GameTheme {
 
     constructor(filename, scene, orchestrator){
 
-        var filename=getUrlVars()['file'] || "menu.xml";
+        var filename=getUrlVars()['file'] || "test_scenes/board.xml";
         this.scene = scene;
         this.orchestrator = orchestrator;
         this.graph = new MySceneGraph(filename,scene,this,orchestrator);

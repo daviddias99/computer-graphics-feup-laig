@@ -10,6 +10,7 @@ class Tile {
         this.sides = sides;
 
         this.piece = null;
+
     }
 
     setPiece(piece) {
