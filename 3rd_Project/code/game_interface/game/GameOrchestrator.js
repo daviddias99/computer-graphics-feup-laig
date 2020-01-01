@@ -26,12 +26,15 @@ class GameOrchestrator {
 
     handlePicking(results) {
 
-        if (results != null && results.length > 0) { // any results?
+        // any results?
+        if (results != null && results.length > 0) { 
 
             for (var i = 0; i < results.length; i++) {
-                var obj = results[i][0]; // get object from result
-                if (obj) { // exists?
-                    var uniqueID = results[i][1] // get id
+                // get object from result
+                var obj = results[i][0]; 
+
+                if (obj) { 
+                    var uniqueID = results[i][1] 
                     this.onObjectSelected(obj, uniqueID);
                 }
             }
@@ -80,6 +83,10 @@ class GameOrchestrator {
 
             case 'special_go_to_menu':
 
+                break;
+
+            case 'special_reset':
+            
                 break;
 
             default:
@@ -151,11 +158,12 @@ class GameOrchestrator {
 
         if (!this.orchestratorReady)
             return;
+            
+        this.theme.update(time);
 
         var deltaT = time - this.lastT
         this.lastT = time;
 
-        this.theme.update(deltaT);
 
         if(this.state == 'ON_ANIMATION'){
 

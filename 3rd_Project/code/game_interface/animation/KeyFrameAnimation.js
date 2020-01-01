@@ -84,13 +84,11 @@ class KeyFrameAnimation extends Animation {
             this.transformationMatrix = this.mode == 1 ? this.keyframes[this.keyframes.length -1].getMatrix() : this.keyframes[0].getMatrix();
 
             this.inUse = false;
-            console.log("ENDED");
         }
     }
 
     startReverseAnimation(){
 
-        console.log("STARTED");
         this.mode = -1;
         this.inUse = true;
     }

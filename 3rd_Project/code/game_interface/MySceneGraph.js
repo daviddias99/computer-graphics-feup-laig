@@ -1912,8 +1912,11 @@ class MySceneGraph {
         this.scene.multMatrix(node.transformation);
 
         // apply the animation transformation if it exists
-        if (node.animation != null)
+        if (node.animation != null){
+
             node.animation.apply();
+
+        }
             
 
         // process child nodes

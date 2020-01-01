@@ -2,7 +2,7 @@ class GameTheme {
 
     constructor(filename, scene, orchestrator){
 
-        var filename=getUrlVars()['file'] || "test_scenes/board.xml";
+        var filename=getUrlVars()['file'] || "main_scene.xml";
         this.scene = scene;
         this.orchestrator = orchestrator;
         this.graph = new MySceneGraph(filename,scene,this,orchestrator);
@@ -133,14 +133,28 @@ class GameTheme {
 
     update(time){
 
+        this.lastT = time;
 
+        if (!this.sceneInited)
+            return;
+        
         if (!this.graph.loadedOk)
             return;
+            
+        if(!this.orchestrator.orchestratorReady)
+            return;
+            
+            var deltaT = time - this.lastT
+
 
         for (var key in this.graph.animations) {
 
-            if (this.graph.animations[key].inUse)
-                this.graph.animations[key].update(time);
+            if (this.graph.animations[key].inUse){
+
+                // console.log("updated " + key);
+                this.graph.animations[key].update(deltaT);
+
+            }
         }
     }
 
