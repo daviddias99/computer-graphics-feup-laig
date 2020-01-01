@@ -90,6 +90,11 @@ class GameOrchestrator {
             
                 break;
 
+            case 'special_button_play':
+
+                console.log("Play button pressed");
+                break;
+
             default:
                 break;
         }
