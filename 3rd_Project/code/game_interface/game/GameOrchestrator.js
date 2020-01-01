@@ -5,8 +5,10 @@ class GameOrchestrator {
         this.scene = scene;
         this.state = 'DEFAULT';
         this.theme = new GameTheme(null, scene, this);
+        this.alarm = new GameAlarm();
         this.orchestratorReady = false;
         this.pickingEnabled = true;
+        this.botPlayRequested = false;
     }
 
     init() {
@@ -51,21 +53,31 @@ class GameOrchestrator {
 
         if (obj instanceof Tile) {
 
-            let pos = obj.getBoardPosition();
-            let move = new Move(...pos);
-            let currentGamestate = this.sequence.getCurrentGamestate();
-            PrologInterface.sendRequest(new PMsg_ApplyMove(currentGamestate, move, this.applyMove.bind(this)));
+            this.handleTilePicking(obj);
 
         }
-        else if (obj instanceof MenuButton) {
-            console.log("Button clicked");
-        }
         else if (obj instanceof MySceneComponent) {
-            console.log("Component clicked");
 
             this.handleComponentPicking(obj);
         }
 
+    }
+
+    handleTilePicking(tile) {
+
+        if(this.sequence.getCurrentGamestate().getNextPlayerType() != 'P')
+            return;
+        
+        let pos = tile.getBoardPosition();
+        
+        this.doMove(pos);
+    }
+
+    doMove(pos){
+
+        let move = new Move(...pos);
+        let currentGamestate = this.sequence.getCurrentGamestate();
+        PrologInterface.sendRequest(new PMsg_ApplyMove(currentGamestate, move, this.applyMove.bind(this)));
     }
 
     handleComponentPicking(component) {
@@ -102,6 +114,12 @@ class GameOrchestrator {
 
     }
 
+    requestBotMove(){
+
+        let currentGamestate = this.sequence.getCurrentGamestate();
+        PrologInterface.sendRequest(new PMsg_GetBotMove(currentGamestate, currentGamestate.getNextPlayerType(), this.doMove.bind(this)));
+    }
+
     startAnimation(player, move) {
 
         this.pickingEnabled = false;
@@ -131,6 +149,7 @@ class GameOrchestrator {
         PrologInterface.sendRequest(new PMsg_IsGameover(gamestate, this.logGameover.bind(this)));
 
         this.startAnimation(previousGamestate.nextPlayer, gamestate.previousMove);
+        this.botPlayRequested = false;
     }
 
     refreshGamestate(inMovie) {
@@ -158,7 +177,7 @@ class GameOrchestrator {
 
     playMovie() {
 
-        if(!this.sequence.startMovie())
+        if (!this.sequence.startMovie())
             return;
 
         this.pickingEnabled = false;
@@ -186,6 +205,7 @@ class GameOrchestrator {
 
     update(time) {
 
+        this.alarm.update(time);
         this.theme.update(time);
 
         if (!this.orchestratorReady)
@@ -203,6 +223,12 @@ class GameOrchestrator {
                 this.refreshGamestate(this.sequence.inMovie)
             }
         }
+        else if(this.sequence.getCurrentGamestate().getNextPlayerType() != 'P' && !this.botPlayRequested){
+
+            this.botPlayRequested = true;
+            this.alarm.setAlarm(1,this.requestBotMove.bind(this));
+        }
+
     }
 
     display() {

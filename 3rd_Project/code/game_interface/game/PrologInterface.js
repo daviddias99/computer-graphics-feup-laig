@@ -15,12 +15,13 @@ class PrologInterface {
 
     static parseMoveFromProlog(move){
 
+        console.log(move);
         let x,y;
 
         x = parseInt(move.substring(0,move.indexOf('-')));
         y = parseInt(move.substring(move.indexOf('-') +1, move.length));
 
-        return new Move(x,y);
+        return [x,y];
 
     }
 

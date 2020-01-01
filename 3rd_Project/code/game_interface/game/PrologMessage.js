@@ -62,13 +62,12 @@ class PMsg_GetBotMove extends PrologMessage{
         return requestStr;
     }
 
-    handleReply(){
+    handleReply(httpRequest){
 
-        let responseText = this.responseText;
-
+        let responseText = httpRequest.responseText;
         let move = PrologInterface.parseMoveFromProlog(responseText);
         
-        // this.callback(move);
+        this.callback(move);
     }
 
 }
