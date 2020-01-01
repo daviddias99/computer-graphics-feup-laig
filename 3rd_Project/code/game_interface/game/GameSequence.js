@@ -65,8 +65,13 @@ class GameSequence {
 
     startMovie(){
 
+        if(this.states.length == 1)
+            return false;
+
         this.inMovie = true;
         this.currentMovieState = this.states.length  - 1;
+
+        return true;
     }
 
 }
