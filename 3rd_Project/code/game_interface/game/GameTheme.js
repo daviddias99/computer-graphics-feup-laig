@@ -133,19 +133,20 @@ class GameTheme {
 
     update(time){
 
+        var deltaT = time - this.lastT
         this.lastT = time;
-
+        
         if (!this.sceneInited)
-            return;
+        return;
         
         if (!this.graph.loadedOk)
-            return;
-            
+        return;
+        
         if(!this.orchestrator.orchestratorReady)
-            return;
-            
-            var deltaT = time - this.lastT
+        return;
+        
 
+        
 
         for (var key in this.graph.animations) {
 

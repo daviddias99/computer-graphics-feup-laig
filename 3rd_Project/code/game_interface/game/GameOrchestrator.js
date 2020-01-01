@@ -156,14 +156,13 @@ class GameOrchestrator {
 
     update(time) {
 
+        this.theme.update(time);
+
         if (!this.orchestratorReady)
             return;
             
-        this.theme.update(time);
-
         var deltaT = time - this.lastT
         this.lastT = time;
-
 
         if(this.state == 'ON_ANIMATION'){
 
