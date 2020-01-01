@@ -7,6 +7,24 @@ class GameState {
         this.p2Type = p2Type;
         this.nextPlayer = nextPlayer;
         this.cutInfo = cutInfo;
+        this.previousMove = null;
+
+    }
+
+    static findMove(previousGs, nextGs){
+
+        let prevOctBoard = previousGs.boardMatrix['octagonBoard'];
+        let nextOctBoard = nextGs.boardMatrix['octagonBoard'];
+
+        for(let i = 0; i < prevOctBoard.length; i++){
+
+            for(let j = 0; j < prevOctBoard[0].length; j++){
+            
+                if(prevOctBoard[i][j] != nextOctBoard[i][j]){
+                    return new Move(j,i);
+                }
+            }
+        }
 
     }
 

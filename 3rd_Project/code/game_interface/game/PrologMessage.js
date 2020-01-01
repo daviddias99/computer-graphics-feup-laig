@@ -121,8 +121,8 @@ class PMsg_ApplyMove extends PrologMessage{
 
     handleReply(httpRequest){
         
-
         let gamestate = PrologInterface.parseGamestateFromProlog(httpRequest.responseText);
+        gamestate.previousMove = GameState.findMove(this.gamestate,gamestate);
 
         this.callback(gamestate);
     }
