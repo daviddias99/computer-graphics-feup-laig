@@ -107,7 +107,7 @@ class GameOrchestrator {
         PrologInterface.sendRequest(new PMsg_IsGameover(this.sequence.getCurrentGamestate(), this.logGameover.bind(this)));
         
         this.pickingEnabled = false;
-        this.board.auxBoards.startAnimation(previousGamestate.nextPlayer,gamestate.previousMove);
+        this.board.startAnimation(previousGamestate.nextPlayer,gamestate.previousMove);
         this.state = 'ON_ANIMATION';
     }
 
@@ -157,7 +157,7 @@ class GameOrchestrator {
             
             if(!this.board.auxBoards.animationOnGoing()){
                 
-                this.refreshGamestate();
+                this.refreshGamestate(false);
             }
         }
            

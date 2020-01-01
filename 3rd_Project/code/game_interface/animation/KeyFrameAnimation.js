@@ -23,6 +23,8 @@ class KeyFrameAnimation extends Animation {
 
         // LastKF stores the last keyframe where a segment started in order to imporve performance on active segment fetching
         this.lastKF = 0;
+
+        this.mode = 1;
     }
 
     /**
@@ -67,7 +69,7 @@ class KeyFrameAnimation extends Animation {
             return;
 
         // Update the current time
-        this.sumT += t;
+        this.sumT = this.sumT + this.mode * t;
 
         // Update the active segment
         let activeSegment = this.getActiveSegment();
@@ -79,9 +81,15 @@ class KeyFrameAnimation extends Animation {
         }
         else {
             // Animation is over so the transformation matrix is the one corresponding to the last keyframe of the animation
-            this.transformationMatrix = this.keyframes[this.keyframes.length -1].getMatrix();
+            this.transformationMatrix = this.mode == 1 ? this.keyframes[this.keyframes.length -1].getMatrix() : this.keyframes[0].getMatrix();
 
             this.inUse = false;
         }
+    }
+
+    startReverseAnimation(){
+
+        this.mode = -1;
+        this.inUse = true;
     }
 }

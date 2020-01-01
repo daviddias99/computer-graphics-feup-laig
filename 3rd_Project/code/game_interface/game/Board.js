@@ -99,6 +99,11 @@ class Board {
 
     }
 
+    startAnimation(player,move){
+
+        this.auxBoards.startAnimation(player,move);
+    }
+
     display()
     {   
         this.scene.pushMatrix();

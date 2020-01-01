@@ -135,7 +135,7 @@ class XMLscene extends CGFscene {
         if(this.oldDisplayAxis != this.displayAxis){
 
             this.oldDisplayAxis = this.displayAxis;
-            this.orchestrator.undo();
+            this.orchestrator.undoMove();
         }
 
         if (this.displayAxis)

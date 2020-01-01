@@ -132,7 +132,6 @@ class GameAuxBoardSlot{
             this.pieces.push(new MovingPiece(scene,piecePrimitive,player,this.getPosition(...[this.colNumber,this.addition + this.type * 1.5,i])));
         }
 
-
     }
 
     getPosition(h,v,height){
