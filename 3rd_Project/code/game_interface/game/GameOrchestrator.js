@@ -21,8 +21,8 @@ class GameOrchestrator {
             new PiecePrimitive(this.scene, sqr_radius, 4, 0.05, this.theme.playerMaterials)    // square piece
         ];
 
-        PrologInterface.sendRequest(new PMsg_ResetGamestate(4, 4, 'P', 'P', this.resetGame.bind(this)));
-    }
+        PrologInterface.sendRequest(new PMsg_ResetGamestate(8, 8, 'P', 'P', this.resetGame.bind(this)));
+    }   
 
     handlePicking(results) {
 
