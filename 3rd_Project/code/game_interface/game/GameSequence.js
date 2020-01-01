@@ -4,11 +4,17 @@ class GameSequence {
 
         this.states = [initialGamestate];
         this.currentMovieState = 0;
+        this.inMovie = false;
     }
 
     addGamestate(gamestate){
 
         this.states.unshift(gamestate);
+    }
+
+
+    getInitialGamestate(){
+        return this.states[this.states.length  -1];
     }
 
     getCurrentGamestate(){
@@ -36,15 +42,30 @@ class GameSequence {
 
     }
 
-    getNextMovieGamestate(){
+    getMovieGamestate(){
+
+        return this.states[this.currentMovieState];
+    }
+
+    stepMovieGamestate(){
+
+        if(!this.inMovie)
+            return false;
 
         this.currentMovieState--;
 
-        if(this.currentMovieState == -1){
-            this.currentMovieState = this.states.length  -1;
+        if(this.currentMovieState == 0){
+            
+            this.inMovie = false;
         }
 
-        return this.states[this.currentMovieState];
+        return true;
+    }
+
+    startMovie(){
+
+        this.inMovie = true;
+        this.currentMovieState = this.states.length  - 1;
     }
 
 }

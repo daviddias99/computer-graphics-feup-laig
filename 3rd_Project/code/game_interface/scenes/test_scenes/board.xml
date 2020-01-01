@@ -31,6 +31,7 @@
         <texture id="special_p2_tex" file="scenes/images/t_white_marble.jpg" />
         <texture id="special_square_tile_tex" file="scenes/images/t_dark_wood.jpg" />
         <texture id="special_octagon_tile_tex" file="scenes/images/t_light_wood.jpg" />
+        <texture id="undo_tex" file="scenes/images/t_undo.jpg" />
     </textures>
 
     <materials>
@@ -83,11 +84,57 @@
         <primitive id="test_primitive">
             <plane npartsU="1" npartsV="1" />
         </primitive>
+
+        <primitive id="sphere">
+            <sphere radius="1" slices="10" stacks="10" />
+        </primitive>
     </primitives>
 
     <components>
 
         <component id="special_gameboard">
+        </component>
+
+        <component id="special_undo_obj">
+
+            <pickable id="special_undo_move"/>
+
+            <transformation>
+
+                <translate x="-1" y="0" z="-1" />
+                <scale x="0.3" y="0.3" z="0.3" />
+                <!-- <rotate axis="y" angle="-90" /> -->
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="undo_tex" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+
+        </component>
+
+        <component id="special_movie_obj">
+
+            <pickable id="special_play_movie"/>
+
+            <transformation>
+
+                <translate x="-1" y="0" z="1" />
+                <scale x="0.3" y="0.3" z="0.3" />
+                <!-- <rotate axis="y" angle="-90" /> -->
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="undo_tex" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+
         </component>
 
         <component id="root">
@@ -99,7 +146,8 @@
             </materials>
             <texture id="none" />
             <children>
-                <primitiveref id="test_primitive" />
+                <componentref id="special_undo_obj" />
+                <componentref id="special_movie_obj" />
                 <componentref id="special_gameboard" />
             </children>
         </component>

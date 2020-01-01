@@ -8,6 +8,7 @@ class GameState {
         this.nextPlayer = nextPlayer;
         this.cutInfo = cutInfo;
         this.previousMove = null;
+        this.nextMove = null;
 
     }
 
