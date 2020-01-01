@@ -44,7 +44,7 @@ class KeyFrameAnimation extends Animation {
     */
     getActiveSegment(){
 
-        for(let i = this.lastKF; i < this.keyframes.length - 1; i++){
+        for(let i = 0; i < this.keyframes.length - 1; i++){
             
             // Check if the current time(sumT) is between the instants of two consecutive frames
             if( (this.sumT >= this.keyframes[i].getTimeMilli()) && (this.sumT < this.keyframes[i+1].getTimeMilli())){
@@ -84,11 +84,13 @@ class KeyFrameAnimation extends Animation {
             this.transformationMatrix = this.mode == 1 ? this.keyframes[this.keyframes.length -1].getMatrix() : this.keyframes[0].getMatrix();
 
             this.inUse = false;
+            console.log("ENDED");
         }
     }
 
     startReverseAnimation(){
 
+        console.log("STARTED");
         this.mode = -1;
         this.inUse = true;
     }

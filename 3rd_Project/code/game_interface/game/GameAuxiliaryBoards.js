@@ -48,9 +48,10 @@ class GameAuxiliaryBoard{
 
         this.scene = scene;
         this.slots = [];
+        this.pieceFeed = [];
         this.arr = arr;
-
         this.pieceOnAnimation = null;
+        this.pieceDirection = null;
 
         for(let i = 0; i < cols; i++){
             this.slots.push(new GameAuxBoardSlot(scene,rows,player,i,piecePrimitive,type,arr));
@@ -59,6 +60,22 @@ class GameAuxiliaryBoard{
     }
 
     startAnimation(move){
+
+        if(move == 'undo')
+            this.startUndoAnimation();
+        else
+            this.startRegularAnimation(move);
+    }
+
+    startUndoAnimation(){
+        
+        let status = this.pieceFeed.pop();
+        this.pieceOnAnimation = status[1];
+        this.pieceDirection = status[0];
+        this.pieceOnAnimation.animation.startReverseAnimation();
+    }
+
+    startRegularAnimation(move){
 
         this.pieceOnAnimation = this.slots[move.x].pieces.pop();
         
@@ -69,8 +86,11 @@ class GameAuxiliaryBoard{
         let keyframes =  QuadraticKfGenerator.generateKeyFrames(this.pieceOnAnimation.pos,finalPos,height,animationTime,effectiveKeyframeCount);
         let kfAnimation = new KeyFrameAnimation(this.scene,0,keyframes);
 
+        this.pieceFeed.push([move.x,this.pieceOnAnimation]);
+
         kfAnimation.inUse = true;
         this.pieceOnAnimation.animation = kfAnimation;
+        this.pieceDirection = 'board';
     }
 
     display(){
@@ -99,7 +119,15 @@ class GameAuxiliaryBoard{
 
             if(!this.pieceOnAnimation.animation.inUse){
 
-                this.pieceOnAnimation = null;
+                if(this.pieceDirection == 'board'){
+
+                    this.pieceOnAnimation = null;
+                }
+                else {
+                    
+                    this.slots[this.pieceDirection].pieces.push(this.pieceOnAnimation);
+                    this.pieceOnAnimation = null;
+                }
             }
         }
 

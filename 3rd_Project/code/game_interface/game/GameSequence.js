@@ -16,12 +16,24 @@ class GameSequence {
         return this.states[0];
     }
 
+    getPreviousGamestate(){
+
+        if(this.states.length > 1)
+            return this.states[1];
+    }
+
     undo(){
 
-        if(this.states.length > 1) 
-            this.states.shift();
+        if(this.states.length > 1) {
 
-        return this.getCurrentGamestate();
+            this.states.shift();
+            return true;
+        }
+        else{
+
+            return false;
+        }
+
     }
 
     getNextMovieGamestate(){

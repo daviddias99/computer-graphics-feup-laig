@@ -133,8 +133,14 @@ class GameOrchestrator {
 
     undoMove() {
 
-        this.sequence.undo();
+        let previousGamestate = this.sequence.getPreviousGamestate();
+        if(!this.sequence.undo())
+            return;
         this.refreshGamestate(false);
+
+        this.pickingEnabled = false;
+        this.board.startAnimation(previousGamestate.nextPlayer,"undo");
+        this.state = 'ON_ANIMATION';
     }
 
     playMovie() {
