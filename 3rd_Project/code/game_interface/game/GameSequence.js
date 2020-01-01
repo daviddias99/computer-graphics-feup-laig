@@ -9,6 +9,7 @@ class GameSequence {
 
     addGamestate(gamestate){
 
+        this.states[0].nextMove = gamestate.previousMove;
         this.states.unshift(gamestate);
     }
 
@@ -55,7 +56,7 @@ class GameSequence {
         this.currentMovieState--;
 
         if(this.currentMovieState == 0){
-            
+
             this.inMovie = false;
         }
 

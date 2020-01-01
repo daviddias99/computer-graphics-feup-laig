@@ -21,7 +21,7 @@ class GameOrchestrator {
             new PiecePrimitive(this.scene, sqr_radius, 4, 0.05, this.theme.playerMaterials)    // square piece
         ];
 
-        PrologInterface.sendRequest(new PMsg_ResetGamestate(4, 4, 'P', 'P', this.resetGamestate.bind(this)));
+        PrologInterface.sendRequest(new PMsg_ResetGamestate(4, 4, 'P', 'P', this.resetGame.bind(this)));
     }
 
     handlePicking(results) {
@@ -96,28 +96,35 @@ class GameOrchestrator {
 
     }
 
-    resetGamestate(gamestate) {
+    startAnimation(player,move){
 
-        this.board = new Board(this.scene, this.primitives, gamestate.boardMatrix['width'], gamestate.boardMatrix['height']);
-        this.board.fillBoards(gamestate.boardMatrix['octagonBoard'], gamestate.boardMatrix['squareBoard']);
-        this.sequence = new GameSequence(gamestate);
+        this.pickingEnabled = false;
+        this.board.startAnimation(player,move);
+        this.state = 'ON_ANIMATION';
+    }
+
+    resetGame(initialGamestate) {
+
+        this.resetBoard(initialGamestate);
+        this.sequence = new GameSequence(initialGamestate);
         this.orchestratorReady = true;
+    }
+
+    resetBoard(initialGamestate){
+        this.board = new Board(this.scene, this.primitives, initialGamestate.boardMatrix['width'], initialGamestate.boardMatrix['height']);
+        this.board.fillBoards(initialGamestate.boardMatrix['octagonBoard'], initialGamestate.boardMatrix['squareBoard']);
     }
 
     applyMove(gamestate) {
 
-        if(!gamestate){
+        if(!gamestate)
             return;
-        }
-
-        let previousGamestate = this.sequence.getCurrentGamestate();
-        previousGamestate.nextMove = gamestate.previousMove;
-        this.sequence.addGamestate(gamestate);
-        PrologInterface.sendRequest(new PMsg_IsGameover(this.sequence.getCurrentGamestate(), this.logGameover.bind(this)));
         
-        this.pickingEnabled = false;
-        this.board.startAnimation(previousGamestate.nextPlayer,gamestate.previousMove);
-        this.state = 'ON_ANIMATION';
+        let previousGamestate = this.sequence.getCurrentGamestate();
+        this.sequence.addGamestate(gamestate);
+        PrologInterface.sendRequest(new PMsg_IsGameover(gamestate, this.logGameover.bind(this)));
+        
+        this.startAnimation(previousGamestate.nextPlayer,gamestate.previousMove);
     }
 
     refreshGamestate(inMovie) {
@@ -125,6 +132,7 @@ class GameOrchestrator {
         if (inMovie) {
             let boardMatrix = this.sequence.getMovieGamestate().boardMatrix;
             this.board.fillBoards(boardMatrix['octagonBoard'], boardMatrix['squareBoard']);
+            this.stepMovie();    
         }
         else {
 
@@ -139,9 +147,7 @@ class GameOrchestrator {
 
         let currentGamestate = this.sequence.getMovieGamestate();
         this.sequence.stepMovieGamestate();
-
-        this.board.startAnimation(currentGamestate.nextPlayer,currentGamestate.nextMove);
-        this.state = 'ON_ANIMATION';
+        this.startAnimation(currentGamestate.nextPlayer,currentGamestate.nextMove);
     }
 
     playMovie() {
@@ -151,11 +157,24 @@ class GameOrchestrator {
         // Go back to initial state
 
         this.sequence.startMovie();
-        let gamestate = this.sequence.getMovieGamestate();
-        this.board = new Board(this.scene, this.primitives, gamestate.boardMatrix['width'], gamestate.boardMatrix['height']);
-        this.board.fillBoards(gamestate.boardMatrix['octagonBoard'], gamestate.boardMatrix['squareBoard']);
-        
+        this.resetBoard(this.sequence.getMovieGamestate());
         this.stepMovie();    
+    }
+
+    undoMove() {
+
+        let previousGamestate = this.sequence.getPreviousGamestate();
+
+        if(!this.sequence.undo())
+            return;
+
+        this.refreshGamestate(false);
+        this.startAnimation(previousGamestate.nextPlayer,"undo");
+    }
+
+    logGameover(text) {
+
+        console.log(text);
     }
 
     update(time) {
@@ -173,38 +192,10 @@ class GameOrchestrator {
             this.board.auxBoards.update(deltaT);
             
             if(!this.board.auxBoards.animationOnGoing()){
-                
-            
-                if(this.sequence.inMovie){
-
-                    console.log("stepped");
-                    this.refreshGamestate(true);
-                    this.stepMovie();    
-                }
-                else{
-
-                    this.pickingEnabled = true;
-                    this.refreshGamestate(false);
-                }
+                            
+                this.refreshGamestate(this.sequence.inMovie)
             }
         }
-    }
-
-    logGameover(text) {
-
-        console.log(text);
-    }
-
-    undoMove() {
-
-        let previousGamestate = this.sequence.getPreviousGamestate();
-        if(!this.sequence.undo())
-            return;
-        this.refreshGamestate(false);
-
-        this.pickingEnabled = false;
-        this.board.startAnimation(previousGamestate.nextPlayer,"undo");
-        this.state = 'ON_ANIMATION';
     }
 
     display() {

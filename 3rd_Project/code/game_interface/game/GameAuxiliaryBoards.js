@@ -13,6 +13,7 @@ class GameAuxiliaryBoards {
 
     init(){
 
+        // On auxiliary board for each player
         this.boards = [];
         this.boards[0] = new GameAuxiliaryBoard(this.scene,this.cols,this.rows,1,this.primitives[1],-1,this.spacings);
         this.boards[1] = new GameAuxiliaryBoard(this.scene,this.cols,this.rows,2,this.primitives[1],1,this.spacings);
@@ -69,28 +70,38 @@ class GameAuxiliaryBoard{
 
     startUndoAnimation(){
         
+        // Remove the last piece that was added to the storage of pieces that left the auxiliary board
         let status = this.pieceFeed.pop();
         this.pieceOnAnimation = status[1];
         this.pieceDirection = status[0];
+
+        // Start the animation back to the auxiliary board
         this.pieceOnAnimation.animation.startReverseAnimation();
     }
 
     startRegularAnimation(move){
 
+        // Remove the piece that is on top of the stack of it's color that is in the same column
         this.pieceOnAnimation = this.slots[move.x].pieces.pop();
         
+        // Animation calibration
         let finalPos = this.slots[move.x].getPosition(move.x,move.y,0);
+        let initialPos = this.pieceOnAnimation.pos;
         let height = 0.5;
         let animationTime = 0.5;
         let effectiveKeyframeCount = 20;
-        let keyframes =  QuadraticKfGenerator.generateKeyFrames(this.pieceOnAnimation.pos,finalPos,height,animationTime,effectiveKeyframeCount);
+
+        // Animation creation
+        let keyframes =  QuadraticKfGenerator.generateKeyFrames(initialPos,finalPos,height,animationTime,effectiveKeyframeCount);
         let kfAnimation = new KeyFrameAnimation(this.scene,0,keyframes);
-
-        this.pieceFeed.push([move.x,this.pieceOnAnimation]);
-
         kfAnimation.inUse = true;
+
+        // Set "global values"
         this.pieceOnAnimation.animation = kfAnimation;
-        this.pieceDirection = 'board';
+        this.pieceDirection = 'board';                              // signal that the animation is from the aux-board to the regular board
+        
+        // add this piece to the storage of pieces that left the aux-board the x position of the piece is added to identify the slot from which it came from
+        this.pieceFeed.push([move.x,this.pieceOnAnimation]);        
     }
 
     display(){
@@ -112,17 +123,19 @@ class GameAuxiliaryBoard{
 
     update(time){
 
-    
         if(this.pieceOnAnimation){
 
             this.pieceOnAnimation.animation.update(time);
 
+            // If the animation is over
             if(!this.pieceOnAnimation.animation.inUse){
 
+                // If the piece was headed to the board, remove it from the "on animation" slot
                 if(this.pieceDirection == 'board'){
 
                     this.pieceOnAnimation = null;
                 }
+                // If the piece was headed to the aux-board, added it to the correct slot and remove it from the "on animation" slot
                 else {
                     
                     this.slots[this.pieceDirection].pieces.push(this.pieceOnAnimation);
