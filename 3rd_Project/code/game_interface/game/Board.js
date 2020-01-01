@@ -39,7 +39,7 @@ class Board {
         this.board_rotation = Math.PI / 4.0;
         this.board_translation = [Math.sqrt(0.5), 0.0, Math.sqrt(0.5)];
 
-        this.auxBoards = new GameAuxiliaryBoards(this.scene,this.cols,this.rows,this.primitives);
+        this.auxBoards = new GameAuxiliaryBoards(this.scene,this.cols,this.rows,this.primitives,[oct_pos,delta]);
 
         for (let i = 0; i <= this.rows; i++)
         {

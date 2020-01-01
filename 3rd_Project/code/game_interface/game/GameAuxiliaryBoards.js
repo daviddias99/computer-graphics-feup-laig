@@ -1,31 +1,21 @@
 class GameAuxiliaryBoards {
 
-
-    constructor(scene,cols,rows,primitives){
+    constructor(scene,cols,rows,primitives,spacings){
 
         this.scene = scene;
         this.cols = cols;
         this.rows = rows;
         this.primitives = primitives;
-        this.boards = [];
+        this.spacings = spacings;
 
         this.init();
     }
 
     init(){
 
-        let oct_radius = this.primitives[0].getRadius();
-        let sqr_radius = this.primitives[2].getRadius();
-        let oct_diagonal = oct_radius * Math.cos(Math.PI / 8.0) * 2.0;
-
-        let spacing = oct_radius * 0.025;
-        this.oct_pos = sqr_radius + oct_diagonal / 2.0 + spacing;
-        this.sqr_pos = sqr_radius + spacing / 2.0;
-        this.delta = oct_diagonal + spacing;
-
-        this.boards[0] = new GameAuxiliaryBoard(this.scene,this.cols,this.rows,1,this.primitives[1],-1,[this.oct_pos,this.delta]);
-        this.boards[1] = new GameAuxiliaryBoard(this.scene,this.cols,this.rows,2,this.primitives[1],1,[this.oct_pos,this.delta]);
-
+        this.boards = [];
+        this.boards[0] = new GameAuxiliaryBoard(this.scene,this.cols,this.rows,1,this.primitives[1],-1,this.spacings);
+        this.boards[1] = new GameAuxiliaryBoard(this.scene,this.cols,this.rows,2,this.primitives[1],1,this.spacings);
     }
 
     display(){
@@ -119,13 +109,13 @@ class GameAuxiliaryBoard{
 
 class GameAuxBoardSlot{
 
-    constructor(scene,maxPieces,player,colNumber,piecePrimitive, type,arr){
+    constructor(scene,maxPieces,player,colNumber,piecePrimitive, type, spacings){
 
         this.scene = scene;
         this.colNumber = colNumber;
         this.pieces = [];
-        this.oct_pos = arr[0];
-        this.delta = arr[1];
+        this.oct_pos = spacings[0];
+        this.delta = spacings[1];
         this.type = type;
         this.piecePrimitive = piecePrimitive;
 

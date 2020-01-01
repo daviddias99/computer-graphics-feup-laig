@@ -96,13 +96,6 @@ class GameOrchestrator {
         this.orchestratorReady = true;
     }
 
-    updateGamestate(){
-
-        this.board.fillBoards(this.sequence.getCurrentGamestate().boardMatrix['octagonBoard'], this.sequence.getCurrentGamestate().boardMatrix['squareBoard']);
-        this.state = 'DEFAULT';
-        this.pickingEnabled = true;
-    }
-
     applyMove(gamestate) {
 
         if(!gamestate){
@@ -127,6 +120,8 @@ class GameOrchestrator {
         else {
 
             this.board.fillBoards(this.sequence.getCurrentGamestate().boardMatrix['octagonBoard'], this.sequence.getCurrentGamestate().boardMatrix['squareBoard']);
+            this.state = 'DEFAULT';
+            this.pickingEnabled = true;
         }
 
     }
@@ -162,8 +157,7 @@ class GameOrchestrator {
             
             if(!this.board.auxBoards.animationOnGoing()){
                 
-                this.updateGamestate();
-                
+                this.refreshGamestate();
             }
         }
            
