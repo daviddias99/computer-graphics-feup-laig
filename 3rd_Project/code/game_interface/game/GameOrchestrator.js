@@ -3,9 +3,10 @@ class GameOrchestrator {
     constructor(scene) {
 
         this.scene = scene;
-        this.state = 'MENU';
+        this.state = 'DEFAULT';
         this.theme = new GameTheme(null, scene, this);
         this.orchestratorReady = false;
+        this.pickingEnabled = true;
     }
 
     init() {
@@ -47,10 +48,19 @@ class GameOrchestrator {
     onObjectSelected(obj, uniqueID) {
 
 
+        if(!this.pickingEnabled)
+            return;
+
         if (obj instanceof Tile) {
 
             let pos = obj.getBoardPosition();
-            PrologInterface.sendRequest(new PMsg_ApplyMove(this.sequence.getCurrentGamestate(), new Move(...pos), this.updateGamestate.bind(this)));
+            let move = new Move(...pos);
+            let currentGamestate = this.sequence.getCurrentGamestate();
+            PrologInterface.sendRequest(new PMsg_ApplyMove(currentGamestate,move, this.updateGamestate.bind(this)));
+
+            this.board.auxBoards.startAnimation(currentGamestate.nextPlayer,move);
+            this.state = 'ON_ANIMATION';
+            this.pickingEnabled = false;
         }
         else if (obj instanceof MenuButton) {
             console.log("Button clicked");
@@ -58,7 +68,6 @@ class GameOrchestrator {
         else if (obj instanceof MySceneComponent) {
             console.log("Component clicked");
             console.log(obj);
-
 
         }
 
@@ -98,10 +107,8 @@ class GameOrchestrator {
         this.sequence = new GameSequence(gamestate);
     }
 
-
     updateGamestate(gamestate) {
 
-        this.board.fillBoards(gamestate.boardMatrix['octagonBoard'], gamestate.boardMatrix['squareBoard']);
         this.sequence.addGamestate(gamestate);
         PrologInterface.sendRequest(new PMsg_IsGameover(this.sequence.getCurrentGamestate(), this.logGameover.bind(this)));
     }
@@ -139,7 +146,23 @@ class GameOrchestrator {
         if (!this.orchestratorReady)
             return;
 
-        this.theme.update(time);
+        var deltaT = time - this.lastT
+        this.lastT = time;
+
+        this.theme.update(deltaT);
+
+        if(this.state == 'ON_ANIMATION'){
+
+            this.board.auxBoards.update(deltaT);
+            
+            if(!this.board.auxBoards.animationOnGoing()){
+                
+                this.board.fillBoards(this.sequence.getCurrentGamestate().boardMatrix['octagonBoard'], this.sequence.getCurrentGamestate().boardMatrix['squareBoard']);
+                this.state = 'DEFAULT';
+                this.pickingEnabled = true;
+            }
+        }
+           
     }
 
     display() {

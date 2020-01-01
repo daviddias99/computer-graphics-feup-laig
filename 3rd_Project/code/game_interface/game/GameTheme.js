@@ -132,8 +132,7 @@ class GameTheme {
     }
 
     update(time){
-        var deltaT = time - this.lastT
-        this.lastT = time;
+
 
         if (!this.graph.loadedOk)
             return;
@@ -141,7 +140,7 @@ class GameTheme {
         for (var key in this.graph.animations) {
 
             if (this.graph.animations[key].inUse)
-                this.graph.animations[key].update(deltaT);
+                this.graph.animations[key].update(time);
         }
     }
 

@@ -80,6 +80,7 @@ class KeyFrameAnimation extends Animation {
         else {
             // Animation is over so the transformation matrix is the one corresponding to the last keyframe of the animation
             this.transformationMatrix = this.keyframes[this.keyframes.length -1].getMatrix();
+
             this.inUse = false;
         }
     }

@@ -10,15 +10,17 @@ class MovingPiece {
 
     display() {
         
-        
-        if(this.transformation != null){
-            this.animation.apply();
-        }
+        this.scene.pushMatrix();
         
         this.scene.translate(...this.pos);
+        
+        if(this.animation != null){
+            this.animation.apply();
+        }
         this.scene.rotate(Math.PI / 8, 0, 1, 0);
+        
         this.primitive.display(this.player);
 
-
+        this.scene.popMatrix();
     }
 }

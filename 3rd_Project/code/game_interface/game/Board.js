@@ -10,9 +10,7 @@ class Board {
     constructor(scene, primitives, rows, cols)
     {
         this.scene = scene;
-        
         this.primitives = primitives;
-
         this.rows = rows;
         this.cols = cols;
 
@@ -41,7 +39,7 @@ class Board {
         this.board_rotation = Math.PI / 4.0;
         this.board_translation = [Math.sqrt(0.5), 0.0, Math.sqrt(0.5)];
 
-        this.auxBoard = new GameAuxBoard(this.scene,this.cols,this.rows,this.primitives,[this.board_height,this.board_scaling,this.board_rotation,this.board_translation]);
+        this.auxBoards = new GameAuxiliaryBoards(this.scene,this.cols,this.rows,this.primitives);
 
         for (let i = 0; i <= this.rows; i++)
         {
@@ -108,14 +106,13 @@ class Board {
         this.scene.translate(0.5, this.board_height, 0.5);
         this.plane.display();
         
-        
         this.scene.translate(0.0, -this.board_height, 0.0);
         this.scene.rotate(this.board_rotation, 0.0, 1.0, 0.0);
         this.scene.scale(Math.sqrt(0.5), this.board_height, Math.sqrt(0.5));
         this.outer_board.display();
         this.scene.popMatrix();
         
-        this.auxBoard.display();
+        this.auxBoards.display();
 
         for (let i = 0; i <= this.rows; i++)
         {
