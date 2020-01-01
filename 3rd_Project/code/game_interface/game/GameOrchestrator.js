@@ -21,7 +21,7 @@ class GameOrchestrator {
             new PiecePrimitive(this.scene, sqr_radius, 4, 0.05, this.theme.playerMaterials)    // square piece
         ];
 
-        PrologInterface.sendRequest(new PMsg_ResetGamestate(8, 8, 'P', 'P', this.resetGame.bind(this)));
+        PrologInterface.sendRequest(new PMsg_ResetGamestate(8, 5, 'P', 'P', this.resetGame.bind(this)));
     }   
 
     handlePicking(results) {
@@ -117,7 +117,7 @@ class GameOrchestrator {
     }
 
     resetBoard(initialGamestate) {
-        this.board = new Board(this.scene, this.primitives, initialGamestate.boardMatrix['width'], initialGamestate.boardMatrix['height']);
+        this.board = new Board(this.scene, this.primitives, initialGamestate.boardMatrix['height'], initialGamestate.boardMatrix['width']);
         this.board.fillBoards(initialGamestate.boardMatrix['octagonBoard'], initialGamestate.boardMatrix['squareBoard']);
     }
 
