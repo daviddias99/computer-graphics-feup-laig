@@ -26,7 +26,19 @@ class GameOrchestrator {
         PrologInterface.sendRequest(new PMsg_ResetGamestate(4, 4, 'P', 'P', this.resetGame.bind(this)));
     }
 
-    handlePicking(results) {
+    resetGame(initialGamestate) {
+
+        this.resetBoard(initialGamestate);
+        this.sequence = new GameSequence(initialGamestate);
+        this.orchestratorReady = true;
+    }
+
+    resetBoard(initialGamestate) {
+        this.board = new Board(this.scene, this.primitives, initialGamestate.boardMatrix['width'], initialGamestate.boardMatrix['height']);
+        this.board.fillBoards(initialGamestate.boardMatrix['octagonBoard'], initialGamestate.boardMatrix['squareBoard']);
+    }
+
+    processPickingResults(results) {
 
         // any results?
         if (results != null && results.length > 0) {
@@ -37,7 +49,7 @@ class GameOrchestrator {
 
                 if (obj) {
                     var uniqueID = results[i][1]
-                    this.onObjectSelected(obj, uniqueID);
+                    this.handlePicking(obj, uniqueID);
                 }
             }
             // clear results
@@ -45,7 +57,7 @@ class GameOrchestrator {
         }
     }
 
-    onObjectSelected(obj, uniqueID) {
+    handlePicking(obj, uniqueID) {
 
 
         if (!this.pickingEnabled)
@@ -70,14 +82,7 @@ class GameOrchestrator {
         
         let pos = tile.getBoardPosition();
         
-        this.doMove(pos);
-    }
-
-    doMove(pos){
-
-        let move = new Move(...pos);
-        let currentGamestate = this.sequence.getCurrentGamestate();
-        PrologInterface.sendRequest(new PMsg_ApplyMove(currentGamestate, move, this.applyMove.bind(this)));
+        this.doGenericMove(pos);
     }
 
     handleComponentPicking(component) {
@@ -114,31 +119,6 @@ class GameOrchestrator {
 
     }
 
-    requestBotMove(){
-
-        let currentGamestate = this.sequence.getCurrentGamestate();
-        PrologInterface.sendRequest(new PMsg_GetBotMove(currentGamestate, currentGamestate.getNextPlayerType(), this.doMove.bind(this)));
-    }
-
-    startAnimation(player, move) {
-
-        this.pickingEnabled = false;
-        this.board.startAnimation(player, move);
-        this.state = 'ON_ANIMATION';
-    }
-
-    resetGame(initialGamestate) {
-
-        this.resetBoard(initialGamestate);
-        this.sequence = new GameSequence(initialGamestate);
-        this.orchestratorReady = true;
-    }
-
-    resetBoard(initialGamestate) {
-        this.board = new Board(this.scene, this.primitives, initialGamestate.boardMatrix['width'], initialGamestate.boardMatrix['height']);
-        this.board.fillBoards(initialGamestate.boardMatrix['octagonBoard'], initialGamestate.boardMatrix['squareBoard']);
-    }
-
     applyMove(gamestate) {
 
         if (!gamestate)
@@ -150,6 +130,26 @@ class GameOrchestrator {
 
         this.startAnimation(previousGamestate.nextPlayer, gamestate.previousMove);
         this.botPlayRequested = false;
+    }
+
+    doGenericMove(pos){
+
+        let move = new Move(...pos);
+        let currentGamestate = this.sequence.getCurrentGamestate();
+        PrologInterface.sendRequest(new PMsg_ApplyMove(currentGamestate, move, this.applyMove.bind(this)));
+    }
+
+    doBotMove(){
+
+        let currentGamestate = this.sequence.getCurrentGamestate();
+        PrologInterface.sendRequest(new PMsg_GetBotMove(currentGamestate, currentGamestate.getNextPlayerType(), this.doGenericMove.bind(this)));
+    }
+
+    startAnimation(player, move) {
+
+        this.pickingEnabled = false;
+        this.board.startAnimation(player, move);
+        this.state = 'ON_ANIMATION';
     }
 
     refreshGamestate(inMovie) {
@@ -211,7 +211,7 @@ class GameOrchestrator {
         if (!this.orchestratorReady)
             return;
 
-        var deltaT = time - this.lastT
+        let deltaT = time - this.lastT
         this.lastT = time;
 
         if (this.state == 'ON_ANIMATION') {
@@ -225,8 +225,8 @@ class GameOrchestrator {
         }
         else if(this.sequence.getCurrentGamestate().getNextPlayerType() != 'P' && !this.botPlayRequested){
 
+            this.alarm.setAlarm(1,this.doBotMove.bind(this));
             this.botPlayRequested = true;
-            this.alarm.setAlarm(1,this.requestBotMove.bind(this));
         }
 
     }
