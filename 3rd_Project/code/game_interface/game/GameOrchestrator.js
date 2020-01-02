@@ -53,6 +53,14 @@ class GameOrchestrator {
         this.currentTheme = this.themes[index];
     }
 
+    transitionFromMenu() {
+
+        this.currentTheme.destroyInterface();
+        this.init();
+        this.inMenu = false;
+        this.setActiveTheme(this.themeIndex);
+    }
+
     init() {
 
         const oct_radius = 0.2;
@@ -155,11 +163,8 @@ class GameOrchestrator {
                 break;
 
             case 'special_button_play':
-                this.currentTheme.destroyInterface();
-                this.init();
-                this.inMenu = false;
-                this.setActiveTheme(this.themeIndex);
-                console.log("Play button pressed");
+
+                this.transitionFromMenu();
                 break;
 
             default:
@@ -190,7 +195,7 @@ class GameOrchestrator {
 
     doGenericMove(pos) {
 
-        if(this.gameover)
+        if (this.gameover)
             return;
 
         let move = new Move(...pos);

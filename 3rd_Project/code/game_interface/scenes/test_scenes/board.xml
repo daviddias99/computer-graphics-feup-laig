@@ -186,6 +186,27 @@
 
         </component>
 
+        <component id="special_go_to_menu_obj">
+
+            <pickable id="special_go_to_menu"/>
+
+            <transformation>
+
+                <translate x="-1" y="0" z="-0.25" />
+                <scale x="0.3" y="0.3" z="0.3" />
+                <!-- <rotate axis="y" angle="-90" /> -->
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="undo_tex" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+
+        </component>
+
         <component id="root">
             <transformation>
                 <transformationref id="null_transformation" />
@@ -198,6 +219,7 @@
                 <componentref id="special_undo_obj" />
                 <componentref id="special_movie_obj" />
                 <componentref id="special_reset_obj" />
+                <componentref id="special_go_to_menu_obj" />
                 <componentref id="special_gameboard" />
             </children>
         </component>
