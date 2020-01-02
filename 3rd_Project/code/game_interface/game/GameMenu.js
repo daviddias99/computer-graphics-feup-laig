@@ -28,7 +28,6 @@ class GameMenu extends GameTheme {
     onGraphLoaded() {
         super.onGraphLoaded();
         this.initInterface();
-
     }
 
 }
