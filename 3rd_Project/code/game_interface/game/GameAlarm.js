@@ -48,7 +48,7 @@ class GameAlarm {
 
     update(time,callback){
 
-        this.updateTimer(time);
+        this.updateTimer(time,callback);
         this.lastT = time;
 
         for(let i = 0; i < this.observers.length; i++){
