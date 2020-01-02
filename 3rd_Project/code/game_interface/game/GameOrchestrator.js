@@ -15,8 +15,8 @@ class GameOrchestrator {
         ];
         this.inMenu = true;
 
-        this.boardHeight = 4;
-        this.boardWidth = 4;
+        this.boardHeight = 8;
+        this.boardWidth = 8;
         this.player1 = 'P';
         this.player2 = 'P';
 
