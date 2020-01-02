@@ -36,6 +36,7 @@ class GameOrchestrator {
     resetBoard(initialGamestate) {
         this.board = new Board(this.scene, this.primitives, initialGamestate.boardMatrix['width'], initialGamestate.boardMatrix['height']);
         this.board.fillBoards(initialGamestate.boardMatrix['octagonBoard'], initialGamestate.boardMatrix['squareBoard']);
+        this.alarm.resetTime();
     }
 
     processPickingResults(results) {
@@ -205,7 +206,7 @@ class GameOrchestrator {
 
     update(time) {
 
-        this.alarm.update(time);
+        this.alarm.update(time,console.log);
         this.theme.update(time);
 
         if (!this.orchestratorReady)
