@@ -1,11 +1,9 @@
 class GameTheme {
 
     constructor(filename, scene, orchestrator){
-
-        var filename=getUrlVars()['file'] || "test_scenes/board.xml";
         this.scene = scene;
         this.orchestrator = orchestrator;
-        this.graph = new MySceneGraph(filename,scene,this,orchestrator);
+        this.graph = new MySceneGraph(filename, scene, this, orchestrator);
     }
 
 
@@ -128,7 +126,7 @@ class GameTheme {
 
         this.sceneInited = true;
 
-        this.orchestrator.init();
+        // this.orchestrator.init();
     }
 
     update(time){

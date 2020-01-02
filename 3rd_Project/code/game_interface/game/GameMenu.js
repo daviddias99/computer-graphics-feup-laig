@@ -1,12 +1,53 @@
 class GameMenu {
 
-    constructor(filename, scene, orchestrator){
+    constructor(scene, orchestrator){
 
-        var filename=getUrlVars()['file'] || "menu.xml";
         this.scene = scene;
         this.orchestrator = orchestrator;
-        this.graph = new MySceneGraph(filename,scene,this,orchestrator);
+        this.graph = new MySceneGraph('menu.xml',scene,this,orchestrator);
+    }
 
+    initInterface() {
+        let gui = this.scene.interface.gui;
+
+        this.boardFolder = gui.addFolder('Board');
+        this.boardFolder.add(this.orchestrator, 'boardHeight', 4, 14).name('Height').step(1);
+        this.boardFolder.add(this.orchestrator, 'boardWidth', 4, 14).name('Width').step(1);
+        this.boardFolder.open();
+
+        this.playerFolder = gui.addFolder('Player');
+        this.playerFolder.add(this.orchestrator, 'player1', {'Human': 'P', 'Computer Lv1': 1, 'Computer Lv2': 2}).name('Player 1');
+        this.playerFolder.add(this.orchestrator, 'player2', {'Human': 'P', 'Computer Lv1': 1, 'Computer Lv2': 2}).name('Player 2');
+        this.playerFolder.open();
+    }
+
+    destroyInterface() {
+        let gui = this.scene.interface.gui;
+
+        gui.removeFolder(this.boardFolder);
+        gui.removeFolder(this.playerFolder);
+    }
+
+    update(time){
+        var deltaT = time - this.lastT
+        this.lastT = time;
+        
+        if (!this.sceneInited)
+        return;
+        
+        if (!this.graph.loadedOk)
+        return;
+        
+        if(!this.orchestrator.orchestratorReady)
+        return;
+        
+        for (var key in this.graph.animations) {
+            if (this.graph.animations[key].inUse){
+
+                // console.log("updated " + key);
+                this.graph.animations[key].update(deltaT);
+            }
+        }
     }
 
 
@@ -102,11 +143,11 @@ class GameMenu {
         this.initMaterials();
         this.initLights();
         this.initDefaultCamera();
-
+        this.initInterface();
 
         this.sceneInited = true;
 
-        this.orchestrator.init();
+        // this.orchestrator.init();
     }
 
     /**
@@ -126,7 +167,7 @@ class GameMenu {
             // Displays the scene (MySceneGraph function).
 
             this.graph.displayScene();
-            this.button.display();
+            // this.button.display();
         }
 
     }

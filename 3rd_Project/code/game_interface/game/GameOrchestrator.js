@@ -4,9 +4,52 @@ class GameOrchestrator {
 
         this.scene = scene;
         this.state = 'DEFAULT';
-        this.theme = new GameTheme(null, scene, this);
         this.orchestratorReady = false;
         this.pickingEnabled = true;
+
+        this.loadedThemes = 0;
+        this.themeIndex = 1;
+        this.themes = [
+            new GameMenu(scene, this),
+            new GameTheme('main_scene.xml', scene, this),
+            new GameTheme('test_scenes/board.xml', scene, this)
+        ];
+        this.inMenu = true;
+
+        this.boardHeight = 4;
+        this.boardWidth = 4;
+        this.player1 = 'P';
+        this.player2 = 'P';
+    }
+
+    initInterface() {
+        let gui = this.scene.interface.gui;
+
+        let themePicker = gui.add(this, 'themeIndex', {Magic: 1, WWE: 2}).name('Theme');
+        themePicker.onChange(function(value) {
+            this['object'].setActiveTheme(value);
+        });
+    }
+
+    loadedTheme() {
+        this.loadedThemes++;
+
+        if (this.loadedThemes != this.themes.length)
+            return;
+        
+        console.log('Loaded all themes!');
+        this.initInterface();
+        this.themes[0].onGraphLoaded();
+        this.currentTheme = this.themes[0];
+        this.init();
+    }
+
+    setActiveTheme(index) {
+        this.themeIndex = index;
+        if (this.inMenu)
+            return;
+        this.themes[index].onGraphLoaded();
+        this.currentTheme = this.themes[index];
     }
 
     init() {
@@ -15,13 +58,13 @@ class GameOrchestrator {
         let sqr_radius = Math.sqrt(Math.pow(oct_radius * Math.sin(Math.PI / 8.0) * 2.0, 2) / 2.0);
 
         this.primitives = [
-            new TilePrimitive(this.scene, oct_radius, 8, this.theme.tileMaterials[0]),          // octogonal tile
-            new PiecePrimitive(this.scene, oct_radius, 8, 0.05, this.theme.playerMaterials),   // octogonal piece
-            new TilePrimitive(this.scene, sqr_radius, 4, this.theme.tileMaterials[1]),          // square tile
-            new PiecePrimitive(this.scene, sqr_radius, 4, 0.05, this.theme.playerMaterials)    // square piece
+            new TilePrimitive(this.scene, oct_radius, 8, this.currentTheme.tileMaterials[0]),          // octogonal tile
+            new PiecePrimitive(this.scene, oct_radius, 8, 0.05, this.currentTheme.playerMaterials),   // octogonal piece
+            new TilePrimitive(this.scene, sqr_radius, 4, this.currentTheme.tileMaterials[1]),          // square tile
+            new PiecePrimitive(this.scene, sqr_radius, 4, 0.05, this.currentTheme.playerMaterials)    // square piece
         ];
 
-        PrologInterface.sendRequest(new PMsg_ResetGamestate(8, 5, 'P', 'P', this.resetGame.bind(this)));
+        PrologInterface.sendRequest(new PMsg_ResetGamestate(this.boardHeight, this.boardWidth, this.player1, this.player2, this.resetGame.bind(this)));
     }   
 
     handlePicking(results) {
@@ -92,7 +135,10 @@ class GameOrchestrator {
                 break;
 
             case 'special_button_play':
-
+                this.currentTheme.destroyInterface();
+                this.init();
+                this.inMenu = false;
+                this.setActiveTheme(this.themeIndex);
                 console.log("Play button pressed");
                 break;
 
@@ -103,7 +149,6 @@ class GameOrchestrator {
     }
 
     startAnimation(player, move) {
-
         this.pickingEnabled = false;
         this.board.startAnimation(player, move);
         this.state = 'ON_ANIMATION';
@@ -186,10 +231,11 @@ class GameOrchestrator {
 
     update(time) {
 
-        this.theme.update(time);
-
         if (!this.orchestratorReady)
             return;
+
+        
+        this.currentTheme.update(time);
 
         var deltaT = time - this.lastT
         this.lastT = time;
@@ -210,7 +256,7 @@ class GameOrchestrator {
         if (!this.orchestratorReady)
             return;
 
-        this.theme.display();
+        this.currentTheme.display();
 
     }
 }

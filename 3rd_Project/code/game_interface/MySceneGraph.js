@@ -77,7 +77,10 @@ class MySceneGraph {
         this.loadedOk = true;
 
         // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
-        this.theme.onGraphLoaded();
+        // this.theme.onGraphLoaded();
+
+        // As the graph loaded ok, signal the orchestrator that the theme is loaded
+        this.orchestrator.loadedTheme();
     }
 
     /**
