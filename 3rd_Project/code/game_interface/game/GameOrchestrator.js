@@ -258,6 +258,7 @@ class GameOrchestrator {
     }
 
     update(time) {
+
         if (!this.orchestratorReady)
             return;
         
@@ -279,7 +280,7 @@ class GameOrchestrator {
         }
         else if(this.sequence.getCurrentGamestate().getNextPlayerType() != 'P' && !this.botPlayRequested){
 
-            this.alarm.setAlarm(1,this.doBotMove.bind(this));
+            this.alarm.setAlarm(0.1,this.doBotMove.bind(this));
             this.botPlayRequested = true;
         }
 
