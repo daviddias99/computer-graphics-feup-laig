@@ -5,7 +5,6 @@ class GameOrchestrator {
         this.state = 'DEFAULT';
         this.orchestratorReady = false;
         this.pickingEnabled = true;
-
         this.loadedThemes = 0;
         this.themeIndex = 1;
         this.themes = [
@@ -15,8 +14,8 @@ class GameOrchestrator {
         ];
         this.inMenu = true;
 
-        this.boardHeight = 4;
-        this.boardWidth = 4;
+        this.boardHeight = 8;
+        this.boardWidth = 8;
         this.player1 = 'P';
         this.player2 = 'P';
 
@@ -28,8 +27,8 @@ class GameOrchestrator {
     initInterface() {
         let gui = this.scene.interface.gui;
 
-        let themePicker = gui.add(this, 'themeIndex', {Magic: 1, WWE: 2}).name('Theme');
-        themePicker.onChange(function(value) {
+        let themePicker = gui.add(this, 'themeIndex', { Magic: 1, WWE: 2 }).name('Theme');
+        themePicker.onChange(function (value) {
             this['object'].setActiveTheme(value);
         });
     }
@@ -39,7 +38,7 @@ class GameOrchestrator {
 
         if (this.loadedThemes != this.themes.length)
             return;
-        
+
         console.log('Loaded all themes!');
         this.initInterface();
         this.themes[0].onGraphLoaded();
@@ -55,30 +54,43 @@ class GameOrchestrator {
         this.currentTheme = this.themes[index];
     }
 
+    transitionFromMenu() {
+
+        this.currentTheme.destroyInterface();
+        this.init();
+        this.inMenu = false;
+        this.setActiveTheme(this.themeIndex);
+        this.timer.start();
+
+    }
+
     init() {
 
-        let oct_radius = 0.2;
-        let sqr_radius = Math.sqrt(Math.pow(oct_radius * Math.sin(Math.PI / 8.0) * 2.0, 2) / 2.0);
+        const oct_radius = 0.2;
+        const sqr_radius = Math.sqrt(Math.pow(oct_radius * Math.sin(Math.PI / 8.0) * 2.0, 2) / 2.0);
+        const piece_height = 0.05;
 
         this.primitives = [
             new TilePrimitive(this.scene, oct_radius, 8, this.currentTheme.tileMaterials[0]),          // octogonal tile
-            new PiecePrimitive(this.scene, oct_radius, 8, 0.05, this.currentTheme.playerMaterials),   // octogonal piece
+            new PiecePrimitive(this.scene, oct_radius, 8, piece_height, this.currentTheme.playerMaterials),   // octogonal piece
             new TilePrimitive(this.scene, sqr_radius, 4, this.currentTheme.tileMaterials[1]),          // square tile
-            new PiecePrimitive(this.scene, sqr_radius, 4, 0.05, this.currentTheme.playerMaterials)    // square piece
+            new PiecePrimitive(this.scene, sqr_radius, 4, piece_height, this.currentTheme.playerMaterials)    // square piece
         ];
 
         PrologInterface.sendRequest(new PMsg_ResetGamestate(this.boardHeight, this.boardWidth, this.player1, this.player2, this.resetGame.bind(this)));
-    }   
+    }
 
     resetGame(initialGamestate) {
 
         this.resetBoard(initialGamestate);
         this.sequence = new GameSequence(initialGamestate);
         this.orchestratorReady = true;
+        this.gameover = false;
+
     }
 
     resetBoard(initialGamestate) {
-        this.board = new Board(this.scene, this.primitives, initialGamestate.boardMatrix['height'], initialGamestate.boardMatrix['width'],this.currentTheme.boardMaterials);
+        this.board = new Board(this.scene, this.primitives, initialGamestate.boardMatrix['height'], initialGamestate.boardMatrix['width'], this.currentTheme.boardMaterials);
         this.board.fillBoards(initialGamestate.boardMatrix['octagonBoard'], initialGamestate.boardMatrix['squareBoard']);
         this.alarm.resetTime();
     }
@@ -122,11 +134,11 @@ class GameOrchestrator {
 
     handleTilePicking(tile) {
 
-        if(this.sequence.getCurrentGamestate().getNextPlayerType() != 'P')
+        if (this.sequence.getCurrentGamestate().getNextPlayerType() != 'P')
             return;
-        
+
         let pos = tile.getBoardPosition();
-        
+
         this.doGenericMove(pos);
     }
 
@@ -156,12 +168,8 @@ class GameOrchestrator {
                 break;
 
             case 'special_button_play':
-                this.currentTheme.destroyInterface();
-                this.init();
-                this.inMenu = false;
-                this.setActiveTheme(this.themeIndex);
-                this.timer.start();
-                console.log("Play button pressed");
+
+                this.transitionFromMenu();
                 break;
 
             default:
@@ -184,20 +192,23 @@ class GameOrchestrator {
 
         let previousGamestate = this.sequence.getCurrentGamestate();
         this.sequence.addGamestate(gamestate);
-        PrologInterface.sendRequest(new PMsg_IsGameover(gamestate, this.logGameover.bind(this)));
+        PrologInterface.sendRequest(new PMsg_IsGameover(gamestate, this.handleGameover.bind(this)));
 
         this.startAnimation(previousGamestate.nextPlayer, gamestate.previousMove);
         this.botPlayRequested = false;
     }
 
-    doGenericMove(pos){
+    doGenericMove(pos) {
+
+        if (this.gameover)
+            return;
 
         let move = new Move(...pos);
         let currentGamestate = this.sequence.getCurrentGamestate();
         PrologInterface.sendRequest(new PMsg_ApplyMove(currentGamestate, move, this.applyMove.bind(this)));
     }
 
-    doBotMove(){
+    doBotMove() {
 
         let currentGamestate = this.sequence.getCurrentGamestate();
         PrologInterface.sendRequest(new PMsg_GetBotMove(currentGamestate, currentGamestate.getNextPlayerType(), this.doGenericMove.bind(this)));
@@ -252,20 +263,27 @@ class GameOrchestrator {
         if (!this.sequence.undo())
             return;
 
+        this.gameover = false;
+
         this.refreshGamestate(false);
         this.startAnimation(previousGamestate.nextPlayer, "undo");
     }
 
-    logGameover(text) {
+    handleGameover(gameoverStatus) {
 
-        console.log(text);
+        if (gameoverStatus == 'false')
+            return;
+
+        let winningPlayer = gameoverStatus;
+        this.gameover = true;
+
     }
 
     update(time) { 
 
         if (!this.orchestratorReady)
             return;
-        
+
         this.currentTheme.update(time);
 
         var deltaT = time - this.lastT
@@ -283,11 +301,12 @@ class GameOrchestrator {
 
                 this.refreshGamestate(this.sequence.inMovie)
             }
-        }
-        else if (this.sequence.getCurrentGamestate().getNextPlayerType() != 'P' && !this.botPlayRequested){
 
-            this.alarm.setAlarm(0.1,this.doBotMove.bind(this));
+        }
+        else if (this.sequence.getCurrentGamestate().getNextPlayerType() != 'P' && !this.botPlayRequested) {
+
             this.botPlayRequested = true;
+            this.doBotMove();
         }
 
         if (this.timer.isPaused && !this.sequence.inMovie && !this.inMenu)

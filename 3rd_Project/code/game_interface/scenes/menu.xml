@@ -3,36 +3,57 @@
 
     <views default="mainCamera">
         <perspective id="mainCamera" near="0.1" far="500" angle="45">
-            <from x="3" y="2" z="3" />
-            <to x="0" y="0" z="0" />
+            <from x="0" y="1.5" z="3" />
+            <to x="0" y="0.5" z="0" />
         </perspective>
     </views>
 
     <globals>
-        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
-        <background r="0.0" g="0.0" b="0.0" a="0.9" />
+        <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+        <background r="0.0" g="0.0" b="0.0" a="1" />
     </globals>
 
     <lights>
         <spot id="ceiling_light" enabled="1" angle="5" exponent="0">
             <location x="3" y="3" z="3" w="1" />
             <target x="0" y="0" z="0" />
-            <ambient r="0" g="0" b="0" a="1.0" />
+            <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
             <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
+        </spot>
+
+        <spot id="lamp_light1" enabled="1" angle="100" exponent="1">
+            <location x="2.0" y="1.0" z="0.0" w="1" />
+            <target x="1.0" y="0" z="0.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="0.8" />
+            <specular r="1.0" g="1.0" b="1.0" a="0.8" />
+            <attenuation constant="1" linear="0.0" quadratic="0.0" />
+        </spot>
+
+        <spot id="lamp_light2" enabled="1" angle="100" exponent="1">
+            <location x="-2.0" y="1.0" z="0.0" w="1" />
+            <target x="-1.0" y="0" z="0.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="0.8" />
+            <specular r="1.0" g="1.0" b="1.0" a="0.8" />
+            <attenuation constant="1" linear="0.0" quadratic="0.0" />
         </spot>
     </lights>
 
     <textures>
         <!-- TODO: change this in case you don't have this texture -->
         <texture id="test_tex" file="scenes/images/t_floor.jpg" />
+        <texture id="wood_tex" file="scenes/images/t_wood.jpg" />
         <texture id="special_p1_tex" file="scenes/images/t_black_marble.jpg" />
         <texture id="special_p2_tex" file="scenes/images/t_white_marble.jpg" />
         <texture id="special_square_tile_tex" file="scenes/images/t_light_wood.jpg" />
         <texture id="special_octagon_tile_tex" file="scenes/images/t_dark_wood.jpg" />
         <texture id="special_main_board_tex" file="scenes/images/t_wood.jpg" />
         <texture id="special_aux_board_tex" file="scenes/images/t_dark_wall.jpg" />
+        <texture id="play" file="scenes/images/t_play.jpg" />
+        <texture id="squex" file="scenes/images/t_squex.jpg" />
     </textures>
 
     <materials>
@@ -43,31 +64,38 @@
             <specular r="0.1" g="0.1" b="0.1" a="1.0" />
         </material>
 
+        <material id="UImaterial" shininess="1">
+            <emission r="0.4" g="0.4" b="0.4" a="1.0" />
+            <ambient r="1" g="1" b="1" a="1.0" />
+            <diffuse r="0.1" g="0.1" b="0.1" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+
         <material id="special_p1_material" shininess="3">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
-            <diffuse r="0.7" g="0.7" b="0.7" a="1.0" />
+            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.3" g="0.3" b="0.3" a="1.0" />
         </material>
 
         <material id="special_p2_material" shininess="3">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
-            <diffuse r="0.7" g="0.7" b="0.7" a="1.0" />
+            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.1" g="0.1" b="0.1" a="1.0" />
         </material>
 
         <material id="special_square_tile_material" shininess="3">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
-            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
             <specular r="0.3" g="0.3" b="0.3" a="1.0" />
         </material>
 
         <material id="special_octagonal_tile_material" shininess="3">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
-            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
             <specular r="0.3" g="0.3" b="0.3" a="1.0" />
         </material>
 
@@ -87,6 +115,13 @@
             <specular r="0.1" g="0.1" b="0.1" a="1.0" />
         </material>
 
+        <material id="wood_material" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
+            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+        </material>
+
     </materials>
 
     <transformations>
@@ -99,9 +134,26 @@
     </animations>
 
     <primitives>
-        <primitive id="test_primitive">
-            <plane npartsU="1" npartsV="1" />
+        <primitive id="card">
+            <rectangle x1="-1" y1="-0.4" x2="1" y2="0.4" />
         </primitive>
+
+        <primitive id="card_small">
+            <rectangle x1="-0.5" y1="-0.2" x2="0.5" y2="0.2" />
+        </primitive>
+
+        <primitive id="table_top_primitive">
+            <rectangle x1="-1" y1="-0.5" x2="1" y2="0.5" />
+        </primitive>
+
+        <primitive id="table_leg_primitive">
+            <cylinder2 base="0.1" top="0.1" height="1.2" slices="20" stacks="20" />
+        </primitive>
+
+        <primitive id="table_top_side_primitive">
+            <rectangle x1="-0.5" y1="-0.025" x2="0.5" y2="0.025" />
+        </primitive>
+
     </primitives>
 
     <components>
@@ -118,13 +170,32 @@
             </materials>
             <texture id="none" />
             <children>
-                <componentref id="special_gameboard" />
+                <componentref id="gameboard_position" />
                 <componentref id="special_button_play" />
-                <componentref id="special_choose_opponents" />
-                <componentref id="special_choose_other" />
+                <componentref id="table" />
                 <componentref id="title_card" />
             </children>
         </component>
+
+        <component id="gameboard_position">
+
+            <transformation>
+
+                <translate x="0" y="00" z="0" />
+                <scale x="1.5" y="1.5" z="1.5"/>
+
+                <translate x="-0.5" y="0" z="-0.5"/>
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="special_gameboard" />
+            </children>
+
+        </component>
+
 
         <component id="special_button_play">
 
@@ -132,61 +203,15 @@
 
             <transformation>
 
-                <translate x="0" y="0.5" z="0" />
-                <scale x="1" y="0.3" z="1" />
-                <rotate axis="y" angle="45" />
-                <rotate axis="x" angle="90" />
+                <translate x="0" y="0.4" z="-1.5" />
 
             </transformation>
             <materials>
-                <material id="test_material" />
+                <material id="UImaterial" />
             </materials>
-            <texture id="none" />
+            <texture id="play" length_s="1" length_t="0.45"/>
             <children>
-                <primitiveref id="test_primitive" />
-            </children>
-
-        </component>
-
-        <component id="special_choose_opponents">
-
-            <pickable id="special_choose_opponents"/>
-
-            <transformation>
-
-                <translate x="-0.4" y="0.5" z="1" />
-                <scale x="1" y="0.3" z="1" />
-                <rotate axis="y" angle="90" />
-                <rotate axis="x" angle="90" />
-
-            </transformation>
-            <materials>
-                <material id="test_material" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <primitiveref id="test_primitive" />
-            </children>
-
-        </component>
-
-        <component id="special_choose_other">
-
-            <pickable id="special_choose_other"/>
-
-            <transformation>
-
-                <translate x="1" y="0.5" z="-0.4" />
-                <scale x="1" y="0.3" z="1" />
-                <rotate axis="x" angle="90" />
-
-            </transformation>
-            <materials>
-                <material id="test_material" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <primitiveref id="test_primitive" />
+                <primitiveref id="card_small" />
             </children>
 
         </component>
@@ -195,21 +220,224 @@
 
             <transformation>
 
-                <translate x="0" y="1.2" z="0" />
-                <scale x="1.4" y="0.7" z="1.4" />
-                <rotate axis="y" angle="45" />
-                <rotate axis="x" angle="90" />
-
+                <translate x="0" y="1.2" z="-1.5" />
             </transformation>
             <materials>
-                <material id="test_material" />
+                <material id="UImaterial" />
             </materials>
-            <texture id="none" />
+            <texture id="squex" length_s="2" length_t="0.8"/>
             <children>
-                <primitiveref id="test_primitive" />
+                <primitiveref id="card" />
             </children>
 
         </component>
+
+         <!-- START: Table component -->
+        <component id="table">
+            <transformation>
+
+
+                <translate x="0" y="-2.45" z="0"/>
+                <scale x="2" y="2" z="2"/>
+            </transformation>
+
+            <materials>
+                <material id="wood_material" />
+            </materials>
+
+            <texture id="wood_tex" length_s="1" length_t="1" />
+
+            <children>
+                <componentref id="table_top" />
+                <componentref id="table_bottom" />
+                <componentref id="table_leg1" />
+                <componentref id="table_leg2" />
+                <componentref id="table_leg3" />
+                <componentref id="table_leg4" />
+            </children>
+        </component>
+
+        <component id="table_top">
+            <transformation>
+
+                <scale x="1.5" y="1" z="1.5" />
+                <translate x="0" y="1.2" z="0" />
+
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="table_top_plane" />
+                <componentref id="table_top_side_front" />
+                <componentref id="table_top_side_back" />
+                <componentref id="table_top_side_right" />
+                <componentref id="table_top_side_left" />
+            </children>
+        </component>
+
+        <component id="table_bottom">
+            <transformation>
+
+                <scale x="1.5" y="1" z="1.5" />
+                <translate x="0" y="1.2" z="0" />
+                <rotate axis="x" angle="180" />
+
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="table_top_plane" />
+                <componentref id="table_top_side_front" />
+                <componentref id="table_top_side_back" />
+                <componentref id="table_top_side_right" />
+                <componentref id="table_top_side_left" />
+            </children>
+        </component>
+
+        <component id="table_top_side_left">
+            <transformation>
+                <rotate axis="y" angle="-90" />
+                <translate x="0" y="0" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="table_top_side_primitive" />
+            </children>
+        </component>
+
+        <component id="table_top_side_right">
+            <transformation>
+                <rotate axis="y" angle="90" />
+                <translate x="0" y="0" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="table_top_side_primitive" />
+            </children>
+        </component>
+
+        <component id="table_top_side_back">
+            <transformation>
+                <rotate axis="y" angle="180" />
+                <translate x="0" y="0" z="0.5" />
+                <scale x="2" y="1" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="table_top_side_primitive" />
+            </children>
+        </component>
+
+        <component id="table_top_side_front">
+            <transformation>
+                <translate x="0" y="0" z="0.5" />
+                <scale x="2" y="1" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="table_top_side_primitive" />
+            </children>
+        </component>
+
+        <component id="table_top_plane">
+            <transformation>
+                <translate x="0" y="0.025" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="table_top_primitive" />
+            </children>
+        </component>
+
+        <component id="table_leg1">
+            <transformation>
+                <translate x="1" y="0" z="0.5" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="inherit" />
+
+            <children>
+                <primitiveref id="table_leg_primitive" />
+            </children>
+        </component>
+
+        <component id="table_leg2">
+            <transformation>
+                <translate x="-1" y="0" z="0.5" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="inherit" />
+
+            <children>
+                <primitiveref id="table_leg_primitive" />
+            </children>
+        </component>
+
+        <component id="table_leg3">
+            <transformation>
+                <translate x="-1" y="0" z="-0.5" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="inherit" />
+
+            <children>
+                <primitiveref id="table_leg_primitive" />
+            </children>
+        </component>
+
+        <component id="table_leg4">
+            <transformation>
+                <translate x="1" y="0" z="-0.5" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="inherit" />
+
+            <children>
+                <primitiveref id="table_leg_primitive" />
+            </children>
+        </component>
+
+        <!-- END: Table component-->
 
     </components>
 </lxs>

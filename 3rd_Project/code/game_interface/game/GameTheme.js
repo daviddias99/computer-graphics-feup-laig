@@ -12,7 +12,7 @@ class GameTheme {
      */
     initDefaultCamera() {
         this.scene.camera = this.graph.cameras[this.graph.defaultCameraId];
-        this.scene.interface.setActiveCamera(this.camera);
+        this.scene.interface.setActiveCamera(this.scene.camera);
     }
 
     /**
@@ -114,7 +114,6 @@ class GameTheme {
         this.initMaterials();
         this.initLights();
         this.initDefaultCamera();
-
         this.sceneInited = true;
 
     }
@@ -144,8 +143,8 @@ class GameTheme {
         if (!this.sceneInited)
             return;
 
-        this.scene.camera = this.graph.cameras[this.graph.defaultCameraId]; // TODO: change this
-        this.scene.interface.setActiveCamera(this.scene.camera);
+        // this.scene.camera = this.graph.cameras[this.graph.defaultCameraId]; // TODO: change this
+        // this.scene.interface.setActiveCamera(this.scene.camera);
 
         // Scene rendering
         if (this.sceneInited) {
