@@ -38,6 +38,9 @@ class Board {
         this.board_height = 0.1;
         this.board_scaling = [this.cols * oct_diagonal + 2 * sqr_radius + spacing * (this.cols - 1) * 2,1.0,this.rows * oct_diagonal + 2 * sqr_radius + spacing * (this.rows - 1) * 2];
         this.aux_board_scaling = [this.cols * oct_diagonal + 2 * sqr_radius + spacing * (this.cols - 1) * 2,1.0,oct_diagonal + 0.5 * sqr_radius + spacing];
+        
+        this.board_scale = this.board_scaling[0] >= this.board_scaling[2] ? 1 / this.board_scaling[0] : 1 / this.board_scaling[2];
+
         this.board_rotation = Math.PI / 4.0;
         this.board_translation = [Math.sqrt(0.5), 0.0, Math.sqrt(0.5)];
 
@@ -107,7 +110,10 @@ class Board {
     }
 
     display()
-    {   
+    {
+        this.scene.pushMatrix();
+        this.scene.scale(this.board_scale, this.board_scale, this.board_scale);
+
         this.scene.pushMatrix();
         this.scene.scale(...this.board_scaling);
         this.scene.translate(0.5, this.board_height, 0.5);
@@ -139,5 +145,7 @@ class Board {
                 this.squares[i][j].display();
             }
         }
+
+        this.scene.popMatrix();
     }
 }
