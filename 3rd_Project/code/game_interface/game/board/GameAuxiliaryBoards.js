@@ -1,13 +1,13 @@
-class GameAuxiliaryBoards {
+class AuxiliaryBoards {
 
-    constructor(scene,cols,rows,primitives,spacings,material){
+    constructor(scene,cols,rows,primitives,material,boardPrimitive){
 
         this.scene = scene;
         this.cols = cols;
         this.rows = rows;
         this.primitives = primitives;
-        this.spacings = spacings;
         this.material = material;
+        this.boardPrimitive = boardPrimitive;
 
         this.init();
     }
@@ -16,8 +16,8 @@ class GameAuxiliaryBoards {
 
         // On auxiliary board for each player
         this.boards = [];
-        this.boards[0] = new GameAuxiliaryBoard(this.scene,this.cols,this.rows,1,this.primitives[1],-1,this.spacings,this.material);
-        this.boards[1] = new GameAuxiliaryBoard(this.scene,this.cols,this.rows,2,this.primitives[1],1,this.spacings,this.material);
+        this.boards[0] = new AuxiliaryBoard(this.scene,this.cols,this.rows,1,this.primitives[1],-1,this.material,this.boardPrimitive);
+        this.boards[1] = new AuxiliaryBoard(this.scene,this.cols,this.rows,2,this.primitives[1],1,this.material,this.boardPrimitive);
     }
 
     display(){
@@ -44,30 +44,22 @@ class GameAuxiliaryBoards {
 
 }
 
-class GameAuxiliaryBoard{
+class AuxiliaryBoard{
 
-    constructor(scene,cols,rows,player,piecePrimitive,type,arr,material){
+    constructor(scene,cols,rows,player,piecePrimitive,type,material,boardPrimitive){
 
         this.scene = scene;
         this.slots = [];
         this.pieceFeed = [];
-        this.arr = arr;
         this.pieceOnAnimation = null;
         this.pieceDirection = null;
-        this.aux_board_primitive_side = new Prism(this.scene, 4);
-        this.aux_board_primitive_top = new MyPlane(this.scene, 10, 10);
+        this.auxBoardPrimitive = new AuxiliaryBoardPrimitive(scene,rows,boardPrimitive,type,material);
+        this.boardPrimitive = boardPrimitive;
         this.type = type;
         this.material = material;
 
-        if(type == -1){
-            this.addition = 0;
-        }
-        else {
-            this.addition = rows - 1;
-        }
-
         for(let i = 0; i < cols; i++){
-            this.slots.push(new GameAuxBoardSlot(scene,rows,player,i,piecePrimitive,type,arr));
+            this.slots.push(new AuxiliaryBoardSlot(scene,rows,player,i,piecePrimitive,type,boardPrimitive));
         }
 
     }
@@ -97,9 +89,9 @@ class GameAuxiliaryBoard{
         this.pieceOnAnimation = this.slots[move.x].pieces.pop();
         
         // Animation calibration
-        let finalPos = this.slots[move.x].getPosition(move.x,move.y,0);
+        let finalPos = this.boardPrimitive.getPosition(move.x,move.y,0,'octagon');
         let initialPos = this.pieceOnAnimation.pos;
-        let height = 0.5;
+        let height = this.boardPrimitive.cols * 0.1;
         let animationTime = 0.5;
         let effectiveKeyframeCount = 20;
 
@@ -118,32 +110,7 @@ class GameAuxiliaryBoard{
 
     display(){
 
-        let auxBoardPosition = [0,0.05, this.arr[0] + (this.type * 1.5 + this.addition) * this.arr[1]];
-
-        this.material.apply();
-        this.scene.pushMatrix();        
-
-        this.scene.pushMatrix();  
-        this.scene.translate(...auxBoardPosition);
-        this.scene.scale(...this.arr[2]);
-        this.scene.translate(0.5,0,0);
-
-        this.scene.pushMatrix();
-        this.scene.translate(0.0,0.05,0);
-        this.aux_board_primitive_top.display();
-        this.scene.popMatrix();
-        
-        this.scene.pushMatrix();
-        this.scene.translate(0.0,-0.05,0);
-        this.scene.rotate(Math.PI,1,0,0);
-        this.aux_board_primitive_top.display()
-        this.scene.popMatrix();
-        
-        this.scene.translate(0.0, -0.05,0);
-        this.scene.rotate(Math.PI / 4.0, 0.0, 1.0, 0.0);
-        this.scene.scale(Math.sqrt(0.5), 0.1, Math.sqrt(0.5));
-        this.aux_board_primitive_side.display();
-        this.scene.popMatrix();
+        this.auxBoardPrimitive.display();
 
         for(let i = 0; i < this.slots.length; i++){
    
@@ -185,17 +152,16 @@ class GameAuxiliaryBoard{
 
 }
 
-class GameAuxBoardSlot{
+class AuxiliaryBoardSlot{
 
-    constructor(scene,maxPieces,player,colNumber,piecePrimitive, type, spacings){
+    constructor(scene,maxPieces,player,colNumber,piecePrimitive, type,boardPrimitive){
 
         this.scene = scene;
         this.colNumber = colNumber;
         this.pieces = [];
-        this.oct_pos = spacings[0];
-        this.delta = spacings[1];
         this.type = type;
         this.piecePrimitive = piecePrimitive;
+        this.boardPrimitive = boardPrimitive;
 
         this.addition;
 
@@ -207,14 +173,9 @@ class GameAuxBoardSlot{
         }
 
         for(let i = 0; i < maxPieces ; i++){
-            this.pieces.push(new MovingPiece(scene,piecePrimitive,player,this.getPosition(...[this.colNumber,this.addition + this.type * 1.5,i])));
+            this.pieces.push(new MovingPiece(scene,piecePrimitive,player,this.boardPrimitive.getPosition(...[this.colNumber,this.addition + this.type * 1.5,i,"octagon"])));
         }
 
-    }
-
-    getPosition(h,v,height){
-
-        return [this.oct_pos + h * this.delta,0.1 + this.piecePrimitive.height * height, this.oct_pos + v * this.delta];
     }
 
     display(){

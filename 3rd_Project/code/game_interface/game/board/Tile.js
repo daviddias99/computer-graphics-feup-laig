@@ -2,7 +2,7 @@ class Tile {
 
     constructor(coords, pos, primitive, sides) {
         
-        this.coords = coords
+        this.coords = coords;
 
         this.pos = pos;
 

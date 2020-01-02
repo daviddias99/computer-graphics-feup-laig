@@ -56,14 +56,15 @@ class GameOrchestrator {
 
     init() {
 
-        let oct_radius = 0.2;
-        let sqr_radius = Math.sqrt(Math.pow(oct_radius * Math.sin(Math.PI / 8.0) * 2.0, 2) / 2.0);
+        const oct_radius = 0.2;
+        const sqr_radius = Math.sqrt(Math.pow(oct_radius * Math.sin(Math.PI / 8.0) * 2.0, 2) / 2.0);
+        const piece_height = 0.05;
 
         this.primitives = [
             new TilePrimitive(this.scene, oct_radius, 8, this.currentTheme.tileMaterials[0]),          // octogonal tile
-            new PiecePrimitive(this.scene, oct_radius, 8, 0.05, this.currentTheme.playerMaterials),   // octogonal piece
+            new PiecePrimitive(this.scene, oct_radius, 8,piece_height, this.currentTheme.playerMaterials),   // octogonal piece
             new TilePrimitive(this.scene, sqr_radius, 4, this.currentTheme.tileMaterials[1]),          // square tile
-            new PiecePrimitive(this.scene, sqr_radius, 4, 0.05, this.currentTheme.playerMaterials)    // square piece
+            new PiecePrimitive(this.scene, sqr_radius, 4, piece_height, this.currentTheme.playerMaterials)    // square piece
         ];
 
         PrologInterface.sendRequest(new PMsg_ResetGamestate(this.boardHeight, this.boardWidth, this.player1, this.player2, this.resetGame.bind(this)));
