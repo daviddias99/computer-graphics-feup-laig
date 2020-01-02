@@ -26,15 +26,9 @@ class GameMenu extends GameTheme {
     }
 
     onGraphLoaded() {
-        this.scene.axis = new CGFaxis(this.scene, this.graph.referenceLength);
-        this.scene.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
-        this.scene.setGlobalAmbientLight(this.graph.ambient[0], this.graph.ambient[1], this.graph.ambient[2], this.graph.ambient[3]);
-        this.initMaterials();
-        this.initLights();
-        this.initDefaultCamera();
+        super.onGraphLoaded();
         this.initInterface();
 
-        this.sceneInited = true;
     }
 
 }

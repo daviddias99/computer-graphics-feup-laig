@@ -61,20 +61,22 @@ class GameTheme {
     initMaterials(){
 
         this.materials = [];
-        this.materials['special_p1_material'] = this.graph.materials['special_p1_material'];
-        this.materials['special_p2_material'] = this.graph.materials['special_p2_material'];
-        this.materials['special_square_tile_material'] = this.graph.materials['special_square_tile_material'];
-        this.materials['special_octagonal_tile_material'] = this.graph.materials['special_octagonal_tile_material'];
-        this.materials['special_main_board_material'] = this.graph.materials['special_main_board_material'];
-        this.materials['special_aux_board_material'] = this.graph.materials['special_aux_board_material'];
 
+        for(let key in this.graph.materials){
+
+            if(key.substring(0,7) == 'special'){
+                this.materials[key] = this.graph.materials[key];
+            }
+        }
+        
         this.textures = [];
-        this.textures['special_p1_tex']  = this.graph.textures['special_p1_tex'];
-        this.textures['special_p2_tex']  = this.graph.textures['special_p2_tex'];
-        this.textures['special_square_tile_tex']  = this.graph.textures['special_square_tile_tex'];
-        this.textures['special_octagon_tile_tex']  = this.graph.textures['special_octagon_tile_tex'];
-        this.textures['special_main_board_tex']  = this.graph.textures['special_main_board_tex'];
-        this.textures['special_aux_board_tex']  = this.graph.textures['special_aux_board_tex'];
+
+        for(let key in this.graph.textures){
+
+            if(key.substring(0,7) == 'special'){
+                this.textures[key] = this.graph.textures[key];
+            }
+        }
  
         this.playerMaterials = [];
 
@@ -102,26 +104,6 @@ class GameTheme {
     }
 
 
-    /**
-     * Set the camera to the default one and add the camera selection section of the interface.
-     */
-    activateCameraSelectionDropdown() {
-
-        for (var key in this.graph.cameras) {
-
-            this.cameraIDs[key] = key;
-        }
-        this.selectedCameraMain = this.graph.defaultCameraId;
-        this.interface.addCameraDropdown();
-    }
-
-    /**
-     * Add the light-control section of the interface
-     */
-    activateLightSelectionCheckboxes() {
-        this.interface.addLightCheckboxes();
-    }
-
     /** Handler called when the graph is finally loaded. 
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
@@ -133,12 +115,8 @@ class GameTheme {
         this.initLights();
         this.initDefaultCamera();
 
-        // this.activateCameraSelectionDropdown();
-        // this.activateLightSelectionCheckboxes();
-
         this.sceneInited = true;
 
-        // this.orchestrator.init();
     }
 
     update(time){
@@ -146,25 +124,14 @@ class GameTheme {
         var deltaT = time - this.lastT
         this.lastT = time;
         
-        if (!this.sceneInited)
+        if (!this.sceneInited || !this.graph.loadedOk)
         return;
         
-        if (!this.graph.loadedOk)
-        return;
-        
-        if(!this.orchestrator.orchestratorReady)
-        return;
-        
-
-        
-
         for (var key in this.graph.animations) {
 
             if (this.graph.animations[key].inUse){
 
-                // console.log("updated " + key);
                 this.graph.animations[key].update(deltaT);
-
             }
         }
     }
