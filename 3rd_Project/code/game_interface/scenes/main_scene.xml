@@ -128,8 +128,10 @@
         <texture id="porcelain" file="scenes/images/t_porcelain.jpg" />
         <texture id="special_p1_tex" file="scenes/images/t_black_marble.jpg" />
         <texture id="special_p2_tex" file="scenes/images/t_white_marble.jpg" />
-        <texture id="special_square_tile_tex" file="scenes/images/t_dark_wood.jpg" />
-        <texture id="special_octagon_tile_tex" file="scenes/images/t_light_wood.jpg" />
+        <texture id="special_square_tile_tex" file="scenes/images/t_light_wood.jpg" />
+        <texture id="special_octagon_tile_tex" file="scenes/images/t_dark_wood.jpg" />
+        <texture id="special_main_board_tex" file="scenes/images/t_wood.jpg" />
+        <texture id="special_aux_board_tex" file="scenes/images/t_dark_wall.jpg" />
 
     </textures>
 
@@ -310,6 +312,21 @@
             <specular r="0.3" g="0.3" b="0.3" a="1.0" />
         </material>
 
+        <material id="special_main_board_material" shininess="1">
+
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <diffuse r="0.3" g="0.3" b="0.3" a="1.0" />
+            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+        </material>
+
+        <material id="special_aux_board_material" shininess="1">
+
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <diffuse r="0.3" g="0.3" b="0.3" a="1.0" />
+            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+        </material>
 
     </materials>
 

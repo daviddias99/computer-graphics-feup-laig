@@ -34,7 +34,7 @@ class GameOrchestrator {
     }
 
     resetBoard(initialGamestate) {
-        this.board = new Board(this.scene, this.primitives, initialGamestate.boardMatrix['width'], initialGamestate.boardMatrix['height']);
+        this.board = new Board(this.scene, this.primitives, initialGamestate.boardMatrix['width'], initialGamestate.boardMatrix['height'],this.theme.boardMaterials);
         this.board.fillBoards(initialGamestate.boardMatrix['octagonBoard'], initialGamestate.boardMatrix['squareBoard']);
         this.alarm.resetTime();
     }
