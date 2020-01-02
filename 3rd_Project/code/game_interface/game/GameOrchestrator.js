@@ -21,6 +21,7 @@ class GameOrchestrator {
         this.player2 = 'P';
 
         this.alarm = new GameAlarm();
+        this.timer = new OverlayTimer(scene);
         this.botPlayRequested = false;
     }
 
@@ -140,15 +141,17 @@ class GameOrchestrator {
 
             case 'special_play_movie':
 
+                this.timer.pause();
                 this.playMovie();
                 break;
 
             case 'special_go_to_menu':
+                this.timer.reset();
 
                 break;
 
             case 'special_reset':
-
+                this.timer.reset();
                 this.resetGame(this.sequence.getInitialGamestate());
                 break;
 
@@ -157,6 +160,7 @@ class GameOrchestrator {
                 this.init();
                 this.inMenu = false;
                 this.setActiveTheme(this.themeIndex);
+                this.timer.start();
                 console.log("Play button pressed");
                 break;
 
@@ -257,7 +261,7 @@ class GameOrchestrator {
         console.log(text);
     }
 
-    update(time) {
+    update(time) { 
 
         if (!this.orchestratorReady)
             return;
@@ -267,7 +271,9 @@ class GameOrchestrator {
         var deltaT = time - this.lastT
         this.lastT = time;
 
-        this.alarm.update(time,console.log);
+        this.alarm.update(time, console.log);
+
+        this.timer.update(time);
 
         if (this.state == 'ON_ANIMATION') {
 
@@ -278,11 +284,14 @@ class GameOrchestrator {
                 this.refreshGamestate(this.sequence.inMovie)
             }
         }
-        else if(this.sequence.getCurrentGamestate().getNextPlayerType() != 'P' && !this.botPlayRequested){
+        else if (this.sequence.getCurrentGamestate().getNextPlayerType() != 'P' && !this.botPlayRequested){
 
             this.alarm.setAlarm(0.1,this.doBotMove.bind(this));
             this.botPlayRequested = true;
         }
+
+        if (this.timer.isPaused && !this.sequence.inMovie && !this.inMenu)
+            this.timer.start();
 
     }
 
@@ -293,5 +302,8 @@ class GameOrchestrator {
 
         this.currentTheme.display();
 
+        // this.overlay.display();
+        if (!this.inMenu)
+            this.timer.display();
     }
 }

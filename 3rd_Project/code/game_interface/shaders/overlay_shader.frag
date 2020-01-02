@@ -10,7 +10,7 @@ void main() {
 
 	// Fetch the texture-color value for the current point. The first lines invert the horizontal axis values.
 	float newS = vTextureCoord.x;
-	float newT = 1.0 - vTextureCoord.y;
+	float newT = vTextureCoord.y;
 	vec2 newCord = vec2(newS,newT);
 	vec4 color = texture2D(uSampler, newCord);
 	
