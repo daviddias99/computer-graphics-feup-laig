@@ -173,7 +173,7 @@ class AuxiliaryBoardSlot{
         }
 
         for(let i = 0; i < maxPieces ; i++){
-            this.pieces.push(new MovingPiece(scene,piecePrimitive,player,this.boardPrimitive.getPosition(...[this.colNumber,this.addition + this.type * 1.5,i,"octagon"])));
+            this.pieces.push(new MovingPiece(scene,piecePrimitive,player,this.boardPrimitive.getPosition(...[this.colNumber,this.addition + this.type * 1.37,i,"octagon"])));
         }
 
     }

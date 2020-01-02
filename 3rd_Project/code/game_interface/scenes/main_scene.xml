@@ -44,7 +44,7 @@
 
     <lights>
 
-        <omni id="demoLight" enabled="1">
+        <omni id="demoLight" enabled="0">
             <location x="10" y="10" z="10" w="0.0" />
             <ambient r="1" g="1" b="1" a="1" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
@@ -73,7 +73,7 @@
             <location x="-1" y="3" z="1" w="1" />
             <target x="-1" y="0" z="1" />
             <ambient r="0" g="0" b="0" a="1.0" />
-            <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.8" g="0.8" b="0.8" a="1.0" />
             <specular r="1.0" g="0.0" b="0.0" a="1.0" />
             <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
         </spot>
@@ -126,12 +126,12 @@
         <texture id="bin_tex" file="scenes/images/t_metalic_grid.jpg" />
         <texture id="ball_base_tex" file="scenes/images/t_ball_base.jpg" />
         <texture id="porcelain" file="scenes/images/t_porcelain.jpg" />
-        <texture id="special_p1_tex" file="scenes/images/t_black_marble.jpg" />
+        <texture id="special_p1_tex" file="scenes/images/t_black_marble_3.jpg" />
         <texture id="special_p2_tex" file="scenes/images/t_white_marble.jpg" />
-        <texture id="special_square_tile_tex" file="scenes/images/t_light_wood.jpg" />
-        <texture id="special_octagon_tile_tex" file="scenes/images/t_dark_wood.jpg" />
-        <texture id="special_main_board_tex" file="scenes/images/t_wood.jpg" />
-        <texture id="special_aux_board_tex" file="scenes/images/t_dark_wall.jpg" />
+        <texture id="special_square_tile_tex" file="scenes/images/t_mahogany_wood.jpg" />
+        <texture id="special_octagon_tile_tex" file="scenes/images/t_very_light_wood.jpg" />
+        <texture id="special_main_board_tex" file="scenes/images/t_dark_wood.jpg" />
+        <texture id="special_aux_board_tex" file="scenes/images/t_yoga.jpg" />
 
     </textures>
 
@@ -295,21 +295,21 @@
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
             <diffuse r="0.7" g="0.7" b="0.7" a="1.0" />
-            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
         </material>
 
         <material id="special_square_tile_material" shininess="3">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
-            <specular r="0.3" g="0.3" b="0.3" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="1.0" />
         </material>
 
         <material id="special_octagonal_tile_material" shininess="3">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
-            <specular r="0.3" g="0.3" b="0.3" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="1.0" />
         </material>
 
         <material id="special_main_board_material" shininess="1">
@@ -2593,9 +2593,9 @@
         <component id="position_PyramidOnTable">
 
             <transformation>
-                <translate x="0.7" y="1.25" z="-0.5" />
-                <rotate axis="y" angle="-20" />
-                <scale x="0.4" y="0.4" z="0.4" />
+                <translate x="0.6" y="1.25" z="-0.3" />
+                <!-- <rotate axis="y" angle="-20" /> -->
+                <scale x="0.8" y="0.8" z="0.8" />
             </transformation>
             <materials>
                 <material id="inherit" />

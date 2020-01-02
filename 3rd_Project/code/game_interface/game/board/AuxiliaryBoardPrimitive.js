@@ -21,7 +21,7 @@ class AuxiliaryBoardPrimitive{
 
     display(){
 
-        let auxBoardPosition = [0,this.boardPrimitive.board_height/2, this.arr[0] + (this.type * 1.5 + this.addition) * this.arr[1]];
+        let auxBoardPosition = [0,this.boardPrimitive.board_height/2, this.arr[0] + (this.type * 1.37 + this.addition) * this.arr[1]];
 
         this.material.apply();
         this.scene.pushMatrix();        
