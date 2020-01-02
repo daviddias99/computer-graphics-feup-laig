@@ -1,7 +1,6 @@
 class GameOrchestrator {
 
     constructor(scene) {
-
         this.scene = scene;
         this.state = 'DEFAULT';
         this.orchestratorReady = false;
@@ -20,6 +19,9 @@ class GameOrchestrator {
         this.boardWidth = 4;
         this.player1 = 'P';
         this.player2 = 'P';
+
+        this.alarm = new GameAlarm();
+        this.botPlayRequested = false;
     }
 
     initInterface() {
@@ -67,7 +69,20 @@ class GameOrchestrator {
         PrologInterface.sendRequest(new PMsg_ResetGamestate(this.boardHeight, this.boardWidth, this.player1, this.player2, this.resetGame.bind(this)));
     }   
 
-    handlePicking(results) {
+    resetGame(initialGamestate) {
+
+        this.resetBoard(initialGamestate);
+        this.sequence = new GameSequence(initialGamestate);
+        this.orchestratorReady = true;
+    }
+
+    resetBoard(initialGamestate) {
+        this.board = new Board(this.scene, this.primitives, initialGamestate.boardMatrix['height'], initialGamestate.boardMatrix['width'],this.currentTheme.boardMaterials);
+        this.board.fillBoards(initialGamestate.boardMatrix['octagonBoard'], initialGamestate.boardMatrix['squareBoard']);
+        this.alarm.resetTime();
+    }
+
+    processPickingResults(results) {
 
         // any results?
         if (results != null && results.length > 0) {
@@ -78,7 +93,7 @@ class GameOrchestrator {
 
                 if (obj) {
                     var uniqueID = results[i][1]
-                    this.onObjectSelected(obj, uniqueID);
+                    this.handlePicking(obj, uniqueID);
                 }
             }
             // clear results
@@ -86,7 +101,7 @@ class GameOrchestrator {
         }
     }
 
-    onObjectSelected(obj, uniqueID) {
+    handlePicking(obj, uniqueID) {
 
 
         if (!this.pickingEnabled)
@@ -94,21 +109,24 @@ class GameOrchestrator {
 
         if (obj instanceof Tile) {
 
-            let pos = obj.getBoardPosition();
-            let move = new Move(...pos);
-            let currentGamestate = this.sequence.getCurrentGamestate();
-            PrologInterface.sendRequest(new PMsg_ApplyMove(currentGamestate, move, this.applyMove.bind(this)));
+            this.handleTilePicking(obj);
 
         }
-        else if (obj instanceof MenuButton) {
-            console.log("Button clicked");
-        }
         else if (obj instanceof MySceneComponent) {
-            console.log("Component clicked");
 
             this.handleComponentPicking(obj);
         }
 
+    }
+
+    handleTilePicking(tile) {
+
+        if(this.sequence.getCurrentGamestate().getNextPlayerType() != 'P')
+            return;
+        
+        let pos = tile.getBoardPosition();
+        
+        this.doGenericMove(pos);
     }
 
     handleComponentPicking(component) {
@@ -154,17 +172,6 @@ class GameOrchestrator {
         this.state = 'ON_ANIMATION';
     }
 
-    resetGame(initialGamestate) {
-
-        this.resetBoard(initialGamestate);
-        this.sequence = new GameSequence(initialGamestate);
-        this.orchestratorReady = true;
-    }
-
-    resetBoard(initialGamestate) {
-        this.board = new Board(this.scene, this.primitives, initialGamestate.boardMatrix['height'], initialGamestate.boardMatrix['width']);
-        this.board.fillBoards(initialGamestate.boardMatrix['octagonBoard'], initialGamestate.boardMatrix['squareBoard']);
-    }
 
     applyMove(gamestate) {
 
@@ -176,6 +183,27 @@ class GameOrchestrator {
         PrologInterface.sendRequest(new PMsg_IsGameover(gamestate, this.logGameover.bind(this)));
 
         this.startAnimation(previousGamestate.nextPlayer, gamestate.previousMove);
+        this.botPlayRequested = false;
+    }
+
+    doGenericMove(pos){
+
+        let move = new Move(...pos);
+        let currentGamestate = this.sequence.getCurrentGamestate();
+        PrologInterface.sendRequest(new PMsg_ApplyMove(currentGamestate, move, this.applyMove.bind(this)));
+    }
+
+    doBotMove(){
+
+        let currentGamestate = this.sequence.getCurrentGamestate();
+        PrologInterface.sendRequest(new PMsg_GetBotMove(currentGamestate, currentGamestate.getNextPlayerType(), this.doGenericMove.bind(this)));
+    }
+
+    startAnimation(player, move) {
+
+        this.pickingEnabled = false;
+        this.board.startAnimation(player, move);
+        this.state = 'ON_ANIMATION';
     }
 
     refreshGamestate(inMovie) {
@@ -203,7 +231,7 @@ class GameOrchestrator {
 
     playMovie() {
 
-        if(!this.sequence.startMovie())
+        if (!this.sequence.startMovie())
             return;
 
         this.pickingEnabled = false;
@@ -230,15 +258,15 @@ class GameOrchestrator {
     }
 
     update(time) {
-
         if (!this.orchestratorReady)
             return;
-
         
         this.currentTheme.update(time);
 
         var deltaT = time - this.lastT
         this.lastT = time;
+
+        this.alarm.update(time,console.log);
 
         if (this.state == 'ON_ANIMATION') {
 
@@ -249,6 +277,12 @@ class GameOrchestrator {
                 this.refreshGamestate(this.sequence.inMovie)
             }
         }
+        else if(this.sequence.getCurrentGamestate().getNextPlayerType() != 'P' && !this.botPlayRequested){
+
+            this.alarm.setAlarm(1,this.doBotMove.bind(this));
+            this.botPlayRequested = true;
+        }
+
     }
 
     display() {

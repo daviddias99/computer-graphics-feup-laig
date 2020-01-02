@@ -7,12 +7,13 @@ class Board {
      * @param {Number} rows         Number of rows of octagonal tiles/pieces
      * @param {Number} cols         Number of columns of octagonal tiles/pieces
      */
-    constructor(scene, primitives, rows, cols)
+    constructor(scene, primitives, rows, cols, boardMaterials)
     {
         this.scene = scene;
         this.primitives = primitives;
         this.rows = rows;
         this.cols = cols;
+        this.boardMaterials = boardMaterials;
 
         this.initBoard();
         
@@ -36,13 +37,14 @@ class Board {
 
         this.board_height = 0.1;
         this.board_scaling = [this.cols * oct_diagonal + 2 * sqr_radius + spacing * (this.cols - 1) * 2,1.0,this.rows * oct_diagonal + 2 * sqr_radius + spacing * (this.rows - 1) * 2];
+        this.aux_board_scaling = [this.cols * oct_diagonal + 2 * sqr_radius + spacing * (this.cols - 1) * 2,1.0,oct_diagonal + 0.5 * sqr_radius + spacing];
         
         this.board_scale = this.board_scaling[0] >= this.board_scaling[2] ? 1 / this.board_scaling[0] : 1 / this.board_scaling[2];
 
         this.board_rotation = Math.PI / 4.0;
         this.board_translation = [Math.sqrt(0.5), 0.0, Math.sqrt(0.5)];
 
-        this.auxBoards = new GameAuxiliaryBoards(this.scene,this.cols,this.rows,this.primitives,[oct_pos,delta]);
+        this.auxBoards = new GameAuxiliaryBoards(this.scene, this.cols, this.rows, this.primitives, [oct_pos, delta, this.aux_board_scaling], this.boardMaterials[1]);
 
         for (let i = 0; i <= this.rows; i++)
         {
@@ -115,8 +117,15 @@ class Board {
         this.scene.pushMatrix();
         this.scene.scale(...this.board_scaling);
         this.scene.translate(0.5, this.board_height, 0.5);
+        this.boardMaterials[0].apply();
         this.plane.display();
-        
+
+        this.scene.pushMatrix();
+        this.scene.rotate(Math.PI,1,0,0);
+        this.scene.translate(0, this.board_height, 0);
+        this.plane.display()
+        this.scene.popMatrix();
+
         this.scene.translate(0.0, -this.board_height, 0.0);
         this.scene.rotate(this.board_rotation, 0.0, 1.0, 0.0);
         this.scene.scale(Math.sqrt(0.5), this.board_height, Math.sqrt(0.5));

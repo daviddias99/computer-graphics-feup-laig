@@ -12,6 +12,19 @@ class GameState {
 
     }
 
+    getNextPlayerType(){
+
+        if(this.nextPlayer == 1){
+
+            return this.p1Type;
+        }
+        else {
+            return this.p2Type;
+        }
+
+
+    }
+
     static findMove(previousGs, nextGs){
 
         let prevOctBoard = previousGs.boardMatrix['octagonBoard'];

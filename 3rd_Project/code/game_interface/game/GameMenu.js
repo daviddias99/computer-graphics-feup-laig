@@ -109,12 +109,17 @@ class GameMenu {
         this.materials['special_p2_material'] = this.graph.materials['special_p2_material'];
         this.materials['special_square_tile_material'] = this.graph.materials['special_square_tile_material'];
         this.materials['special_octagonal_tile_material'] = this.graph.materials['special_octagonal_tile_material'];
+        this.materials['special_main_board_material'] = this.graph.materials['special_main_board_material'];
+        this.materials['special_aux_board_material'] = this.graph.materials['special_aux_board_material'];
+
 
         this.textures = [];
         this.textures['special_p1_tex']  = this.graph.textures['special_p1_tex'];
         this.textures['special_p2_tex']  = this.graph.textures['special_p2_tex'];
         this.textures['special_square_tile_tex']  = this.graph.textures['special_square_tile_tex'];
         this.textures['special_octagon_tile_tex']  = this.graph.textures['special_octagon_tile_tex'];
+        this.textures['special_main_board_tex']  = this.graph.textures['special_main_board_tex'];
+        this.textures['special_aux_board_tex']  = this.graph.textures['special_aux_board_tex'];
  
         this.playerMaterials = [];
 
@@ -131,6 +136,14 @@ class GameMenu {
 
         this.tileMaterials[0].setTexture(this.textures['special_square_tile_tex']);
         this.tileMaterials[1].setTexture(this.textures['special_octagon_tile_tex']);
+        
+        this.boardMaterials = [];
+
+        this.boardMaterials[0] = this.materials['special_main_board_material'];
+        this.boardMaterials[1] = this.materials['special_aux_board_material'];
+
+        this.boardMaterials[0].setTexture(this.textures['special_main_board_tex']);
+        this.boardMaterials[1].setTexture(this.textures['special_aux_board_tex']);
     }
 
     /** Handler called when the graph is finally loaded. 
