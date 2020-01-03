@@ -6,11 +6,11 @@ class OverlayTimer {
         this.initTextures();
 
         this.timer = [      // 10:10
-            new GameOverlayElement(scene, [-0.09, -0.03, 0.85, 0.95], this.textures[0]),   // 0
-            new GameOverlayElement(scene, [-0.15, -0.09, 0.85, 0.95], this.textures[0]),   // 1
-            new GameOverlayElement(scene, [-0.03, 0.03, 0.85, 0.95], this.textures['colon']),   // :
-            new GameOverlayElement(scene, [0.03, 0.09, 0.85, 0.95], this.textures[0]),   // 1
-            new GameOverlayElement(scene, [0.09, 0.15, 0.85, 0.95], this.textures[0])    // 0
+            new GameOverlayElement(scene, [-0.10, -0.06, 0.85, 0.95], this.textures[0]),   // 0
+            new GameOverlayElement(scene, [-0.06, -0.02, 0.85, 0.95], this.textures[0]),   // 1
+            new GameOverlayElement(scene, [-0.02,  0.02, 0.85, 0.95], this.textures['colon']),   // :
+            new GameOverlayElement(scene, [ 0.02,  0.06, 0.85, 0.95], this.textures[0]),   // 1
+            new GameOverlayElement(scene, [ 0.06,  0.10, 0.85, 0.95], this.textures[0])    // 0
         ];
 
         this.time = 0;  
@@ -78,8 +78,8 @@ class OverlayTimer {
         let currentSeconds = Math.floor(this.currentTime % 60);
 
     
-        this.timer[0].changeTexture(this.textures[currentMinutes % 10]);
-        this.timer[1].changeTexture(this.textures[Math.floor(currentMinutes / 10)]);
+        this.timer[0].changeTexture(this.textures[Math.floor(currentMinutes / 10)]);
+        this.timer[1].changeTexture(this.textures[currentMinutes % 10]);
 
         this.timer[3].changeTexture(this.textures[Math.floor(currentSeconds / 10)]);
         this.timer[4].changeTexture(this.textures[currentSeconds % 10]);
