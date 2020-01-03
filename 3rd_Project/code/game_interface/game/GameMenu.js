@@ -27,7 +27,7 @@ class GameMenu extends GameTheme {
 
     onGraphLoaded() {
         super.onGraphLoaded();
-        // this.scene.interface.setActiveCamera();
+        this.scene.interface.setActiveCamera();
         this.initInterface();
     }
 

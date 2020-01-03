@@ -14,7 +14,7 @@
     </globals>
 
     <lights>
-        <spot id="ceiling_light" enabled="0" angle="5" exponent="0">
+        <spot id="ceiling_light" enabled="1" angle="5" exponent="0">
             <location x="-1" y="3" z="1" w="1" />
             <target x="-1" y="0" z="1" />
             <ambient r="0" g="0" b="0" a="1.0" />

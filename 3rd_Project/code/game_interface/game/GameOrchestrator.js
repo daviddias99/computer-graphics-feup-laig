@@ -50,6 +50,7 @@ class GameOrchestrator {
         this.themeIndex = index;
         if (this.inMenu)
             return;
+
         this.themes[index].onGraphLoaded();
         this.currentTheme = this.themes[index];
         this.board.changeMaterials(this.currentTheme.boardMaterials);
@@ -60,13 +61,7 @@ class GameOrchestrator {
         this.primitives[3].changeMaterials(this.currentTheme.playerMaterials);
     }
 
-    transitionFromMenu() {
-        this.currentTheme.destroyInterface();
-        this.init();
-        this.inMenu = false;
-        this.setActiveTheme(this.themeIndex);
-        this.timer.start();
-    }
+    
 
     init() {
 
@@ -146,24 +141,38 @@ class GameOrchestrator {
         this.doGenericMove(pos);
     }
 
+    goToMenu() {
+        this.init();
+        this.timer.reset();
+        let previousTheme = this.themeIndex;
+        this.setActiveTheme(0);
+        this.inMenu = true;
+        this.themeIndex = previousTheme;
+    }
+
+    transitionFromMenu() {
+        this.currentTheme.destroyInterface();
+        this.init();
+        this.inMenu = false;
+        this.setActiveTheme(this.themeIndex);
+        this.timer.start();
+    }
+
     handleComponentPicking(component) {
 
         switch (component.pickID) {
 
             case 'special_undo_move':
-
                 this.undoMove();
                 break;
 
             case 'special_play_movie':
-
                 this.timer.pause();
                 this.playMovie();
                 break;
 
             case 'special_go_to_menu':
-                this.timer.reset();
-
+                this.goToMenu();
                 break;
 
             case 'special_reset':
@@ -172,7 +181,6 @@ class GameOrchestrator {
                 break;
 
             case 'special_button_play':
-
                 this.transitionFromMenu();
                 break;
 

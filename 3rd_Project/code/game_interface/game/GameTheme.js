@@ -19,8 +19,10 @@ class GameTheme {
      * Initializes the scene lights with the values read from the XML file.
      */
     initLights() {
-        var i = 0;
-        // Lights index.
+        let i = 0;
+
+        for (let j = 0; j < this.scene.lights.length; j++)
+            this.scene.lights[j] = new CGFlight(this.scene, j);
 
         // Reads the lights from the scene graph.
         for (var key in this.graph.lights) {
@@ -28,7 +30,7 @@ class GameTheme {
                 break;              // Only eight lights allowed by WebGL.
 
             if (this.graph.lights.hasOwnProperty(key)) {
-                var light = this.graph.lights[key];
+                let light = this.graph.lights[key];
 
                 this.scene.lights[i].setPosition(light[2][0], light[2][1], light[2][2], light[2][3]);
                 this.scene.lights[i].setAmbient(light[3][0], light[3][1], light[3][2], light[3][3]);
@@ -115,10 +117,9 @@ class GameTheme {
         this.initLights();
         this.initDefaultCamera();
         this.sceneInited = true;
-
     }
 
-    update(time){
+    update(time) {
 
         var deltaT = time - this.lastT
         this.lastT = time;
