@@ -14,6 +14,10 @@ class BoardPrimitive {
         this.init();
     }
 
+    changeMaterials(boardMaterials) {
+        this.boardMaterials = boardMaterials;
+    }
+
     init(){
 
         let oct_radius = this.primitives[0].getRadius();

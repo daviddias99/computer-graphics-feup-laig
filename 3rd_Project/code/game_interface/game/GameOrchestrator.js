@@ -52,16 +52,20 @@ class GameOrchestrator {
             return;
         this.themes[index].onGraphLoaded();
         this.currentTheme = this.themes[index];
+        this.board.changeMaterials(this.currentTheme.boardMaterials);
+
+        this.primitives[0].changeMaterials(this.currentTheme.tileMaterials[0]);
+        this.primitives[2].changeMaterials(this.currentTheme.tileMaterials[1]);
+        this.primitives[1].changeMaterials(this.currentTheme.playerMaterials);
+        this.primitives[3].changeMaterials(this.currentTheme.playerMaterials);
     }
 
     transitionFromMenu() {
-
         this.currentTheme.destroyInterface();
         this.init();
         this.inMenu = false;
         this.setActiveTheme(this.themeIndex);
         this.timer.start();
-
     }
 
     init() {
@@ -71,10 +75,10 @@ class GameOrchestrator {
         const piece_height = 0.05;
 
         this.primitives = [
-            new TilePrimitive(this.scene, oct_radius, 8, this.currentTheme.tileMaterials[0]),          // octogonal tile
-            new PiecePrimitive(this.scene, oct_radius, 8, piece_height, this.currentTheme.playerMaterials),   // octogonal piece
-            new TilePrimitive(this.scene, sqr_radius, 4, this.currentTheme.tileMaterials[1]),          // square tile
-            new PiecePrimitive(this.scene, sqr_radius, 4, piece_height, this.currentTheme.playerMaterials)    // square piece
+            new TilePrimitive(this.scene, oct_radius, 8, this.currentTheme.tileMaterials[0]),               // octogonal tile
+            new PiecePrimitive(this.scene, oct_radius, 8, piece_height, this.currentTheme.playerMaterials), // octogonal piece
+            new TilePrimitive(this.scene, sqr_radius, 4, this.currentTheme.tileMaterials[1]),               // square tile
+            new PiecePrimitive(this.scene, sqr_radius, 4, piece_height, this.currentTheme.playerMaterials)  // square piece
         ];
 
         PrologInterface.sendRequest(new PMsg_ResetGamestate(this.boardHeight, this.boardWidth, this.player1, this.player2, this.resetGame.bind(this)));

@@ -16,7 +16,10 @@ class AuxiliaryBoardPrimitive{
         else {
             this.addition = rows - 1;
         }
+    }
 
+    changeMaterials(material) {
+        this.material = material;
     }
 
     display(){

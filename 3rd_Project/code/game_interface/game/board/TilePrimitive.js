@@ -10,6 +10,10 @@ class TilePrimitive extends CGFobject {
         this.tile = new Poligon(this.scene, this.sides);
     }
 
+    changeMaterials(material) {
+        this.material = material;
+    }
+
     getRadius() {
         return this.radius;
     }

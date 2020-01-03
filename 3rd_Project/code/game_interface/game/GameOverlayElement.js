@@ -1,4 +1,3 @@
-
 class GameOverlayElement extends CGFobject{
 
     /**
@@ -6,17 +5,9 @@ class GameOverlayElement extends CGFobject{
      * @param {XMLScene} scene 
      */
     constructor(scene, position, texture){
-
         super(scene);
 
-        // this.buttonID = buttonID;
-
         this.element = new MyRectangle(scene,"overlay_element",...position);
-        
-        // // Create the texture
-        // this.elementTex = new CGFtexture(this.scene, 'scenes/images/symbols/0.jpg');
-        // // Bind the texture to the sampler "slot" of the shader
-        // this.elementTex.bind(0);
         
         this.changeTexture(texture);
 
@@ -41,7 +32,7 @@ class GameOverlayElement extends CGFobject{
     }
 
     /**
-     *  @method diplay
+     *  @method display
      * 
      *  
      */

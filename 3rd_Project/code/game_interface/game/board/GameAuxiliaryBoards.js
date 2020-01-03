@@ -12,6 +12,12 @@ class AuxiliaryBoards {
         this.init();
     }
 
+    changeMaterials(material) {
+        this.material = material;
+        this.boards[0].changeMaterials(material);
+        this.boards[1].changeMaterials(material);
+    }
+
     init(){
 
         // On auxiliary board for each player
@@ -62,6 +68,11 @@ class AuxiliaryBoard{
             this.slots.push(new AuxiliaryBoardSlot(scene,rows,player,i,piecePrimitive,type,boardPrimitive));
         }
 
+    }
+
+    changeMaterials(material) {
+        this.material = material;
+        this.auxBoardPrimitive.changeMaterials(material);
     }
 
     startAnimation(move){

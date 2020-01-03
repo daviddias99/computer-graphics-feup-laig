@@ -19,10 +19,16 @@ class Board {
         
     }
 
+    changeMaterials(boardMaterials) {
+        this.boardMaterials = boardMaterials;
+        this.boardPrimitive.changeMaterials(boardMaterials);
+        this.auxBoards.changeMaterials(boardMaterials[1]);
+    }
+
     initBoard()
     {
-        this.boardPrimitive = new BoardPrimitive(this.scene,this.cols,this.rows, this.primitives,this.boardMaterials);
-        this.auxBoards = new AuxiliaryBoards(this.scene, this.cols, this.rows, this.primitives, this.boardMaterials[1],this.boardPrimitive );
+        this.boardPrimitive = new BoardPrimitive(this.scene, this.cols, this.rows, this.primitives, this.boardMaterials);
+        this.auxBoards = new AuxiliaryBoards(this.scene, this.cols, this.rows, this.primitives, this.boardMaterials[1], this.boardPrimitive);
         this.octagons = [];
         this.squares = [];
 

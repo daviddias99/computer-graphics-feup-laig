@@ -11,6 +11,10 @@ class PiecePrimitive extends CGFobject {
         this.base = new Poligon(this.scene, sides);
     }
 
+    changeMaterials(materials) {
+        this.materials = materials;
+    }
+
     display(material_index) {
 
         this.materials[material_index-1].apply();
