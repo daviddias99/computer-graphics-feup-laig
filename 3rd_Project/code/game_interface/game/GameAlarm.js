@@ -24,7 +24,7 @@ class GameAlarm {
 
         let ellapsedTime = time - this.timerStart;
         let ellapsedSeconds = ellapsedTime/1000;
-        let currentMinutes = Math.floor(ellapsedSeconds/60);
+        let currentMinutes = Math.floor(ellapsedSeconds / 60);
         let currentSeconds = Math.floor(ellapsedSeconds % 60);
 
         if (timeChangeCallback) {

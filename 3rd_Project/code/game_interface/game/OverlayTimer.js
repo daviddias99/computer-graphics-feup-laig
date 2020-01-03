@@ -37,12 +37,10 @@ class OverlayTimer {
     }
 
     start() {
-        console.log('unpaused timer');
         this.isPaused = false;
     }
 
     pause() {
-        console.log('paused timer');
         this.isPaused = true;
     }
 
@@ -72,7 +70,6 @@ class OverlayTimer {
             return;
         }
         this.currentTime = Math.floor(this.time / 1000);
-        console.log(this.currentTime);
 
         let currentMinutes = Math.floor(this.currentTime/60);
         let currentSeconds = Math.floor(this.currentTime % 60);
