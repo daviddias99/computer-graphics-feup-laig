@@ -17,35 +17,15 @@ class GameOverlayElement extends CGFobject{
 
     changeTexture(texture) {
         this.elementTex = texture;
-        this.elementTex.bind(0);
     }
 
-    /**
-     * @method setUniformsValues
-     * 
-     * 
-     * @param {Object of Uniform values} obj 
-     */
-    setUniformsValues(obj){
-
-        this.elementShader.setUniformsValues(obj);
-    }
-
-    /**
-     *  @method display
-     * 
-     *  
-     */
     display(){
-
-
+        // this.scene.gl.disable(this.scene.gl.DEPTH_TEST);
         this.scene.setActiveShader(this.elementShader);
-        this.scene.gl.disable(this.scene.gl.DEPTH_TEST);
         this.elementTex.bind(0);
         this.element.display();
-        this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
         this.scene.setActiveShader(this.scene.defaultShader);
-
+        // this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
     }
 
 }

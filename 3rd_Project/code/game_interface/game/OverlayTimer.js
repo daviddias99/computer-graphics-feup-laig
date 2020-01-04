@@ -83,7 +83,11 @@ class OverlayTimer {
     }
 
     display() {
+        this.scene.gl.disable(this.scene.gl.DEPTH_TEST);
+
         for (let i = 0; i < this.timer.length; i++)
             this.timer[i].display();
+
+        this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
     }
 }

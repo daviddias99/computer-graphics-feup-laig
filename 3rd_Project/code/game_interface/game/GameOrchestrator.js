@@ -22,6 +22,8 @@ class GameOrchestrator {
         this.alarm = new GameAlarm();
         this.timer = new OverlayTimer(scene);
         this.botPlayRequested = false;
+
+        this.gameover_overlay = new OverlayGameOver(scene);
     }
 
     initInterface() {
@@ -282,13 +284,13 @@ class GameOrchestrator {
     }
 
     handleGameover(gameoverStatus) {
-
         if (gameoverStatus == 'false')
             return;
 
         let winningPlayer = gameoverStatus;
         this.gameover = true;
-
+        this.timer.pause();
+        this.gameover_overlay.changeTexture(winningPlayer);
     }
 
     update(time) { 
@@ -321,7 +323,7 @@ class GameOrchestrator {
             this.doBotMove();
         }
 
-        if (this.timer.isPaused && !this.sequence.inMovie && !this.inMenu)
+        if (this.timer.isPaused && !this.sequence.inMovie && !this.inMenu && !this.gameover)
             this.timer.start();
 
     }
@@ -333,8 +335,10 @@ class GameOrchestrator {
 
         this.currentTheme.display();
 
-        // this.overlay.display();
         if (!this.inMenu)
             this.timer.display();
+
+        if (this.gameover) 
+            this.gameover_overlay.display();
     }
 }
