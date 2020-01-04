@@ -4,11 +4,11 @@ class OverlayGameOver {
         this.scene = scene;
 
         this.textures = [
-            new CGFtexture(scene, 'scenes/images/symbols/1.jpg'),
-            new CGFtexture(scene, 'scenes/images/symbols/2.jpg')
+            new CGFtexture(scene, 'scenes/images/gameover/player_one_won.jpg'),
+            new CGFtexture(scene, 'scenes/images/gameover/player_two_won.jpg')
         ];
 
-        this.overlay = new GameOverlayElement(scene, [-0.1, 0.1, -0.1, 0.1], this.textures[0]);
+        this.overlay = new GameOverlayElement(scene, [-0.5, 0.5, -0.1, 0.1], this.textures[0]);
     }
 
     changeTexture(player) {
