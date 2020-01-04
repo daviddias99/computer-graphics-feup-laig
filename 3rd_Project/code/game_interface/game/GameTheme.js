@@ -192,7 +192,7 @@ class GameTheme {
 
         if(immediate){
 
-            this.scene.camera.orbit(CGFaxis.Y,this.finalAngle);
+            this.scene.camera.orbit(CGFaxis.Y,this.getPlayerMod(player) * this.finalAngle);
             return;
         }
 
