@@ -23,6 +23,7 @@ class GameOrchestrator {
     initOverlays() {
         this.overlayShader = new CGFshader(this.scene.gl, 'shaders/overlay_shader.vert', 'shaders/overlay_shader.frag');
         this.timer = new OverlayTimer(this.scene);
+        this.scoreboard = new OverlayScoreboard(this.scene);
         this.gameover_overlay = new OverlayGameOver(this.scene);
     }
 
@@ -99,6 +100,7 @@ class GameOrchestrator {
         this.board = new Board(this.scene, this.primitives, initialGamestate.boardMatrix['height'], initialGamestate.boardMatrix['width'], this.currentTheme.boardMaterials);
         this.board.fillBoards(initialGamestate.boardMatrix['octagonBoard'], initialGamestate.boardMatrix['squareBoard']);
         this.alarm.resetTime();
+        this.scoreboard.addBoard(this.board);
     }
 
     processPickingResults(results) {
@@ -253,7 +255,6 @@ class GameOrchestrator {
             this.state = 'DEFAULT';
             this.pickingEnabled = true;
         }
-
     }
 
     stepMovie() {
@@ -289,6 +290,8 @@ class GameOrchestrator {
     }
 
     handleGameover(gameoverStatus) {
+        this.scoreboard.update();
+
         if (gameoverStatus == 'false')
             return;
 
@@ -313,14 +316,13 @@ class GameOrchestrator {
         this.timer.update(time);
 
         if (this.state == 'ON_ANIMATION') {
-
             this.board.auxBoards.update(deltaT);
 
             if (!this.board.auxBoards.animationOnGoing()) {
 
                 this.refreshGamestate(this.sequence.inMovie)
             }
-
+            this.scoreboard.update();
         }
         else if (this.sequence.getCurrentGamestate().getNextPlayerType() != 'P' && !this.botPlayRequested) {
 
@@ -343,13 +345,16 @@ class GameOrchestrator {
     }
 
     displayOverlays() {
+        if (this.inMenu)
+            return;
+
         this.scene.setActiveShader(this.overlayShader);
         this.scene.gl.disable(this.scene.gl.DEPTH_TEST);
 
-        if (!this.inMenu)
-            this.timer.display();
+        this.timer.display();
+        this.scoreboard.display();
 
-        if (this.gameover) 
+        if (this.gameover)
             this.gameover_overlay.display();
 
         this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
