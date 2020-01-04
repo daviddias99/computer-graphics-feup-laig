@@ -303,7 +303,7 @@ class GameOrchestrator {
         var deltaT = time - this.lastT
         this.lastT = time;
 
-        this.alarm.update(time, console.log);
+        this.alarm.update(time);
 
         this.timer.update(time);
 
