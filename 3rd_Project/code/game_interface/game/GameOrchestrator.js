@@ -14,19 +14,25 @@ class GameOrchestrator {
         ];
         this.inMenu = true;
 
+        this.alarm = new GameAlarm();
+        this.botPlayRequested = false;
+        
+        this.initOverlays();
+    }
+
+    initOverlays() {
+        this.overlayShader = new CGFshader(this.scene.gl, 'shaders/overlay_shader.vert', 'shaders/overlay_shader.frag');
+        this.timer = new OverlayTimer(this.scene);
+        this.scoreboard = new OverlayScoreboard(this.scene);
+        this.gameover_overlay = new OverlayGameOver(this.scene);
+    }
+
+    initInterface() {
         this.boardHeight = 8;
         this.boardWidth = 8;
         this.player1 = 'P';
         this.player2 = 'P';
 
-        this.alarm = new GameAlarm();
-        this.timer = new OverlayTimer(scene);
-        this.botPlayRequested = false;
-
-        this.gameover_overlay = new OverlayGameOver(scene);
-    }
-
-    initInterface() {
         let gui = this.scene.interface.gui;
 
         let themePicker = gui.add(this, 'themeIndex', { Magic: 1, WWE: 2 }).name('Theme');
@@ -94,6 +100,7 @@ class GameOrchestrator {
         this.board = new Board(this.scene, this.primitives, initialGamestate.boardMatrix['height'], initialGamestate.boardMatrix['width'], this.currentTheme.boardMaterials);
         this.board.fillBoards(initialGamestate.boardMatrix['octagonBoard'], initialGamestate.boardMatrix['squareBoard']);
         this.alarm.resetTime();
+        this.scoreboard.addBoard(this.board);
     }
 
     processPickingResults(results) {
@@ -243,7 +250,6 @@ class GameOrchestrator {
             this.state = 'DEFAULT';
             this.pickingEnabled = true;
         }
-
     }
 
     stepMovie() {
@@ -285,6 +291,8 @@ class GameOrchestrator {
     }
 
     handleGameover(gameoverStatus) {
+        this.scoreboard.update();
+
         if (gameoverStatus == 'false')
             return;
 
@@ -304,10 +312,10 @@ class GameOrchestrator {
         var deltaT = time - this.lastT
         this.lastT = time;
 
+
         this.timer.update(time);
 
         if (this.state == 'ON_ANIMATION') {
-
             this.board.auxBoards.update(deltaT);
 
             if (!this.board.auxBoards.animationOnGoing()) {
@@ -319,7 +327,7 @@ class GameOrchestrator {
                     this.currentTheme.rotateCamera(this.sequence.getCurrentGamestate().nextPlayer);
                 }
             }
-
+            this.scoreboard.update();
         }
         else if (this.sequence.getCurrentGamestate().getNextPlayerType() != 'P' && !this.botPlayRequested) {
 
@@ -333,16 +341,28 @@ class GameOrchestrator {
     }
 
     display() {
-
         if (!this.orchestratorReady)
             return;
 
         this.currentTheme.display();
 
-        // if (!this.inMenu)
-        //     this.timer.display();
+        this.displayOverlays();
+    }
 
-        if (this.gameover) 
+    displayOverlays() {
+        if (this.inMenu)
+            return;
+
+        this.scene.setActiveShader(this.overlayShader);
+        this.scene.gl.disable(this.scene.gl.DEPTH_TEST);
+
+        this.timer.display();
+        this.scoreboard.display();
+
+        if (this.gameover)
             this.gameover_overlay.display();
+
+        this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
+        this.scene.setActiveShader(this.scene.defaultShader);
     }
 }
