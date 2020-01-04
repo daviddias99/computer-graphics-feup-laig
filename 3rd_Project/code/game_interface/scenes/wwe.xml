@@ -1,0 +1,120 @@
+<lxs>
+    <scene root="root" axis_length="5" />
+
+    <views default="special_neutralCamera">
+
+        <perspective id="special_neutralCamera" near="0.1" far="500" angle="45">
+            <from x="1.5" y="2.5" z="0.5" />
+            <to x="0.5" y="0" z="0.5" />
+        </perspective>
+    </views>
+
+    <globals>
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+        <background r="0.0" g="0.0" b="0.0" a="0.9" />
+    </globals>
+
+    <lights>
+        <spot id="ceiling_light" enabled="1" angle="5" exponent="0">
+            <location x="-1" y="3" z="1" w="1" />
+            <target x="-1" y="0" z="1" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="0.0" linear="1.0" quadratic="0.0" />
+        </spot>
+    </lights>
+
+    <textures>
+        <texture id="test_tex" file="scenes/images/t_floor.jpg" />
+        <texture id="special_p1_tex" file="scenes/images/t_black_marble_3.jpg" />
+        <texture id="special_p2_tex" file="scenes/images/t_white_marble.jpg" />
+        <texture id="special_square_tile_tex" file="scenes/images/t_dark_wood.jpg" />
+        <texture id="special_octagon_tile_tex" file="scenes/images/t_very_light_wood.jpg" />
+        <texture id="special_main_board_tex" file="scenes/images/t_dark_wood.jpg" />
+        <texture id="special_aux_board_tex" file="scenes/images/t_carpet.jpg" />
+
+        <texture id="undo_tex" file="scenes/images/t_undo.jpg" />
+    </textures>
+
+    <materials>
+        <material id="test_material" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.7" g="0.7" b="0.7" a="1.0" />
+            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+        </material>
+
+        <material id="special_p1_material" shininess="3">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <diffuse r="0.7" g="0.7" b="0.7" a="1.0" />
+            <specular r="0.3" g="0.3" b="0.3" a="1.0" />
+        </material>
+
+        <material id="special_p2_material" shininess="3">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <diffuse r="0.7" g="0.7" b="0.7" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
+        </material>
+
+        <material id="special_square_tile_material" shininess="3">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+
+        <material id="special_octagonal_tile_material" shininess="3">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+
+        <material id="special_main_board_material" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <diffuse r="0.3" g="0.3" b="0.3" a="1.0" />
+            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+        </material>
+
+        <material id="special_aux_board_material" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <diffuse r="0.3" g="0.3" b="0.3" a="1.0" />
+            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+        </material>
+    </materials>
+
+    <transformations>
+        <transformation id="null_transformation">
+            <translate x="0" y="0" z="0" />
+        </transformation>
+    </transformations>
+
+    <animations>
+    </animations>
+
+    <primitives>
+    </primitives>
+
+    <components>
+
+        <component id="root">
+            <transformation>
+                <transformationref id="null_transformation" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="special_gameboard" />
+            </children>
+        </component>
+
+    </components>
+
+</lxs>
