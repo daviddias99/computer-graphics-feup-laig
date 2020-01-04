@@ -14,19 +14,24 @@ class GameOrchestrator {
         ];
         this.inMenu = true;
 
+        this.alarm = new GameAlarm();
+        this.botPlayRequested = false;
+        
+        this.initOverlays();
+    }
+
+    initOverlays() {
+        this.overlayShader = new CGFshader(this.scene.gl, 'shaders/overlay_shader.vert', 'shaders/overlay_shader.frag');
+        this.timer = new OverlayTimer(this.scene);
+        this.gameover_overlay = new OverlayGameOver(this.scene);
+    }
+
+    initInterface() {
         this.boardHeight = 8;
         this.boardWidth = 8;
         this.player1 = 'P';
         this.player2 = 'P';
 
-        this.alarm = new GameAlarm();
-        this.timer = new OverlayTimer(scene);
-        this.botPlayRequested = false;
-
-        this.gameover_overlay = new OverlayGameOver(scene);
-    }
-
-    initInterface() {
         let gui = this.scene.interface.gui;
 
         let themePicker = gui.add(this, 'themeIndex', { Magic: 1, WWE: 2 }).name('Theme');
@@ -303,7 +308,7 @@ class GameOrchestrator {
         var deltaT = time - this.lastT
         this.lastT = time;
 
-        this.alarm.update(time);
+        // this.alarm.update(time);
 
         this.timer.update(time);
 
@@ -329,16 +334,25 @@ class GameOrchestrator {
     }
 
     display() {
-
         if (!this.orchestratorReady)
             return;
 
         this.currentTheme.display();
+
+        this.displayOverlays();
+    }
+
+    displayOverlays() {
+        this.scene.setActiveShader(this.overlayShader);
+        this.scene.gl.disable(this.scene.gl.DEPTH_TEST);
 
         if (!this.inMenu)
             this.timer.display();
 
         if (this.gameover) 
             this.gameover_overlay.display();
+
+        this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
+        this.scene.setActiveShader(this.scene.defaultShader);
     }
 }
