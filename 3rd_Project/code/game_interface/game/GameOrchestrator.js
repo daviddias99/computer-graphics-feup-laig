@@ -61,9 +61,9 @@ class GameOrchestrator {
         this.primitives[2].changeMaterials(this.currentTheme.tileMaterials[1]);
         this.primitives[1].changeMaterials(this.currentTheme.playerMaterials);
         this.primitives[3].changeMaterials(this.currentTheme.playerMaterials);
-    }
 
-    
+        this.currentTheme.rotateCamera(this.sequence.getCurrentGamestate().nextPlayer,true);
+    }
 
     init() {
 
@@ -87,7 +87,7 @@ class GameOrchestrator {
         this.sequence = new GameSequence(initialGamestate);
         this.orchestratorReady = true;
         this.gameover = false;
-
+        this.currentTheme.rotateCamera(this.sequence.getCurrentGamestate().nextPlayer,true);
     }
 
     resetBoard(initialGamestate) {
@@ -117,11 +117,13 @@ class GameOrchestrator {
 
     handlePicking(obj, uniqueID) {
 
-
         if (!this.pickingEnabled)
             return;
 
         if (obj instanceof Tile) {
+
+            if(this.inMenu)
+                return;
 
             this.handleTilePicking(obj);
 
@@ -162,6 +164,7 @@ class GameOrchestrator {
 
     handleComponentPicking(component) {
 
+        console.log(component.pickID);
         switch (component.pickID) {
 
             case 'special_undo_move':
@@ -178,7 +181,6 @@ class GameOrchestrator {
                 break;
 
             case 'special_reset':
-                this.timer.reset();
                 this.resetGame(this.sequence.getInitialGamestate());
                 break;
 
@@ -191,13 +193,6 @@ class GameOrchestrator {
         }
 
     }
-
-    startAnimation(player, move) {
-        this.pickingEnabled = false;
-        this.board.startAnimation(player, move);
-        this.state = 'ON_ANIMATION';
-    }
-
 
     applyMove(gamestate) {
 
@@ -280,6 +275,12 @@ class GameOrchestrator {
         this.gameover = false;
 
         this.refreshGamestate(false);
+
+        if(this.sequence.getCurrentGamestate().getNextPlayerType() == 'P'){
+
+            this.currentTheme.rotateCamera(this.sequence.getCurrentGamestate().nextPlayer);
+        }
+        
         this.startAnimation(previousGamestate.nextPlayer, "undo");
     }
 
@@ -303,8 +304,6 @@ class GameOrchestrator {
         var deltaT = time - this.lastT
         this.lastT = time;
 
-        this.alarm.update(time, console.log);
-
         this.timer.update(time);
 
         if (this.state == 'ON_ANIMATION') {
@@ -314,6 +313,11 @@ class GameOrchestrator {
             if (!this.board.auxBoards.animationOnGoing()) {
 
                 this.refreshGamestate(this.sequence.inMovie)
+
+                if(this.sequence.getCurrentGamestate().getNextPlayerType() == 'P' && !this.sequence.inMovie){
+
+                    this.currentTheme.rotateCamera(this.sequence.getCurrentGamestate().nextPlayer);
+                }
             }
 
         }
@@ -335,8 +339,8 @@ class GameOrchestrator {
 
         this.currentTheme.display();
 
-        if (!this.inMenu)
-            this.timer.display();
+        // if (!this.inMenu)
+        //     this.timer.display();
 
         if (this.gameover) 
             this.gameover_overlay.display();

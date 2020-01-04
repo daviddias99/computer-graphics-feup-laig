@@ -1,6 +1,6 @@
 class GameTheme {
 
-    constructor(filename, scene, orchestrator){
+    constructor(filename, scene, orchestrator) {
         this.scene = scene;
         this.orchestrator = orchestrator;
         this.graph = new MySceneGraph(filename, scene, this, orchestrator);
@@ -10,9 +10,10 @@ class GameTheme {
     /**
      * Initialize the defaukt camera
      */
-    initDefaultCamera() {
-        this.scene.camera = this.graph.cameras[this.graph.defaultCameraId];
-        this.scene.interface.setActiveCamera(this.scene.camera);
+    initCameras() {
+        let camera = this.graph.cameras[this.graph.defaultCameraId];
+        this.scene.camera = new CGFcamera(camera.fov, camera.near, camera.far, camera.position, camera.target);
+        this.cameraState = 'neutral';
     }
 
     /**
@@ -60,26 +61,26 @@ class GameTheme {
         }
     }
 
-    initMaterials(){
+    initMaterials() {
 
         this.materials = [];
 
-        for(let key in this.graph.materials){
+        for (let key in this.graph.materials) {
 
-            if(key.substring(0,7) == 'special'){
+            if (key.substring(0, 7) == 'special') {
                 this.materials[key] = this.graph.materials[key];
             }
         }
-        
+
         this.textures = [];
 
-        for(let key in this.graph.textures){
+        for (let key in this.graph.textures) {
 
-            if(key.substring(0,7) == 'special'){
+            if (key.substring(0, 7) == 'special') {
                 this.textures[key] = this.graph.textures[key];
             }
         }
- 
+
         this.playerMaterials = [];
 
         this.playerMaterials[0] = this.materials['special_p1_material'];
@@ -115,7 +116,7 @@ class GameTheme {
         this.scene.setGlobalAmbientLight(this.graph.ambient[0], this.graph.ambient[1], this.graph.ambient[2], this.graph.ambient[3]);
         this.initMaterials();
         this.initLights();
-        this.initDefaultCamera();
+        this.initCameras();
         this.sceneInited = true;
     }
 
@@ -123,18 +124,84 @@ class GameTheme {
 
         var deltaT = time - this.lastT
         this.lastT = time;
-        
+
         if (!this.sceneInited || !this.graph.loadedOk)
-        return;
-        
+            return;
+
         for (var key in this.graph.animations) {
 
-            if (this.graph.animations[key].inUse){
+            if (this.graph.animations[key].inUse) {
 
                 this.graph.animations[key].update(deltaT);
             }
         }
+
+        if (this.rotating) {
+
+            if (Math.abs(this.totalAngle) >= this.finalAngle) {
+
+                this.rotating = false;
+                this.orchestrator.pickingEnabled = true;
+            }
+            else {
+                this.scene.camera.orbit(CGFaxis.Y, this.rotateSpeed);
+                this.totalAngle += this.rotateSpeed;
+            }
+
+        }
     }
+
+    rotateCamera(nextPlayer,immediate) {
+
+        if(this.cameraState == 'menu')
+            return;
+
+        this.changeToCamera(nextPlayer,immediate);
+        
+    }
+
+    getOtherPlayer(player){
+
+       return player == 1 ? 2 : 1;
+    }
+
+    getPlayerMod(player){
+
+        return player == 1 ? 1 : -1;
+    }
+
+    changeToCamera(player,immediate){
+
+        if(this.cameraState == player){
+            this.orchestrator.pickingEnabled = true;
+            return;
+        }
+
+        if (this.cameraState == 'neutral') {
+
+            this.rotateSpeed = this.getPlayerMod(player) * Math.PI/2 / 50;
+            this.finalAngle = Math.PI / 2;
+        }
+        else if (this.cameraState == this.getOtherPlayer(player)) {
+
+            this.rotateSpeed = this.getPlayerMod(player) * Math.PI / 50;
+            this.finalAngle = Math.PI;
+        }
+
+        this.cameraState = player;
+
+        if(immediate){
+
+            this.scene.camera.orbit(CGFaxis.Y,this.finalAngle);
+            return;
+        }
+
+        this.orchestrator.pickingEnabled = false;
+        this.rotating = true;
+        this.totalAngle = 0;
+
+    }
+
 
     /**
      * Renders the graph scene.
@@ -143,9 +210,6 @@ class GameTheme {
 
         if (!this.sceneInited)
             return;
-
-        // this.scene.camera = this.graph.cameras[this.graph.defaultCameraId]; // TODO: change this
-        // this.scene.interface.setActiveCamera(this.scene.camera);
 
         // Scene rendering
         if (this.sceneInited) {

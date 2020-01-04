@@ -1,11 +1,13 @@
 <lxs>
     <scene root="root" axis_length="5" />
 
-    <views default="mainCamera">
-        <perspective id="mainCamera" near="0.1" far="500" angle="45">
-            <from x="0" y="5" z="0.01" />
-            <to x="0" y="0" z="0" />
+    <views default="special_neutralCamera">
+
+        <perspective id="special_neutralCamera" near="0.1" far="500" angle="45">
+            <from x="1.5" y="2.5" z="0.5" />
+            <to x="0.5" y="0" z="0.5" />
         </perspective>
+
     </views>
 
     <globals>
@@ -130,9 +132,8 @@
 
             <transformation>
 
-                <translate x="-1" y="0" z="-1" />
-                <scale x="0.3" y="0.3" z="0.3" />
-                <!-- <rotate axis="y" angle="-90" /> -->
+                <translate x="-0.3" y="0" z="0.5" />
+                <scale x="0.05" y="0.05" z="0.05" />
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
@@ -151,9 +152,8 @@
 
             <transformation>
 
-                <translate x="-1" y="0" z="1" />
-                <scale x="0.3" y="0.3" z="0.3" />
-                <!-- <rotate axis="y" angle="-90" /> -->
+                <translate x="-0.3" y="0" z="0.4" />
+                <scale x="0.05" y="0.05" z="0.05" />
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
@@ -172,9 +172,8 @@
 
             <transformation>
 
-                <translate x="-1" y="0" z="2" />
-                <scale x="0.3" y="0.3" z="0.3" />
-                <!-- <rotate axis="y" angle="-90" /> -->
+                <translate x="-0.3" y="0" z="0.3" />
+                <scale x="0.05" y="0.05" z="0.05" />
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
@@ -193,9 +192,9 @@
 
             <transformation>
 
-                <translate x="-1" y="0" z="-0.25" />
-                <scale x="0.3" y="0.3" z="0.3" />
-                <!-- <rotate axis="y" angle="-90" /> -->
+                
+                <translate x="-0.3" y="0" z="0.0" />
+                <scale x="0.05" y="0.05" z="0.05" />
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>

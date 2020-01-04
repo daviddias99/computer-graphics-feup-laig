@@ -1,7 +1,8 @@
 <lxs>
     <scene root="root" axis_length="5" />
 
-    <views default="mainCamera">
+    <views default="special_neutralCamera">
+
         <perspective id="mainCamera" near="0.1" far="500" angle="45">
             <from x="6" y="6" z="6" />
             <to x="0" y="1" z="0" />
@@ -32,6 +33,12 @@
             <from x="10" y="1.5" z="0" />
             <to x="0" y="1.5" z="0" />
         </ortho>
+
+        <perspective id="special_neutralCamera" near="0.1" far="500" angle="45">
+            <from x="1" y="3" z="1.2" />
+            <to x="-0.5" y="1.5" z="1.2" />
+        </perspective>
+    
 
     </views>
 
