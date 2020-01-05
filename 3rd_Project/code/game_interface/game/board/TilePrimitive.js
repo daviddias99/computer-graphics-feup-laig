@@ -8,7 +8,7 @@ class TilePrimitive extends CGFobject {
      * 
      * Create a new tile primitive with the given parameters
      * 
-     * @param {CGFScene} scene                  scene             
+     * @param {CGFscene} scene                  scene             
      * @param {float} radius                    radius of the tile
      * @param {Integer} sides                   number of tiles of the tile (in squex 4 or 8)
      * @param {CGFappearence} material          material to be applied to the tile
