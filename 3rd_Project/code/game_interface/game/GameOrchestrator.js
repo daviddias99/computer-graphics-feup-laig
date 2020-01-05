@@ -366,8 +366,8 @@ class GameOrchestrator {
         this.scene.setActiveShader(this.overlayShader);
         this.scene.gl.disable(this.scene.gl.DEPTH_TEST);
 
-        // this.timer.display();
-        // this.scoreboard.display();
+        this.timer.display();
+        this.scoreboard.display();
 
         if (this.gameover)
             this.gameover_overlay.display();
