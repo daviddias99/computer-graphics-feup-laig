@@ -134,6 +134,7 @@ class GameTheme {
 
             if (this.graph.animations[key].inUse) {
 
+                console.log(this.graph.animations);
                 this.graph.animations[key].update(deltaT);
             }
         }
@@ -155,6 +156,7 @@ class GameTheme {
 
     rotateCamera(nextPlayer,immediate) {
 
+        console.log("rotate called");
         if(this.cameraState == 'menu')
             return;
 

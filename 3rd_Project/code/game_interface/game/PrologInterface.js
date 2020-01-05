@@ -62,7 +62,9 @@ class PrologInterface {
         boardMatrix['height'] = gsInfo[0];
         boardMatrix['width'] = gsInfo[1];
 
-        return new GameState(boardMatrix,gsInfo[2],gsInfo[3],gsInfo[4],gsInfo[5]);
+        let newGs = new GameState(boardMatrix,gsInfo[2],gsInfo[3],gsInfo[4],gsInfo[5])
+
+        return newGs;
 
     }
 

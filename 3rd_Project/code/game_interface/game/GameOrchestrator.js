@@ -10,7 +10,7 @@ class GameOrchestrator {
         this.themes = [
             new GameMenu(scene, this),
             new GameTheme('main_scene.xml', scene, this),
-            new GameTheme('wwe.xml', scene, this)
+            new GameTheme('test_scenes/board.xml', scene, this)
         ];
         this.inMenu = true;
 
@@ -54,7 +54,7 @@ class GameOrchestrator {
         this.init();
     }
 
-    setActiveTheme(index) {
+    setActiveTheme(index,fromMenu) {
         this.themeIndex = index;
         if (this.inMenu)
             return;
@@ -68,7 +68,10 @@ class GameOrchestrator {
         this.primitives[1].changeMaterials(this.currentTheme.playerMaterials);
         this.primitives[3].changeMaterials(this.currentTheme.playerMaterials);
 
-        this.currentTheme.rotateCamera(this.sequence.getCurrentGamestate().nextPlayer,true);
+        if(this.sequence.getCurrentGamestate().getNextPlayerType() == 'P' && !fromMenu){
+
+            this.currentTheme.rotateCamera(this.sequence.getCurrentGamestate().nextPlayer,true);
+        }
     }
 
     init() {
@@ -84,16 +87,29 @@ class GameOrchestrator {
             new PiecePrimitive(this.scene, sqr_radius, 4, piece_height, this.currentTheme.playerMaterials)  // square piece
         ];
 
+        console.log(this);
         PrologInterface.sendRequest(new PMsg_ResetGamestate(this.boardHeight, this.boardWidth, this.player1, this.player2, this.resetGame.bind(this)));
     }
 
     resetGame(initialGamestate) {
 
+
         this.resetBoard(initialGamestate);
         this.sequence = new GameSequence(initialGamestate);
         this.orchestratorReady = true;
         this.gameover = false;
-        this.currentTheme.rotateCamera(this.sequence.getCurrentGamestate().nextPlayer,true);
+
+        let currentGamestate = this.sequence.getCurrentGamestate()
+
+
+        if(currentGamestate.getNextPlayerType() == 'P'){
+
+            this.currentTheme.rotateCamera(this.sequence.getCurrentGamestate().nextPlayer,true);
+        }
+        else if (currentGamestate.botCount() == 1){
+           
+            this.currentTheme.rotateCamera(currentGamestate.getHumanPlayerNumber(),true);
+        }
     }
 
     resetBoard(initialGamestate) {
@@ -124,6 +140,7 @@ class GameOrchestrator {
 
     handlePicking(obj, uniqueID) {
 
+        console.log(this.pickingEnabled);
         if (!this.pickingEnabled)
             return;
 
@@ -165,7 +182,7 @@ class GameOrchestrator {
         this.currentTheme.destroyInterface();
         this.init();
         this.inMenu = false;
-        this.setActiveTheme(this.themeIndex);
+        this.setActiveTheme(this.themeIndex,true);
         this.timer.start();
     }
 
@@ -329,7 +346,7 @@ class GameOrchestrator {
             }
             this.scoreboard.update();
         }
-        else if (this.sequence.getCurrentGamestate().getNextPlayerType() != 'P' && !this.botPlayRequested) {
+        else if (this.sequence.getCurrentGamestate().getNextPlayerType() != 'P' && !this.botPlayRequested && !this.gameover && !this.inMenu) {
 
             this.botPlayRequested = true;
             this.doBotMove();

@@ -25,6 +25,31 @@ class GameState {
 
     }
 
+    botCount(){
+
+        let count = 0;
+
+        if(this.p1Type != 'P')
+            count++;
+        
+        if(this.p2Type != 'P')
+            count++;
+
+        return count;
+    }
+
+    getHumanPlayerNumber(){
+
+        if(this.botCount() != 1)
+            return false;
+
+        if(this.p1Type == 'P')
+            return 1;
+        else
+            return 2;
+
+    }
+
     static findMove(previousGs, nextGs){
 
         let prevOctBoard = previousGs.boardMatrix['octagonBoard'];

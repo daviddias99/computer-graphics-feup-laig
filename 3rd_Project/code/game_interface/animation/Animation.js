@@ -12,7 +12,7 @@ class Animation {
         this.id = id;
         this.scene = scene;
         this.transformationMatrix = mat4.create();  // Init the transf matrix as the identity matrix (no transformation)
-        this.inUse = false;                         // inUse signals if the animation is currently being used.(used for performance as there is no need to update animations that are not in use)
+        this.inUse = true;                         // inUse signals if the animation is currently being used.(used for performance as there is no need to update animations that are not in use)
     }
     
     /**
