@@ -38,21 +38,11 @@ class XMLscene extends CGFscene {
 
         this.sceneInited = false;
         this.displayAxis = false;
-        this.lastT = 0;
-
-        // this.selectedCameraMain = "";
 
         this.cameraIDs = {};
         this.lightIDs = [];
         this.orchestrator = new GameOrchestrator(this);
-        this.oldDisplayAxis = false;
-
-        // PrologInterface.sendRequest(new PMsg_ApplyMove(this.gamestate, new Move(2,2)));
-        // PrologInterface.sendRequest(new PMsg_GetValidMoves(this.gamestate));
-
     }
-
-
 
     /**
      * Update the animations and the shader according to the time.
@@ -61,7 +51,6 @@ class XMLscene extends CGFscene {
         this.orchestrator.update(t);
     }
 
-    
     setDefaultAppearance() {
         this.setAmbient(0.2, 0.4, 0.8, 1.0);
         this.setDiffuse(0.2, 0.4, 0.8, 1.0);
@@ -69,28 +58,9 @@ class XMLscene extends CGFscene {
         this.setShininess(10.0);
     }
 
-
-
     /**
-     * Set the camera to the default one and add the camera selection section of the interface.
+     * Log object picking. Used for debugging purposes
      */
-    activateCameraSelectionDropdown() {
-
-        for (var key in this.graph.cameras) {
-
-            this.cameraIDs[key] = key;
-        }
-        this.selectedCameraMain = this.graph.defaultCameraId;
-        this.interface.addCameraDropdown();
-    }
-
-    /**
-     * Add the light-control section of the interface
-     */
-    activateLightSelectionCheckboxes() {
-        this.interface.addLightCheckboxes();
-    }
-
     logPicking() {
 		if (this.pickMode == false) {
 			if (this.pickResults != null && this.pickResults.length > 0) {
@@ -131,27 +101,26 @@ class XMLscene extends CGFscene {
 
         this.pushMatrix();
 
-        
-        if(this.oldDisplayAxis != this.displayAxis){
 
-            this.oldDisplayAxis = this.displayAxis;
-            this.orchestrator.undoMove();
-        }
-
+        // Display axis
         if (this.displayAxis)
             this.axis.display();
 
+        // Process picking
         this.orchestrator.processPickingResults(this.pickResults);
+        this.pick_id = 1;
         
-        // Light update
+        // Update scene lights
         for (var i = 0; i < this.lights.length; i++)
             this.lights[i].update();
 
+        // Display game
         this.orchestrator.display();
+
 
         this.popMatrix();
 
-        this.pick_id = 1;
+        
     }
 
 }
