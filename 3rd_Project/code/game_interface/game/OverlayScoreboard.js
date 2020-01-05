@@ -1,29 +1,25 @@
+/**
+ * Class that represents the scoreboard overlay
+ */
 class OverlayScoreboard {
 
-    constructor(scene) {
+    /**
+     * @constructor             OverlayScoreboard constructor
+     * @param {XMLscene} scene  Reference to the scene where the object will be displayed
+     * @param {Array} textures  Array of textures for the scoreboard
+     */
+    constructor(scene, textures) {
         this.scene = scene;
+        this.textures = textures;
 
-        this.initTextures();
         this.initBoard();
     }
-
-    initTextures() {
-        this.textures = [
-            new CGFtexture(this.scene, 'scenes/images/symbols/0.jpg'),
-            new CGFtexture(this.scene, 'scenes/images/symbols/1.jpg'),
-            new CGFtexture(this.scene, 'scenes/images/symbols/2.jpg'),
-            new CGFtexture(this.scene, 'scenes/images/symbols/3.jpg'),
-            new CGFtexture(this.scene, 'scenes/images/symbols/4.jpg'),
-            new CGFtexture(this.scene, 'scenes/images/symbols/5.jpg'),
-            new CGFtexture(this.scene, 'scenes/images/symbols/6.jpg'),
-            new CGFtexture(this.scene, 'scenes/images/symbols/7.jpg'),
-            new CGFtexture(this.scene, 'scenes/images/symbols/8.jpg'),
-            new CGFtexture(this.scene, 'scenes/images/symbols/9.jpg')
-        ];
-        this.textures['colon'] = new CGFtexture(this.scene, 'scenes/images/symbols/colon.jpg');
-        this.textures['empty'] = new CGFtexture(this.scene, 'scenes/images/symbols/empty.jpg');
-    }
-
+    
+    /**
+     * @method initBoard
+     * 
+     * Initializes the scoreboard elements with textures
+     */
     initBoard() {
         this.scores = [0, 0];
         this.players = [
@@ -43,11 +39,22 @@ class OverlayScoreboard {
         this.separator = new GameOverlayElement(this.scene, [-0.02, 0.02, -0.95, -0.85], this.textures['empty']);
     }
 
+    /**
+     * @method addBoard
+     * @param {Board} board 
+     * 
+     * Change the board that the scoreboard is tracking
+     */
     addBoard(board) {
         this.board = board;
         this.update();
     }
     
+    /**
+     * @method update
+     * 
+     * Updates the scores according to the board
+     */
     update() {
         let scores = [0, 0];
 
@@ -72,6 +79,11 @@ class OverlayScoreboard {
         }
     }
 
+    /**
+     * @method display
+     * 
+     * Display the scoreboard
+     */
     display() {
         this.separator.display();
         
