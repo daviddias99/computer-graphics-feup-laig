@@ -1,5 +1,13 @@
+/**
+ * Class that represents the timer overlay
+ */
 class OverlayTimer {
 
+    /**
+     * @constructor                     OverlayTimer constructor
+     * @param {XMLscene} scene          Reference to the scene in which the timer will be displayed
+     * @param {CGFtexture} textures     Array of textures for the digits and symbols 
+     */
     constructor(scene, textures) {
         this.scene = scene;
         this.textures = textures;
@@ -18,14 +26,29 @@ class OverlayTimer {
         this.currentTime = 0;
     }
 
+    /**
+     * @method start
+     * 
+     * Start the timer
+     */
     start() {
         this.isPaused = false;
     }
 
+    /**
+     * @method pause
+     * 
+     * Pause the timer
+     */
     pause() {
         this.isPaused = true;
     }
 
+    /**
+     * @method reset
+     * 
+     * Reset the timer to the starting state
+     */
     reset() {
         this.isPaused = true;
         this.currentTime = 0;
@@ -37,6 +60,12 @@ class OverlayTimer {
         this.timer[4].changeTexture(this.textures[0]);
     }
 
+    /**
+     * @method update
+     * @param {Number} time 
+     * 
+     * Update the timer
+     */
     update(time) {
         let elapsedTime = time - this.lastTime;
 
@@ -64,12 +93,13 @@ class OverlayTimer {
         this.timer[4].changeTexture(this.textures[currentSeconds % 10]);
     }
 
+    /**
+     * @method display
+     * 
+     * Display the timer
+     */
     display() {
-        // this.scene.gl.disable(this.scene.gl.DEPTH_TEST);
-
         for (let i = 0; i < this.timer.length; i++)
             this.timer[i].display();
-
-        // this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
     }
 }
