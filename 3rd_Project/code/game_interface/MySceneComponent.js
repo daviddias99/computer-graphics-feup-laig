@@ -3,7 +3,7 @@ class MySceneComponent{
 
     constructor(id){
 
-        this.id = id;
+        this.id = id;                           // unique id of the component
 
         this.childrenComponents = [];           // child components
         this.childrenPrimitives = [];           // child primitives
@@ -13,14 +13,11 @@ class MySceneComponent{
         this.textureBehaviour = 'defined';      // 'defined', 'inherit' or 'none'
         this.textureLengthS = 1;                // horizontal texture scale factor
         this.textureLengthT = 1;                // vertical texture scale factor
-
         this.currentMaterialIndex = 0;          // current material to be displayed
-
         this.loadedOk = false;                  // the component was correctly loaded
-
         this.animation;                         // animation
-        this.pickable = false;
-        this.pickID = null;
+        this.pickable = false;                  // true if the object is pickable false otherwise
+        this.pickID = null;                     // picking ID for the component
     }
 
     /**
