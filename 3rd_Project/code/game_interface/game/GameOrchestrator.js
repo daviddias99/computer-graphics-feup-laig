@@ -10,7 +10,7 @@ class GameOrchestrator {
         this.themes = [
             new GameMenu(scene, this),
             new GameTheme('main_scene.xml', scene, this),
-            new GameTheme('test_scenes/board.xml', scene, this)
+            new GameTheme('wwe.xml', scene, this)
         ];
         this.inMenu = true;
 
