@@ -1,6 +1,17 @@
+/**
+ * Class that represents the main-board casing. It also does some math for the positioning of pieces on the board.
+ */
 class BoardPrimitive {
 
 
+    /**
+     * Create a new board primitive.
+     * @param {CGFscene} scene          scene
+     * @param {number} cols             number of columns of the board
+     * @param {number} rows             number of rows of the board
+     * @param {array} primitives        primitives used in the board
+     * @param {array} boardMaterials    materials used in the board
+     */
     constructor(scene,cols,rows,primitives,boardMaterials){
 
         this.scene = scene;
@@ -14,10 +25,21 @@ class BoardPrimitive {
         this.init();
     }
 
+    /**
+     * @method changeMaterials
+     * 
+     * Change the materials of the main board casing
+     * @param {Array} materials 
+     */
     changeMaterials(boardMaterials) {
         this.boardMaterials = boardMaterials;
     }
 
+    /**
+     * @method init
+     * 
+     * Initialze the values of positioning for the board.
+     */
     init(){
 
         let oct_radius = this.primitives[0].getRadius();
@@ -39,11 +61,26 @@ class BoardPrimitive {
 
     }
 
+    /**
+     * @method getAuxBoardDisplayParameters
+     * 
+     * Get the positioning parameters needed for displaying the axuliary boards (oct_pos, delta and aux_board_scaling)
+     */
     getAuxBoardDisplayParameters(){
 
         return  [this.oct_pos, this.delta, this.aux_board_scaling];
     }
 
+    /**
+     * Get the xyz position of the piece with the given position on the board. It also supports height levels.
+     * 
+     * @param {number} j        column of the piece
+     * @param {number} i        row of the piece
+     * @param {number} height   height level of the piece
+     * @param {string} type     octagon or square
+     * 
+     * @return array with the coordinate positioning corresponding to the arguments.
+     */
     getPosition(j,i,height,type){
 
 
@@ -57,23 +94,33 @@ class BoardPrimitive {
         }
     }
 
+    /**
+     * @method display
+     * 
+     * Display the main board casing
+     */
     display(){
 
         this.scene.pushMatrix();
+
+        // Scale the board
         this.scene.scale(this.board_scale, this.board_scale, this.board_scale);
 
+        // Display the top plane of the casing
         this.scene.pushMatrix();
         this.scene.scale(...this.board_scaling);
         this.scene.translate(0.5, this.board_height, 0.5);
         this.boardMaterials[0].apply();
         this.plane.display();
 
+        // Display the bottom plane of the casing
         this.scene.pushMatrix();
         this.scene.rotate(Math.PI,1,0,0);
         this.scene.translate(0, this.board_height, 0);
         this.plane.display()
         this.scene.popMatrix();
 
+        // Display the outer sides of the casing
         this.scene.translate(0.0, -this.board_height, 0.0);
         this.scene.rotate(this.board_rotation, 0.0, 1.0, 0.0);
         this.scene.scale(Math.sqrt(0.5), this.board_height, Math.sqrt(0.5));
