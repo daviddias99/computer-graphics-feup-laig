@@ -10,7 +10,8 @@ class GameOrchestrator {
         this.themes = [
             new GameMenu(scene, this),
             new GameTheme('main_scene.xml', scene, this),
-            new GameTheme('wwe.xml', scene, this)
+            new GameTheme('wwe.xml', scene, this),
+            new GameTheme('infinite.xml', scene, this)
         ];
         this.inMenu = true;
 
@@ -27,7 +28,7 @@ class GameOrchestrator {
 
         let gui = this.scene.interface.gui;
 
-        let themePicker = gui.add(this, 'themeIndex', { Magic: 1, WWE: 2 }).name('Theme');
+        let themePicker = gui.add(this, 'themeIndex', { Magic: 1, WWE: 2, Infinite: 3 }).name('Theme');
         themePicker.onChange(function (value) {
             this['object'].setActiveTheme(value);
         });

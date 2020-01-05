@@ -14,10 +14,10 @@
     </globals>
 
     <lights>
-        <spot id="ceiling_light" enabled="1" angle="5" exponent="0">
-            <location x="0" y="5" z="0" w="1" />
+        <spot id="ceiling_light" enabled="1" angle="10" exponent="0">
+            <location x="0" y="4.5" z="0" w="1" />
             <target x="0" y="0" z="0" />
-            <ambient r="0" g="0" b="0" a="1.0" />
+            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
             <diffuse r="0.8" g="0.8" b="0.8" a="1.0" />
             <specular r="0.8" g="0.8" b="0.8" a="1.0" />
             <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
@@ -26,10 +26,10 @@
 
     <textures>
         <!-- PIECE, TILE AND BOARD TEXTURES -->
-        <texture id="special_p1_tex" file="scenes/images/t_black_marble_3.jpg" />
-        <texture id="special_p2_tex" file="scenes/images/t_white_marble.jpg" />
-        <texture id="special_square_tile_tex" file="scenes/images/t_dark_wood.jpg" />
-        <texture id="special_octagon_tile_tex" file="scenes/images/t_very_light_wood.jpg" />
+        <texture id="special_p1_tex" file="scenes/images/t_blue_plastic.jpg" />
+        <texture id="special_p2_tex" file="scenes/images/t_red_paint.jpg" />
+        <texture id="special_square_tile_tex" file="scenes/images/t_green_marble.jpg" />
+        <texture id="special_octagon_tile_tex" file="scenes/images/t_porcelain.jpg" />
         <texture id="special_main_board_tex" file="scenes/images/t_dark_wood.jpg" />
         <texture id="special_aux_board_tex" file="scenes/images/t_carpet.jpg" />
         <texture id="undo" file="scenes/images/t_undo.jpg"/>
@@ -59,27 +59,27 @@
             <specular r="0.1" g="0.1" b="0.1" a="1.0" />
         </material>
 
-        <material id="special_p1_material" shininess="3">
+        <material id="special_p1_material" shininess="2">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <ambient r="0.45" g="0.45" b="0.45" a="1.0" />
             <diffuse r="0.7" g="0.7" b="0.7" a="1.0" />
-            <specular r="0.3" g="0.3" b="0.3" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
         </material>
-        <material id="special_p2_material" shininess="3">
+        <material id="special_p2_material" shininess="2">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <ambient r="0.45" g="0.45" b="0.45" a="1.0" />
             <diffuse r="0.7" g="0.7" b="0.7" a="1.0" />
             <specular r="0.2" g="0.2" b="0.2" a="1.0" />
         </material>
         <material id="special_square_tile_material" shininess="3">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <ambient r="0.6" g="0.6" b="0.6" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.0" g="0.0" b="0.0" a="1.0" />
         </material>
         <material id="special_octagonal_tile_material" shininess="3">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <ambient r="0.6" g="0.6" b="0.6" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.0" g="0.0" b="0.0" a="1.0" />
         </material>
