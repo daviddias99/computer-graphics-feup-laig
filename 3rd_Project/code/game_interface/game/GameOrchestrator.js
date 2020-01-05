@@ -226,6 +226,8 @@ class GameOrchestrator {
 
         if (this.gameover)
             return;
+        
+        this.pickingEnabled = false;
 
         let move = new Move(...pos);
         let currentGamestate = this.sequence.getCurrentGamestate();
