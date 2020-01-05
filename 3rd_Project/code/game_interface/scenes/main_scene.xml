@@ -139,6 +139,10 @@
         <texture id="special_octagon_tile_tex" file="scenes/images/t_very_light_wood.jpg" />
         <texture id="special_main_board_tex" file="scenes/images/t_dark_wood.jpg" />
         <texture id="special_aux_board_tex" file="scenes/images/t_yoga.jpg" />
+        <texture id="undo" file="scenes/images/t_undo.jpg"/>
+        <texture id="reset" file="scenes/images/t_reset.jpg"/>
+        <texture id="movie" file="scenes/images/t_movie.jpg"/>
+        <texture id="menu" file="scenes/images/t_back_to_menu.jpg"/>
 
     </textures>
 
@@ -2585,10 +2589,14 @@
             <texture id="none" />
             <children>
                 <componentref id="table" />
-                <componentref id="position_PyramidOnTable" />
+                <componentref id="position_gameboardOnTable" />
                 <componentref id="position_ballOnTable" />
                 <componentref id="position_cardfanOnTable" />
                 <componentref id="position_JarOnTable" />
+                <componentref id="position_undo_button" />
+                <componentref id="position_reset_button" />
+                <componentref id="position_movie_button" />
+                <componentref id="position_menu_button" />
 
             </children>
 
@@ -2597,11 +2605,10 @@
         <component id="special_gameboard">
         </component>
 
-        <component id="position_PyramidOnTable">
+        <component id="position_gameboardOnTable">
 
             <transformation>
                 <translate x="0.6" y="1.25" z="-0.3" />
-                <!-- <rotate axis="y" angle="-20" /> -->
                 <scale x="0.8" y="0.8" z="0.8" />
             </transformation>
             <materials>
@@ -2612,6 +2619,66 @@
                 <componentref id="special_gameboard" />
             </children>
 
+        </component>
+
+        <component id="position_undo_button">
+            <transformation>
+                <translate x="0.5" y="1.25" z="0.3" />
+                <scale x="0.8" y="0.8" z="0.8" />
+                <rotate axis="y" angle="90"/>
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="block_undo" />
+            </children>
+        </component>
+
+        <component id="position_reset_button">
+            <transformation>
+                <translate x="0.5" y="1.25" z="0.1" />
+                <scale x="0.8" y="0.8" z="0.8" />
+                <rotate axis="y" angle="90"/>
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="block_reset" />
+            </children>
+        </component>
+
+        <component id="position_movie_button">
+            <transformation>
+                <translate x="0.5" y="1.25" z="-0.1" />
+                <scale x="0.8" y="0.8" z="0.8" />
+                <rotate axis="y" angle="90"/>
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="block_movie" />
+            </children>
+        </component>
+
+        <component id="position_menu_button">
+            <transformation>
+                <translate x="0.5" y="1.25" z="-0.3" />
+                <scale x="0.8" y="0.8" z="0.8" />
+                <rotate axis="y" angle="90"/>
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="block_back_to_menu" />
+            </children>
         </component>
 
         <component id="position_JarOnTable">
@@ -4263,6 +4330,177 @@
             </children>
         </component>
         <!-- END: TV component -->
+
+        <component id="block_undo">
+            <transformation>
+
+                <!-- <transformationref id="null_transformation" /> -->
+
+                <scale x="0.1" y="0.1" z="0.1"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="inherit" />
+
+            <children>
+                <componentref id="block_top1_undo" />
+                <componentref id="block_top2" />
+                <componentref id="block_side1" />
+                <componentref id="block_side2" />
+                <componentref id="block_side3" />
+                <componentref id="block_side4" />
+            </children>
+        </component>
+
+        <component id="block_movie">
+            <transformation>
+
+                <scale x="0.1" y="0.1" z="0.1"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="inherit" />
+
+            <children>
+                <componentref id="block_top1_movie" />
+                <componentref id="block_top2" />
+                <componentref id="block_side1" />
+                <componentref id="block_side2" />
+                <componentref id="block_side3" />
+                <componentref id="block_side4" />
+            </children>
+        </component>
+
+        <component id="block_reset">
+            <transformation>
+
+                <scale x="0.1" y="0.1" z="0.1"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="inherit" />
+
+            <children>
+                <componentref id="block_top1_reset" />
+                <componentref id="block_top2" />
+                <componentref id="block_side1" />
+                <componentref id="block_side2" />
+                <componentref id="block_side3" />
+                <componentref id="block_side4" />
+            </children>
+        </component>
+
+        <component id="block_back_to_menu">
+            <transformation>
+
+                <scale x="0.1" y="0.1" z="0.1"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="inherit" />
+
+            <children>
+                <componentref id="block_top1_back_to_menu" />
+                <componentref id="block_top2" />
+                <componentref id="block_side1" />
+                <componentref id="block_side2" />
+                <componentref id="block_side3" />
+                <componentref id="block_side4" />
+            </children>
+        </component>
+
+        <component id="block_top1_undo">
+
+            <pickable id="special_undo_move"/>
+
+            <transformation>
+                <translate x="0" y="0.5" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="undo" length_t="2" length_s="2" />
+
+            <children>
+                <primitiveref id="block_primitive_1" />
+            </children>
+        </component>
+
+        <component id="block_top1_reset">
+
+            <pickable id="special_reset"/>
+
+            <transformation>
+                <translate x="0" y="0.5" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="reset" length_t="2" length_s="2" />
+
+            <children>
+                <primitiveref id="block_primitive_1" />
+            </children>
+        </component>
+
+        <component id="block_top1_movie">
+
+            <pickable id="special_play_movie"/>
+
+            <transformation>
+                <translate x="0" y="0.5" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="movie" length_t="2" length_s="2" />
+
+            <children>
+                <primitiveref id="block_primitive_1" />
+            </children>
+        </component>
+
+        <component id="block_top1_back_to_menu">
+
+            <pickable id="special_go_to_menu"/>
+
+            <transformation>
+                <translate x="0" y="0.5" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="menu" length_t="2" length_s="2" />
+
+            <children>
+                <primitiveref id="block_primitive_1" />
+            </children>
+        </component>
+
 
     </components>
 
