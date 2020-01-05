@@ -324,7 +324,7 @@ class GameOrchestrator {
         if (!this.orchestratorReady)
             return;
 
-        this.currentTheme.update(time);
+        this.themes.forEach(function(obj){obj.update(time)});
 
         var deltaT = time - this.lastT
         this.lastT = time;
