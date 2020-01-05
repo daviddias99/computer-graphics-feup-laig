@@ -466,6 +466,8 @@ class GameOrchestrator {
      * Undo the last move done in the game.
      */
     undoMove() {
+        if (this.sequence.getCurrentGamestate().botCount() == 2)
+            return
 
         let previousGamestate = this.sequence.getPreviousGamestate();
 
@@ -580,6 +582,6 @@ class GameOrchestrator {
 
         this.currentTheme.display();
 
-        // this.overlay.display();
+        this.overlay.display();
     }
 }

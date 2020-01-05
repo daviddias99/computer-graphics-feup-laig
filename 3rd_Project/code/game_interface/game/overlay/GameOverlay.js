@@ -58,7 +58,7 @@ class GameOverlay {
         this.timer.display();
         this.scoreboard.display();
 
-        if (this.orchestrator.gameover)
+        if (this.orchestrator.gameover && !this.orchestrator.sequence.inMovie && this.orchestrator.state == 'DEFAULT')
             this.gameover_overlay.display();
 
         this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
