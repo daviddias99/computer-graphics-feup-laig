@@ -133,7 +133,7 @@ class AuxiliaryBoard{
             this.pieceOnAnimation.display();
         }
 
-        this.scene.popMatrix();
+        
     }
 
     update(time){

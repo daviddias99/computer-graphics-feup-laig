@@ -29,7 +29,7 @@ class PiecePrimitive extends CGFobject {
      * @method changeMaterials
      * 
      * Change the materials of the piece
-     * @param {CGFappearence} materials 
+     * @param {Array} materials 
      */
     changeMaterials(materials) {
         this.materials = materials;

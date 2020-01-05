@@ -50,5 +50,6 @@ class AuxiliaryBoardPrimitive{
         this.scene.scale(Math.sqrt(0.5), this.boardPrimitive.board_height, Math.sqrt(0.5));
         this.aux_board_primitive_side.display();
         this.scene.popMatrix();
+        this.scene.popMatrix();
     }
 }
