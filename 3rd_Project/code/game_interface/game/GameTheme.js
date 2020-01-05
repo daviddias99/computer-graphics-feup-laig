@@ -19,8 +19,7 @@ class GameTheme {
         let camera = this.graph.cameras[this.graph.defaultCameraId];
         this.scene.camera = new CGFcamera(camera.fov, camera.near, camera.far, camera.position, camera.target);
         this.cameraState = 'neutral';
-        // TODO: remove this line
-        this.scene.interface.setActiveCamera(this.scene.camera);
+        // this.scene.interface.setActiveCamera(this.scene.camera);
     }
 
     /**
