@@ -31,13 +31,11 @@ class XMLscene extends CGFscene {
 
         this.camera = new CGFcamera(30, 10, 20, [0,0,0], [0,1,0]);
 
-        this.axis = new CGFaxis(this);
         this.setUpdatePeriod(20);
 
         // Variable initialization
 
         this.sceneInited = false;
-        this.displayAxis = false;
 
         this.cameraIDs = {};
         this.lightIDs = [];
@@ -84,7 +82,7 @@ class XMLscene extends CGFscene {
 
         this.pick_id = 1;
         
-        // ---- BEGIN Background, camera and axis setup
+        // ---- BEGIN Background, camera setup
         
         // Clear image and depth buffer everytime we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
@@ -97,14 +95,9 @@ class XMLscene extends CGFscene {
         // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();
 
-        // ---- END Background, camera and axis setup
+        // ---- END Background, camera  setup
 
         this.pushMatrix();
-
-
-        // Display axis
-        if (this.displayAxis)
-            this.axis.display();
 
         // Process picking
         this.orchestrator.processPickingResults(this.pickResults);
