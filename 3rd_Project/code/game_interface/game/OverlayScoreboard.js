@@ -1,5 +1,13 @@
+/**
+ * Class that represents the scoreboard overlay
+ */
 class OverlayScoreboard {
 
+    /**
+     * @constructor             OverlayScoreboard constructor
+     * @param {XMLscene} scene  Reference to the scene where the object will be displayed
+     * @param {Array} textures  Array of textures for the scoreboard
+     */
     constructor(scene, textures) {
         this.scene = scene;
         this.textures = textures;
@@ -7,6 +15,11 @@ class OverlayScoreboard {
         this.initBoard();
     }
     
+    /**
+     * @method initBoard
+     * 
+     * Initializes the scoreboard elements with textures
+     */
     initBoard() {
         this.scores = [0, 0];
         this.players = [
@@ -26,11 +39,22 @@ class OverlayScoreboard {
         this.separator = new GameOverlayElement(this.scene, [-0.02, 0.02, -0.95, -0.85], this.textures['empty']);
     }
 
+    /**
+     * @method addBoard
+     * @param {Board} board 
+     * 
+     * Change the board that the scoreboard is tracking
+     */
     addBoard(board) {
         this.board = board;
         this.update();
     }
     
+    /**
+     * @method update
+     * 
+     * Updates the scores according to the board
+     */
     update() {
         let scores = [0, 0];
 
@@ -55,6 +79,11 @@ class OverlayScoreboard {
         }
     }
 
+    /**
+     * @method display
+     * 
+     * Display the scoreboard
+     */
     display() {
         this.separator.display();
         
