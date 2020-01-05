@@ -16,8 +16,6 @@ class OverlayGameOver {
     }
 
     display() {
-        // this.scene.gl.disable(this.scene.gl.DEPTH_TEST);
         this.overlay.display();
-        // this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
     }
 }

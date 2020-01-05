@@ -1,9 +1,8 @@
 class OverlayTimer {
 
-    constructor(scene) {
+    constructor(scene, textures) {
         this.scene = scene;
-
-        this.initTextures();
+        this.textures = textures;
 
         this.timer = [      // 10:10
             new GameOverlayElement(scene, [-0.10, -0.06, 0.85, 0.95], this.textures[0]),   // 0
@@ -17,23 +16,6 @@ class OverlayTimer {
         this.lastTime = 0;
         this.isPaused = true;
         this.currentTime = 0;
-    }
-
-    initTextures() {
-        this.textures = [
-            new CGFtexture(this.scene, 'scenes/images/symbols/0.jpg'),
-            new CGFtexture(this.scene, 'scenes/images/symbols/1.jpg'),
-            new CGFtexture(this.scene, 'scenes/images/symbols/2.jpg'),
-            new CGFtexture(this.scene, 'scenes/images/symbols/3.jpg'),
-            new CGFtexture(this.scene, 'scenes/images/symbols/4.jpg'),
-            new CGFtexture(this.scene, 'scenes/images/symbols/5.jpg'),
-            new CGFtexture(this.scene, 'scenes/images/symbols/6.jpg'),
-            new CGFtexture(this.scene, 'scenes/images/symbols/7.jpg'),
-            new CGFtexture(this.scene, 'scenes/images/symbols/8.jpg'),
-            new CGFtexture(this.scene, 'scenes/images/symbols/9.jpg')
-        ];
-        this.textures['colon'] = new CGFtexture(this.scene, 'scenes/images/symbols/colon.jpg');
-        this.textures['empty'] = new CGFtexture(this.scene, 'scenes/images/symbols/empty.jpg');
     }
 
     start() {
