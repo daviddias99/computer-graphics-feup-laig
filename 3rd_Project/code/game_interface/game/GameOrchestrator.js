@@ -14,7 +14,6 @@ class GameOrchestrator {
         ];
         this.inMenu = true;
 
-        this.alarm = new GameAlarm();
         this.botPlayRequested = false;
         
         this.initOverlays();
@@ -115,7 +114,6 @@ class GameOrchestrator {
     resetBoard(initialGamestate) {
         this.board = new Board(this.scene, this.primitives, initialGamestate.boardMatrix['height'], initialGamestate.boardMatrix['width'], this.currentTheme.boardMaterials);
         this.board.fillBoards(initialGamestate.boardMatrix['octagonBoard'], initialGamestate.boardMatrix['squareBoard']);
-        this.alarm.resetTime();
         this.scoreboard.addBoard(this.board);
     }
 

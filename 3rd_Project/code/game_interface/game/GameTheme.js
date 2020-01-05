@@ -1,3 +1,6 @@
+/**
+ * Class representing a theme of the game. It it's defined through a xml.
+ */
 class GameTheme {
 
     constructor(filename, scene, orchestrator) {
@@ -6,9 +9,11 @@ class GameTheme {
         this.graph = new MySceneGraph(filename, scene, this, orchestrator);
     }
 
-
     /**
-     * Initialize the defaukt camera
+     * @method initCameras
+     * 
+     * Init the camera of the game. A game theme only has one camera, that must be put in the neutral side of the board with playerOne to it's right and player two to it's left.
+     * This camera is the default camera of the xml. The camera has three states: neutral, menu, 1 and 2.
      */
     initCameras() {
         let camera = this.graph.cameras[this.graph.defaultCameraId];
@@ -19,7 +24,9 @@ class GameTheme {
     }
 
     /**
-     * Initializes the scene lights with the values read from the XML file.
+     * @method initLights
+     * 
+     * Initialize the lights of the scene according to the lights read from the xml.
      */
     initLights() {
         let i = 0;
@@ -63,54 +70,70 @@ class GameTheme {
         }
     }
 
+    /**
+     * @method initMaterials
+     * 
+     * Initialize the materials/textures of the game. The game has materials/textures for the tiles of the board, main board and aux board materials and the pieces
+     */
     initMaterials() {
 
-        this.materials = [];
+
+        // Fetch materials and textures form graph
+
+        let materials = {};
 
         for (let key in this.graph.materials) {
 
             if (key.substring(0, 7) == 'special') {
-                this.materials[key] = this.graph.materials[key];
+                materials[key] = this.graph.materials[key];
             }
         }
 
-        this.textures = [];
+        let textures = {};
 
         for (let key in this.graph.textures) {
 
             if (key.substring(0, 7) == 'special') {
-                this.textures[key] = this.graph.textures[key];
+                textures[key] = this.graph.textures[key];
             }
         }
 
+        // Put player materials in an array
+
         this.playerMaterials = [];
 
-        this.playerMaterials[0] = this.materials['special_p1_material'];
-        this.playerMaterials[1] = this.materials['special_p2_material'];
+        this.playerMaterials[0] = materials['special_p1_material'];
+        this.playerMaterials[1] = materials['special_p2_material'];
 
-        this.playerMaterials[0].setTexture(this.textures['special_p1_tex']);
-        this.playerMaterials[1].setTexture(this.textures['special_p2_tex']);
+        this.playerMaterials[0].setTexture(textures['special_p1_tex']);
+        this.playerMaterials[1].setTexture(textures['special_p2_tex']);
+
+        // Put tile materials in an array
 
         this.tileMaterials = [];
 
-        this.tileMaterials[0] = this.materials['special_octagonal_tile_material'];
-        this.tileMaterials[1] = this.materials['special_square_tile_material'];
+        this.tileMaterials[0] = materials['special_octagonal_tile_material'];
+        this.tileMaterials[1] = materials['special_square_tile_material'];
 
-        this.tileMaterials[0].setTexture(this.textures['special_octagon_tile_tex']);
-        this.tileMaterials[1].setTexture(this.textures['special_square_tile_tex']);
+        this.tileMaterials[0].setTexture(textures['special_octagon_tile_tex']);
+        this.tileMaterials[1].setTexture(textures['special_square_tile_tex']);
+
+        // Put board materials in an array
 
         this.boardMaterials = [];
 
-        this.boardMaterials[0] = this.materials['special_main_board_material'];
-        this.boardMaterials[1] = this.materials['special_aux_board_material'];
+        this.boardMaterials[0] = materials['special_main_board_material'];
+        this.boardMaterials[1] = materials['special_aux_board_material'];
 
-        this.boardMaterials[0].setTexture(this.textures['special_main_board_tex']);
-        this.boardMaterials[1].setTexture(this.textures['special_aux_board_tex']);
+        this.boardMaterials[0].setTexture(textures['special_main_board_tex']);
+        this.boardMaterials[1].setTexture(textures['special_aux_board_tex']);
     }
 
 
-    /** Handler called when the graph is finally loaded. 
-     * As loading is asynchronous, this may be called already after the application has started the run loop
+    /** 
+     * @method onGraphLoaded
+     * 
+     * Change the scene to display the scene defined in the theme's graph
      */
     onGraphLoaded() {
         this.scene.axis = new CGFaxis(this.scene, this.graph.referenceLength);
@@ -122,6 +145,12 @@ class GameTheme {
         this.sceneInited = true;
     }
 
+    /**
+     * @method update
+     * 
+     * Updates elements of the theme such as the xml-configured object animations and the animations of the camera
+     * @param {Integer} time 
+     */
     update(time) {
 
         var deltaT = time - this.lastT
@@ -130,6 +159,7 @@ class GameTheme {
         if (!this.sceneInited || !this.graph.loadedOk)
             return;
 
+        // update the graphs animations
         for (var key in this.graph.animations) {
 
             if (this.graph.animations[key].inUse) {
@@ -137,87 +167,107 @@ class GameTheme {
             }
         }
 
-        if (this.rotating) {
-
-            if (Math.abs(this.totalAngle) >= this.finalAngle) {
-
-                this.rotating = false;
-                this.orchestrator.pickingEnabled = true;
-            }
-            else {
-                this.scene.camera.orbit(CGFaxis.Y, this.rotateSpeed);
-                this.totalAngle += this.rotateSpeed;
-            }
-
-        }
+        // update camera rotation
+        this.updateCameraRotation();
     }
 
-    rotateCamera(nextPlayer,immediate) {
+    /**
+     * @method updateCameraRotation
+     * 
+     * Updates the rotating animation of the camera. When the animation is over it re-enables the scene picking
+     */
+    updateCameraRotation() {
 
-        if(this.cameraState == 'menu')
+        if (!this.rotating)
             return;
 
-        this.changeToCamera(nextPlayer,immediate);
-        
-    }
+        // Animation is over?
+        if (Math.abs(this.totalAngle) >= this.finalAngle) {
 
-    getOtherPlayer(player){
-
-       return player == 1 ? 2 : 1;
-    }
-
-    getPlayerMod(player){
-
-        return player == 1 ? 1 : -1;
-    }
-
-    changeToCamera(player,immediate){
-
-        if(this.cameraState == player){
+            // Stop rotating and re-enable picking
+            this.rotating = false;
             this.orchestrator.pickingEnabled = true;
-            return;
+        }
+        else {
+
+            // Rotate the camera
+            this.scene.camera.orbit(CGFaxis.Y, this.rotateSpeed);
+            this.totalAngle += this.rotateSpeed;
         }
 
+    }
+
+    /**
+     * @method rotateCamera
+     * 
+     * Rotate the camera to the "player"'s position. The rotation can be immediate or with an animation
+     * 
+     * @param {Integer} player              '1' or '2' refering to the destination of the camera rotation
+     * @param {Boolean} immediate            true if no animation is required
+     */
+    rotateCamera(player, immediate) {
+
+
+        // Check if the game is in a menu state. There is no rotation of the camera in the menu state or if the camera is already in the player's state, in which no rotation is needed
+        if (this.cameraState == 'menu' || this.cameraState == player)
+            return;
+
+        const ANG_90_DEGREE = Math.PI / 2
+        const ROTATION_SPEED = 30;
+
+        // Rotations from neutral position are 90 degrees and from a player position are 180 degrees
         if (this.cameraState == 'neutral') {
 
-            this.rotateSpeed = this.getPlayerMod(player) * Math.PI/2 / 50;
-            this.finalAngle = Math.PI / 2;
+            this.rotateSpeed = this.getPlayerMod(player) * ANG_90_DEGREE / ROTATION_SPEED;
+            this.finalAngle = ANG_90_DEGREE;
         }
         else if (this.cameraState == this.getOtherPlayer(player)) {
 
-            this.rotateSpeed = this.getPlayerMod(player) * Math.PI / 50;
-            this.finalAngle = Math.PI;
+            this.rotateSpeed = this.getPlayerMod(player) * ANG_90_DEGREE * 2 / ROTATION_SPEED;
+            this.finalAngle = ANG_90_DEGREE * 2;
         }
 
         this.cameraState = player;
 
-        if(immediate){
+        // If the rotation is immediate there is no need to set the camera rotat
+        if (immediate) {
 
-            this.scene.camera.orbit(CGFaxis.Y,this.getPlayerMod(player) * this.finalAngle);
+            this.scene.camera.orbit(CGFaxis.Y, this.getPlayerMod(player) * this.finalAngle);
             return;
         }
 
+        // No picking is allowed during the rotation
         this.orchestrator.pickingEnabled = false;
+
+        // Start the animation
         this.rotating = true;
         this.totalAngle = 0;
 
     }
 
+    getOtherPlayer(player) {
+
+        return player == 1 ? 2 : 1;
+    }
+
+    getPlayerMod(player) {
+
+        return player == 1 ? 1 : -1;
+    }
 
     /**
-     * Renders the graph scene.
+     * @method display
+     * 
+     * Display the scene graph.
      */
     display() {
 
         if (!this.sceneInited)
             return;
 
-        // Scene rendering
-        if (this.sceneInited) {
+        // Displays the scene (MySceneGraph function).
+        this.graph.displayScene();
 
-            // Displays the scene (MySceneGraph function).
-            this.graph.displayScene();
-        }
 
     }
 
