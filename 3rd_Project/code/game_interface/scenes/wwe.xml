@@ -773,6 +773,198 @@
         </component>
         <!-- END: Table component-->
 
+                <!-- START: block component-->
+                <component id="block_undo">
+                    <transformation>
+        
+                        <transformationref id="null_transformation" />
+                    </transformation>
+        
+                    <materials>
+                        <material id="inherit" />
+                    </materials>
+        
+                    <texture id="inherit" />
+        
+                    <children>
+                        <componentref id="block_top1" />
+                        <componentref id="block_top2" />
+                        <componentref id="block_side1" />
+                        <componentref id="block_side2" />
+                        <componentref id="block_side3" />
+                        <componentref id="block_side4" />
+                    </children>
+                </component>
+        
+                <component id="block_top1">
+                    <transformation>
+                        <translate x="0" y="0.5" z="0" />
+                        <rotate axis="x" angle="-90" />
+                    </transformation>
+        
+                    <materials>
+                        <material id="inherit" />
+                    </materials>
+        
+                    <texture id="inherit" />
+        
+                    <children>
+                        <primitiveref id="block_primitive_1" />
+                    </children>
+                </component>
+
+                <component id="block_top1_undo">
+                    <transformation>
+                        <translate x="0" y="0.5" z="0" />
+                        <rotate axis="x" angle="-90" />
+                    </transformation>
+        
+                    <materials>
+                        <material id="inherit" />
+                    </materials>
+        
+                    <texture id="inherit" />
+        
+                    <children>
+                        <primitiveref id="block_primitive_1" />
+                    </children>
+                </component>
+
+                <component id="block_top1_reset">
+                    <transformation>
+                        <translate x="0" y="0.5" z="0" />
+                        <rotate axis="x" angle="-90" />
+                    </transformation>
+        
+                    <materials>
+                        <material id="inherit" />
+                    </materials>
+        
+                    <texture id="inherit" />
+        
+                    <children>
+                        <primitiveref id="block_primitive_1" />
+                    </children>
+                </component>
+
+                <component id="block_top1_movie">
+                    <transformation>
+                        <translate x="0" y="0.5" z="0" />
+                        <rotate axis="x" angle="-90" />
+                    </transformation>
+        
+                    <materials>
+                        <material id="inherit" />
+                    </materials>
+        
+                    <texture id="inherit" />
+        
+                    <children>
+                        <primitiveref id="block_primitive_1" />
+                    </children>
+                </component>
+
+                <component id="block_top1_back_to_menu">
+                    <transformation>
+                        <translate x="0" y="0.5" z="0" />
+                        <rotate axis="x" angle="-90" />
+                    </transformation>
+        
+                    <materials>
+                        <material id="inherit" />
+                    </materials>
+        
+                    <texture id="inherit" />
+        
+                    <children>
+                        <primitiveref id="block_primitive_1" />
+                    </children>
+                </component>
+        
+                <component id="block_top2">
+                    <transformation>
+                        <rotate axis="x" angle="90" />
+                    </transformation>
+        
+                    <materials>
+                        <material id="inherit" />
+                    </materials>
+        
+                    <texture id="inherit" />
+        
+                    <children>
+                        <primitiveref id="block_primitive_1" />
+                    </children>
+                </component>
+        
+                <component id="block_side1">
+                    <transformation>
+                        <translate x="0" y="0.25" z="1" />
+                    </transformation>
+        
+                    <materials>
+                        <material id="inherit" />
+                    </materials>
+        
+                    <texture id="inherit" />
+        
+                    <children>
+                        <primitiveref id="block_primitive_2" />
+                    </children>
+                </component>
+        
+                <component id="block_side2">
+                    <transformation>
+                        <rotate axis="y" angle="-90" />
+                        <translate x="0" y="0.25" z="1" />
+                    </transformation>
+        
+                    <materials>
+                        <material id="inherit" />
+                    </materials>
+        
+                    <texture id="inherit" />
+        
+                    <children>
+                        <primitiveref id="block_primitive_2" />
+                    </children>
+                </component>
+        
+                <component id="block_side3">
+                    <transformation>
+                        <rotate axis="y" angle="-180" />
+                        <translate x="0" y="0.25" z="1" />
+                    </transformation>
+        
+                    <materials>
+                        <material id="inherit" />
+                    </materials>
+        
+                    <texture id="inherit" />
+        
+                    <children>
+                        <primitiveref id="block_primitive_2" />
+                    </children>
+                </component>
+        
+                <component id="block_side4">
+                    <transformation>
+                        <rotate axis="y" angle="-270" />
+                        <translate x="0" y="0.25" z="1" />
+                    </transformation>
+        
+                    <materials>
+                        <material id="inherit" />
+                    </materials>
+        
+                    <texture id="inherit" />
+        
+                    <children>
+                        <primitiveref id="block_primitive_2" />
+                    </children>
+                </component>
+                <!-- END: block component-->
+
     </components>
 
 </lxs>
