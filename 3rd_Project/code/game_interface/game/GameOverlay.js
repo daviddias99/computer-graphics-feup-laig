@@ -1,5 +1,13 @@
+/**
+ * Class that represents all of the game's overlays
+ */
 class GameOverlay {
 
+    /**
+     * @constructor             GameOverlay constructor
+     * @param {XMLscene} scene                  Reference to the scene in which the overlays will be displayed
+     * @param {GameOrchestrator} orchestrator   Reference to the orchestrator
+     */
     constructor(scene, orchestrator) {
         this.scene = scene;
         this.orchestrator = orchestrator;
@@ -13,6 +21,11 @@ class GameOverlay {
         this.gameover_overlay = new OverlayGameOver(scene);
     }
 
+    /**
+     * @method initTextures
+     * 
+     * Creates the textures common to the timer and scoreboard overlays
+     */
     initTextures() {
         this.textures = [
             new CGFtexture(this.scene, 'scenes/images/symbols/0.jpg'),
@@ -30,10 +43,11 @@ class GameOverlay {
         this.textures['empty'] = new CGFtexture(this.scene, 'scenes/images/symbols/empty.jpg');
     }
 
-    reset() {
-        this.timer.reset();
-    }
-
+    /**
+     * @method display
+     * 
+     * Display the overlays
+     */
     display() {
         if (this.orchestrator.inMenu)
             return;
