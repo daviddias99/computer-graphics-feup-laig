@@ -76,9 +76,6 @@ class MySceneGraph {
 
         this.loadedOk = true;
 
-        // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
-        // this.theme.onGraphLoaded();
-
         // As the graph loaded ok, signal the orchestrator that the theme is loaded
         this.orchestrator.loadedTheme();
     }
@@ -1613,6 +1610,10 @@ class MySceneGraph {
             if (componentID == null)
                 return "no ID defined for componentID";
             else if (componentID == "special_gameboard") {
+
+                // Parse the game_board component. This special component only needs it's ID, as such
+                // no other parsing is needed
+
                 currentComponent = new MySceneComponent(componentID);
                 currentComponent.loadedOk = true;
                 this.components[componentID] = currentComponent;
@@ -1645,6 +1646,8 @@ class MySceneGraph {
             var animationIndex = nodeNames.indexOf("animationref");
             var pickableIndex = nodeNames.indexOf("pickable");
 
+            // Parse the picking properties of the components
+
             if (pickableIndex != -1) {
 
                 var pickable = this.reader.getString(grandChildren[pickableIndex], 'id');
@@ -1655,7 +1658,6 @@ class MySceneGraph {
             else {
                 currentComponent.pickable = false;
             }
-
 
             // Transformations
 
@@ -1918,18 +1920,19 @@ class MySceneGraph {
         if (node.animation != null){
 
             node.animation.apply();
-
         }
             
-
         // process child nodes
         for (var i = 0; i < node.childrenComponents.length; i++) {
 
+            // To display the gameboard, signal the orchestrator.
             if (node.childrenComponents[i].id == 'special_gameboard') {
                 this.orchestrator.board.display();
             }
             else {
 
+                // If a component is registered as pickable, register it for picking, returning the component when it is picked. This 
+                // means that any component can be used as a button if it as the correct special ID that is used by the game.
                 if (node.childrenComponents[i].pickable) {
 
                     this.scene.registerForPick(this.scene.pick_id, node.childrenComponents[i]);
@@ -1955,10 +1958,7 @@ class MySceneGraph {
             node.childrenPrimitives[i].display();                                       // display the primitive
             node.childrenPrimitives[i].resetTexCoords();                                // reset texture coordinates
 
-
         }
-
-
 
         this.scene.popMatrix();
     }
