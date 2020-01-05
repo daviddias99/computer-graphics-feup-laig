@@ -351,6 +351,6 @@ class GameOrchestrator {
 
         this.currentTheme.display();
 
-        this.overlay.display();
+        // this.overlay.display();
     }
 }
