@@ -1,6 +1,17 @@
+/**
+ * The PrologInterface class provided a way of communicating with a Prolog server running the squex game
+ */
 class PrologInterface {
 
 
+    /**
+     * @function sendRequest
+     * 
+     * Send a request to the prolog server. The request must be a PrologMessage object. This funtion sends the string returned by getRequest and executes 
+     * handleReply upon the server answer.
+     * @param {PrologMessage} requestMsg    request message object 
+     * @param {number} port                 port where the server is located 
+     */
     static sendRequest(requestMsg,port) {
 
         let requestPort = port || 8081
@@ -13,9 +24,16 @@ class PrologInterface {
 
     }
 
+    /**
+     * @function parseMoveFromProlog
+     * 
+     * Parse a move from the Prolog format into an array
+     * @param {string} move move from prolog
+     * 
+     * @return array with the x and y coordinates of the move 
+     */
     static parseMoveFromProlog(move){
 
-        console.log(move);
         let x,y;
 
         x = parseInt(move.substring(0,move.indexOf('-')));
@@ -25,6 +43,11 @@ class PrologInterface {
 
     }
 
+    /**
+     * Parse a string that can be interpreted by Prolog from a Gamestate object.
+     * 
+     * @param {GameState} gameState     gamestate to be parsed
+     */
     static parseGamestateToProlog(gameState) {
 
         let board = gameState.boardMatrix;
@@ -44,8 +67,14 @@ class PrologInterface {
 
     }
 
+     /**
+     * Parse Gamestate object from a Prolog string.
+     * 
+     * @param {string} gameStateStr     string prolog gamestate representation to be parsed
+     */
     static parseGamestateFromProlog(gameStateStr){
 
+        // Parse the board arrays and auxiliary information
         let gsArraysStr = gameStateStr.substring(0,gameStateStr.length-1)
         let gsInfo = gsArraysStr.substring(gsArraysStr.lastIndexOf(']')+2,gsArraysStr.length);
         gsArraysStr = gsArraysStr.substring(0,gsArraysStr.lastIndexOf(']')+1) + ']';
