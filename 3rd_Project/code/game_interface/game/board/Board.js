@@ -123,7 +123,7 @@ class Board {
      * 
      * Signal the auxiliary boards to start the piece transfer animation
      * @param {number}   player  id of the player that did the move
-     * @param {Move}     move    move done by player
+     * @param {Move}     move    move done by player, or 'undo' if the last move should be undone (animted)
      */
     startAnimation(player,move){
 

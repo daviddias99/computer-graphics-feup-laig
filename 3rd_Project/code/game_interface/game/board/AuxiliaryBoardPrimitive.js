@@ -33,8 +33,8 @@ class AuxiliaryBoardPrimitive {
     /**
     * @method changeMaterials
     * 
-    * Change the materialof the auxiliary board casing
-    * @param {Array} material 
+    * Change the material of the auxiliary board casing
+    * @param {CGFappearance} material 
     */
     changeMaterials(material) {
         this.material = material;
