@@ -24,6 +24,7 @@ class KeyFrameAnimation extends Animation {
         // LastKF stores the last keyframe where a segment started in order to imporve performance on active segment fetching
         this.lastKF = 0;
 
+        // Mode represents if the animation is run in the default order or backwards
         this.mode = 1;
     }
 
@@ -68,7 +69,7 @@ class KeyFrameAnimation extends Animation {
         if(!this.inUse)
             return;
 
-        // Update the current time
+        // Update the current time, taking into account the "direction" of the animation
         this.sumT = this.sumT + this.mode * t;
 
         // Update the active segment
@@ -87,6 +88,10 @@ class KeyFrameAnimation extends Animation {
         }
     }
 
+    /**
+     * @method startReverseAnimation
+     *  Change the direction of the animation to run backwards
+     */
     startReverseAnimation(){
 
         this.mode = -1;

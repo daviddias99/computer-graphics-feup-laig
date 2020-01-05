@@ -129,8 +129,7 @@ class GameOrchestrator {
                 var obj = results[i][0];
 
                 if (obj) {
-                    var uniqueID = results[i][1]
-                    this.handlePicking(obj, uniqueID);
+                    this.handlePicking(obj);
                 }
             }
             // clear results
@@ -138,16 +137,12 @@ class GameOrchestrator {
         }
     }
 
-    handlePicking(obj, uniqueID) {
+    handlePicking(obj) {
 
-        console.log(this.pickingEnabled);
         if (!this.pickingEnabled)
             return;
 
         if (obj instanceof Tile) {
-
-            if(this.inMenu)
-                return;
 
             this.handleTilePicking(obj);
 
@@ -161,7 +156,7 @@ class GameOrchestrator {
 
     handleTilePicking(tile) {
 
-        if (this.sequence.getCurrentGamestate().getNextPlayerType() != 'P')
+        if (this.sequence.getCurrentGamestate().getNextPlayerType() != 'P' || this.inMenu)
             return;
 
         let pos = tile.getBoardPosition();
@@ -169,7 +164,7 @@ class GameOrchestrator {
         this.doGenericMove(pos);
     }
 
-    goToMenu() {
+    transitionToMenu() {
         this.init();
         this.timer.reset();
         let previousTheme = this.themeIndex;
@@ -188,7 +183,6 @@ class GameOrchestrator {
 
     handleComponentPicking(component) {
 
-        console.log(component.pickID);
         switch (component.pickID) {
 
             case 'special_undo_move':
@@ -196,12 +190,12 @@ class GameOrchestrator {
                 break;
 
             case 'special_play_movie':
-                this.timer.pause();
+                
                 this.playMovie();
                 break;
 
             case 'special_go_to_menu':
-                this.goToMenu();
+                this.transitionToMenu();
                 break;
 
             case 'special_reset':
@@ -280,6 +274,8 @@ class GameOrchestrator {
 
         if (!this.sequence.startMovie())
             return;
+
+        this.timer.pause();
 
         this.pickingEnabled = false;
 
