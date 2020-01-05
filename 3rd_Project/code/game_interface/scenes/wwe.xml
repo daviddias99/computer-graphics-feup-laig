@@ -2,31 +2,30 @@
     <scene root="root" axis_length="5" />
 
     <views default="special_neutralCamera">
-
         <perspective id="special_neutralCamera" near="0.1" far="500" angle="45">
-            <from x="1.5" y="2.5" z="0.5" />
-            <to x="0.5" y="0" z="0.5" />
+            <from x="-5" y="5" z="0" />
+            <to x="0" y="0" z="0" />
         </perspective>
     </views>
 
     <globals>
-        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+        <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
         <background r="0.0" g="0.0" b="0.0" a="0.9" />
     </globals>
 
     <lights>
         <spot id="ceiling_light" enabled="1" angle="5" exponent="0">
-            <location x="-1" y="3" z="1" w="1" />
-            <target x="-1" y="0" z="1" />
+            <location x="0" y="5" z="0" w="1" />
+            <target x="0" y="0" z="0" />
             <ambient r="0" g="0" b="0" a="1.0" />
-            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
-            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-            <attenuation constant="0.0" linear="1.0" quadratic="0.0" />
+            <diffuse r="0.8" g="0.8" b="0.8" a="1.0" />
+            <specular r="0.8" g="0.8" b="0.8" a="1.0" />
+            <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
         </spot>
     </lights>
 
     <textures>
-        <texture id="test_tex" file="scenes/images/t_floor.jpg" />
+        <!-- PIECE, TILE AND BOARD TEXTURES -->
         <texture id="special_p1_tex" file="scenes/images/t_black_marble_3.jpg" />
         <texture id="special_p2_tex" file="scenes/images/t_white_marble.jpg" />
         <texture id="special_square_tile_tex" file="scenes/images/t_dark_wood.jpg" />
@@ -34,7 +33,18 @@
         <texture id="special_main_board_tex" file="scenes/images/t_dark_wood.jpg" />
         <texture id="special_aux_board_tex" file="scenes/images/t_carpet.jpg" />
 
+        <!-- BUTTON TEXTURES -->
         <texture id="undo_tex" file="scenes/images/t_undo.jpg" />
+
+        <!-- SCENE TEXTURES -->
+        <texture id="test_tex" file="scenes/images/t_floor.jpg" />
+        <texture id="wood_tex" file="scenes/images/t_wood.jpg" />
+
+        <!-- RING TEXTURES -->
+        <texture id="squex_tex" file="scenes/images/t_squex_square.jpg" />
+
+        <!-- ARENA STAND TEXTURES -->
+        <texture id="crowd_tex" file="scenes/images/t_crowd.jpg" />
     </textures>
 
     <materials>
@@ -51,41 +61,65 @@
             <diffuse r="0.7" g="0.7" b="0.7" a="1.0" />
             <specular r="0.3" g="0.3" b="0.3" a="1.0" />
         </material>
-
         <material id="special_p2_material" shininess="3">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
             <diffuse r="0.7" g="0.7" b="0.7" a="1.0" />
             <specular r="0.2" g="0.2" b="0.2" a="1.0" />
         </material>
-
         <material id="special_square_tile_material" shininess="3">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.0" g="0.0" b="0.0" a="1.0" />
         </material>
-
         <material id="special_octagonal_tile_material" shininess="3">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.0" g="0.0" b="0.0" a="1.0" />
         </material>
-
         <material id="special_main_board_material" shininess="1">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
             <diffuse r="0.3" g="0.3" b="0.3" a="1.0" />
             <specular r="0.1" g="0.1" b="0.1" a="1.0" />
         </material>
-
         <material id="special_aux_board_material" shininess="1">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
             <diffuse r="0.3" g="0.3" b="0.3" a="1.0" />
             <specular r="0.1" g="0.1" b="0.1" a="1.0" />
         </material>
+
+        <material id="wood_material" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
+            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+        </material>
+
+        <!-- RING MATERIALS -->
+        <material id="rope_material" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.4" g="0.0" b="0.0" a="0.8" />
+            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+        </material>
+        <material id="post_material" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.1" g="0.1" b="0.1" a="1.0" />
+            <specular r="0.4" g="0.4" b="0.4" a="1.0" />
+        </material>
+        <material id="floor_material" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.8" g="0.8" b="0.8" a="0.8" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </material>
+
+
     </materials>
 
     <transformations>
@@ -98,6 +132,50 @@
     </animations>
 
     <primitives>
+        <!-- ARENA PRIMITIVES -->
+        <primitive id="arena_floor">
+            <plane npartsU="20" npartsV="20" />
+        </primitive>
+
+        <!-- TABLE PRIMITIVES -->
+        <primitive id="table_top_primitive">
+            <plane npartsU="15" npartsV="15"/>
+        </primitive>
+        <primitive id="table_leg_primitive">
+            <cylinder2 base="0.1" top="0.1" height="1.2" slices="10" stacks="10" />
+        </primitive>
+        <primitive id="table_top_side_primitive">
+            <rectangle x1="-0.5" y1="-0.025" x2="0.5" y2="0.025" />
+        </primitive>
+
+        <!-- RING PRIMITIVES -->
+        <primitive id="ring_plane">
+            <plane npartsU="30" npartsV="20" />
+        </primitive>
+        <primitive id="ring_wall">
+            <rectangle x1="-0.5" y1="-1" x2="0.5" y2="0" />
+        </primitive>
+        <primitive id="ring_post">
+            <cylinder2 base="0.1" top="0.1" height="1.5" slices="10" stacks="10" />
+        </primitive>
+        <primitive id="ring_rope">
+            <cylinder2 base="0.02" top="0.02" height="5.6" slices="5" stacks="5" />
+        </primitive>
+
+        <!-- STAND PRIMITIVES -->
+        <primitive id="stand_top">
+            <patch npointsU="2" npointsV="2" npartsU="20" npartsV="20">
+                <controlpoint xx="5" yy="1.0" zz="-5" />
+                <controlpoint xx="-5" yy="1.0" zz="-5" />
+                <controlpoint xx="10" yy="5.0" zz="-10" />
+                <controlpoint xx="-10" yy="5.0" zz="-10" />
+            </patch>
+        </primitive>
+
+        <primitive id="stand_front">
+            <rectangle x1="-5" y1="0" x2="5" y2="1.2" />
+        </primitive>
+
     </primitives>
 
     <components>
@@ -111,9 +189,589 @@
             </materials>
             <texture id="none" />
             <children>
+                <componentref id="arenaFloor" />
+                <componentref id="position_TableAndContents" />
+                <componentref id="wrestlingRing" />
+                <componentref id="arenaStands" />
+            </children>
+        </component>
+
+        <component id="arenaFloor">
+            <transformation>
+                <scale x="10" y="1" z="10" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="arena_floor" />
+            </children>
+        </component>
+
+        <!-- START: Stands Component -->
+        <component id="arenaStands">
+            <transformation>
+                <transformationref id="null_transformation" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="northStand" />
+                <componentref id="westStand" />
+                <componentref id="southStand" />
+                <componentref id="eastStand" />
+            </children>
+        </component>
+        <component id="northStand">
+            <transformation>
+                <transformationref id="null_transformation" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="stand" />
+            </children>
+        </component>
+        <component id="westStand">
+            <transformation>
+                <rotate axis="y" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="stand" />
+            </children>
+        </component>
+        <component id="southStand">
+            <transformation>
+                <rotate axis="y" angle="-180" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="stand" />
+            </children>
+        </component>
+        <component id="eastStand">
+            <transformation>
+                <rotate axis="y" angle="90" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="stand" />
+            </children>
+        </component>
+        <component id="stand">
+            <transformation>
+                <transformationref id="null_transformation" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="standTop" />
+                <componentref id="standFront" />
+            </children>
+        </component>
+        <component id="standTop">
+            <transformation>
+                <transformationref id="null_transformation" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="crowd_tex" length_s="" length_t="1" />
+            <children>
+                <primitiveref id="stand_top" />
+            </children>
+        </component>
+        <component id="standFront">
+            <transformation>
+                <translate x="0" y="0" z="-5" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="stand_front" />
+            </children>
+        </component>
+
+
+        <!-- END: Stands Component -->
+
+        <!-- START: Wrestling Ring Component -->
+        <component id="wrestlingRing">
+            <transformation>
+                <translate x="0" y="1" z="0" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="ringTop" />
+                <componentref id="ringPosts" />
+                <componentref id="ringRopes" />
+            </children>
+        </component>
+        <component id="ringTop">
+            <transformation>
+                <scale x="6" y="1" z="6" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="ringFloor" />
+                <componentref id="northRingWall" /> <!--  x direction -->
+                <componentref id="southRingWall" /> <!-- -x direction -->
+                <componentref id="eastRingWall" />  <!--  z direction -->
+                <componentref id="westRingWall" />  <!-- -z direction -->
+            </children>
+        </component>
+        <component id="ringFloor">
+            <transformation>
+                <transformationref id="null_transformation" />
+            </transformation>
+            <materials>
+                <material id="floor_material" />
+            </materials>
+            <texture id="squex_tex" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="ring_plane" />
+            </children>
+        </component>
+        <component id="northRingWall">
+            <transformation>
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="ring_wall" />
+            </children>
+        </component>
+        <component id="southRingWall">
+            <transformation>
+                <rotate axis="y" angle="180" />
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="ring_wall" />
+            </children>
+        </component>
+        <component id="eastRingWall">
+            <transformation>
+                <rotate axis="y" angle="-90" />
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="ring_wall" />
+            </children>
+        </component>
+        <component id="westRingWall">
+            <transformation>
+                <rotate axis="y" angle="90" />
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="ring_wall" />
+            </children>
+        </component>
+        <component id="ringPosts">
+            <transformation>
+                <transformationref id="null_transformation" />
+            </transformation>
+            <materials>
+                <material id="post_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="ringPost1" /> <!--  x  z -->
+                <componentref id="ringPost2" /> <!-- -x  z -->
+                <componentref id="ringPost3" /> <!-- -x -z -->
+                <componentref id="ringPost4" /> <!--  x -z -->
+            </children>
+        </component>
+        <component id="ringPost1">
+            <transformation>
+                <translate x="2.8" y="0" z="2.8" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="ring_post" />
+            </children>
+        </component>
+        <component id="ringPost2">
+            <transformation>
+                <translate x="-2.8" y="0" z="2.8" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="ring_post" />
+            </children>
+        </component>
+        <component id="ringPost3">
+            <transformation>
+                <translate x="-2.8" y="0" z="-2.8" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="ring_post" />
+            </children>
+        </component>
+        <component id="ringPost4">
+            <transformation>
+                <translate x="2.8" y="0" z="-2.8" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="ring_post" />
+            </children>
+        </component>
+        <component id="ringRopes">
+            <transformation>
+                <transformationref id="null_transformation" />
+            </transformation>
+            <materials>
+                <material id="rope_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="northRingRopes" /> <!--  x direction -->
+                <componentref id="southRingRopes" /> <!-- -x direction -->
+                <componentref id="eastRingRopes" />  <!--  z direction -->
+                <componentref id="westRingRopes" />  <!-- -z direction -->
+            </children>
+        </component>
+        <component id="northRingRopes">
+            <transformation>
+                <translate x="2.8" y="0" z="-2.8" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="ringRopeBundle" />
+            </children>
+        </component>
+        <component id="southRingRopes">
+            <transformation>
+                <rotate axis="y" angle="180" />
+                <translate x="2.8" y="0" z="-2.8" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="ringRopeBundle" />
+            </children>
+        </component>
+        <component id="eastRingRopes">
+            <transformation>
+                <rotate axis="y" angle="-90" />
+                <translate x="2.8" y="0" z="-2.8" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="ringRopeBundle" />
+            </children>
+        </component>
+        <component id="westRingRopes">
+            <transformation>
+                <rotate axis="y" angle="90" />
+                <translate x="2.8" y="0" z="-2.8" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="ringRopeBundle" />
+            </children>
+        </component>
+        <component id="ringRopeBundle">
+            <transformation>
+                <transformationref id="null_transformation" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="ringTopRope" />
+                <componentref id="ringMidRope" />
+                <componentref id="ringBotRope" />
+            </children>
+        </component>
+        <component id="ringTopRope">
+            <transformation>
+                <translate x="0" y="1.2" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="ring_rope" />
+            </children>
+        </component>
+        <component id="ringMidRope">
+            <transformation>
+                <translate x="0" y="0.9" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="ring_rope" />
+            </children>
+        </component>
+        <component id="ringBotRope">
+            <transformation>
+                <translate x="0" y="0.6" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="ring_rope" />
+            </children>
+        </component>
+        <!-- END: Wrestling Ring Component -->
+
+        <component id="position_TableAndContents">
+            <transformation>
+                <translate x="0" y="1" z="0" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="position_Gameboard" />
+                <componentref id="table" />
+            </children>
+        </component>
+
+        <component id="position_Gameboard">
+            <transformation>
+                <translate x="-0.5" y="1.225" z="-0.5" />
+            </transformation>
+            <materials>
+                <material id="test_material" />
+            </materials>
+            <texture id="none" />
+            <children>
                 <componentref id="special_gameboard" />
             </children>
         </component>
+        <component id="special_gameboard">
+        </component>
+
+        <!-- START: Table component -->
+        <component id="table">
+            <transformation>
+                <translate x="0" y="0" z="0"/>
+            </transformation>
+            <materials>
+                <material id="wood_material" />
+            </materials>
+            <texture id="wood_tex" length_s="1" length_t="1" />
+            <children>
+                <componentref id="table_top" />
+                <componentref id="table_leg1" />
+                <componentref id="table_leg2" />
+                <componentref id="table_leg3" />
+                <componentref id="table_leg4" />
+            </children>
+        </component>
+        <component id="table_top">
+            <transformation>
+                <scale x="2" y="1.2" z="2" />
+                <translate x="0" y="1" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="table_top_plane" />
+                <componentref id="table_top_side_front" />
+                <componentref id="table_top_side_back" />
+                <componentref id="table_top_side_right" />
+                <componentref id="table_top_side_left" />
+            </children>
+        </component>
+        <component id="table_top_side_left">
+            <transformation>
+                <rotate axis="y" angle="-90" />
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="table_top_side_primitive" />
+            </children>
+        </component>
+        <component id="table_top_side_right">
+            <transformation>
+                <rotate axis="y" angle="90" />
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="table_top_side_primitive" />
+            </children>
+        </component>
+        <component id="table_top_side_back">
+            <transformation>
+                <rotate axis="y" angle="180" />
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="table_top_side_primitive" />
+            </children>
+        </component>
+        <component id="table_top_side_front">
+            <transformation>
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="table_top_side_primitive" />
+            </children>
+        </component>
+        <component id="table_top_plane">
+            <transformation>
+                <translate x="0" y="0.025" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="table_top_primitive" />
+            </children>
+        </component>
+        <component id="table_leg1">
+            <transformation>
+                <translate x="0.75" y="0" z="0.75" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="table_leg_primitive" />
+            </children>
+        </component>
+        <component id="table_leg2">
+            <transformation>
+                <translate x="-0.75" y="0" z="0.75" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="table_leg_primitive" />
+            </children>
+        </component>
+        <component id="table_leg3">
+            <transformation>
+                <translate x="-0.75" y="0" z="-0.75" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="table_leg_primitive" />
+            </children>
+        </component>
+        <component id="table_leg4">
+            <transformation>
+                <translate x="0.75" y="0" z="-0.75" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="table_leg_primitive" />
+            </children>
+        </component>
+        <!-- END: Table component-->
 
     </components>
 
