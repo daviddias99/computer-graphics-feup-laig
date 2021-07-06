@@ -10,7 +10,7 @@
 
 **Project 1**
 
-**Description:** Much similar to the projects done in the [CGRA course](https://github.com/daviddias99/computer-graphics-feup-cgra), this project had the goal of creating a scene composed of complex objects created from more primitive objects. For this project we also created a Triangle, Sphere, Bottomless cylinder and a Torus. We also created a file type, similar to LXS, which was used to describe the scene graph. We had also to deal with the concepts of lighting, textures, shadows, user I/O and materials. 
+**Description:** Much similar to the projects done in the [CGRA course](https://github.com/daviddias99/computer-graphics-feup-cgra), this project had the goal of creating a scene composed of complex objects created from more primitive objects. For this project we also created a Triangle, Sphere, Bottomless cylinder and a Torus. We also created a file type, similar to LXS, which was used to describe the scene graph. We had also to deal with the concepts of lighting, textures, shadows, user I/O and materials. More info on the assignment `1st_Project/docs/proj1_specification.pdf`.
 
 **Technologies:** WebGL, Javascript, GLSL Shaders
 
@@ -21,7 +21,7 @@
 ---
 **Project 2**
 
-**Description:** The second project built upon the first one and introduced new concepts such as keyframe animations, render to texture using GLSL shaders and 3D surfaces using NURBS.
+**Description:** The second project built upon the first one and introduced new concepts such as keyframe animations, render to texture using GLSL shaders and 3D surfaces using NURBS. More info on the assignment `2nd_Project/docs/proj2_specification.pdf`.
 
 **Technologies:** WebGL, Javascript, GLSL Shaders
 
@@ -32,7 +32,7 @@
 ---
 **Project 3**
 
-**Description:** For the last project we had the task of using the developped primitives and classes to create a 3D graphical interface for a board game developed in the PLOG course. We then built an interface for the game Squex. We had a scoreboard aswell as a timer, we also included a undo feature, and a game-movie feature which allowed the user to see all the plays done until that point. It was possible to play PvP or Player v Computer, with different levels of difficulty. We had to build the board and pieces of the game as well as animate the camera do follow the right players perspective (in case of PvP).
+**Description:** For the last project we had the task of using the developped primitives and classes to create a 3D graphical interface for a board game developed in the PLOG course. We then built an interface for the game Squex. We had a scoreboard aswell as a timer, we also included a undo feature, and a game-movie feature which allowed the user to see all the plays done until that point. It was possible to play PvP or Player v Computer, with different levels of difficulty. We had to build the board and pieces of the game as well as animate the camera do follow the right players perspective (in case of PvP). More info on the assignment `3rd_Project/docs/proj3_specification.pdf`.
 
 **Technologies:** WebGL, Javascript, GLSL Shaders, PROLOG
 
